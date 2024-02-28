@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import GreetingsTable from "./_components/GreetingsTable";
+import TipsTable from "./_components/TipsTable";
 import type { NextPage } from "next";
 import { MagnifyingGlassIcon, PlusIcon, PowerIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
 
@@ -84,7 +84,7 @@ const Subgraph: NextPage = () => {
             </div>
           </div>
         </div>
-        <GreetingsTable />
+        <TipsTable receiverAddress={"0x34E366a88250f330A35fc28fBe6209f399815728"} />
       </div>
     </>
   );

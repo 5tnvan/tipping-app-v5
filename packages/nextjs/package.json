@@ -18,6 +18,8 @@
     "@ethersproject/providers": "^5.7.2",
     "@heroicons/react": "^2.0.11",
     "@rainbow-me/rainbowkit": "1.3.5",
+    "@supabase/ssr": "^0.1.0",
+    "@supabase/supabase-js": "^2.39.7",
     "@uniswap/sdk-core": "^4.0.1",
     "@uniswap/v2-sdk": "^3.0.1",
     "blo": "^1.0.1",

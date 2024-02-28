@@ -1,0 +1,197 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+.temphref {display: block;}
+
+/* APP */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: auto;
+}
+
+.steps-vertical .step:before {
+  height: 236% !important;
+  
+}
+
+.app .cont {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0;
+}
+
+.nav {
+  padding: 20px;
+  
+}
+
+/* HEADR */
+.headr {
+  font-size: 1.875rem;
+  display: flex;
+}
+
+.animation {
+  height: 44px;
+  overflow: hidden;
+  color: #3D45E7;
+  margin-left: 5px;
+}
+
+.animation>div>div {
+  height: 2.81rem;
+  margin-bottom: 2.81rem;
+  display: inline-block;
+
+}
+
+.animation div:first-child {
+  animation: text-animation 8s infinite;
+}
+
+@keyframes text-animation {
+  0% { margin-top: 0; }
+  10% { margin-top: 0; }
+  20% { margin-top: -5.62rem; }
+  30% { margin-top: -5.62rem; }
+  40% { margin-top: -11.24rem; }
+  60% { margin-top: -11.24rem; }
+  70% { margin-top: -5.62rem; }
+  80% { margin-top: -5.62rem; }
+  90% { margin-top: 0; }
+  100% { margin-top: 0; }
+}
+
+/* STEPS: 1/2/3 */
+
+.steps {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.step.step-primary {
+  font-weight: 600;
+}
+
+
+
+/* CARDS CAROUSELS */
+
+* {
+  box-sizing: border-box;
+}
+
+.slider {
+
+  width: 300px;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.slides {
+  font-size: 9px !important;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slides::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.slides::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 20px;
+}
+
+.slides::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slides>div {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 300px;
+  height: 200px;
+  margin-right: 20px;
+  margin-bottom: 3px;
+  border-radius: 10px;
+  background: #eee;
+  transform-origin: center center;
+  transform: scale(1);
+  transition: transform 0.5s;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100px;
+}
+
+.scr {
+  display: inline-flex;
+  width: 506px;
+  height: 319px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  margin: 15px 0 20px 0;
+}
+
+.scr::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+.scr::-webkit-scrollbar-thumb {
+  background: rgb(67, 67, 67);
+  border-radius: 10px;
+}
+
+.scr::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scr-item {
+  box-sizing: content-box;
+  display: flex;
+  flex: none;
+  scroll-snap-align: start;
+  width: 100%;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  font-size: 18px;
+}
+
+.scr-item .left {
+  width: 45%;
+  background-color: #1e1e1e;
+  color: #fff;
+  border-radius: 10px 0 0 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+/* MEDIA Q */
+
+/* When the browser is at least 600px and above */
+@media screen and (max-width: 600px) {
+  .scr {
+    width: 354px;
+    height: 223px;
+  }
+}

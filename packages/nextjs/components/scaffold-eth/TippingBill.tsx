@@ -1,0 +1,64 @@
+import React, { useCallback, useEffect, useState } from "react";
+import { parseEther } from "viem";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useGlobalState } from "~~/services/store/store";
+
+const TippingBill = ({ tipAmount, message }) => {
+  const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
+  const [totalAmountUSD, setTotalAmountUSD] = useState(0);
+  const [totalAmountETH, setTotalAmountETH] = useState(0);
+
+  const getTotalAmount = useCallback(() => {
+    setTotalAmountUSD(tipAmount * 1.015);
+  }, [tipAmount]);
+
+  const convertUsdToEth = useCallback(() => {
+    if (nativeCurrencyPrice) {
+      // Convert USD to ETH using the nativeCurrencyPrice
+      const calculatedEthAmount = totalAmountUSD / nativeCurrencyPrice;
+
+      // Round to 8 decimal places (adjust as needed)
+      const roundedEthAmount = parseFloat(calculatedEthAmount.toFixed(8));
+
+      setTotalAmountETH(roundedEthAmount);
+    }
+  }, [nativeCurrencyPrice, totalAmountUSD]);
+
+  useEffect(() => {
+    getTotalAmount();
+    convertUsdToEth();
+  }, [convertUsdToEth, getTotalAmount]);
+
+  //HOOK: useScaffoldContractWrite | set: greeting
+  const { writeAsync: setGreeting } = useScaffoldContractWrite({
+    contractName: "YourContract",
+    functionName: "setGreeting",
+    args: [message],
+    value: parseEther(totalAmountETH.toString()),
+  });
+
+  return (
+    <>
+      <div>
+        <div className="flex justify-between border-b pt-8 pb-3 mb-3">
+          <div>{`Tip Amount`}</div>
+          <div className="font-semibold">{`$${tipAmount.toFixed(2)}`}</div>
+        </div>
+        <div className="flex justify-between">
+          <div className="pb-1">{`Total Bill`}</div>
+          <div className="font-semibold">{`$${totalAmountUSD.toFixed(2)}`}</div>
+        </div>
+        <div className="flex justify-end">
+          <div>{`${totalAmountETH} ETH`}</div>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <button className="btn btn-neutral mt-3" onClick={() => setGreeting()}>
+          Confirm
+        </button>
+      </div>
+    </>
+  );
+};
+
+export default TippingBill;

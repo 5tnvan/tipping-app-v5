@@ -2,6 +2,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
+import "~~/styles/app-color-switch.css";
 import "~~/styles/globals.css";
 
 const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
@@ -12,16 +13,16 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Scaffold-ETH 2 App",
-    template: "%s | Scaffold-ETH 2",
+    default: "Tipping App",
+    template: "%s | Tipping App",
   },
-  description: "Built with 🏗 Scaffold-ETH 2",
+  description: "Built with ♡",
   openGraph: {
     title: {
-      default: "Scaffold-ETH 2 App",
-      template: "%s | Scaffold-ETH 2",
+      default: "Tipping App",
+      template: "%s | Tipping App",
     },
-    description: "Built with 🏗 Scaffold-ETH 2",
+    description: "Built with ♡",
     images: [
       {
         url: imageUrl,
@@ -32,10 +33,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [imageUrl],
     title: {
-      default: "Scaffold-ETH 2",
-      template: "%s | Scaffold-ETH 2",
+      default: "Tipping App",
+      template: "%s | Tipping App",
     },
-    description: "Built with 🏗 Scaffold-ETH 2",
+    description: "Built with ♡",
   },
   icons: {
     icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],
@@ -47,7 +48,19 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     <html suppressHydrationWarning>
       <body>
         <ThemeProvider enableSystem>
-          <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
+          <ScaffoldEthAppWithProviders>
+            <div className="app backgr gradient">
+              {/* BG */}
+              <div className="anim">
+                <div className="base one"></div>
+                <div className="base two"></div>
+                <div className="base three"></div>
+              </div>
+              {/* BG */}
+              {/* <div className="black-gradient">black gradient thing</div> */}
+              {children}
+            </div>
+          </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>
     </html>
