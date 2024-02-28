@@ -1,9 +1,10 @@
-type Greeting @entity {
+type Tip @entity {
   id: ID!
-  sender: Sender!
+  sender: Bytes!
+  receiver: Bytes!
   greeting: String!
-  premium: Boolean
-  value: BigInt
+  value: BigInt!
+  fee: BigInt!
   createdAt: BigInt!
   transactionHash: String!
 }
@@ -11,7 +12,11 @@ type Greeting @entity {
 type Sender @entity {
   id: ID!
   address: Bytes!
-  greetings: [Greeting!] @derivedFrom(field: "sender")
   createdAt: BigInt!
-  greetingCount: BigInt!
+}
+
+type Receiver @entity {
+  id: ID!
+  address: Bytes!
+  createdAt: BigInt!
 }

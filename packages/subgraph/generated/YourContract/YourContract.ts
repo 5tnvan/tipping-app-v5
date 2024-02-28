@@ -10,39 +10,66 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class GreetingChange extends ethereum.Event {
-  get params(): GreetingChange__Params {
-    return new GreetingChange__Params(this);
+export class TipChange extends ethereum.Event {
+  get params(): TipChange__Params {
+    return new TipChange__Params(this);
   }
 }
 
-export class GreetingChange__Params {
-  _event: GreetingChange;
+export class TipChange__Params {
+  _event: TipChange;
 
-  constructor(event: GreetingChange) {
+  constructor(event: TipChange) {
     this._event = event;
   }
 
-  get greetingSetter(): Address {
+  get sender(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get newGreeting(): string {
-    return this._event.parameters[1].value.toString();
+  get receiver(): Address {
+    return this._event.parameters[1].value.toAddress();
   }
 
-  get premium(): boolean {
-    return this._event.parameters[2].value.toBoolean();
+  get newGreeting(): string {
+    return this._event.parameters[2].value.toString();
   }
 
   get value(): BigInt {
     return this._event.parameters[3].value.toBigInt();
+  }
+
+  get fee(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
 export class YourContract extends ethereum.SmartContract {
   static bind(address: Address): YourContract {
     return new YourContract("YourContract", address);
+  }
+
+  amountsReceived(param0: Address): BigInt {
+    let result = super.call(
+      "amountsReceived",
+      "amountsReceived(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_amountsReceived(param0: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "amountsReceived",
+      "amountsReceived(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   greeting(): string {
@@ -73,59 +100,6 @@ export class YourContract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  premium(): boolean {
-    let result = super.call("premium", "premium():(bool)", []);
-
-    return result[0].toBoolean();
-  }
-
-  try_premium(): ethereum.CallResult<boolean> {
-    let result = super.tryCall("premium", "premium():(bool)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  totalCounter(): BigInt {
-    let result = super.call("totalCounter", "totalCounter():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_totalCounter(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("totalCounter", "totalCounter():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  userGreetingCounter(param0: Address): BigInt {
-    let result = super.call(
-      "userGreetingCounter",
-      "userGreetingCounter(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_userGreetingCounter(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "userGreetingCounter",
-      "userGreetingCounter(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -159,58 +133,62 @@ export class ConstructorCall__Outputs {
   }
 }
 
-export class SetGreetingCall extends ethereum.Call {
-  get inputs(): SetGreetingCall__Inputs {
-    return new SetGreetingCall__Inputs(this);
+export class SetTipCall extends ethereum.Call {
+  get inputs(): SetTipCall__Inputs {
+    return new SetTipCall__Inputs(this);
   }
 
-  get outputs(): SetGreetingCall__Outputs {
-    return new SetGreetingCall__Outputs(this);
+  get outputs(): SetTipCall__Outputs {
+    return new SetTipCall__Outputs(this);
   }
 }
 
-export class SetGreetingCall__Inputs {
-  _call: SetGreetingCall;
+export class SetTipCall__Inputs {
+  _call: SetTipCall;
 
-  constructor(call: SetGreetingCall) {
+  constructor(call: SetTipCall) {
     this._call = call;
   }
 
-  get _newGreeting(): string {
-    return this._call.inputValues[0].value.toString();
+  get _receiver(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _greeting(): string {
+    return this._call.inputValues[1].value.toString();
   }
 }
 
-export class SetGreetingCall__Outputs {
-  _call: SetGreetingCall;
+export class SetTipCall__Outputs {
+  _call: SetTipCall;
 
-  constructor(call: SetGreetingCall) {
-    this._call = call;
-  }
-}
-
-export class WithdrawCall extends ethereum.Call {
-  get inputs(): WithdrawCall__Inputs {
-    return new WithdrawCall__Inputs(this);
-  }
-
-  get outputs(): WithdrawCall__Outputs {
-    return new WithdrawCall__Outputs(this);
-  }
-}
-
-export class WithdrawCall__Inputs {
-  _call: WithdrawCall;
-
-  constructor(call: WithdrawCall) {
+  constructor(call: SetTipCall) {
     this._call = call;
   }
 }
 
-export class WithdrawCall__Outputs {
-  _call: WithdrawCall;
+export class WithdrawAmountCall extends ethereum.Call {
+  get inputs(): WithdrawAmountCall__Inputs {
+    return new WithdrawAmountCall__Inputs(this);
+  }
 
-  constructor(call: WithdrawCall) {
+  get outputs(): WithdrawAmountCall__Outputs {
+    return new WithdrawAmountCall__Outputs(this);
+  }
+}
+
+export class WithdrawAmountCall__Inputs {
+  _call: WithdrawAmountCall;
+
+  constructor(call: WithdrawAmountCall) {
+    this._call = call;
+  }
+}
+
+export class WithdrawAmountCall__Outputs {
+  _call: WithdrawAmountCall;
+
+  constructor(call: WithdrawAmountCall) {
     this._call = call;
   }
 }

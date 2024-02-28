@@ -1,35 +1,42 @@
-import { BigInt, Address } from "@graphprotocol/graph-ts";
+import { BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
 import {
   YourContract,
-  GreetingChange,
+  TipChange,
 } from "../generated/YourContract/YourContract";
-import { Greeting, Sender } from "../generated/schema";
+import { Tip, Sender, Receiver } from "../generated/schema";
 
-export function handleGreetingChange(event: GreetingChange): void {
-  let senderString = event.params.greetingSetter.toHexString();
+export function handleTipChange(event: TipChange): void {
+  let senderString = event.params.sender.toHexString();
+  let receiverString = event.params.receiver.toHexString();
 
   let sender = Sender.load(senderString);
+  let receiver = Receiver.load(receiverString);
 
   if (sender === null) {
     sender = new Sender(senderString);
-    sender.address = event.params.greetingSetter;
+    sender.address = event.params.sender;
     sender.createdAt = event.block.timestamp;
-    sender.greetingCount = BigInt.fromI32(1);
-  } else {
-    sender.greetingCount = sender.greetingCount.plus(BigInt.fromI32(1));
-  }
+  } 
 
-  let greeting = new Greeting(
+  if (receiver === null) {
+    receiver = new Receiver(receiverString);
+    receiver.address = event.params.receiver;
+    receiver.createdAt = event.block.timestamp;
+  } 
+
+  let tip = new Tip(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
 
-  greeting.greeting = event.params.newGreeting;
-  greeting.sender = senderString;
-  greeting.premium = event.params.premium;
-  greeting.value = event.params.value;
-  greeting.createdAt = event.block.timestamp;
-  greeting.transactionHash = event.transaction.hash.toHex();
+  tip.greeting = event.params.newGreeting;
+  tip.sender = Bytes.fromHexString(senderString) ;
+  tip.receiver = Bytes.fromHexString(receiverString);;
+  tip.value = event.params.value;
+  tip.fee = event.params.fee;
+  tip.createdAt = event.block.timestamp;
+  tip.transactionHash = event.transaction.hash.toHex();
 
-  greeting.save();
+  tip.save();
   sender.save();
+  receiver.save();
 }
