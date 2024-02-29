@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { Authentication } from "../../login/_components/Authentication";
+import { Authentication } from "../../../components/app/authentication/Authentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 

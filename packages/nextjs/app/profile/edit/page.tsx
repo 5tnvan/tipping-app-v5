@@ -1,28 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { getUser, updateAvatar, updateProfile } from "~~/app/profile/actions";
+import { getUser, updateProfileAvatar, updateProfileSocial } from "~~/app/profile/actions";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
+/**
+ * ROUTE: /profile/edit
+ * DESCRIPTION: Private Profile Edit
+ **/
+
 const ProfileEdit: NextPage = () => {
   const router = useRouter();
-  const [isError, setIsError] = useState(true);
-  const [isModal, setIsModal] = useState(false);
-
+  const [isLogin, setIsLogin] = useState("init");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(1);
-
   const gif = {
     1: "https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif",
     2: "https://media1.tenor.com/m/pSq-OwdqmHgAAAAC/heartbeat-static.gif",
     3: "https://media1.tenor.com/m/qA1mRnYpyfwAAAAC/pixel-heart.gif",
   };
-
   const [socialMedia, setSocialMedia] = useState({
     youtube: true,
     instagram: true,
@@ -33,7 +35,6 @@ const ProfileEdit: NextPage = () => {
     twitterInput: "",
     tiktokInput: "",
   });
-
   const [user, setUser] = useState({
     id: null,
     updated_at: null,
@@ -46,7 +47,6 @@ const ProfileEdit: NextPage = () => {
     twitter: null,
     tiktok: null,
   });
-
   const soc = {
     yt: { val: user.youtube, link: "https://youtube.com/" + user.youtube },
     ig: { val: user.instagram, link: "https://instagram.com/" + user.instagram },
@@ -54,68 +54,64 @@ const ProfileEdit: NextPage = () => {
     tt: { val: user.tiktok, link: "https://tiktok.com/" + user.tiktok },
   };
 
-  const refetchUserData = async () => {
+  /* SIDE EFFECTS AND CALLBACKS */
+  //Check if user is logged in, if yes then initialize profile
+  const initProfile = useCallback(async () => {
     const data = await getUser();
     if (data.error != null) {
       router.push("/login");
+    } else {
+      setIsLogin("loggedin");
+      setUser(data.user);
     }
-    setIsError(false);
-    setUser(data.user);
-  };
-
-  //GET: getUser | get: username, email
-  const getUsersData = async () => {
-    refetchUserData();
-  };
-
-  React.useEffect(() => {
-    getUsersData();
   }, []);
 
-  //SWITCH: edit, save/cancel for each social media input
+  React.useEffect(() => {
+    initProfile();
+  }, []);
+
+  /* HANDLE ACTIONS */
+  // Switch edit, save, cancel for each social media input
   const handleSwitch = (social: string) => {
+    console.log("how many redload");
     setSocialMedia(prevState => ({
       ...prevState,
       [social]: !prevState[social],
     }));
   };
 
-  //SHOW MODAL: on click
-  const handleModal = () => {
-    setIsModal(true);
-    if (document.getElementById("my_modal_3") != null) {
-      document.getElementById("my_modal_3").showModal();
-    }
+  // Show modal on avatar edit
+  const handleAvatarEdit = () => {
+    setIsModalOpen(true);
   };
 
-  // SELECT IMAGE
+  // Select image
   const handleImageClick = index => {
     setSelectedImage(index);
   };
 
-  // SAVE: update social changes to supabase
-  const handleSave = async (social: string) => {
+  // Update social changes to supabase
+  const handleSocialSave = async (social: string) => {
     const inputVal = socialMedia[`${social}Input`];
-    console.log("social: " + social);
-    console.log("inputVal: " + inputVal);
-    const res = updateProfile(social, inputVal);
+    updateProfileSocial(social, inputVal);
     handleSwitch(social);
-    refetchUserData();
+    initProfile();
   };
 
-  // SAVE: update avatar changes to supabase
+  // Update avatar change to supabase
   const handleAvatarSave = async () => {
     if (selectedImage !== null) {
       const selectedImageUrl = gif[selectedImage];
-      console.log("Selected Image URL: " + selectedImageUrl);
-      updateAvatar(selectedImageUrl);
-      refetchUserData();
-    } else {
-      console.error("No image selected");
+      updateProfileAvatar(selectedImageUrl);
+      initProfile();
     }
   };
 
-  if (!isError) {
+  /* RENDER HTML */
+  if (isLogin == "init") {
+    return null;
+  }
+  if (isLogin == "loggedin") {
     return (
       <>
         <div id="profileView" className="profile mt-5 mb-5">
@@ -125,7 +121,7 @@ const ProfileEdit: NextPage = () => {
               <span
                 className="left avatar edit mr-5"
                 onClick={() => {
-                  handleModal();
+                  handleAvatarEdit();
                 }}
               >
                 <span className="editCircle">
@@ -167,11 +163,16 @@ const ProfileEdit: NextPage = () => {
             </div>
           </div>
           {/* AVATAR MODAL */}
-          <dialog id="my_modal_3" className="modal">
+          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
             <div className="modal-box">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  ✕
+                </button>
 
                 <div className="mb-5 mt-5">Choose your avatar:</div>
                 {Object.entries(gif).map(([index, src]) => (
@@ -231,7 +232,7 @@ const ProfileEdit: NextPage = () => {
                 onChange={e => setSocialMedia({ ...socialMedia, youtubeInput: e.target.value })}
               />
               <div className="flex justify-end">
-                <button className="btn btn-primary" onClick={() => handleSave("youtube")}>
+                <button className="btn btn-primary" onClick={() => handleSocialSave("youtube")}>
                   Save
                 </button>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
@@ -269,7 +270,7 @@ const ProfileEdit: NextPage = () => {
                 onChange={e => setSocialMedia({ ...socialMedia, instagramInput: e.target.value })}
               />
               <div className="flex justify-end">
-                <button className="btn btn-primary" onClick={() => handleSave("instagram")}>
+                <button className="btn btn-primary" onClick={() => handleSocialSave("instagram")}>
                   Save
                 </button>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("instagram")}>
@@ -308,7 +309,7 @@ const ProfileEdit: NextPage = () => {
                   onChange={e => setSocialMedia({ ...socialMedia, twitterInput: e.target.value })}
                 />
                 <div className="flex justify-end">
-                  <button className="btn btn-primary" onClick={() => handleSave("twitter")}>
+                  <button className="btn btn-primary" onClick={() => handleSocialSave("twitter")}>
                     Save
                   </button>
                   <button className="btn btn-secondary" onClick={() => handleSwitch("twitter")}>
@@ -348,7 +349,7 @@ const ProfileEdit: NextPage = () => {
                   onChange={e => setSocialMedia({ ...socialMedia, tiktokInput: e.target.value })}
                 />
                 <div className="flex justify-end">
-                  <button className="btn btn-primary" onClick={() => handleSave("tiktok")}>
+                  <button className="btn btn-primary" onClick={() => handleSocialSave("tiktok")}>
                     Save
                   </button>
                   <button className="btn btn-secondary" onClick={() => handleSwitch("tiktok")}>
@@ -358,7 +359,11 @@ const ProfileEdit: NextPage = () => {
               </label>
             </>
           )}
+          <button className="btn-neutral btn w-full" onClick={() => router.push("view")}>
+              View Profile
+            </button>
         </div>
+        
       </>
     );
   }

@@ -1,9 +1,9 @@
 "use client";
 
 import { gql, useQuery } from "@apollo/client";
-import { Address } from "~~/components/scaffold-eth";
+import { formatEther } from "viem";
 
-const TipsTable = ({ receiverAddress }) => {
+const TipsValueSum = ({ receiverAddress }) => {
     const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
       tips(
@@ -36,27 +36,19 @@ const TipsTable = ({ receiverAddress }) => {
     return <></>;
   }
 
+  // Calculate total sum of 'value'
+  const totalSum =
+    tipsData?.tips?.reduce((sum, tip) => {
+      return sum + Number(tip.value);
+    }, 0) || 0;
+
+  const totalSumEth = formatEther(totalSum);
+
   return (
     <>
-      <div className="flex justify-center items-center mt-10">
-        <div className="overflow-x-auto shadow-2xl rounded-xl">
-          {tipsData?.tips?.map((tip: any) => {
-            return (
-              <>
-                <Address address={tip?.sender} />
-                <Address address={tip?.receiver} />
-                <div>{tip?.greeting}</div>
-                <div>{tip?.value}</div>
-                <div>{tip?.fee}</div>
-                <div>{tip?.createdAt}</div>
-                <div></div>
-              </>
-            );
-          })}
-        </div>
-      </div>
+      <span>{totalSumEth}</span>
     </>
   );
 };
 
-export default TipsTable;
+export default TipsValueSum;

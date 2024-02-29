@@ -25,11 +25,7 @@ export async function getUser() {
 }
 
 /* UPDATE PROFILE */
-export async function updateProfile(
-  wallet_id: string,
-  wallet_sign_hash: string,
-  wallet_sign_timestamp: EpochTimeStamp,
-) {
+export async function updateProfile(wallet_id: string, wallet_sign_hash: string, wallet_sign_timestamp: string) {
   console.log("I'm here");
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);

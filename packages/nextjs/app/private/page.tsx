@@ -1,39 +1,30 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
+
+import React from "react";
 import { logout } from "../login/actions";
-import { createClient } from "~~/utils/supabase/server";
+import { NextPage } from "next";
+import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
 
-export default async function PrivatePage() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+const PrivatePage: NextPage = () => {
+  const { isLogin, profile } = useAuthenticationWithProfileInit();
 
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    console.log("user not found");
-    redirect("/login");
+  if (isLogin == "init") {
+    return null;
   }
 
-  console.log(data.user.user_metadata);
-
-  // Fetch user profile using user ID
-  const { data: profileData, error: profileError } = await supabase.from("profiles").select().eq("id", data.user.id);
-
-  if (profileError) {
-    console.log("profile not found");
+  if (isLogin == "loggedin") {
+    return (
+      <>
+        <div>
+          <p>Your Profile:</p>
+          <pre>{JSON.stringify(profile, null, 2)}</pre>
+        </div>
+        <form>
+          <button formAction={logout}>Logout</button>
+        </form>
+      </>
+    );
   }
+};
 
-  // Display user profile data
-  return (
-    <>
-      <div>
-        <p>Hello {data.user.email}</p>
-
-        <p>User Profile:</p>
-        <pre>{JSON.stringify(profileData, null, 2)}</pre>
-      </div>
-      <form>
-        <button formAction={logout}>Logout</button>
-      </form>
-    </>
-  );
-}
+export default PrivatePage;

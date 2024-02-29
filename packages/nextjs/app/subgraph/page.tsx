@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import TipsTable from "./_components/TipsTable";
 import type { NextPage } from "next";
 import { MagnifyingGlassIcon, PlusIcon, PowerIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
+import TipsTable from "~~/components/subgraph/TipsTable";
 
 const Subgraph: NextPage = () => {
   return (

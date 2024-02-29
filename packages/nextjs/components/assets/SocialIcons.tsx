@@ -10,8 +10,6 @@ export const SocialIcons = soc => {
   let twLink = "#";
   let ttLink = "#";
 
-  console.log(soc.soc.yt.val);
-
   if (soc.soc.yt.val != null) {
     ytFill = "currentColor";
     ytLink = soc.soc.yt.link;

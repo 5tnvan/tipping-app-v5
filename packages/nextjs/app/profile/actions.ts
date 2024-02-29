@@ -24,8 +24,8 @@ export async function getUser() {
   }
 }
 
-/* UPDATE PROFILE */
-export async function updateProfile(social, inputVal) {
+/* UPDATE PROFILE SOCIAL */
+export async function updateProfileSocial(social, inputVal) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -50,7 +50,7 @@ export async function updateProfile(social, inputVal) {
 }
 
 /* UPDATE AVATAR */
-export async function updateAvatar(url) {
+export async function updateProfileAvatar(url) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 

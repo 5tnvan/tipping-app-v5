@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getUser } from "../actions";
 import { NextPage } from "next";
-import { getUser } from "~~/app/profile/actions";
-import GreetingsTable from "~~/app/subgraph/_components/GreetingsTable";
+import Tipping2 from "~~/components/app/tipping/Tipping2";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import Tipping2 from "~~/components/scaffold-eth/Tipping2";
-import { SumGreetingsValue } from "~~/components/subgraph/SumGreetingsValue";
+import TipsTable from "~~/components/subgraph/TipsTable";
+import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
-  const [isClicked, setIsClicked] = useState(false);
-  const [isError, setIsError] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState("init");
   const [user, setUser] = useState({
     id: null,
     updated_at: null,
@@ -28,42 +28,48 @@ const ProfileView: NextPage = () => {
     instagram: null,
     twitter: null,
     tiktok: null,
+    wallet_id: null,
   });
-
-  //GET: getUser | get: username, email
-  const getUsersData = async () => {
-    const data = await getUser();
-    if (data.error != null) {
-      router.push("/login");
-    }
-    setIsError(false);
-    setUser(data.user);
-  };
-
-  React.useEffect(() => {
-    getUsersData();
-  }, []);
 
   const soc = {
     yt: { val: user.youtube, link: "https://youtube.com/" + user.youtube },
     ig: { val: user.instagram, link: "https://instagram.com/" + user.instagram },
     tw: { val: user.twitter, link: "https://x.com/" + user.twitter },
-    tt: { val: user.tiktok, link: "https://tiktok.com/" + user.tiktok },
+    tt: { val: user.tiktok, link: "https://twitter.com/" + user.tiktok },
   };
 
-  //ONLICK: handleButtonClick | show modal
-  const handleButtonClick = () => {
-    setIsClicked(true);
-    if (document.getElementById("my_modal_3") != null) {
-      document.getElementById("my_modal_3").showModal();
+  /* SIDE EFFECTS AND CALLBACKS */
+  //Check if user is logged in, if yes then initialize profile
+  const initProfile = useCallback(async () => {
+    const data = await getUser();
+    if (data.error != null) {
+      router.push("/login");
+    } else {
+      setIsLogin("loggedin");
+      setUser(data.user);
     }
+  }, []);
+
+  React.useEffect(() => {
+    console.log("Effect: Load Profile");
+    initProfile();
+  }, []);
+
+  //On click Tip Now, show modal
+  const handleTipNow = () => {
+    setIsModalOpen(true);
   };
 
-  if (!isError) {
+  //rendering HTML
+
+  if (isLogin == "init") {
+    return null;
+  }
+
+  if (isLogin == "loggedin") {
     return (
       <>
         <div id="profileView" className="profile mt-5 mb-5">
-
           {/* Intro */}
           <div className="intro flex justify-between mt-5 mb-5">
             <div className="flex">
@@ -89,23 +95,29 @@ const ProfileView: NextPage = () => {
 
             <div className="text-4xl flex justify-center items-center">
               <span>
-                <SumGreetingsValue />
+                <TipsValueSum receiverAddress={user.wallet_id} />
               </span>
               <span className="text-xl"> Ξ</span>
             </div>
           </div>
-          {/* Tip */}
+          {/* Tip Now */}
           <div>
-            <button className="btn-blue btn w-full" onClick={() => handleButtonClick()}>
-              Tip Now
+            <button className="btn-neutral btn w-full" onClick={() => router.push("edit")}>
+              Edit Profile
             </button>
           </div>
 
-          <dialog id="my_modal_3" className="modal">
+          {/* Modal */}
+          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
             <div className="modal-box">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  ✕
+                </button>
                 <Tipping2 />
               </form>
             </div>
@@ -125,7 +137,7 @@ const ProfileView: NextPage = () => {
           </div>
           {/* Card 3 */}
           <div className="latest"></div>
-          <GreetingsTable />
+          <TipsTable receiverAddress={user.wallet_id} />
         </div>
       </>
     );

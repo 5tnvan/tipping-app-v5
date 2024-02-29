@@ -1,23 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { getProfile } from "~~/app/(profile)/[username]/actions";
-import GreetingsTable from "~~/app/subgraph/_components/GreetingsTable";
+import Tipping2 from "~~/components/app/tipping/Tipping2";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import Tipping2 from "~~/components/scaffold-eth/Tipping2";
-import { SumGreetingsValue } from "~~/components/subgraph/SumGreetingsValue";
+import TipsTable from "~~/components/subgraph/TipsTable";
+import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
+/**
+ * ROUTE: /[username]
+ * DESCRIPTION: Public Profile
+ **/
+
 const ProfileUsername: NextPage = ({ params }) => {
   const router = useRouter();
-  const [isClicked, setIsClicked] = useState(false);
-  const [isError, setIsError] = useState(true);
-  const [user, setUser] = useState({
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isProfile, setIsProfile] = useState("init");
+  const [profile, setProfile] = useState({
     id: null,
     updated_at: null,
     username: null,
@@ -28,45 +33,53 @@ const ProfileUsername: NextPage = ({ params }) => {
     instagram: null,
     twitter: null,
     tiktok: null,
+    wallet_id: null,
   });
 
-  //GET: getUser | get: username, email
-  const getUsersData = async () => {
-    setIsError(false);
+  const soc = {
+    yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
+    ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
+    tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
+    tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
+  };
+
+  //Initialize user's public profile based on @params.username
+  const initProfile = useCallback(async () => {
     const profile = await getProfile(params.username);
 
-    console.log("profile: " + profile);
-
-    if (profile == null) {
-      setIsError(true);
+    if (profile) {
+      setIsProfile("profile");
+      setProfile(profile);
     } else {
-      setUser(profile);
-      setIsError(false);
+      setIsProfile("noprofile");
     }
-  };
+  }, [params.username]);
 
   React.useEffect(() => {
-    getUsersData();
+    console.log("Effect: Load Profile");
+    initProfile();
   }, []);
 
-  const soc = {
-    yt: { val: user.youtube, link: "https://youtube.com/" + user.youtube },
-    ig: { val: user.instagram, link: "https://instagram.com/" + user.instagram },
-    tw: { val: user.twitter, link: "https://x.com/" + user.twitter },
-    tt: { val: user.tiktok, link: "https://twitter.com/" + user.tiktok },
+  //On click Tip Now, show modal
+  const handleTipNow = () => {
+    setIsModalOpen(true);
   };
 
-  //ONLICK: handleButtonClick | show modal
-  const handleButtonClick = () => {
-    setIsClicked(true);
-    if (document.getElementById("my_modal_3") != null) {
-      document.getElementById("my_modal_3").showModal();
-    }
-  };
+  //rendering HTML
 
-  console.log(isError);
+  if (isProfile == "init") {
+    return null;
+  }
 
-  if (!isError) {
+  if (isProfile == "noprofile") {
+    return (
+      <>
+        <div>user not found</div>
+      </>
+    );
+  }
+
+  if (isProfile == "profile") {
     return (
       <>
         <div id="profileView" className="profile mt-5 mb-5">
@@ -75,8 +88,8 @@ const ProfileUsername: NextPage = ({ params }) => {
             <div className="flex">
               <div className="left avatar mr-5">
                 <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {user.avatar_url != null ? (
-                    <Image alt="SE2 logo" src={user.avatar_url} width={500} height={500} />
+                  {profile.avatar_url != null ? (
+                    <Image alt="SE2 logo" src={profile.avatar_url} width={500} height={500} />
                   ) : (
                     <Image
                       alt="SE2 logo"
@@ -88,30 +101,36 @@ const ProfileUsername: NextPage = ({ params }) => {
                 </div>
               </div>
               <div className="right info flex justify-center flex-col">
-                <div className="">@{user.username}</div>
+                <div className="">@{profile.username}</div>
                 <SocialIcons soc={soc} />
               </div>
             </div>
 
             <div className="text-4xl flex justify-center items-center">
               <span>
-                <SumGreetingsValue />
+                <TipsValueSum receiverAddress={profile.wallet_id} />
               </span>
               <span className="text-xl"> Ξ</span>
             </div>
           </div>
-          {/* Tip */}
+          {/* Tip Now */}
           <div>
-            <button className="btn-blue btn w-full" onClick={() => handleButtonClick()}>
+            <button className="btn-blue btn w-full" onClick={() => handleTipNow()}>
               Tip Now
             </button>
           </div>
 
-          <dialog id="my_modal_3" className="modal">
+          {/* Modal */}
+          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
             <div className="modal-box">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  ✕
+                </button>
                 <Tipping2 />
               </form>
             </div>
@@ -131,14 +150,8 @@ const ProfileUsername: NextPage = ({ params }) => {
           </div>
           {/* Card 3 */}
           <div className="latest"></div>
-          <GreetingsTable />
+          <TipsTable receiverAddress={profile.wallet_id} />
         </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div>user not found</div>
       </>
     );
   }

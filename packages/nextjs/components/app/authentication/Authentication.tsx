@@ -1,4 +1,4 @@
-import { login, signup } from "../actions";
+import { login, signup } from "../../../app/login/actions";
 
 export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
   return (
