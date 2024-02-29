@@ -8,9 +8,9 @@ import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication
 const PrivatePage: NextPage = () => {
   const { isLogin, profile } = useAuthenticationWithProfileInit();
 
-  if (isLogin == "init") {
-    return null;
-  }
+  // if (isLogin == "init") {
+  //   return null;
+  // }
 
   if (isLogin == "loggedin") {
     return (

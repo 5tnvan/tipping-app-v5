@@ -9,62 +9,27 @@ import Tipping2 from "~~/components/app/tipping/Tipping2";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
+  const { isLogin, profile } = useAuthenticationWithProfileInit();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState("init");
-  const [user, setUser] = useState({
-    id: null,
-    updated_at: null,
-    username: null,
-    full_name: null,
-    avatar_url: null,
-    website: null,
-    youtube: null,
-    instagram: null,
-    twitter: null,
-    tiktok: null,
-    wallet_id: null,
-  });
 
   const soc = {
-    yt: { val: user.youtube, link: "https://youtube.com/" + user.youtube },
-    ig: { val: user.instagram, link: "https://instagram.com/" + user.instagram },
-    tw: { val: user.twitter, link: "https://x.com/" + user.twitter },
-    tt: { val: user.tiktok, link: "https://twitter.com/" + user.tiktok },
-  };
-
-  /* SIDE EFFECTS AND CALLBACKS */
-  //Check if user is logged in, if yes then initialize profile
-  const initProfile = useCallback(async () => {
-    const data = await getUser();
-    if (data.error != null) {
-      router.push("/login");
-    } else {
-      setIsLogin("loggedin");
-      setUser(data.user);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    console.log("Effect: Load Profile");
-    initProfile();
-  }, []);
-
-  //On click Tip Now, show modal
-  const handleTipNow = () => {
-    setIsModalOpen(true);
+    yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
+    ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
+    tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
+    tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
   };
 
   //rendering HTML
-
-  if (isLogin == "init") {
-    return null;
-  }
+  // if (isLogin == "init") {
+  //   return null;
+  // }
 
   if (isLogin == "loggedin") {
     return (
@@ -75,27 +40,18 @@ const ProfileView: NextPage = () => {
             <div className="flex">
               <div className="left avatar mr-5">
                 <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {user.avatar_url != null ? (
-                    <Image alt="SE2 logo" src={user.avatar_url} width={500} height={500} />
-                  ) : (
-                    <Image
-                      alt="SE2 logo"
-                      src="https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif"
-                      width={500}
-                      height={500}
-                    />
-                  )}
+                  {profile.avatar_url && <Image alt="SE2 logo" src={profile.avatar_url} width={500} height={500} />}
                 </div>
               </div>
               <div className="right info flex justify-center flex-col">
-                <div className="">@{user.username}</div>
+                <div className="">@{profile.username}</div>
                 <SocialIcons soc={soc} />
               </div>
             </div>
 
             <div className="text-4xl flex justify-center items-center">
               <span>
-                <TipsValueSum receiverAddress={user.wallet_id} />
+                <TipsValueSum receiverAddress={profile.wallet_id} />
               </span>
               <span className="text-xl"> Ξ</span>
             </div>
@@ -137,7 +93,7 @@ const ProfileView: NextPage = () => {
           </div>
           {/* Card 3 */}
           <div className="latest"></div>
-          <TipsTable receiverAddress={user.wallet_id} />
+          <TipsTable receiverAddress={profile.wallet_id} />
         </div>
       </>
     );

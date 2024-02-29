@@ -142,7 +142,7 @@ const SettingsWallet: NextPage = () => {
           {/* Button */}
           {isWallet && isWalletVerified && (
             <>
-              <div className="btn btn-neutral mt-5" onClick={() => router.push("/settings")}>
+              <div className="btn btn-neutral mt-5" onClick={() => router.push("/settings/wallet")}>
                 Back to Wallet settings
               </div>
             </>

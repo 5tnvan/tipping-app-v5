@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUser } from "../actions";
 import type { NextPage } from "next";
+import { TimeAgo } from "~~/components/app/TimeAgo";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
@@ -14,20 +14,6 @@ const SettingsWallet: NextPage = () => {
   const { isLogin, profile } = useAuthenticationWithProfileInit();
   const [isWallet, setIsWallet] = useState(false);
   const [isWalletVerified, setIsWalletVerified] = useState(false);
-  const [ago, setAgo] = useState("");
-
-  // Function to calculate days ago
-  const calculateAgo = () => {
-    const currentTimestamp = new Date().getTime();
-    const yourTimestampString = profile.wallet_sign_timestamp;
-    const yourTimestamp = new Date(yourTimestampString).getTime();
-
-    const timeDifference = currentTimestamp - yourTimestamp;
-    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    const hoursAgo = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    setAgo(`${daysAgo} days and ${hoursAgo} hours ago`);
-  };
 
   useEffect(() => {
     if (profile.wallet_id) {
@@ -36,7 +22,6 @@ const SettingsWallet: NextPage = () => {
     if (profile.wallet_sign_hash) {
       setIsWalletVerified(true);
     }
-    calculateAgo();
   }, [profile.wallet_id, profile.wallet_sign_hash]);
 
   const router = useRouter();
@@ -45,9 +30,9 @@ const SettingsWallet: NextPage = () => {
     router.push("/settings/wallet/connect");
   };
 
-  if (isLogin == "init") {
-    return null;
-  }
+  // if (isLogin == "init") {
+  //   return null;
+  // }
 
   if (isLogin == "loggedin") {
     // JSX for rendering
@@ -71,7 +56,9 @@ const SettingsWallet: NextPage = () => {
             <>
               <Address address={profile.wallet_id || ""} />
               <div>Verified</div>
-              <div>{ago}</div>
+              <div>
+                <TimeAgo timestamp={profile.wallet_sign_timestamp} />
+              </div>
               <div className="btn btn-default" onClick={handleClick}>
                 Update
               </div>

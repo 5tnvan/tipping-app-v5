@@ -1,31 +1,20 @@
-"use client"
+"use client";
 
 import { useCallback, useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Authentication } from "../../components/app/authentication/Authentication";
-import { getUser } from "../profile/actions";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState("init");
+  const { isLogin } = useAuthentication();
 
-  /* SIDE EFFECTS AND CALLBACKS */
-  //Check if user is logged in, if yes then initialize profile
-  const initUser = useCallback(async () => {
-    const data = await getUser();
-    if (!data.error) {
-      router.push("/profile/view");
-    } else {
-      setIsLogin("notloggedin");
-    }
-  }, []);
-
-  React.useEffect(() => {
-    initUser();
-  }, []);
+  if (isLogin == "loggedin") {
+    router.push("/profile/view");
+  }
 
   if (isLogin == "init") {
     return null;

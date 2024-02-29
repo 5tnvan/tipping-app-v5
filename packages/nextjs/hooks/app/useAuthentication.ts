@@ -13,7 +13,7 @@ export const useAuthentication = () => {
   useEffect(() => {
     const initUser = async () => {
       const userData = await fetchUser();
-      if (!userData) {
+      if (!userData.userData.user) {
         router.push("/login");
       } else {
         setIsLogin("loggedin");
@@ -48,11 +48,17 @@ export const useAuthenticationWithProfileInit = () => {
     wallet_sign_hash: null,
     wallet_sign_timestamp: null,
   });
+  const [triggerRefetch, setTriggerRefetch] = useState(false);
+
+  const refetch = () => {
+    setTriggerRefetch(prev => !prev);
+  };
 
   useEffect(() => {
     const initUser = async () => {
       const userData = await fetchUser();
-      if (!userData) {
+      console.log(userData);
+      if (!userData.userData.user) {
         router.push("/login");
       } else {
         setIsLogin("loggedin");
@@ -62,7 +68,7 @@ export const useAuthenticationWithProfileInit = () => {
     };
 
     initUser();
-  }, [router]);
+  }, [router, triggerRefetch]);
 
-  return { isLogin, profile };
+  return { isLogin, profile, refetch };
 };
