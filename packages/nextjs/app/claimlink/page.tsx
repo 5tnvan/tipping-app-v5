@@ -1,45 +1,30 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import React from "react";
-import { useRouter } from "next/navigation";
-import { getUser } from "../profile/actions";
 import { claimLink } from "./actions";
 import type { NextPage } from "next";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useUsernameAvailability } from "~~/hooks/supabase";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { useRouter } from "next/navigation";
 
 const ClaimLink: NextPage = () => {
+  const router = useRouter();
   //HOOK: useState
   const [username, setUsername] = useState<string>("");
 
   //HOOK: useUsernameAvailability - check username, return a [warning,badge,btn]
   const availability = useUsernameAvailability(username);
 
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState("init");
+  const { isAuth, profile } = useAuthentication();
 
-  /* SIDE EFFECTS AND CALLBACKS */
-  //Check if user is logged in, if yes then initialize profile
-  const initUser = useCallback(async () => {
-    const data = await getUser();
-    if (!data.error) {
-      router.push("/profile/view");
-    } else {
-      setIsLogin("notloggedin");
-    }
-  }, []);
-
-  React.useEffect(() => {
-    initUser();
-  }, []);
-
-  if (isLogin == "init") {
-    return null;
+  if (isAuth == "yes") {
+    router.push("/profile/view");
   }
 
-  if (isLogin == "notloggedin") {
+  if (isAuth == "no") {
     return (
       <>
         {/* CONTENT */}

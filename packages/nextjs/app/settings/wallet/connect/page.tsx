@@ -6,13 +6,13 @@ import { updateProfile } from "../../actions";
 import type { NextPage } from "next";
 import { useAccount, useSignMessage } from "wagmi";
 import { Address } from "~~/components/scaffold-eth/Address";
-import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const SettingsWallet: NextPage = () => {
   const router = useRouter();
-  const { isLogin, profile } = useAuthenticationWithProfileInit();
+  const { isAuth, profile } = useAuthentication();
   const [isWallet, setIsWallet] = useState(false);
   const [isWalletVerified, setIsWalletVerified] = useState(false);
   const { address } = useAccount();
@@ -24,6 +24,11 @@ const SettingsWallet: NextPage = () => {
   } = useSignMessage({
     message: "Hello, Beyond! I am signing this message to verify the ownership of my wallet.",
   });
+
+  /* ROUTE */
+  if (isAuth == "no") {
+    router.push("/login");
+  }
 
   useEffect(() => {
     if (profile.wallet_id) {
@@ -54,12 +59,8 @@ const SettingsWallet: NextPage = () => {
     }
   };
 
-  if (isLogin == "init") {
-    return null;
-  }
-
   // Renders HTML
-  if (isLogin == "loggedin") {
+  if (isAuth == "yes") {
     return (
       <>
         {/* CONTENT */}

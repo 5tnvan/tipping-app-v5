@@ -1,18 +1,20 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { logout } from "../login/actions";
 import { NextPage } from "next";
-import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
 const PrivatePage: NextPage = () => {
-  const { isLogin, profile } = useAuthenticationWithProfileInit();
+  const router = useRouter();
+  const { isAuth, profile } = useAuthentication();
 
-  // if (isLogin == "init") {
-  //   return null;
-  // }
+  if (isAuth == "no") {
+    router.push("/login");
+  }
 
-  if (isLogin == "loggedin") {
+  if (isAuth == "yes") {
     return (
       <>
         <div>

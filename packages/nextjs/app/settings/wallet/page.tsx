@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { TimeAgo } from "~~/components/app/TimeAgo";
 import { Address } from "~~/components/scaffold-eth/Address";
-import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 // Component definition
 const SettingsWallet: NextPage = () => {
-  const { isLogin, profile } = useAuthenticationWithProfileInit();
+  const { isAuth, profile } = useAuthentication();
   const [isWallet, setIsWallet] = useState(false);
   const [isWalletVerified, setIsWalletVerified] = useState(false);
 
@@ -25,17 +25,18 @@ const SettingsWallet: NextPage = () => {
   }, [profile.wallet_id, profile.wallet_sign_hash]);
 
   const router = useRouter();
+
+  /* ROUTE */
+  if (isAuth == "no") {
+    router.push("/login");
+  }
+
   // Function to handle click
   const handleClick = () => {
     router.push("/settings/wallet/connect");
   };
 
-  // if (isLogin == "init") {
-  //   return null;
-  // }
-
-  if (isLogin == "loggedin") {
-    // JSX for rendering
+  if (isAuth == "yes") {
     return (
       <>
         <div className="cont z-10">

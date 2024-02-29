@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Authentication } from "../../components/app/authentication/Authentication";
@@ -10,17 +9,13 @@ import "~~/styles/app.css";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { isLogin } = useAuthentication();
+  const { isAuth } = useAuthentication();
 
-  if (isLogin == "loggedin") {
+  if (isAuth == "yes") {
     router.push("/profile/view");
   }
 
-  if (isLogin == "init") {
-    return null;
-  }
-
-  if (isLogin == "notloggedin") {
+  if (isAuth == "no") {
     return (
       <>
         {/* CONTENT */}

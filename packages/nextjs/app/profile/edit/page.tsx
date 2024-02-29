@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { getUser, updateProfileAvatar, updateProfileSocial } from "~~/app/profile/actions";
+import { updateProfileAvatar, updateProfileSocial } from "~~/app/profile/actions";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -18,7 +18,7 @@ import "~~/styles/app.css";
 
 const ProfileEdit: NextPage = () => {
   const router = useRouter();
-  const { isLogin, profile, refetch } = useAuthenticationWithProfileInit();
+  const { isAuth, profile, refetch } = useAuthentication();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(1);
   const gif = {
@@ -42,6 +42,11 @@ const ProfileEdit: NextPage = () => {
     tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
     tt: { val: profile.tiktok, link: "https://tiktok.com/" + profile.tiktok },
   };
+
+  /* ROUTE */
+  if (isAuth == "no") {
+    router.push("/login");
+  }
 
   /* HANDLE ACTIONS */
   // Switch edit, save, cancel for each social media input
@@ -82,10 +87,7 @@ const ProfileEdit: NextPage = () => {
   };
 
   /* RENDER HTML */
-  if (isLogin == "init") {
-    return null;
-  }
-  if (isLogin == "loggedin") {
+  if (isAuth == "yes") {
     return (
       <>
         <div id="profileView" className="profile mt-5 mb-5">

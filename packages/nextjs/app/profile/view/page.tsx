@@ -1,22 +1,21 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { getUser } from "../actions";
 import { NextPage } from "next";
 import Tipping2 from "~~/components/app/tipping/Tipping2";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
-import { useAuthenticationWithProfileInit } from "~~/hooks/app/useAuthentication";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
-  const { isLogin, profile } = useAuthenticationWithProfileInit();
+  const { isAuth, profile } = useAuthentication();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const soc = {
@@ -26,12 +25,12 @@ const ProfileView: NextPage = () => {
     tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
   };
 
-  //rendering HTML
-  // if (isLogin == "init") {
-  //   return null;
-  // }
+  /* ROUTE */
+  if (isAuth == "no") {
+    router.push("/login");
+  }
 
-  if (isLogin == "loggedin") {
+  if (isAuth == "yes") {
     return (
       <>
         <div id="profileView" className="profile mt-5 mb-5">

@@ -1,38 +1,12 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { fetchProfile, fetchUser } from "~~/utils/app/fetchUser";
 
 /**
  * HOOK: useAuthentication
- * Description: check if user is loggedin
+ * Description: check if user is authenticated, init user with profile data
  **/
 export const useAuthentication = () => {
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState("init");
-
-  useEffect(() => {
-    const initUser = async () => {
-      const userData = await fetchUser();
-      if (!userData.userData.user) {
-        router.push("/login");
-      } else {
-        setIsLogin("loggedin");
-      }
-    };
-
-    initUser();
-  }, [router]);
-
-  return { isLogin };
-};
-
-/**
- * HOOK: useAuthentication
- * Description: check if user is loggedin and initialize user's profile
- **/
-export const useAuthenticationWithProfileInit = () => {
-  const router = useRouter();
-  const [isLogin, setIsLogin] = useState("init");
+  const [isAuth, setIsAuth] = useState("init");
   const [profile, setProfile] = useState({
     id: null,
     updated_at: null,
@@ -57,18 +31,20 @@ export const useAuthenticationWithProfileInit = () => {
   useEffect(() => {
     const initUser = async () => {
       const userData = await fetchUser();
-      console.log(userData);
-      if (!userData.userData.user) {
-        router.push("/login");
-      } else {
-        setIsLogin("loggedin");
+
+      console.log(userData.userData.user);
+
+      if (userData.userData.user != null) {
+        setIsAuth("yes");
         const profileData = await fetchProfile();
         setProfile(profileData);
+      } else {
+        setIsAuth("no");
       }
     };
 
     initUser();
-  }, [router, triggerRefetch]);
+  }, [triggerRefetch]);
 
-  return { isLogin, profile, refetch };
+  return { isAuth, profile, refetch };
 };
