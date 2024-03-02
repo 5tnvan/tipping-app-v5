@@ -4,7 +4,7 @@ export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
   return (
     <>
       <form>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 mb-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -16,7 +16,7 @@ export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
           </svg>
           <input type="text" name="email" className="grow" placeholder="Email" />
         </label>
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 mb-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -32,12 +32,12 @@ export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
           <input type="password" name="password" placeholder="Password" className="" />
         </label>
         {type == "login" && (
-          <button className="btn btn-neutral w-full" formAction={login}>
+          <button className="btn btn-neutral text-base w-full" formAction={login}>
             {value}
           </button>
         )}
         {type == "signup" && (
-          <button className="btn btn-neutral w-full" formAction={signup}>
+          <button className="btn btn-neutral text-base w-full" formAction={signup}>
             {value}
           </button>
         )}

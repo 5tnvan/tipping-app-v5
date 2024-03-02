@@ -21,7 +21,7 @@ export default function SignUpPage() {
         {/* CONTENT */}
         <div className="cont z-10">
           {/* Hero: */}
-          <div className="font-semibold text-3xl">{"Create an account"}</div>
+          <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
 
           {/* Input */}
           <Authentication type="signup" value="Sign Up" linkSignUp="no" linkLogin="yes" />

@@ -7,3 +7,13 @@
     background:
     linear-gradient(101deg, rgba(101,106,224,1) 0%, rgba(116,113,217,1) 16%, rgba(218,182,242,1) 39%, rgba(242,195,167,1) 60%, rgba(242,167,167,1) 85%);
 }
+
+.gradient-01 {
+  background: linear-gradient(to right, rgba(190, 133, 146, 1) 0%, rgba(252, 150, 122, 1) 22%, rgba(253, 211, 156, 1) 45%, rgba(230, 212, 180, 1) 68%, rgba(215, 239, 185, 1) 100%);
+}
+
+
+.gradient-02 {
+    background: rgb(182,245,204);
+background: linear-gradient(180deg, rgba(182,245,204,1) 57%, rgba(64,73,231,1) 100%);
+}

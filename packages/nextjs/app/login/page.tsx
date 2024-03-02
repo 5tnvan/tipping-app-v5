@@ -21,7 +21,7 @@ export default function LoginPage() {
         {/* CONTENT */}
         <div className="cont z-10">
           {/* Hero: */}
-          <div className="font-semibold text-3xl">Welcome back</div>
+          <div className="font-semibold text-3xl mb-5">Welcome back</div>
           {/* Input */}
           <Authentication type="login" value="Login" linkSignUp="yes" linkLogin="no" />
         </div>

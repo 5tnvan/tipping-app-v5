@@ -3,44 +3,36 @@
 @import "tailwindcss/utilities";
 
 
-.temphref {display: block;}
+.temphref {
+  display: block;
+}
+
+.bg-image-01 {
+  background-image: url('/card-01.png');
+  background-size: cover;
+}
 
 /* APP */
 .app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  height: auto;
+  min-width: 530px;
+}
+
+.custom-text-blue {
+  color: #3D45E7
+}
+
+.custom-bg-blue {
+  background-color: #3D45E7;
 }
 
 .steps-vertical .step:before {
   height: 236% !important;
-  
-}
 
-.app .cont {
-  display: flex;
-  flex-direction: column;
-  padding: 40px 0;
-}
-
-.nav {
-  padding: 20px;
-  
-}
-
-/* HEADR */
-.headr {
-  font-size: 1.875rem;
-  display: flex;
 }
 
 .animation {
   height: 44px;
   overflow: hidden;
-  color: #3D45E7;
-  margin-left: 5px;
 }
 
 .animation>div>div {
@@ -55,16 +47,45 @@
 }
 
 @keyframes text-animation {
-  0% { margin-top: 0; }
-  10% { margin-top: 0; }
-  20% { margin-top: -5.62rem; }
-  30% { margin-top: -5.62rem; }
-  40% { margin-top: -11.24rem; }
-  60% { margin-top: -11.24rem; }
-  70% { margin-top: -5.62rem; }
-  80% { margin-top: -5.62rem; }
-  90% { margin-top: 0; }
-  100% { margin-top: 0; }
+  0% {
+    margin-top: 0;
+  }
+
+  10% {
+    margin-top: 0;
+  }
+
+  20% {
+    margin-top: -5.62rem;
+  }
+
+  30% {
+    margin-top: -5.62rem;
+  }
+
+  40% {
+    margin-top: -11.24rem;
+  }
+
+  60% {
+    margin-top: -11.24rem;
+  }
+
+  70% {
+    margin-top: -5.62rem;
+  }
+
+  80% {
+    margin-top: -5.62rem;
+  }
+
+  90% {
+    margin-top: 0;
+  }
+
+  100% {
+    margin-top: 0;
+  }
 }
 
 /* STEPS: 1/2/3 */
@@ -77,8 +98,6 @@
 .step.step-primary {
   font-weight: 600;
 }
-
-
 
 /* CARDS CAROUSELS */
 
@@ -140,12 +159,12 @@
 
 .scr {
   display: inline-flex;
-  width: 506px;
-  height: 319px;
+  width: 450px;
+  height: 283px;
+  /* Rounded from 283.058px */
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   overflow-x: auto;
-  margin: 15px 0 20px 0;
 }
 
 .scr::-webkit-scrollbar {
@@ -188,10 +207,26 @@
 
 /* MEDIA Q */
 
-/* When the browser is at least 600px and above */
-@media screen and (max-width: 600px) {
+/* MD: Tablet */
+@media screen and (max-width: 768px) {}
+
+/* SM: Mobile */
+@media screen and (max-width: 640px) {
+  .app {
+    min-width: 100vw;
+  }
+
   .scr {
-    width: 354px;
-    height: 223px;
+    width: 320px;
+    height: 181px;
+    /* Rounded from 180.677px */
+  }
+
+  main.pt-10 {
+    padding-top: 0
+  }
+
+  .app.rounded-t-2xl {
+    border-radius: 0;
   }
 }

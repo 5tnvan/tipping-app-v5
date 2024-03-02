@@ -12,20 +12,17 @@ export default function LoginNewPage() {
       {/* CONTENT */}
       <div className="cont z-10">
         {/* Hero: */}
-        <div className="font-semibold text-3xl">{"Almost there..."}</div>
-        <div className="text-3xl">
-          <span className="special-bl">@{choosenUsername ? choosenUsername.value : null}</span> is now reserved
+        <div className="text-3xl mb-5 custom-text-blue font-semibold">{"Sign up."}</div>
+
+        {/* Scroll Snap */}
+        <div className="scr mb-6">
+          {/* Card 3 */}
+          <div className="scr-item bg-image-01"></div>
+          <div className="scr-item bg-image-01"></div>
+          <div className="scr-item bg-image-01"></div>
         </div>
 
-        {/* Steps */}
-        <ul className="steps steps-vertical lg:steps-vertical">
-          <li className="step step-primary">Claim handle</li>
-          <li className="step step-primary">Sign Up</li>
-          <li className="step ">Ready to go</li>
-        </ul>
-
         {/* Input */}
-        <div className="font-semibold">{"Sign up with email:"}</div>
         <Authentication type="signup" value="Sign Up" additional="no" />
       </div>
     </>

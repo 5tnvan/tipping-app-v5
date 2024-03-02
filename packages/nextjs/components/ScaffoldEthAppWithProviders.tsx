@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LoginIcon } from "./assets/LoginIcon";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
@@ -27,12 +28,26 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="min-h-screen gradient-01">
         <Header />
-        <main className="relative flex flex-col flex-1">{children}</main>
+        <main className="flex justify-center h-screen pt-10">
+          <div className="app bg-lime-800 rounded-t-2xl gradient-02 p-10 flex flex-col">
+            <div className="flex justify-between mb-10">
+              <div className="flex items-center">
+                <img src="/wildpay-logo.svg" width={30} height={30}></img>
+                <h1 className="font-semibold custom-text-blue ml-2">wildpay</h1>
+              </div>
+              <div className="btn btn-primary">
+                <LoginIcon />
+                Login
+              </div>
+            </div>
+            {children}
+          </div>
+        </main>
         <Footer />
       </div>
-      <Toaster />
+      {/* <Toaster /> */}
     </>
   );
 };

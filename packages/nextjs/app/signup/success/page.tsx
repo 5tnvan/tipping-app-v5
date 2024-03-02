@@ -11,19 +11,13 @@ const GetStartedSuccess: NextPage = () => {
       {/* CONTENT */}
       <div className="cont z-10">
         {/* Hero: */}
-        <div className="font-semibold text-3xl">{"Done 🎉"}</div>
-        <div className="text-3xl">{"you're ready to go"}</div>
+        <div className="font-semibold custom-text-blue text-3xl ">{"Done 🎉."}</div>
+        <div className=" custom-text-blue text-3xl mb-5">{"Ready to go."}</div>
 
-        {/* Steps */}
-        <ul className="steps steps-vertical lg:steps-vertical">
-          <li className="step step-primary">Claim handle</li>
-          <li className="step step-primary">Sign Up</li>
-          <li className="step step-primary">Ready to go</li>
-        </ul>
-        <Link href="/profile/view" className="btn btn-neutral">
+        <Link href="/profile/view" className="btn btn-neutral mb-3 text-base w-full">
           {"Complete your profile"}
         </Link>
-        <Link href="/getstarted" className="btn">
+        <Link href="/getstarted" className="btn text-base mb-3 w-full">
           {"Connect your wallet"}
         </Link>
       
