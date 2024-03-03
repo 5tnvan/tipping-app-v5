@@ -14,7 +14,7 @@
 
 /* APP */
 .app {
-  min-width: 530px;
+  min-width: 516px;
 }
 
 .custom-text-blue {
@@ -215,18 +215,22 @@
   .app {
     min-width: 100vw;
   }
-
-  .scr {
-    width: 320px;
-    height: 181px;
-    /* Rounded from 180.677px */
+  /* hack */
+  .app.rounded-t-2xl {
+    border-radius: 0;
   }
-
+    /* hack */
+  .app.p-8 {
+    padding: 20px;
+  }
+  .scr {
+    width: 350px;
+    height: 199px;
+  }
+  /* hack */
   main.pt-10 {
     padding-top: 0
   }
 
-  .app.rounded-t-2xl {
-    border-radius: 0;
-  }
+  
 }

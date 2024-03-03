@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchProfile, fetchUser } from "~~/utils/app/fetchUser";
+import { fetchProfile, fetchSession } from "~~/utils/app/fetchUser";
 
-/**
- * HOOK: useAuthentication
- * Description: check if user is authenticated, init user with profile data
- **/
 export const useAuthentication = () => {
   const [isAuth, setIsAuth] = useState("init");
   const [profile, setProfile] = useState({
@@ -30,11 +26,12 @@ export const useAuthentication = () => {
 
   useEffect(() => {
     const initUser = async () => {
-      const userData = await fetchUser();
+      //fetch session
+      const sessionData = await fetchSession();
 
-      console.log(userData.userData.user);
+      console.log("initUser() sessionData: ", sessionData?.session);
 
-      if (userData.userData.user != null) {
+      if (sessionData?.session != null) {
         setIsAuth("yes");
         const profileData = await fetchProfile();
         setProfile(profileData);
@@ -45,6 +42,8 @@ export const useAuthentication = () => {
 
     initUser();
   }, [triggerRefetch]);
+
+  console.log("useAuthentication() isAuth: " + isAuth);
 
   return { isAuth, profile, refetch };
 };

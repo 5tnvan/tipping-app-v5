@@ -10,9 +10,9 @@ import { createClient } from "~~/utils/supabase/server";
 /* LOG IN */
 export async function login(formData: FormData) {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
-  console.log('you here');
+  console.log("you are at login");
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -24,17 +24,21 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
+    console.log("there is a login error:" + error);
     redirect("/error");
   }
 
+  console.log("login success");
+  console.log("login success and cookie store: " + cookieStore);
+
   revalidatePath("/", "layout");
-  redirect("/profile/view");
+  redirect("/");
 }
 
 /* SIGN UP */
 export async function signup(formData: FormData) {
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
   const choosenUsername = cookieStore.get("choosenUsername");
 
   // type-casting here for convenience
@@ -69,14 +73,18 @@ export async function signup(formData: FormData) {
 
 /* LOGOUT */
 export async function logout() {
+  console.log("I'm at logout");
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const { error } = await supabase.auth.signOut();
 
   if (error) {
+    console.log("There was an error at logout" + error);
     redirect("/error");
   }
+
+  console.log("Logout success");
 
   redirect("/");
 }

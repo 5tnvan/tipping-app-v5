@@ -9,11 +9,9 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 const PrivatePage: NextPage = () => {
   const router = useRouter();
   const { isAuth, profile } = useAuthentication();
-
   if (isAuth == "no") {
     router.push("/login");
   }
-
   if (isAuth == "yes") {
     return (
       <>
@@ -28,5 +26,4 @@ const PrivatePage: NextPage = () => {
     );
   }
 };
-
 export default PrivatePage;
