@@ -17,11 +17,8 @@ const PrivatePage: NextPage = () => {
       <>
         <div>
           <p>Your Profile:</p>
-          <pre>{JSON.stringify(profile, null, 2)}</pre>
+          <pre>@{profile.username}</pre>
         </div>
-        <form>
-          <button formAction={logout}>Logout</button>
-        </form>
       </>
     );
   }

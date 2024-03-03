@@ -33,9 +33,10 @@ const ProfileView: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
-        <div id="profileView" className="profile mt-5 mb-5">
+        <div className="custom-profile-bg z-0"></div>
+        <div id="profileView" className="profile mt-5 mb-5 z-10">
           {/* Intro */}
-          <div className="intro flex justify-between mt-5 mb-5">
+          <div className="intro flex justify-between mb-7 text-black">
             <div className="flex">
               <div className="left avatar mr-5">
                 <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -43,7 +44,7 @@ const ProfileView: NextPage = () => {
                 </div>
               </div>
               <div className="right info flex justify-center flex-col">
-                <div className="">@{profile.username}</div>
+                <div className="font-semibold">@{profile.username}</div>
                 <SocialIcons soc={soc} />
               </div>
             </div>
@@ -56,8 +57,11 @@ const ProfileView: NextPage = () => {
             </div>
           </div>
           {/* Tip Now */}
-          <div>
-            <button className="btn-neutral btn w-full" onClick={() => router.push("edit")}>
+          <div className="mb-5">
+            <button
+              className="btn-neutral btn w-full text-base custom-bg-blue border-0"
+              onClick={() => router.push("edit")}
+            >
               Edit Profile
             </button>
           </div>
@@ -78,17 +82,10 @@ const ProfileView: NextPage = () => {
             </div>
           </dialog>
 
-          {/* QR */}
-          <div className="qr scr">
+          {/* Scroll Snap */}
+          <div className="scr mb-6">
             {/* Card 3 */}
-            <div className="scr-item pattern-03">
-              <div className="left">
-                <div className="font-semibold">❤️</div>
-                <div className="top">thanks for tipping hearts!</div>
-                <div className="">Exp 24:00</div>
-              </div>
-              <div className="copylink"></div>
-            </div>
+            <div className="scr-item bg-image-01"></div>
           </div>
           {/* Card 3 */}
           <div className="latest"></div>

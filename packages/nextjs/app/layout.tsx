@@ -51,33 +51,6 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
       <body>
         <ThemeProvider enableSystem>
           <ScaffoldEthAppWithProviders>
-            {/* CUST-NAVBAR */}
-            {/* <div id="cust-navbar" className="flex flex-col pl-6 pr-20 pt-8 pb-8 mr-10 rounded-xl bg-white w-95vh">
-              
-              <div className="flex text-red-600 font-bold mb-5">
-                <img src={heartIconUrl} alt="wildheart" width={20} height={20} />
-                <div className="ml-2">wildheart</div>
-              </div>
-              
-              <div className="flex flex-col grow">
-                
-                <div id="cust-links" className="">
-                  <a href="" className="flex mb-2">
-                    <DoubleChevronIcon /> <div className="ml-1 font-normal">Get Started</div>
-                  </a>
-                  <a href="" className="flex mb-2">
-                    <LoginIcon /> <div className="ml-1 font-normal text-slate-600">Log In</div>
-                  </a>
-                </div>
-                
-                <div id="cust-socials" className="flex grow items-end">
-                  <YoutubeIcon handle="heartip" />
-                  <TwitterIcon handle="heartip" />
-                  <InstagramIcon handle="heartip" />
-                  <TiktokIcon handle="heartip" />
-                </div>
-              </div>
-            </div> */}
             {/* APP */}
             {children}
           </ScaffoldEthAppWithProviders>

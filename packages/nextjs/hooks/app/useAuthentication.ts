@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchProfile, fetchSession } from "~~/utils/app/fetchUser";
+import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetchUser";
 
 export const useAuthentication = () => {
   const [isAuth, setIsAuth] = useState("init");
+  const [user, setUser] = useState();
   const [profile, setProfile] = useState({
     id: null,
     updated_at: null,
@@ -29,11 +30,13 @@ export const useAuthentication = () => {
       //fetch session
       const sessionData = await fetchSession();
 
-      console.log("initUser() sessionData: ", sessionData?.session);
+      // console.log("initUser() sessionData: ", sessionData?.session);
 
       if (sessionData?.session != null) {
         setIsAuth("yes");
+        const userData = await fetchUser();
         const profileData = await fetchProfile();
+        setUser(userData.userData.user);
         setProfile(profileData);
       } else {
         setIsAuth("no");
@@ -43,7 +46,7 @@ export const useAuthentication = () => {
     initUser();
   }, [triggerRefetch]);
 
-  console.log("useAuthentication() isAuth: " + isAuth);
+  // console.log("useAuthentication() isAuth: " + isAuth);
 
-  return { isAuth, profile, refetch };
+  return { isAuth, user, profile, refetch };
 };

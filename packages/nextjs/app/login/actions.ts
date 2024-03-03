@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { createClient } from "~~/utils/supabase/server";
 
 /* LOGIN ACTIONS */
@@ -32,7 +32,7 @@ export async function login(formData: FormData) {
   console.log("login success and cookie store: " + cookieStore);
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/private");
 }
 
 /* SIGN UP */
@@ -84,7 +84,5 @@ export async function logout() {
     redirect("/error");
   }
 
-  console.log("Logout success");
-
-  redirect("/");
+  redirect("/getstarted");
 }

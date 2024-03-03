@@ -11,10 +11,12 @@ import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
+import { logout } from "~~/app/login/actions";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   const price = useNativeCurrencyPrice();
@@ -26,21 +28,40 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, [setNativeCurrencyPrice, price]);
 
+  const { isAuth, profile, refetch } = useAuthentication();
+  useEffect(() => {
+    // Logic to run when isAuth changes
+    console.log("isAuth:", isAuth);
+  }, [isAuth]);
+
+  const handleLogout = () => {
+    logout();
+    refetch();
+  };
+
   return (
     <>
       <div className="min-h-screen gradient-01">
         <Header />
         <main className="flex justify-center h-screen pt-10">
-          <div className="app bg-lime-800 rounded-t-2xl gradient-02 p-10 flex flex-col">
-            <div className="flex justify-between mb-10">
+          <div className="app bg-lime-800 rounded-t-2xl gradient-02 p-10 flex flex-col relative">
+            <div className="flex justify-between mb-10 z-10">
               <div className="flex items-center">
                 <img src="/wildpay-logo.svg" width={30} height={30}></img>
                 <h1 className="font-semibold custom-text-blue ml-2">wildpay</h1>
               </div>
-              <div className="btn btn-primary">
-                <LoginIcon />
-                Login
-              </div>
+              {isAuth == "yes" && (
+                <div className="btn btn-primary" onClick={handleLogout}>
+                  <LoginIcon />
+                  {profile.username}
+                </div>
+              )}
+              {isAuth == "no" && (
+                <div className="btn btn-primary">
+                  <LoginIcon />
+                  Login
+                </div>
+              )}
             </div>
             {children}
           </div>
