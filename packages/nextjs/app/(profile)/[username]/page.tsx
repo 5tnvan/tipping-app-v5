@@ -12,6 +12,7 @@ import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { CopyIcon } from "~~/components/assets/CopyIcon";
 
 /**
  * ROUTE: /[username]
@@ -82,9 +83,10 @@ const ProfileUsername: NextPage = ({ params }) => {
   if (isProfile == "profile") {
     return (
       <>
-        <div id="profileView" className="profile mt-5 mb-5">
+      <div className="custom-profile-bg z-0"></div>
+        <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* Intro */}
-          <div className="intro flex justify-between mt-5 mb-5">
+          <div className="intro flex justify-between mb-7 text-black">
             <div className="flex">
               <div className="left avatar mr-5">
                 <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
@@ -101,7 +103,7 @@ const ProfileUsername: NextPage = ({ params }) => {
                 </div>
               </div>
               <div className="right info flex justify-center flex-col">
-                <div className="">@{profile.username}</div>
+                <div className="font-semibold">@{profile.username}</div>
                 <SocialIcons soc={soc} />
               </div>
             </div>
@@ -113,10 +115,10 @@ const ProfileUsername: NextPage = ({ params }) => {
               <span className="text-xl"> Ξ</span>
             </div>
           </div>
-          {/* Tip Now */}
-          <div>
+          {/* Pay Now */}
+          <div className="mb-5">
             <button className="btn-blue btn w-full" onClick={() => handleTipNow()}>
-              Tip Now
+              Pay Now
             </button>
           </div>
 
@@ -131,24 +133,28 @@ const ProfileUsername: NextPage = ({ params }) => {
                 >
                   ✕
                 </button>
-                <Tipping2 />
+                <div>@{profile.username}</div>
+                <div>{profile.wallet_id}</div>
+                
+                
+                <Tipping2 receiver={profile.wallet_id} />
               </form>
             </div>
           </dialog>
 
-          {/* QR */}
-          <div className="qr scr">
+          {/* Scroll Snap */}
+          <div className="scr mb-6">
             {/* Card 3 */}
-            <div className="scr-item pattern-03">
-              <div className="left">
-                <div className="font-semibold">❤️</div>
-                <div className="top">thanks for tipping hearts!</div>
-                <div className="">Exp 24:00</div>
+            <div className="scr-item custom-bg-image-01 flex items-center relative">
+              <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
+              <div className="absolute url flex custom-bg-blue pt-2 pb-2 pr-3 pl-3 text-white rounded-full text-sm items-center">
+                <div className="mr-2">wildpay.eth/{profile.username}</div>
+                <CopyIcon />
               </div>
-              <div className="copylink"></div>
             </div>
           </div>
-          {/* Card 3 */}
+
+          {/* Transactions */}
           <div className="latest"></div>
           <TipsTable receiverAddress={profile.wallet_id} />
         </div>

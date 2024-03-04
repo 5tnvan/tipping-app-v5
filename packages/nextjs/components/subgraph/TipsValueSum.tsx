@@ -4,7 +4,15 @@ import { gql, useQuery } from "@apollo/client";
 import { formatEther } from "viem";
 
 const TipsValueSum = ({ receiverAddress }) => {
-    const TIPS_GRAPHQL = `
+  if (!receiverAddress) {
+    return (
+      <>
+        <span>0</span>
+      </>
+    );
+  }
+
+  const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
       tips(
         first: 25

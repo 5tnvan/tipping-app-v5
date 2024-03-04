@@ -3,7 +3,7 @@ import { parseEther } from "viem";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { useGlobalState } from "~~/services/store/store";
 
-const TippingBill = ({ tipAmount, message }) => {
+const TippingBill = ({ receiver, tipAmount, message }) => {
   const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
   const [totalAmountUSD, setTotalAmountUSD] = useState(0);
   const [totalAmountETH, setTotalAmountETH] = useState(0);
@@ -30,10 +30,10 @@ const TippingBill = ({ tipAmount, message }) => {
   }, [convertUsdToEth, getTotalAmount]);
 
   //HOOK: useScaffoldContractWrite | set: greeting
-  const { writeAsync: setGreeting } = useScaffoldContractWrite({
+  const { writeAsync: setTip } = useScaffoldContractWrite({
     contractName: "YourContract",
-    functionName: "setGreeting",
-    args: [message],
+    functionName: "setTip",
+    args: [receiver, message],
     value: parseEther(totalAmountETH.toString()),
   });
 
@@ -41,7 +41,7 @@ const TippingBill = ({ tipAmount, message }) => {
     <>
       <div>
         <div className="flex justify-between border-b pt-8 pb-3 mb-3">
-          <div>{`Tip Amount`}</div>
+          <div>{`Amount`}</div>
           <div className="font-semibold">{`$${tipAmount.toFixed(2)}`}</div>
         </div>
         <div className="flex justify-between">
@@ -53,7 +53,7 @@ const TippingBill = ({ tipAmount, message }) => {
         </div>
       </div>
       <div className="flex justify-center">
-        <button className="btn btn-neutral mt-3" onClick={() => setGreeting()}>
+        <button className="btn btn-neutral mt-3" onClick={() => setTip()}>
           Confirm
         </button>
       </div>

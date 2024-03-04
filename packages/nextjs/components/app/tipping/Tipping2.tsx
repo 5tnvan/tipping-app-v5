@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TippingBill from "./TippingBill";
 
-const Tipping2 = () => {
+const Tipping2 = ({ receiver }) => {
   const [tipAmount, setTipAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
@@ -29,25 +29,25 @@ const Tipping2 = () => {
 
   return (
     <>
-      <div className="mt-6 font-semibold">Choose your tip:</div>
+      <div className="mt-6 font-semibold">Choose the amount:</div>
       <div className="mt-3">
         <span
-          className={`btn w-full ${clickedButton === 5 ? "btn-primary" : "btn-secondary"} mb-3`}
-          onClick={() => handleButtonClick(5)}
+          className={`btn w-full ${clickedButton === 50 ? "btn-primary" : "btn-secondary"} mb-3`}
+          onClick={() => handleButtonClick(50)}
         >
-          <span>{"$5"}</span>
+          <span>{"$50"}</span>
         </span>
         <span
-          className={`btn w-full ${clickedButton === 10 ? "btn-primary" : "btn-secondary"} mb-3`}
-          onClick={() => handleButtonClick(10)}
+          className={`btn w-full ${clickedButton === 100 ? "btn-primary" : "btn-secondary"} mb-3`}
+          onClick={() => handleButtonClick(100)}
         >
-          <span>{"$10"}</span>
+          <span>{"$100"}</span>
         </span>
         <span
-          className={`btn w-full ${clickedButton === 15 ? "btn-primary" : "btn-secondary"} mb-3`}
-          onClick={() => handleButtonClick(15)}
+          className={`btn w-full ${clickedButton === 150 ? "btn-primary" : "btn-secondary"} mb-3`}
+          onClick={() => handleButtonClick(150)}
         >
-          <span>{"$15"}</span>
+          <span>{"$150"}</span>
         </span>
       </div>
 
@@ -64,7 +64,7 @@ const Tipping2 = () => {
               onChange={e => onMessageChange(e)}
             />
           )}
-          <TippingBill tipAmount={tipAmount} message={message} />
+          <TippingBill receiver={receiver} tipAmount={tipAmount} message={message} />
         </>
       )}
     </>

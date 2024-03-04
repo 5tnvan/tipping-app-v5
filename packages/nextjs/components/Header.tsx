@@ -15,10 +15,10 @@ type HeaderMenuLink = {
 };
 
 export const menuLinks: HeaderMenuLink[] = [
-  {
-    label: "Home",
-    href: "/",
-  },
+  // {
+  //   label: "Home",
+  //   href: "/",
+  // },
   {
     label: "Get Started",
     href: "/getstarted",
@@ -31,10 +31,10 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Settings",
     href: "/settings/",
   },
-  {
-    label: "Private",
-    href: "/private/",
-  },
+  // {
+  //   label: "Private",
+  //   href: "/private/",
+  // },
   {
     label: "Login",
     href: "/login/",

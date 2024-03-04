@@ -26,9 +26,9 @@ export async function GET(request: NextRequest) {
       token_hash,
     });
     if (!error) {
-      redirectTo.searchParams.delete("next");
-      console.log(redirectTo);
-      return NextResponse.redirect(redirectTo);
+      // Successful email verification, construct absolute URL for /signup/success
+      const successUrl = `${request.nextUrl.origin}/signup/success`;
+      return NextResponse.redirect(successUrl);
     }
   }
 

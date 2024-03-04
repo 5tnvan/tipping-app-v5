@@ -7,12 +7,25 @@
   min-width: 516px;
 }
 
+/* HAS */
 .app:has(#get-started, #sign-up-new, #sign-up-success, #log-in, #sign-up) {
   @apply custom-gradient-02;
 }
 
 .app:has(#is-auth) {
   @apply custom-bg-light;
+}
+
+/* DIFF BLEND */
+.custom-difference-blend {
+  mix-blend-mode: difference;
+  color: #fff; 
+}
+
+.custom-bg-image-01 {
+  background-image: url('/card-01.png');
+  background-size: cover;
+  isolation: isolate;
 }
 
 /* CUSTOM */
@@ -45,17 +58,18 @@
     border-top-right-radius: 1rem;
 }
 
-.custom-bg-image-01 {
-  background-image: url('/card-01.png');
-  background-size: cover;
-}
-
 .custom-text-blue {
   color: #3D45E7
 }
 
 .custom-bg-blue {
   background-color: #3D45E7;
+}
+
+/* STEPS */
+
+.lg\:steps-vertical .step:before {
+  height: 220%!important;
 }
 
 /* ANIMATION, CARD CAROUSEL */
@@ -76,46 +90,23 @@
 }
 
 @keyframes text-animation {
-  0% {
+  0%, 100% {
     margin-top: 0;
   }
 
-  10% {
-    margin-top: 0;
-  }
-
-  20% {
+  20%, 30%, 70%, 80% {
     margin-top: -5.62rem;
   }
 
-  30% {
-    margin-top: -5.62rem;
-  }
-
-  40% {
+  40%, 60% {
     margin-top: -11.24rem;
-  }
-
-  60% {
-    margin-top: -11.24rem;
-  }
-
-  70% {
-    margin-top: -5.62rem;
-  }
-
-  80% {
-    margin-top: -5.62rem;
   }
 
   90% {
     margin-top: 0;
   }
-
-  100% {
-    margin-top: 0;
-  }
 }
+
 
 /* CARDS CAROUSELS */
 
@@ -211,16 +202,9 @@
   font-size: 18px;
 }
 
-.scr-item .left {
-  width: 45%;
-  background-color: #1e1e1e;
-  color: #fff;
-  border-radius: 10px 0 0 10px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-content: space-between;
+.scr-item .url {
+  bottom: 7px;
+  right: 7px;
 }
 
 /* MEDIA Q */

@@ -17,7 +17,6 @@ export const fetchSession = async () => {
     console.log(error);
     return null;
   } else {
-    console.log("fetchSession(): " + JSON.stringify(data, null, 2));
     return data;
   }
 };
@@ -33,7 +32,6 @@ export const fetchUser = async () => {
   const supabase = createClient();
   //fetch user from supabase db
   const { data: userData } = await supabase.auth.getUser();
-  console.log("fetchUser(): userData.user" + JSON.stringify(userData.user, null, 2));
   return { userData };
 };
 
@@ -49,7 +47,6 @@ export const fetchProfile = async () => {
 
   if (userData) {
     const { data: profileData } = await supabase.from("profiles").select().eq("id", userData.user?.id);
-    console.log("fetchProfile() userData: " + profileData?.[0] ?? null);
     return profileData?.[0] ?? null;
   } else {
     return null;

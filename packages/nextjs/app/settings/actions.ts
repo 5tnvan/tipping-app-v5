@@ -7,9 +7,9 @@ import { createClient } from "~~/utils/supabase/server";
 
 /* UPDATE PROFILE */
 export async function updateProfile(wallet_id: string, wallet_sign_hash: string, wallet_sign_timestamp: string) {
-  console.log("I'm here");
+  console.log("I'm updating profile with wallet sign hash");
   const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   //get user from supabase db
   const { data, error } = await supabase.auth.getUser();

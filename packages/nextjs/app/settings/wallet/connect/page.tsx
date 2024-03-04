@@ -53,6 +53,9 @@ const SettingsWallet: NextPage = () => {
     if (error) {
       console.error("Error signing message:", error);
     }
+    console.log("I'm here, signMessageSuccess ", signMessageSuccess);
+    console.log("I'm here, address", address);
+    console.log("I'm here, signMessageData", signMessageData);
     if (signMessageSuccess) {
       updateProfile(address, signMessageData, new Date().toISOString());
       setIsWalletVerified(true);

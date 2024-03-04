@@ -42,30 +42,25 @@ const TipsTable = ({ receiverAddress }) => {
   return (
     <>
       <div className="">
-        {tipsData?.tips?.map((tip: any) => {
-          return (
-            <>
-              <div className="mb-3">
-                <div className="flex justify-between mb-1">
-                  <Address address={tip?.sender} />
-                  <div className="flex font-semibold">
-                    <EthIcon width={16} height={16} />
-                    {formatEther(tip?.value)}
-                  </div>
-                </div>
-                <div className="flex justify-between text-gray-500">
-                  <div>{tip?.greeting}</div>
-                  <div>
-                    <TimeAgoUnix timestamp={tip?.createdAt} />
-                  </div>
-                </div>
+        {tipsData?.tips?.map((tip: any) => (
+          <div className="mb-3" key={tip.id}>
+            <div className="flex justify-between mb-1">
+              <Address address={tip?.sender} />
+              <div className="flex font-semibold">
+                <EthIcon width={16} height={16} />
+                {formatEther(tip?.value)}
               </div>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <div>{tip?.greeting}</div>
+              <div>
+                <TimeAgoUnix timestamp={tip?.createdAt} />
+              </div>
+            </div>
+          </div>
+        ))}
 
-              {/* <Address address={tip?.receiver} /> */}
-              {/* <div>{tip?.fee}</div> */}
-            </>
-          );
-        })}
+        {tipsData?.tips?.length === 0 && <div>Be the first to pay</div>}
       </div>
     </>
   );

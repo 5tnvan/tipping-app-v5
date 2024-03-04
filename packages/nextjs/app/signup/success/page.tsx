@@ -19,10 +19,10 @@ const GetStartedSuccess: NextPage = () => {
           <div className="scr-item custom-bg-image-01"></div>
         </div> */}
 
-        <Link href="/profile/view" className="btn btn-neutral mb-3 text-base w-full">
+        <Link href="/profile/edit" className="btn btn-neutral mb-3 text-base w-full">
           {"Complete your profile"}
         </Link>
-        <Link href="/getstarted" className="btn text-base mb-3 w-full">
+        <Link href="/settings" className="btn text-base mb-3 w-full">
           {"Connect your wallet"}
         </Link>
       </div>
