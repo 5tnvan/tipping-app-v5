@@ -2,7 +2,36 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* APP */
+.app {
+  min-width: 516px;
+}
 
+.app:has(#get-started, #sign-up-new, #sign-up-success, #log-in, #sign-up) {
+  @apply custom-gradient-02;
+}
+
+.app:has(#is-auth) {
+  @apply custom-bg-light;
+}
+
+/* CUSTOM */
+.custom-gradient-01 {
+  background: linear-gradient(to right, rgba(190, 133, 146, 1) 0%, rgba(252, 150, 122, 1) 22%, rgba(253, 211, 156, 1) 45%, rgba(230, 212, 180, 1) 68%, rgba(215, 239, 185, 1) 100%);
+}
+
+.custom-gradient-02 {
+    background: rgb(182,245,204);
+    background: linear-gradient(180deg, rgba(182,245,204,1) 57%, rgba(64,73,231,1) 100%);
+}
+
+.custom-bg-dark {
+  background: black;
+}
+
+.custom-bg-light {
+  background: white;
+}
 
 .custom-profile-bg {
   background-image: url("/Frame360.png");
@@ -12,40 +41,13 @@
   top:0;
   left:0;
   border-radius: 0 0 60px 60px;
+  border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
-.custom-wallet-address::before,
-.custom-wallet-address::after {
-  content: attr(data-address);
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 4ch; /* Adjust the width as needed */
-}
-
-/* Show only the first 4 characters */
-.custom-wallet-address::before {
-  text-overflow: ellipsis;
-}
-
-/* Show only the last 4 characters */
-.custom-wallet-address::after {
-  text-overflow: ellipsis;
-  direction: rtl;
-}
-
-.temphref {
-  display: block;
-}
-
-.bg-image-01 {
+.custom-bg-image-01 {
   background-image: url('/card-01.png');
   background-size: cover;
-}
-
-/* APP */
-.app {
-  min-width: 516px;
 }
 
 .custom-text-blue {
@@ -56,11 +58,7 @@
   background-color: #3D45E7;
 }
 
-.steps-vertical .step:before {
-  height: 236% !important;
-
-}
-
+/* ANIMATION, CARD CAROUSEL */
 .animation {
   height: 44px;
   overflow: hidden;
@@ -117,17 +115,6 @@
   100% {
     margin-top: 0;
   }
-}
-
-/* STEPS: 1/2/3 */
-
-.steps {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.step.step-primary {
-  font-weight: 600;
 }
 
 /* CARDS CAROUSELS */

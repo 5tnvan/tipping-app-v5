@@ -33,8 +33,8 @@ const GetStarted: NextPage = () => {
   if (isAuth == "no") {
     return (
       <>
-        {/* CONTENT */}
-        <div className="cont z-10 flex-auto flex flex-col">
+        {/* GET STARTED */}
+        <div id="get-started" className="z-10 flex-auto flex flex-col">
           {/* Hero */}
           <div className="font-light mb-3 flex justify-between">
             <div className="custom-text-blue font-semibold text-3xl">Dare to be paid?</div>
@@ -57,9 +57,9 @@ const GetStarted: NextPage = () => {
           {/* Scroll Snap */}
           <div className="scr mb-6">
             {/* Card 3 */}
-            <div className="scr-item bg-image-01"></div>
-            <div className="scr-item bg-image-01"></div>
-            <div className="scr-item bg-image-01"></div>
+            <div className="scr-item custom-bg-image-01"></div>
+            <div className="scr-item custom-bg-image-01"></div>
+            <div className="scr-item custom-bg-image-01"></div>
           </div>
 
           <form>
@@ -96,6 +96,7 @@ const GetStarted: NextPage = () => {
             {"Get started—it's free"}
           </Link> */}
         </div>
+        {/* SOCIALS */}
         <div id="cust-socials" className="flex justify-center">
           <YoutubeIcon handle="heartip" />
           <TwitterIcon handle="heartip" />

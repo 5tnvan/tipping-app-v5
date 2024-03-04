@@ -91,9 +91,9 @@ const ProfileEdit: NextPage = () => {
     return (
       <>
         <div className="custom-profile-bg z-0"></div>
-        <div id="profileView" className="profile mt-5 mb-5 z-10">
+        <div id="is-auth" className="profile mt-5 mb-5 z-10 ">
           {/* PROFILE INTRO */}
-          <div className="intro flex justify-between mb-7 text-black ">
+          <div className="intro flex justify-between mb-7 text-black">
             <div className="flex">
               <span
                 className="left avatar edit mr-5"
@@ -172,14 +172,14 @@ const ProfileEdit: NextPage = () => {
           </dialog>
 
           {/* Username */}
-          <label className="input input-bordered flex items-center gap-2 opacity-50 mb-3">
+          {/* <label className="input input-bordered flex items-center gap-2 opacity-50 mb-3">
             Username
             <input type="text" className="grow " placeholder={profile.username || ""} disabled />
             <span className="badge badge-warning">14 days</span>
-          </label>
+          </label> */}
 
           {/* SOCIAL */}
-          <div className="text-white mb-3">Social links:</div>
+          <div className="mb-3">Social links:</div>
 
           {/* Youtube */}
           <div className="mb-3">

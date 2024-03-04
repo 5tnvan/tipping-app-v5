@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { LoginIcon } from "./assets/LoginIcon";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig } from "wagmi";
+import { logout } from "~~/app/login/actions";
 import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
@@ -16,7 +17,6 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
-import { logout } from "~~/app/login/actions";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   const price = useNativeCurrencyPrice();
@@ -29,10 +29,6 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   }, [setNativeCurrencyPrice, price]);
 
   const { isAuth, profile, refetch } = useAuthentication();
-  useEffect(() => {
-    // Logic to run when isAuth changes
-    console.log("isAuth:", isAuth);
-  }, [isAuth]);
 
   const handleLogout = () => {
     logout();
@@ -41,10 +37,10 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div className="min-h-screen gradient-01">
+      <div className="min-h-screen custom-gradient-01">
         <Header />
         <main className="flex justify-center h-screen pt-10">
-          <div className="app bg-lime-800 rounded-t-2xl gradient-02 p-10 flex flex-col relative">
+          <div className="app rounded-t-2xl p-10 flex flex-col relative custom-gradient-02">
             <div className="flex justify-between mb-10 z-10">
               <div className="flex items-center">
                 <img src="/wildpay-logo.svg" width={30} height={30}></img>

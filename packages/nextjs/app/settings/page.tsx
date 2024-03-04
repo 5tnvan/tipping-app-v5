@@ -27,7 +27,7 @@ const Settings: NextPage = () => {
     return (
       <>
         <div className="custom-profile-bg z-0"></div>
-        <div id="profileView" className="profile mt-5 mb-5 z-10">
+        <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* PROFILE INTRO */}
           <div className="intro flex justify-between mb-7 text-black ">
             <div className="flex">
@@ -59,7 +59,7 @@ const Settings: NextPage = () => {
           </div>
 
           {/* My Account */}
-          <div className="text-white mb-3">My Account</div>
+          <div className="mb-3">My Account</div>
 
           {/* Email */}
           <div className="mb-3">
@@ -107,7 +107,7 @@ const Settings: NextPage = () => {
           </div>
 
           {/* My Wallet */}
-          <div className="text-white mb-3">My Wallet</div>
+          <div className="mb-3">My Wallet</div>
 
           {/* Email */}
           <div className="mb-3">
@@ -128,7 +128,7 @@ const Settings: NextPage = () => {
           </div>
 
           {/* My Wallet */}
-          <div className="text-white mb-3">My Balance</div>
+          <div className="mb-3">My Balance</div>
 
           {/* Email */}
           <div className="mb-3">

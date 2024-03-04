@@ -19,7 +19,7 @@ export default function SignUpPage() {
     return (
       <>
         {/* CONTENT */}
-        <div className="cont z-10">
+        <div id="sign-up" className="z-10">
           {/* Hero: */}
           <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
 

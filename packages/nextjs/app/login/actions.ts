@@ -32,7 +32,7 @@ export async function login(formData: FormData) {
   console.log("login success and cookie store: " + cookieStore);
 
   revalidatePath("/", "layout");
-  redirect("/private");
+  redirect("/profile/view");
 }
 
 /* SIGN UP */

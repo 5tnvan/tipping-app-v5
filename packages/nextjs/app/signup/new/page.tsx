@@ -10,16 +10,16 @@ export default function LoginNewPage() {
   return (
     <>
       {/* CONTENT */}
-      <div className="cont z-10">
+      <div id="sign-up-new" className="z-10">
         {/* Hero: */}
         <div className="text-3xl mb-5 custom-text-blue font-semibold">{"Sign up."}</div>
 
         {/* Scroll Snap */}
         <div className="scr mb-6">
           {/* Card 3 */}
-          <div className="scr-item bg-image-01"></div>
-          <div className="scr-item bg-image-01"></div>
-          <div className="scr-item bg-image-01"></div>
+          <div className="scr-item custom-bg-image-01"></div>
+          <div className="scr-item custom-bg-image-01"></div>
+          <div className="scr-item custom-bg-image-01"></div>
         </div>
 
         {/* Input */}

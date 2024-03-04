@@ -34,7 +34,7 @@ const ProfileView: NextPage = () => {
     return (
       <>
         <div className="custom-profile-bg z-0"></div>
-        <div id="profileView" className="profile mt-5 mb-5 z-10">
+        <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* Intro */}
           <div className="intro flex justify-between mb-7 text-black">
             <div className="flex">
@@ -85,7 +85,7 @@ const ProfileView: NextPage = () => {
           {/* Scroll Snap */}
           <div className="scr mb-6">
             {/* Card 3 */}
-            <div className="scr-item bg-image-01"></div>
+            <div className="scr-item custom-bg-image-01"></div>
           </div>
           {/* Card 3 */}
           <div className="latest"></div>
