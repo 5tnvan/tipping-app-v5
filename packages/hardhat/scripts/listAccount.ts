@@ -28,7 +28,7 @@ async function main() {
       await provider._detectNetwork();
       const balance = await provider.getBalance(address);
       console.log("--", networkName, "-- 📡");
-      console.log("   balance:", +ethers.formatEther(balance));
+      console.log("   balance:", +ethers.is-authher(balance));
       console.log("   nonce:", +(await provider.getTransactionCount(address)));
     } catch (e) {
       console.log("Can't connect to network", networkName);

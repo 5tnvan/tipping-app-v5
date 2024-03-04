@@ -15,3 +15,19 @@ export const TimeAgo = ({ timestamp }) => {
     </div>
   );
 };
+
+export const TimeAgoUnix = ({ timestamp }) => {
+  const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+  const yourTimestamp = timestamp;
+
+  const timeDifference = currentTimestamp - yourTimestamp;
+  const daysAgo = Math.floor(timeDifference / (60 * 60 * 24));
+  const hoursAgo = Math.floor((timeDifference % (60 * 60 * 24)) / (60 * 60));
+
+  return (
+    <div>
+      {daysAgo > 0 && `${daysAgo}${daysAgo === 1 ? "d" : "d"} `}
+      {hoursAgo}{hoursAgo === 1 ? "h" : "h"}
+    </div>
+  );
+};

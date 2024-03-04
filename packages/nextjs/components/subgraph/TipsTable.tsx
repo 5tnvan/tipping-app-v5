@@ -1,6 +1,9 @@
 "use client";
 
+import { TimeAgo, TimeAgoUnix } from "../app/TimeAgo";
+import { EthIcon } from "../assets/EthIcon";
 import { gql, useQuery } from "@apollo/client";
+import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 
 const TipsTable = ({ receiverAddress }) => {
@@ -38,22 +41,31 @@ const TipsTable = ({ receiverAddress }) => {
 
   return (
     <>
-      <div className="flex justify-center items-center mt-10">
-        <div className="overflow-x-auto shadow-2xl rounded-xl">
-          {tipsData?.tips?.map((tip: any) => {
-            return (
-              <>
-                <Address address={tip?.sender} />
-                <Address address={tip?.receiver} />
-                <div>{tip?.greeting}</div>
-                <div>{tip?.value}</div>
-                <div>{tip?.fee}</div>
-                <div>{tip?.createdAt}</div>
-                <div></div>
-              </>
-            );
-          })}
-        </div>
+      <div className="">
+        {tipsData?.tips?.map((tip: any) => {
+          return (
+            <>
+              <div className="mb-3">
+                <div className="flex justify-between mb-1">
+                  <Address address={tip?.sender} />
+                  <div className="flex font-semibold">
+                    <EthIcon width={16} height={16} />
+                    {formatEther(tip?.value)}
+                  </div>
+                </div>
+                <div className="flex justify-between text-gray-500">
+                  <div>{tip?.greeting}</div>
+                  <div>
+                    <TimeAgoUnix timestamp={tip?.createdAt} />
+                  </div>
+                </div>
+              </div>
+
+              {/* <Address address={tip?.receiver} /> */}
+              {/* <div>{tip?.fee}</div> */}
+            </>
+          );
+        })}
       </div>
     </>
   );

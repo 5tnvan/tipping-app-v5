@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
@@ -17,6 +17,15 @@ import { fetchUser } from "~~/utils/app/fetchUser";
 const Settings: NextPage = () => {
   const router = useRouter();
   const { isAuth, user, profile } = useAuthentication();
+  const [buttonText, setButtonText] = useState("");
+
+  useEffect(() => {
+    if (!profile.wallet_id) {
+      setButtonText("Connect Wallet");
+    } else {
+      setButtonText("Withdraw");
+    }
+  }, [profile.wallet_id]);
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -54,7 +63,7 @@ const Settings: NextPage = () => {
               className="btn-neutral btn w-full text-base custom-bg-blue border-0"
               onClick={() => router.push("view")}
             >
-              Call to action
+              {buttonText}
             </button>
           </div>
 
@@ -141,7 +150,6 @@ const Settings: NextPage = () => {
                   ></path>
                 </svg>
                 <TipsValueSum receiverAddress={profile.wallet_id} />Ξ
-                
               </div>
               <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
                 {profile.youtube !== null ? "Edit" : "Add"}
