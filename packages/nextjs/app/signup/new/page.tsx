@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
 import { Authentication } from "../../../components/app/authentication/Authentication";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
+import { CopyIcon } from "~~/components/assets/CopyIcon";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { CopyIcon } from "~~/components/assets/CopyIcon";
 
 export default function LoginNewPage() {
   const cookieStore = cookies();
@@ -10,6 +11,7 @@ export default function LoginNewPage() {
 
   return (
     <>
+      {/* <IsAuthMenu /> */}
       {/* CONTENT */}
       <div id="sign-up-new" className="z-10">
         {/* Hero: */}

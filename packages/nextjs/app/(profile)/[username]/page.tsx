@@ -13,6 +13,7 @@ import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 /**
  * ROUTE: /[username]
@@ -83,6 +84,7 @@ const ProfileUsername: NextPage = ({ params }) => {
   if (isProfile == "profile") {
     return (
       <>
+      <IsAuthMenu />
       <div className="custom-profile-bg z-0"></div>
         <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* Intro */}

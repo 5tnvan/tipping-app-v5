@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Authentication } from "../../components/app/authentication/Authentication";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -18,6 +19,7 @@ export default function SignUpPage() {
   if (isAuth == "no") {
     return (
       <>
+        <IsAuthMenu />
         {/* CONTENT */}
         <div id="sign-up" className="z-10">
           {/* Hero: */}

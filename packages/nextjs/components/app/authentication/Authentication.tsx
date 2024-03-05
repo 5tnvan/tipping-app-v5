@@ -1,6 +1,7 @@
 import { login, signup } from "../../../app/login/actions";
 
 export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
+  console.log("auth component");
   return (
     <>
       <form>

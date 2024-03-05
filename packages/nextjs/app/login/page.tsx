@@ -6,10 +6,13 @@ import { Authentication } from "../../components/app/authentication/Authenticati
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 export default function LoginPage() {
   const router = useRouter();
   const { isAuth } = useAuthentication();
+
+  console.log("loginpage");
 
   if (isAuth == "yes") {
     router.push("/profile/view");
@@ -18,6 +21,7 @@ export default function LoginPage() {
   if (isAuth == "no") {
     return (
       <>
+        <IsAuthMenu />
         {/* CONTENT */}
         <div id="log-in" className="z-10">
           {/* Hero: */}

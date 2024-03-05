@@ -2,14 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createClient } from "~~/utils/supabase/server";
 
 /* LOGIN ACTIONS */
 
 /* LOG IN */
 export async function login(formData: FormData) {
-  const cookieStore = cookies();
   const supabase = createClient();
 
   // type-casting here for convenience
@@ -20,6 +19,8 @@ export async function login(formData: FormData) {
   };
 
   const { error } = await supabase.auth.signInWithPassword(data);
+
+  console.log("login actions");
 
   if (error) {
     redirect("/error");
@@ -63,8 +64,6 @@ export async function signup(formData: FormData) {
 
 /* LOGOUT */
 export async function logout() {
-
-  const cookieStore = cookies();
   const supabase = createClient();
 
   const { error } = await supabase.auth.signOut();

@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetchUser";
 

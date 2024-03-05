@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 import Tipping2 from "~~/components/app/tipping/Tipping2";
+import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
@@ -12,7 +14,6 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { CopyIcon } from "~~/components/assets/CopyIcon";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
@@ -26,6 +27,8 @@ const ProfileView: NextPage = () => {
     tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
   };
 
+  console.log("profile page");
+
   /* ROUTE */
   if (isAuth == "no") {
     router.push("/login");
@@ -34,6 +37,7 @@ const ProfileView: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
+        <IsAuthMenu />
         <div className="custom-profile-bg z-0"></div>
         <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* Intro */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
+import { IsAuthMenu } from "./app/authentication/isAuthMenu";
 import { LoginIcon } from "./assets/LoginIcon";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
@@ -28,13 +29,6 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, [setNativeCurrencyPrice, price]);
 
-  const { isAuth, profile, refetch } = useAuthentication();
-
-  const handleLogout = () => {
-    logout();
-    refetch();
-  };
-
   return (
     <>
       <div className="min-h-full custom-gradient-01">
@@ -46,18 +40,6 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
                 <img src="/wildpay-logo.svg" width={30} height={30}></img>
                 <h1 className="font-semibold custom-text-blue ml-2">wildpay</h1>
               </div>
-              {isAuth == "yes" && (
-                <div className="btn btn-primary" onClick={handleLogout}>
-                  <LoginIcon />
-                  {profile.username}
-                </div>
-              )}
-              {isAuth == "no" && (
-                <div className="btn btn-primary">
-                  <LoginIcon />
-                  Login
-                </div>
-              )}
             </div>
             {children}
           </div>

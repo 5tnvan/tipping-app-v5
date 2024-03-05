@@ -12,6 +12,7 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 const Settings: NextPage = () => {
   const router = useRouter();
@@ -44,6 +45,7 @@ const Settings: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
+      <IsAuthMenu />
         <div className="custom-profile-bg z-0"></div>
         <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* PROFILE INTRO */}

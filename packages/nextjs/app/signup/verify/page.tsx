@@ -4,10 +4,11 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 const SignUpVerify: NextPage = () => {
   return (
-    <>
+    <><IsAuthMenu />
       {/* CONTENT */}
       <div id="sign-up-success" className="z-10">
         {/* Hero: */}

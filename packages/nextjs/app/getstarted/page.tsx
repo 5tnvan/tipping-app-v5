@@ -15,6 +15,7 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useUsernameAvailability } from "~~/hooks/supabase";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 const GetStarted: NextPage = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const GetStarted: NextPage = () => {
 
   if (isAuth == "no") {
     return (
-      <>
+      <><IsAuthMenu />
         {/* GET STARTED */}
         <div id="get-started" className="z-10 flex-auto flex flex-col">
           {/* Hero */}
