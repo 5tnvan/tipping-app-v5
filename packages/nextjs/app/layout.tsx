@@ -1,3 +1,4 @@
+import WildPay from "./wildpayLayout";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
@@ -51,8 +52,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
       <body>
         <ThemeProvider enableSystem>
           <ScaffoldEthAppWithProviders>
-            {/* APP */}
-            {children}
+            <WildPay>{children}</WildPay>
           </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>

@@ -32,21 +32,21 @@ const TipsValueSum = ({ receiverAddress }) => {
     }
   `;
   const TIPS_GQL = gql(TIPS_GRAPHQL);
-  const { isLoading, data: tipsData, error } = useQuery(TIPS_GQL, {
+  const { data: tipsData, error } = useQuery(TIPS_GQL, {
     variables: { receiverAddress },
     fetchPolicy: "network-only",
   });
 
   // isLoading
-  if (isLoading) {
-    return (
-      <>
-        <div className="animate-pulse">
-          <div className="rounded-md bg-slate-300 h-6 w-6"></div>
-        </div>
-      </>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <>
+  //       <div className="animate-pulse">
+  //         <div className="rounded-md bg-slate-300 h-6 w-6"></div>
+  //       </div>
+  //     </>
+  //   );
+  // }
 
   // Subgraph maybe not yet configured
   if (error) {

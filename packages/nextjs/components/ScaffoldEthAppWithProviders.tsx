@@ -31,18 +31,21 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
+      <div className="bg-slate-400">this is ScaffoldEthAppWithProviders layout</div>
       <div className="min-h-full custom-gradient-01">
         <Header />
         <main className="flex justify-center min-h-screen h-full pt-10">
-          <div className="app rounded-t-2xl p-10 flex flex-col relative custom-gradient-02">
+          {/* <div className="app rounded-t-2xl p-10 flex flex-col relative custom-gradient-02">
+            <div className="bg-slate-400">this is ScaffoldEthAppWithProviders layout</div>
             <div className="flex justify-between mb-10 z-10">
               <div className="flex items-center">
                 <img src="/wildpay-logo.svg" width={30} height={30}></img>
                 <h1 className="font-semibold custom-text-blue ml-2">wildpay</h1>
               </div>
             </div>
-            {children}
-          </div>
+            <div className="bg-slate-400">this is ScaffoldEthAppWithProviders layout</div>
+          </div> */}
+          {children}
         </main>
         <Footer />
       </div>

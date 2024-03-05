@@ -3,8 +3,8 @@
 @import "tailwindcss/utilities";
 
 /* APP */
-.app {
-  min-width: 516px;
+#wildpay {
+  min-width: 506px;
 }
 
 /* HAS */
@@ -46,16 +46,14 @@
   background: white;
 }
 
-.custom-profile-bg {
+.custom-auth-bg {
   background-image: url("/Frame360.png");
   width: 100%;
   height: 252px;
-  position: absolute;
   top:0;
   left:0;
-  border-radius: 0 0 60px 60px;
-  border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+  border-bottom-right-radius: 40px;
+  border-bottom-left-radius: 40px;
 }
 
 .custom-text-blue {
@@ -68,9 +66,12 @@
 
 /* ISAUTHMENU */
 .custom-is-auth-menu {
-  top: 30px;
-  right: 30px;
+  top: 20px;
+  right: 20px;
 }
+
+/* isauth intro top */
+#is-auth-top {}
 
 /* STEPS */
 
