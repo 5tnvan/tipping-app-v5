@@ -11,6 +11,7 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { Address } from "~~/components/scaffold-eth/Address";
 
 const Settings: NextPage = () => {
   const router = useRouter();
@@ -56,7 +57,8 @@ const Settings: NextPage = () => {
               </span>
               <div className="right info flex justify-center flex-col">
                 <div className="font-semibold">{user?.email}</div>
-                <Address address={profile?.wallet_id} />
+                {profile?.wallet_id && <Address address={profile?.wallet_id} />}
+                {/* <Address address={profile?.wallet_id} /> */}
               </div>
             </div>
             <div className="text-4xl flex justify-center items-center gap-2">
@@ -131,7 +133,8 @@ const Settings: NextPage = () => {
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
               <div className="opacity-70 flex items-center gap-2">
-                <Address address={profile?.wallet_id} />
+              {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : "n/a"}
+                {/* <Address address={profile?.wallet_id} /> */}
               </div>
               <button className="btn btn-secondary" onClick={() => handleWalletModal()}>
                 {profile?.wallet_id && !profile?.wallet_sign_hash ? "Verify" : ""}
