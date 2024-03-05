@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetchUser";
 
 export const useAuthentication = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState("init");
   const [user, setUser] = useState();
   const [profile, setProfile] = useState({
@@ -29,6 +30,8 @@ export const useAuthentication = () => {
 
   useEffect(() => {
     const initUser = async () => {
+      setIsLoading(true); // Set loading to true when starting data fetch
+
       //fetch session
       const sessionData = await fetchSession();
 
@@ -43,6 +46,8 @@ export const useAuthentication = () => {
       } else {
         setIsAuth("no");
       }
+
+      setIsLoading(false); // Set loading to false when fetch is complete
     };
 
     initUser();
@@ -50,5 +55,5 @@ export const useAuthentication = () => {
 
   // console.log("useAuthentication() isAuth: " + isAuth);
 
-  return { isAuth, user, profile, refetch };
+  return { isLoading, isAuth, user, profile, refetch };
 };

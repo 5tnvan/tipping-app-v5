@@ -4,7 +4,7 @@ import { LoginIcon } from "~~/components/assets/LoginIcon";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
 export const IsAuthMenu = () => {
-  const { isAuth, profile, refetch } = useAuthentication();
+  const { isLoading, isAuth, profile, refetch } = useAuthentication();
 
   const handleLogout = () => {
     logout();
@@ -16,8 +16,16 @@ export const IsAuthMenu = () => {
       {isAuth === "yes" && (
         <div className="dropdown dropdown-end z-10 absolute custom-is-auth-menu">
           <div tabIndex={0} role="button" className="btn m-1 btn-primary">
-            <LoginIcon />
-            {profile.username}
+            {isLoading ? (
+              <div className="animate-pulse">
+                <div className="rounded-md bg-slate-300 h-6 w-10"></div>
+              </div>
+            ) : (
+              <>
+                <LoginIcon />
+                {profile.username}
+              </>
+            )}
           </div>
           <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>

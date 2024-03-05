@@ -5,15 +5,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { getProfile } from "~~/app/(profile)/[username]/actions";
+import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 import Tipping2 from "~~/components/app/tipping/Tipping2";
+import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { CopyIcon } from "~~/components/assets/CopyIcon";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 /**
  * ROUTE: /[username]
@@ -84,8 +84,8 @@ const ProfileUsername: NextPage = ({ params }) => {
   if (isProfile == "profile") {
     return (
       <>
-      <IsAuthMenu />
-      <div className="custom-profile-bg z-0"></div>
+        <IsAuthMenu />
+        <div className="custom-profile-bg z-0"></div>
         <div id="is-auth" className="profile mt-5 mb-5 z-10">
           {/* Intro */}
           <div className="intro flex justify-between mb-7 text-black">
@@ -110,7 +110,7 @@ const ProfileUsername: NextPage = ({ params }) => {
               </div>
             </div>
 
-            <div className="text-4xl flex justify-center items-center">
+            <div className="text-4xl flex justify-center items-center gap-2">
               <span>
                 <TipsValueSum receiverAddress={profile.wallet_id} />
               </span>
@@ -137,8 +137,7 @@ const ProfileUsername: NextPage = ({ params }) => {
                 </button>
                 <div>@{profile.username}</div>
                 <div>{profile.wallet_id}</div>
-                
-                
+
                 <Tipping2 receiver={profile.wallet_id} />
               </form>
             </div>

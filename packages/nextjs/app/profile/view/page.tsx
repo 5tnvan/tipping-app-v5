@@ -17,7 +17,7 @@ import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
-  const { isAuth, profile } = useAuthentication();
+  const { isLoading, isAuth, profile } = useAuthentication();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const soc = {
@@ -54,7 +54,7 @@ const ProfileView: NextPage = () => {
               </div>
             </div>
 
-            <div className="text-4xl flex justify-center items-center">
+            <div className="text-4xl flex justify-center items-center gap-2">
               <span>
                 <TipsValueSum receiverAddress={profile.wallet_id} />
               </span>
