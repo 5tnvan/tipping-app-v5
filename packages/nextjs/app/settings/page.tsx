@@ -15,7 +15,7 @@ import "~~/styles/app.css";
 
 const Settings: NextPage = () => {
   const router = useRouter();
-  const { isAuth, user, profile } = useAuthentication();
+  const { isAuth, user, profile, refetch } = useAuthentication();
   const [buttonText, setButtonText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,6 +26,10 @@ const Settings: NextPage = () => {
       setButtonText("Withdraw");
     }
   }, [profile.wallet_id]);
+
+  useEffect(() => {
+    refetch();
+  }, [isModalOpen]);
 
   //WALLET
   const handleWalletModal = () => {
@@ -71,27 +75,6 @@ const Settings: NextPage = () => {
               {buttonText}
             </button>
           </div>
-
-          {/* Wallet Modal */}
-          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
-            <div className="modal-box p-10 pt-15">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button
-                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  ✕
-                </button>
-                {/* <div className="">@{profile.username}</div> */}
-                <WalletConnectVerify
-                  wallet_id={profile.wallet_id}
-                  wallet_sign_hash={profile.wallet_sign_hash}
-                  wallet_sign_timestamp={profile.wallet_sign_timestamp}
-                />
-              </form>
-            </div>
-          </dialog>
 
           {/* My Account */}
           <div className="mb-3">My Account</div>
@@ -165,6 +148,23 @@ const Settings: NextPage = () => {
               </button>
             </label>
           </div>
+
+          {/* Wallet Modal */}
+          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
+            <div className="modal-box p-10 pt-15">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  ✕
+                </button>
+                {/* <div className="">@{profile.username}</div> */}
+                <WalletConnectVerify />
+              </form>
+            </div>
+          </dialog>
 
           {/* My Balance */}
           <div className="mb-3">My Balance</div>

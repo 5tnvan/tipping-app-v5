@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "../../actions";
 import type { NextPage } from "next";
+import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
@@ -12,18 +13,27 @@ import "~~/styles/app.css";
 
 const SettingsWallet: NextPage = () => {
   const router = useRouter();
-  const { isAuth, profile } = useAuthentication();
+  const { isAuth, profile, refetch } = useAuthentication();
   const [isWallet, setIsWallet] = useState(false);
   const [isWalletVerified, setIsWalletVerified] = useState(false);
   const { address } = useAccount();
-  const {
-    data: signMessageData,
-    isSuccess: signMessageSuccess,
-    error,
-    signMessage,
-  } = useSignMessage({
-    message: "Hello, Beyond! I am signing this message to verify the ownership of my wallet.",
-  });
+  const { data: signMessageData, error, signMessage, variables } = useSignMessage();
+
+  React.useEffect(() => {
+    (async () => {
+      if (variables?.message && signMessageData) {
+        await recoverMessageAddress({
+          message: variables?.message,
+          signature: signMessageData,
+        });
+      }
+
+      if (signMessageData) {
+        updateProfile(address, signMessageData, new Date().toISOString());
+        refetch();
+      }
+    })();
+  }, [signMessageData, variables?.message]);
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -44,23 +54,6 @@ const SettingsWallet: NextPage = () => {
       setIsWalletVerified(false);
     }
   }, [address, profile]);
-
-  // Function to handle sign msg
-  const handleSignMessage = () => {
-    if (signMessage) {
-      signMessage();
-    }
-    if (error) {
-      console.error("Error signing message:", error);
-    }
-    console.log("I'm here, signMessageSuccess ", signMessageSuccess);
-    console.log("I'm here, address", address);
-    console.log("I'm here, signMessageData", signMessageData);
-    if (signMessageSuccess) {
-      updateProfile(address, signMessageData, new Date().toISOString());
-      setIsWalletVerified(true);
-    }
-  };
 
   // Renders HTML
   if (isAuth == "yes") {
@@ -116,14 +109,19 @@ const SettingsWallet: NextPage = () => {
             {isWallet && !isWalletVerified && (
               <li className="step ">
                 <div>Verify ownership</div>
-                <button className="btn btn-glass ml-10 w-72" onClick={handleSignMessage}>
+                <button
+                  className="btn btn-glass ml-10 w-72"
+                  onClick={() => {
+                    signMessage({ message: "your_message_here" });
+                  }}
+                >
                   Sign a message
                 </button>
               </li>
             )}
             {isWallet && isWalletVerified && (
               <li className="step step-primary">
-                <div>Verify ownership</div>
+                <div className="font-semibold">Verify ownership</div>
                 <div className="ml-10 w-72 text-left">
                   {
                     <>
@@ -132,25 +130,17 @@ const SettingsWallet: NextPage = () => {
                       <div className="">{profile.wallet_sign_timestamp}</div>
                     </>
                   }
-                  {signMessageSuccess && (
-                    <>
-                      <div>Signed just now</div>
-                      <div className="">{signMessageData}</div>
-                    </>
-                  )}
                 </div>
               </li>
             )}
           </ul>
-
-          {/* Button */}
-          {isWallet && isWalletVerified && (
-            <>
-              <div className="btn btn-neutral mt-5" onClick={() => router.push("/settings/wallet")}>
-                Back to Wallet settings
-              </div>
-            </>
+          {signMessageData && (
+            <div>
+              <div>Signature: {signMessageData}</div>
+            </div>
           )}
+
+          {error && <div>{error.message}</div>}
         </div>
       </>
     );

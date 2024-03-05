@@ -1,57 +1,50 @@
 import React, { useEffect, useState } from "react";
+import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { updateProfile } from "~~/app/settings/actions";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
+import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
-const WalletConnectVerify = ({ wallet_id, wallet_sign_hash, wallet_sign_timestamp }) => {
+const WalletConnectVerify = ({ }) => {
   //WALLET
   const [isWallet, setIsWallet] = useState(false);
+  const { profile, refetch } = useAuthentication();
   const [isWalletVerified, setIsWalletVerified] = useState(false);
   const { address } = useAccount();
-  const {
-    data: signMessageData,
-    isSuccess: signMessageSuccess,
-    error,
-    signMessage,
-  } = useSignMessage({
-    message: "Hello, Beyond! I am signing this message to verify the ownership of my wallet.",
-  });
+  const { data: signMessageData, error, signMessage, variables } = useSignMessage();
+
+  React.useEffect(() => {
+    (async () => {
+      if (variables?.message && signMessageData) {
+        await recoverMessageAddress({
+          message: variables?.message,
+          signature: signMessageData,
+        });
+      }
+
+      if (signMessageData) {
+        updateProfile(address, signMessageData, new Date().toISOString());
+        refetch();
+      }
+    })();
+  }, [signMessageData, variables?.message]);
 
   //WALLET
   useEffect(() => {
-    if (wallet_id) {
+    if (profile.wallet_id) {
       setIsWallet(true);
     }
     if (address) {
       setIsWallet(true);
     }
 
-    if (wallet_sign_hash) {
+    if (profile.wallet_sign_hash) {
       setIsWalletVerified(true);
     } else {
       setIsWalletVerified(false);
     }
-  }, []);
-
-  // Function to handle sign msg
-  const handleSignMessage = () => {
-
-    if (signMessage) {
-      signMessage();
-    }
-    if (error) {
-      console.error("Error signing message:", error);
-    }
-    console.log("I'm here, signMessageSuccess ", signMessageSuccess);
-    console.log("I'm here, address", address);
-    console.log("I'm here, signMessageData", signMessageData);
-
-    if (signMessageSuccess) {
-      updateProfile(address, signMessageData, new Date().toISOString());
-      setIsWalletVerified(true);
-    }
-  };
+  }, [address, profile]);
 
   return (
     <>
@@ -91,7 +84,7 @@ const WalletConnectVerify = ({ wallet_id, wallet_sign_hash, wallet_sign_timestam
             <li className="step step-primary">
               <div className="font-semibold">Link your wallet</div>
               <div className="flex flex-col ml-10">
-                <Address address={wallet_id || address} />
+                <Address address={profile.wallet_id || address} />
               </div>
             </li>
           )}
@@ -119,32 +112,33 @@ const WalletConnectVerify = ({ wallet_id, wallet_sign_hash, wallet_sign_timestam
                 </div>
               </li>
 
-              <button className="btn btn-glass w-full mt-3" onClick={handleSignMessage}>
+              <div
+                className="btn btn-glass ml-10 w-72"
+                onClick={() => {
+                  signMessage({ message: "Hey WildPay, this signature proves the ownership of my wallet!" });
+                }}
+              >
                 Sign a message
-              </button>
+              </div>
             </>
           )}
           {isWallet && isWalletVerified && (
             <li className="step step-primary">
-              <div>Verify ownership</div>
+              <div className="font-semibold">Verify ownership</div>
               <div className="ml-10 w-72 text-left">
                 {
                   <>
                     <div>Signed</div>
-                    <div className="">{wallet_sign_hash}</div>
-                    <div className="">{wallet_sign_timestamp}</div>
+                    <div className="">{profile.wallet_sign_hash}</div>
+                    <div className="">{profile.wallet_sign_timestamp}</div>
                   </>
                 }
-                {signMessageSuccess && (
-                  <>
-                    <div>Signed just now</div>
-                    <div className="">{signMessageData}</div>
-                  </>
-                )}
               </div>
             </li>
           )}
         </ul>
+
+        {error && <div>{error.message}</div>}
       </div>
     </>
   );
