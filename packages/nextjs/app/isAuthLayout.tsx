@@ -14,7 +14,7 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading, isAuth, user, profile } = useContext(AppContext);
+  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
 
   const soc = {
     yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
@@ -34,7 +34,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </>
         ) : (
-          <IsAuthMenu profile={profile} />
+          <IsAuthMenu profile={profile} refetch={refetch} />
         )}
 
         <div className="custom-auth-bg absolute z-0 rounded-t-2xl"></div>

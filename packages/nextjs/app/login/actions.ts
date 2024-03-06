@@ -26,6 +26,8 @@ export async function login(formData: FormData) {
     redirect("/error");
   }
 
+  console.log("login success");
+
   revalidatePath("/", "layout");
   redirect("/profile/view");
 }

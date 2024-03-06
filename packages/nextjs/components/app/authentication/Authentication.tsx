@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { login, signup } from "../../../app/login/actions";
 
-export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
+export const Authentication = ({ type, value, linkSignUp, linkLogin, refetch }) => {
+
+
   return (
     <>
       <form>

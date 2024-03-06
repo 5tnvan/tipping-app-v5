@@ -10,7 +10,7 @@ import "~~/styles/app.css";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { isLoading, isAuth, user, profile } = useContext(AppContext);
+  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
 
   if (isAuth == "yes") {
     router.push("/profile/view");
@@ -23,7 +23,7 @@ export default function LoginPage() {
         {/* CONTENT */}
         <div id="wild-pay-is-not-auth-log-in" className="z-10">
           {/* Input */}
-          <Authentication type="login" value="Login" linkSignUp="yes" linkLogin="no" />
+          <Authentication type="login" value="Login" linkSignUp="yes" linkLogin="no" refetch={refetch} />
         </div>
       </>
     );

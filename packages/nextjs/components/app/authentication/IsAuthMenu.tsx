@@ -3,9 +3,10 @@ import { logout } from "~~/app/login/actions";
 import { LoginIcon } from "~~/components/assets/LoginIcon";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
-export const IsAuthMenu = ({ profile }) => {
+export const IsAuthMenu = ({ profile, refetch }) => {
   const handleLogout = () => {
     logout();
+    refetch();
   };
 
   return (
