@@ -14,7 +14,7 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading, isAuth, profile } = useContext(AppContext);
+  const { isLoading, isAuth, user, profile } = useContext(AppContext);
 
   const soc = {
     yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
@@ -76,13 +76,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                 </>
               )}
             </div>
-          </div>
-
-          {/* CTA */}
-          <div id="wildpay-is-auth-cta" className="mb-5">
-            <Link href="/profile/edit">
-              <button className="btn-neutral btn w-full text-base custom-bg-blue border-0">Edit Profile</button>
-            </Link>
           </div>
         </div>
         {children}

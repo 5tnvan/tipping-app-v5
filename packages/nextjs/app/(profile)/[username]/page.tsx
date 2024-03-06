@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { NextPage } from "next";
 import { getProfile } from "~~/app/(profile)/[username]/actions";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 import Tipping2 from "~~/components/app/tipping/Tipping2";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
-import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsTable from "~~/components/subgraph/TipsTable";
-import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -21,7 +17,6 @@ import "~~/styles/app.css";
  **/
 
 const ProfileUsername: NextPage = ({ params }) => {
-  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProfile, setIsProfile] = useState("init");
   const [profile, setProfile] = useState({
@@ -84,46 +79,13 @@ const ProfileUsername: NextPage = ({ params }) => {
   if (isProfile == "profile") {
     return (
       <>
-        <IsAuthMenu />
-        <div className="custom-profile-bg z-0"></div>
-        <div id="is-auth" className="profile mt-5 mb-5 z-10">
-          {/* Intro */}
-          <div className="intro flex justify-between mb-7 text-black">
-            <div className="flex">
-              <div className="left avatar mr-5">
-                <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {profile.avatar_url != null ? (
-                    <Image alt="SE2 logo" src={profile.avatar_url} width={500} height={500} />
-                  ) : (
-                    <Image
-                      alt="SE2 logo"
-                      src="https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif"
-                      width={500}
-                      height={500}
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="right info flex justify-center flex-col">
-                <div className="font-semibold">@{profile.username}</div>
-                <SocialIcons soc={soc} />
-              </div>
-            </div>
-
-            <div className="text-4xl flex justify-center items-center gap-2">
-              <span>
-                <TipsValueSum receiverAddress={profile.wallet_id} />
-              </span>
-              <span className="text-xl"> Ξ</span>
-            </div>
-          </div>
-          {/* Pay Now */}
-          <div className="mb-5">
-            <button className="btn-blue btn w-full" onClick={() => handleTipNow()}>
-              Pay Now
-            </button>
-          </div>
-
+        {/* Pay Now */}
+        <div className="mb-5 z-10 relative">
+          <button className="btn-blue btn w-full" onClick={() => handleTipNow()}>
+            Pay Now
+          </button>
+        </div>
+        <div id="wildpay-username" className="profile mt-5 mb-5 z-10">
           {/* Modal */}
           <dialog id="my_modal_3" className="modal" open={isModalOpen}>
             <div className="modal-box">

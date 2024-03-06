@@ -1,17 +1,20 @@
 "use client";
 
+import { useContext } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
+import AppContext from "~~/app/context";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import TipsTable from "~~/components/subgraph/TipsTable";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
-  const { isAuth, profile } = useAuthentication();
+  // const { isAuth, profile } = useAuthentication();
+  const { isLoading, isAuth, profile } = useContext(AppContext);
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -21,6 +24,12 @@ const ProfileView: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
+        {/* CTA */}
+        <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
+          <Link href="/profile/edit">
+            <button className="btn-neutral btn w-full text-base custom-bg-blue border-0">Edit Profile</button>
+          </Link>
+        </div>
         <div id="profile-view-content" className="profile mt-5 mb-5 z-10">
           {/* Scroll Snap */}
           <div className="scr mb-6">

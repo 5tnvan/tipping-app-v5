@@ -1,18 +1,16 @@
 "use client";
 
 import React from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Authentication } from "../../components/app/authentication/Authentication";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
+import AppContext from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { isAuth } = useAuthentication();
-
-  console.log("loginpage");
+  const { isLoading, isAuth, user, profile } = useContext(AppContext);
 
   if (isAuth == "yes") {
     router.push("/profile/view");
@@ -21,11 +19,9 @@ export default function LoginPage() {
   if (isAuth == "no") {
     return (
       <>
-        <IsAuthMenu />
+        <div className="font-semibold text-3xl mb-5">{"Welcome back"}</div>
         {/* CONTENT */}
-        <div id="log-in" className="z-10">
-          {/* Hero: */}
-          <div className="font-semibold text-3xl mb-5">Welcome back</div>
+        <div id="wild-pay-is-not-auth-log-in" className="z-10">
           {/* Input */}
           <Authentication type="login" value="Login" linkSignUp="yes" linkLogin="no" />
         </div>

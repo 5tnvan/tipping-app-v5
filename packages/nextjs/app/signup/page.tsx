@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Authentication } from "../../components/app/authentication/Authentication";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
+import AppContext from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { isAuth } = useAuthentication();
+  const { isLoading, isAuth, user, profile } = useContext(AppContext);
 
   if (isAuth == "yes") {
     router.push("/profile/view");
@@ -19,13 +19,9 @@ export default function SignUpPage() {
   if (isAuth == "no") {
     return (
       <>
-        <IsAuthMenu />
+        <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
         {/* CONTENT */}
-        <div id="sign-up" className="z-10">
-          {/* Hero: */}
-          <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
-
-          {/* Input */}
+        <div id="wildpay-is-not-auth-sign-up" className="z-10">
           <Authentication type="signup" value="Sign Up" linkSignUp="no" linkLogin="yes" />
         </div>
       </>

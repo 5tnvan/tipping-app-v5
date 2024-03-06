@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { login, signup } from "../../../app/login/actions";
 
 export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
-  console.log("auth component");
   return (
     <>
       <form>
@@ -46,18 +46,14 @@ export const Authentication = ({ type, value, linkSignUp, linkLogin }) => {
         {linkSignUp == "yes" && (
           <div className="additional mt-5">
             <span>{"Don't have an account? "}</span>
-            <a href="/signup" className="link link-primary">
-              Sign Up
-            </a>
+            <Link href="/signup">Sign Up</Link>
           </div>
         )}
 
         {linkLogin == "yes" && (
           <div className="additional mt-5">
             <span>{"Have an account? "}</span>
-            <a href="/login" className="link link-primary">
-              Log In
-            </a>
+            <Link href="/login">Log In</Link>
           </div>
         )}
       </form>

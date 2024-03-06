@@ -1,23 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
+import AppContext from "~~/app/context";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
+import { Address } from "~~/components/scaffold-eth/Address";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { Address } from "~~/components/scaffold-eth/Address";
 
 const Settings: NextPage = () => {
   const router = useRouter();
-  const { isAuth, user, profile, refetch } = useAuthentication();
   const [buttonText, setButtonText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
 
   useEffect(() => {
     if (!profile.wallet_id) {
@@ -44,32 +43,9 @@ const Settings: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
-        <IsAuthMenu />
-        <div className="custom-profile-bg z-0"></div>
-        <div id="is-auth" className="profile mt-5 mb-5 z-10">
-          {/* PROFILE INTRO */}
-          <div className="intro flex justify-between mb-7 text-black ">
-            <div className="flex">
-              <span className="left avatar edit mr-5">
-                <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {profile.avatar_url && <Image alt="SE2 logo" src={profile.avatar_url} width={500} height={500} />}
-                </div>
-              </span>
-              <div className="right info flex justify-center flex-col">
-                <div className="font-semibold">{user?.email}</div>
-                {profile?.wallet_id && <Address address={profile?.wallet_id} />}
-                {/* <Address address={profile?.wallet_id} /> */}
-              </div>
-            </div>
-            <div className="text-4xl flex justify-center items-center gap-2">
-              <span>
-                <TipsValueSum receiverAddress={profile.wallet_id} />
-              </span>
-              <span className="text-xl"> Ξ</span>
-            </div>
-          </div>
+        <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 z-10">
           {/* CTA BUTTON */}
-          <div className="mb-5">
+          <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
             <button
               className="btn-neutral btn w-full text-base custom-bg-blue border-0"
               onClick={() => router.push("view")}
@@ -133,7 +109,7 @@ const Settings: NextPage = () => {
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
               <div className="opacity-70 flex items-center gap-2">
-              {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : "n/a"}
+                {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : "n/a"}
                 {/* <Address address={profile?.wallet_id} /> */}
               </div>
               <button className="btn btn-secondary" onClick={() => handleWalletModal()}>
