@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { login, signup } from "../../../app/login/actions";
+import { signup } from "../../../app/login/actions";
 
-export const Signup = ({ refetch }) => {
+export const Signup = () => {
   return (
     <>
       <form>
@@ -34,15 +32,14 @@ export const Signup = ({ refetch }) => {
           <input type="password" name="password" placeholder="Password" className="" />
         </label>
 
-        <button type="submit" className="btn btn-neutral text-base w-full">
+        <button type="submit" className="btn btn-neutral text-base w-full" formAction={signup}>
           Sign Up
         </button>
-
-        <div className="additional mt-5">
+      </form>
+      {/* <div className="additional mt-5">
           <span>{"Have an account? "}</span>
           <Link href="/login">Log In</Link>
-        </div>
-      </form>
+        </div> */}
     </>
   );
 };

@@ -9,7 +9,7 @@ const SignUpVerify: NextPage = () => {
   return (
     <>
       {/* CONTENT */}
-      <div id="sign-up-success" className="z-10">
+      <div id="sign-up-success" className="z-10 pt-28">
         {/* Hero: */}
         <div className="font-semibold custom-text-blue text-3xl ">{"Almost there 🎉."}</div>
         <div className=" custom-text-blue text-3xl mb-5">{"Confirm your email."}</div>

@@ -19,9 +19,9 @@ export default function LoginPage() {
   if (isAuth == "no") {
     return (
       <>
-        <div className="font-semibold text-3xl mb-5">{"Welcome back"}</div>
-        {/* CONTENT */}
-        <div id="wild-pay-is-not-auth-log-in" className="z-10">
+        {/* ID: wild-pay-is-not-auth-log-in */}
+        <div id="wild-pay-is-not-auth-log-in" className="z-10 pt-28">
+          <div className="font-semibold text-3xl mb-5">{"Welcome back"}</div>
           {/* Input */}
           <Login refetch={refetch} />
         </div>

@@ -54,7 +54,7 @@ const IsPublicPage = ({ children, username }: { children: React.ReactNode; usern
   if (publicProfile.id != null && publicProfile.id != "init") {
     return (
       <>
-        <div id="wildpay-public" className="bg-white h-full pr-7 pl-7">
+        <div id="wildpay-public" className="bg-white h-full pr-7 pl-7 grow">
           {/* USER MENU BAR */}
 
           {isLoading ? (

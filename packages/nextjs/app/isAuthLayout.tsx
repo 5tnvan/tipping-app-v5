@@ -25,7 +25,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div id="wildpay-is-auth" className="bg-white h-full pr-7 pl-7">
+      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
         {/* USER MENU BAR */}
         {isLoading ? (
           <>

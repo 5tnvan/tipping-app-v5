@@ -9,7 +9,7 @@ const GetStartedSuccess: NextPage = () => {
   return (
     <>
       {/* CONTENT */}
-      <div id="sign-up-success" className="z-10">
+      <div id="sign-up-success" className="z-10 pt-28">
         {/* Hero: */}
         <div className="font-semibold custom-text-blue text-3xl ">{"Done 🎉."}</div>
         <div className=" custom-text-blue text-3xl mb-5">{"Ready to go."}</div>

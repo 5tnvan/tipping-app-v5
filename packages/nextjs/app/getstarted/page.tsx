@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { claimLink } from "../claimlink/actions";
 import type { NextPage } from "next";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { InstagramIcon } from "~~/components/assets/InstagramIcon";
-import { LoginIcon } from "~~/components/assets/LoginIcon";
 import { TiktokIcon } from "~~/components/assets/TiktokIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
 import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
@@ -15,7 +13,6 @@ import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useUsernameAvailability } from "~~/hooks/supabase";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
 
 const GetStarted: NextPage = () => {
   const router = useRouter();
@@ -35,7 +32,7 @@ const GetStarted: NextPage = () => {
     return (
       <>
         {/* GET STARTED */}
-        <div id="get-started" className="z-10 flex-auto flex flex-col">
+        <div id="get-started" className="z-10 flex flex-col grow justify-center">
           {/* Hero */}
           <div className="font-light mb-3 flex justify-between">
             <div className="custom-text-blue font-semibold text-3xl">Dare to be paid?</div>
@@ -98,7 +95,7 @@ const GetStarted: NextPage = () => {
           </Link> */}
         </div>
         {/* SOCIALS */}
-        <div id="cust-socials" className="flex justify-center">
+        <div id="cust-socials" className="flex justify-center mb-5">
           <YoutubeIcon handle="heartip" />
           <TwitterIcon handle="heartip" />
           <InstagramIcon handle="heartip" />

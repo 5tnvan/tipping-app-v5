@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
-import { Authentication } from "../../../components/app/authentication/Login";
-import { IsAuthMenu } from "~~/components/app/authentication/isAuthMenu";
+import { Signup } from "~~/components/app/authentication/Signup";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -13,7 +12,7 @@ export default function LoginNewPage() {
     <>
       {/* <IsAuthMenu /> */}
       {/* CONTENT */}
-      <div id="sign-up-new" className="z-10">
+      <div id="sign-up-new" className="z-10 flex flex-col grow justify-center">
         {/* Hero: */}
         <div className="text-3xl mb-5 custom-text-blue font-semibold">{"Sign up."}</div>
 
@@ -30,7 +29,7 @@ export default function LoginNewPage() {
         </div>
 
         {/* Input */}
-        <Authentication type="signup" value="Sign Up" additional="no" />
+        <Signup />
       </div>
     </>
   );

@@ -19,9 +19,9 @@ export default function SignUpPage() {
   if (isAuth == "no") {
     return (
       <>
-        <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
         {/* CONTENT */}
         <div id="wildpay-is-not-auth-sign-up" className="z-10">
+        <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
           <Signup refetch={refetch} />
         </div>
       </>
