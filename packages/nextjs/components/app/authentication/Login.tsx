@@ -1,12 +1,22 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { login, signup } from "../../../app/login/actions";
 
-export const Authentication = ({ type, value, linkSignUp, linkLogin, refetch }) => {
+export const Login = ({ refetch }) => {
+  const router = useRouter();
+  const handleLogin = async event => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
 
+    // Pass both formData and refetch to the login function
+    await login(formData);
+    refetch();
+    router.push("/profile/view");
+  };
 
   return (
     <>
-      <form>
+      <form onSubmit={handleLogin}>
         <label className="input input-bordered flex items-center gap-2 mb-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -34,30 +44,28 @@ export const Authentication = ({ type, value, linkSignUp, linkLogin, refetch }) 
           </svg>
           <input type="password" name="password" placeholder="Password" className="" />
         </label>
-        {type == "login" && (
-          <button className="btn btn-neutral text-base w-full" formAction={login}>
-            {value}
-          </button>
-        )}
-        {type == "signup" && (
+        
+        <button type="submit" className="btn btn-neutral text-base w-full">
+          Login
+        </button>
+
+        <div className="additional mt-5">
+          <span>{"Don't have an account? "}</span>
+          <Link href="/signup">Sign Up</Link>
+        </div>
+
+        {/* {type == "signup" && (
           <button className="btn btn-neutral text-base w-full" formAction={signup}>
-            {value}
+            Sign Up
           </button>
-        )}
+        )} */}
 
-        {linkSignUp == "yes" && (
-          <div className="additional mt-5">
-            <span>{"Don't have an account? "}</span>
-            <Link href="/signup">Sign Up</Link>
-          </div>
-        )}
-
-        {linkLogin == "yes" && (
+        {/* {linkLogin == "yes" && (
           <div className="additional mt-5">
             <span>{"Have an account? "}</span>
             <Link href="/login">Log In</Link>
           </div>
-        )}
+        )} */}
       </form>
     </>
   );

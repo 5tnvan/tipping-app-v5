@@ -29,7 +29,8 @@ export async function login(formData: FormData) {
   console.log("login success");
 
   revalidatePath("/", "layout");
-  redirect("/profile/view");
+  // refetch();
+  // redirect("/profile/view");
 }
 
 /* SIGN UP */

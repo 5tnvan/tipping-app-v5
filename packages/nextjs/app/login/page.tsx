@@ -3,7 +3,7 @@
 import React from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { Authentication } from "../../components/app/authentication/Authentication";
+import { Login } from "../../components/app/authentication/Login";
 import AppContext from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -23,7 +23,7 @@ export default function LoginPage() {
         {/* CONTENT */}
         <div id="wild-pay-is-not-auth-log-in" className="z-10">
           {/* Input */}
-          <Authentication type="login" value="Login" linkSignUp="yes" linkLogin="no" refetch={refetch} />
+          <Login refetch={refetch} />
         </div>
       </>
     );
