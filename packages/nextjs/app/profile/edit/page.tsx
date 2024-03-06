@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import AppContext from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import { updateProfileAvatar, updateProfileSocial } from "~~/app/profile/actions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";

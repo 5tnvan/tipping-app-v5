@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import AppContext from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import "~~/styles/app-profile.css";

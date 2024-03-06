@@ -3,5 +3,6 @@
 import { createContext } from "react";
 
 const AppContext = createContext();
+const PublicContext = createContext();
 
-export default AppContext;
+export { AppContext, PublicContext };

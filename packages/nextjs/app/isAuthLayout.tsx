@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Link from "next/link";
-import AppContext from "./context";
+import { AppContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";

@@ -3,8 +3,7 @@
 import React from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { Authentication } from "../../components/app/authentication/Login";
-import AppContext from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 import { Signup } from "~~/components/app/authentication/Signup";

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import AppContext from "./context";
+import { AppContext } from "./context";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({

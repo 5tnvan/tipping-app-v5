@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import AppContext from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
