@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TippingBill from "./TippingBill";
 
-const Tipping2 = ({ receiver }) => {
+const Tipping2 = ({ receiver, refetch}) => {
   const [tipAmount, setTipAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
@@ -64,7 +64,7 @@ const Tipping2 = ({ receiver }) => {
               onChange={e => onMessageChange(e)}
             />
           )}
-          <TippingBill receiver={receiver} tipAmount={tipAmount} message={message} />
+          <TippingBill receiver={receiver} tipAmount={tipAmount} message={message} refetch={refetch} />
         </>
       )}
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { AppContext, PublicContext } from "~~/app/context";
 import Tipping2 from "~~/components/app/tipping/Tipping2";
@@ -18,6 +18,14 @@ import "~~/styles/app.css";
 const ProfileUsername: NextPage = ({ params }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { publicProfile } = useContext(PublicContext);
+  const { refetch } = useContext(AppContext);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
+
+  // Use effect to refresh TipsTable when refetch is triggered
+  useEffect(() => {
+    // Call the TipsTable refresh logic here
+    setRefetchTrigger(prev => prev + 1);
+  }, [refetch]);
 
   //On click Tip Now, show modal
   const handleTipNow = () => {
@@ -46,7 +54,7 @@ const ProfileUsername: NextPage = ({ params }) => {
               <div>@{publicProfile.username}</div>
               <div>{publicProfile.wallet_id}</div>
 
-              <Tipping2 receiver={publicProfile.wallet_id} />
+              <Tipping2 receiver={publicProfile.wallet_id} refetch={refetch} />
             </form>
           </div>
         </dialog>
@@ -62,7 +70,8 @@ const ProfileUsername: NextPage = ({ params }) => {
         </div>
 
         <div className="latest"></div>
-        <TipsTable receiverAddress={publicProfile.wallet_id} />
+        {/* Refresh TipsTable by changing key when refetch is triggered */}
+        <TipsTable receiverAddress={publicProfile.wallet_id} keyProp={refetchTrigger} />
       </div>
     </>
   );

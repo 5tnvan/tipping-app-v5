@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { AppContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
-import IsPublicPage from "./isPublicPage";
+import IsPublicLayout from "./isPublicLayout";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -33,7 +33,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             <img className="z-10" src="/wildpay-logo.svg" width={30} height={30}></img>
             <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
           </div>
-          {username && <IsPublicPage username={username}>{children}</IsPublicPage>}
+          {username && <IsPublicLayout username={username}>{children}</IsPublicLayout>}
           {!username && isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
           {!username && isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
         </div>

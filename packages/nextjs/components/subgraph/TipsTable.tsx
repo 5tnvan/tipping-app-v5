@@ -1,12 +1,13 @@
 "use client";
 
-import { TimeAgo, TimeAgoUnix } from "../app/TimeAgo";
+import { useEffect } from "react";
+import { TimeAgoUnix } from "../app/TimeAgo";
 import { EthIcon } from "../assets/EthIcon";
 import { gql, useQuery } from "@apollo/client";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 
-const TipsTable = ({ receiverAddress }) => {
+const TipsTable = ({ receiverAddress, keyProp }) => {
   const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
       tips(
@@ -28,10 +29,19 @@ const TipsTable = ({ receiverAddress }) => {
   `;
 
   const TIPS_GQL = gql(TIPS_GRAPHQL);
-  const { data: tipsData, error } = useQuery(TIPS_GQL, {
+  const {
+    data: tipsData,
+    error,
+    refetch,
+  } = useQuery(TIPS_GQL, {
     variables: { receiverAddress },
     fetchPolicy: "network-only",
   });
+
+  // Refetch the query when refetchTrigger changes
+  useEffect(() => {
+    refetch();
+  }, [refetch, keyProp]);
 
   // Subgraph maybe not yet configured
   if (error) {

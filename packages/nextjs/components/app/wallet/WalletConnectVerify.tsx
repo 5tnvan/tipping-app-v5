@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
+import { AppContext } from "~~/app/context";
 import { updateProfile } from "~~/app/settings/actions";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
-const WalletConnectVerify = ({ }) => {
+const WalletConnectVerify = () => {
+  const { profile, refetch } = useContext(AppContext);
   //WALLET
   const [isWallet, setIsWallet] = useState(false);
-  const { profile, refetch } = useAuthentication();
+  // const { profile, refetch } = useAuthentication();
   const [isWalletVerified, setIsWalletVerified] = useState(false);
   const { address } = useAccount();
   const { data: signMessageData, error, signMessage, variables } = useSignMessage();

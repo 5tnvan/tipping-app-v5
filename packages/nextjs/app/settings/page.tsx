@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AppContext } from "~~/app/context";
+import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
@@ -15,25 +16,35 @@ import "~~/styles/app.css";
 const Settings: NextPage = () => {
   const router = useRouter();
   const [buttonText, setButtonText] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
 
   useEffect(() => {
     if (!profile.wallet_id) {
       setButtonText("Connect Wallet");
+    } else if (profile.wallet_id && !profile.wallet_sign_hash) {
+      setButtonText("Verify Wallet");
     } else {
       setButtonText("Withdraw");
     }
-  }, [profile.wallet_id]);
+  }, [profile.wallet_id, profile.wallet_sign_hash]);
 
-  useEffect(() => {
-    refetch();
-  }, [isModalOpen]);
+  // useEffect(() => {
+
+  // }, [isWalletModalOpen]);
 
   //WALLET
   const handleWalletModal = () => {
-    setIsModalOpen(true);
+    setIsWalletModalOpen(true);
   };
+
+  //WITHDRAW
+  const handleWithdrawModal = () => {
+    setIsWithdrawModalOpen(true);
+  };
+
+  const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -46,11 +57,8 @@ const Settings: NextPage = () => {
         <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 z-10">
           {/* CTA BUTTON */}
           <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
-            <button
-              className="btn-neutral btn w-full text-base custom-bg-blue border-0"
-              onClick={() => router.push("view")}
-            >
-              {buttonText}
+            <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={handleModal}>
+              {isLoading ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
             </button>
           </div>
 
@@ -121,17 +129,16 @@ const Settings: NextPage = () => {
           </div>
 
           {/* Wallet Modal */}
-          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
+          <dialog id="my_modal_3" className="modal" open={isWalletModalOpen}>
             <div className="modal-box p-10 pt-15">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
                 <button
                   className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => setIsWalletModalOpen(false)}
                 >
                   ✕
                 </button>
-                {/* <div className="">@{profile.username}</div> */}
                 <WalletConnectVerify />
               </form>
             </div>
@@ -152,11 +159,27 @@ const Settings: NextPage = () => {
                 </svg>
                 <TipsValueSum receiverAddress={profile.wallet_id} />Ξ
               </div>
-              <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
+              <button className="btn btn-secondary" onClick={() => handleWithdrawModal()}>
                 Widthdraw
               </button>
             </label>
           </div>
+
+          {/* Balance Modal */}
+          <dialog id="my_modal_4" className="modal" open={isWithdrawModalOpen}>
+            <div className="modal-box p-10 pt-15">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button
+                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  onClick={() => setIsWithdrawModalOpen(false)}
+                >
+                  ✕
+                </button>
+                <div>Withdraw confirm</div>
+              </form>
+            </div>
+          </dialog>
         </div>
       </>
     );

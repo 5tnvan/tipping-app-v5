@@ -1,9 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { parseEther } from "viem";
+import { AppContext } from "~~/app/context";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { useGlobalState } from "~~/services/store/store";
 
-const TippingBill = ({ receiver, tipAmount, message }) => {
+const TippingBill = ({ receiver, tipAmount, message, refetch }) => {
+  //App Context
+  const { username } = useParams();
+
   const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
   const [totalAmountUSD, setTotalAmountUSD] = useState(0);
   const [totalAmountETH, setTotalAmountETH] = useState(0);
@@ -29,6 +34,12 @@ const TippingBill = ({ receiver, tipAmount, message }) => {
     convertUsdToEth();
   }, [convertUsdToEth, getTotalAmount]);
 
+  const handleSetTip = () => {
+    setTip();
+    refetch();
+    console.log("/" + username);
+  };
+
   //HOOK: useScaffoldContractWrite | set: greeting
   const { writeAsync: setTip } = useScaffoldContractWrite({
     contractName: "YourContract",
@@ -53,7 +64,7 @@ const TippingBill = ({ receiver, tipAmount, message }) => {
         </div>
       </div>
       <div className="flex justify-center">
-        <button className="btn btn-neutral mt-3" onClick={() => setTip()}>
+        <button className="btn btn-neutral mt-3" onClick={handleSetTip}>
           Confirm
         </button>
       </div>

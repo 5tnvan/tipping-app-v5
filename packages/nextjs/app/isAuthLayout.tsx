@@ -150,7 +150,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                     {isSettings && (
                       <>
                         <div className="font-semibold">{user.email}</div>
-                        {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : "n/a"}
+                        {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
                       </>
                     )}
                   </>

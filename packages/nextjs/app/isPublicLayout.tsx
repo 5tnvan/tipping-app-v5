@@ -14,7 +14,7 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsPublicPage = ({ children, username }: { children: React.ReactNode; username: string }) => {
+const IsPublicLayout = ({ children, username }: { children: React.ReactNode; username: string }) => {
   const { isLoading, isAuth, profile, refetch } = useContext(AppContext);
   const [publicProfile, setPublicProfile] = useState({
     id: "init",
@@ -75,7 +75,7 @@ const IsPublicPage = ({ children, username }: { children: React.ReactNode; usern
                   {isLoading ? (
                     <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
                   ) : (
-                    publicProfile.avatar_url && <Avatar src={publicProfile.avatar_url} width={500} height={500} />
+                    <Avatar profile={publicProfile} width={500} height={500} />
                   )}
                 </div>
                 <div className="right info flex justify-center flex-col">
@@ -114,4 +114,4 @@ const IsPublicPage = ({ children, username }: { children: React.ReactNode; usern
   }
 };
 
-export default IsPublicPage;
+export default IsPublicLayout;
