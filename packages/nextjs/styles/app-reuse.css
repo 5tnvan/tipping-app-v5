@@ -2,52 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* PATTERNS */
-.pattern-01 {
-      --s: 50px;
-      /* control the size */
-      --t: 6px;
-      /* control the thickness */
-      --c1: #084c7f;
-      --c2: #fef5e9;
-
-      --_c: #0000 calc(98% - var(--t)), var(--c1) calc(100% - var(--t)) 98%, #0000;
-      --_s: calc(2*var(--s)) calc(5*var(--s)/2);
-      --_r0: /var(--_s) radial-gradient(calc(var(--s)/2) at 0 20%, var(--_c));
-      --_r1: /var(--_s) radial-gradient(calc(var(--s)/2) at 100% 20%, var(--_c));
-      background:
-          0 0 var(--_r0), calc(-1*var(--s)) calc(5*var(--s)/4) var(--_r0),
-          var(--s) 0 var(--_r1), 0 calc(5*var(--s)/4) var(--_r1),
-          conic-gradient(at var(--t) calc(20% + 2*var(--t)), #0000 75%, var(--c1) 0) calc(var(--t)/-2) calc(var(--s) - var(--t))/var(--s) calc(5*var(--s)/4),
-          repeating-conic-gradient(var(--c2) 0 25%, #0000 0 50%) var(--s) calc(var(--s)/-8)/var(--_s),
-          conic-gradient(from 90deg at var(--t) var(--t), var(--c2) 25%, var(--c1) 0) calc((var(--s) - var(--t))/2) calc((var(--s) - var(--t))/2)/var(--s) calc(5*var(--s)/4);
-}
-.pattern-02 {
-    --s: 150px;
-    /* control the size */
-      --c: #633D2E;
-
-      --l: var(--c) 20%, #0000 0;
-      --g: 35%, #F7AF63 0 45%, var(--c) 0;
-      background:
-          linear-gradient(45deg, var(--l) 45%, var(--c) 0 70%, #0000 0),
-          linear-gradient(-45deg, var(--l) var(--g) 70%, #0000 0),
-          linear-gradient(45deg, var(--c) var(--g));
-      background-size: var(--s) var(--s);
-
-}
-.pattern-03 {
-      --s: 96px;
-      /* control the size */
-
-      --g: #000 0 25%, #fff 0 50%;
-      background:
-          repeating-conic-gradient(from 45deg, var(--g)) 0 0/var(--s) var(--s),
-          repeating-conic-gradient(var(--g)) 0 0/calc(2*var(--s)) calc(2*var(--s));
-      background-blend-mode: difference;
-}
-
-.special-bl {
+/* .special-bl {
     color: #3D45E7;
 }
 
@@ -57,37 +12,9 @@
     width: 80vw;
 }
 
-.input {
-}
-
 .btn-wide {
     width: 100%!important;
     margin-bottom: 10px;
-}
-
-
-.badge { color: white; }
-
-.badge-info {
-    background-color: #05C7F2!important;
-}
-.badge-success {
-    background-color: #03A66A!important;
-}
-.badge-warning {
-    background-color: #F29F05!important;
-}
-.badge-error {
-    background-color: #F25764!important;
-}
-
-/* social icons */
-.h-8 {
-    width: 18px;
-}
-
-.fb .h-8 {
-    width: 10px;
 }
 
 .hover\:text-orange-600:hover {
@@ -99,4 +26,6 @@
     background-color: #3D45E7 !important;
     border: 0;
     color: #fff !important;
-}
+} */
+
+

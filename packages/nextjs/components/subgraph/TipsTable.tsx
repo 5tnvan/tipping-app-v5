@@ -48,7 +48,7 @@ const TipsTable = ({ receiverAddress }) => {
               <Address address={tip?.sender} />
               <div className="flex font-semibold">
                 <EthIcon width={16} height={16} />
-                {formatEther(tip?.value)}
+                {Number(formatEther(tip?.value)).toFixed(2)}
               </div>
             </div>
             <div className="flex justify-between text-gray-500">

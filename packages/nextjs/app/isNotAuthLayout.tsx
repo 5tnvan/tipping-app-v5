@@ -24,7 +24,7 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
         <IsNotAuthMenu />
       )}
       <div id="wildpay-is-not-auth" className="flex flex-col grow pr-7 pl-7">
-        {/* <div className="custom-auth-bg absolute z-0 rounded-t-2xl"></div> */}
+        {/* <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div> */}
         {/* <div id="wildpay-is-not-auth-top" className="relative z-10 pt-20"></div> */}
         {children}
       </div>

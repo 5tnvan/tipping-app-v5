@@ -37,17 +37,6 @@ const TipsValueSum = ({ receiverAddress }) => {
     fetchPolicy: "network-only",
   });
 
-  // isLoading
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <div className="animate-pulse">
-  //         <div className="rounded-md bg-slate-300 h-6 w-6"></div>
-  //       </div>
-  //     </>
-  //   );
-  // }
-
   // Subgraph maybe not yet configured
   if (error) {
     console.log(error);
@@ -60,7 +49,7 @@ const TipsValueSum = ({ receiverAddress }) => {
       return sum + Number(tip.value);
     }, 0) || 0;
 
-  const totalSumEth = formatEther(totalSum);
+  const totalSumEth = Number(formatEther(totalSum)).toFixed(2);
 
   return (
     <>

@@ -60,11 +60,11 @@ const GetStarted: NextPage = () => {
             <div className="scr-item custom-bg-image-01"></div>
           </div>
 
-          <form>
+          <form id="wildpay-claim">
             <label className="input flex items-center mb-3">
               {/* {Check username availability in database, as user types} */}
               <img src="/wildpay-logo.svg" width={20} height={20} className="mr-2"></img>
-              <div className="font-semibold tracking-wide">wildpay.eth / </div>
+              <div id="wildpay-claim-domain" className="font-semibold tracking-wide">wildpay.eth / </div>
 
               <input
                 id="username"
@@ -77,7 +77,7 @@ const GetStarted: NextPage = () => {
               />
 
               {/* Display availability here */}
-              <span className={`${availability[1]} badge`}>{availability[0]}</span>
+              <span id="wildpay-claim-avail" className={`${availability[1]} badge`}>{availability[0]}</span>
             </label>
 
             {/* Button */}

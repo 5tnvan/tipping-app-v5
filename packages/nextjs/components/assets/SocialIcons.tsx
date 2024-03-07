@@ -30,7 +30,7 @@ export const SocialIcons = soc => {
   return (
     <>
       <div className="soc flex items-center gap-4">
-        <a className=" hover:text-orange-600" aria-label="YouTube" href={ytLink} target="_blank">
+        <a className=" hover:custom-text-blue" aria-label="YouTube" href={ytLink} target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" className="h-8">
             <path
               fill={ytFill}

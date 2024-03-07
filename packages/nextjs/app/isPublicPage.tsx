@@ -66,7 +66,7 @@ const IsPublicPage = ({ children, username }: { children: React.ReactNode; usern
           ) : (
             <IsAuthMenu profile={profile} refetch={refetch} />
           )}
-          <div className="custom-auth-bg absolute z-0 rounded-t-2xl"></div>
+          <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>
           <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
             {/* USER INTRO */}
             <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">

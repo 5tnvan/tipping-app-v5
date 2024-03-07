@@ -51,7 +51,7 @@ export const Login = ({ refetch }) => {
 
         <div className="additional mt-5">
           <span>{"Don't have an account? "}</span>
-          <Link href="/signup">Sign Up</Link>
+          <Link href="/getstarted">Sign Up</Link>
         </div>
 
         {/* {type == "signup" && (

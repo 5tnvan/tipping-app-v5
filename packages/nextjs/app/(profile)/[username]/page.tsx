@@ -29,7 +29,7 @@ const ProfileUsername: NextPage = ({ params }) => {
     <>
       {/* Pay Now */}
       <div className="mb-5 z-10 relative">
-        <button className="btn-blue btn w-full" onClick={() => handleTipNow()}>
+        <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={() => handleTipNow()}>
           Pay Now
         </button>
       </div>
