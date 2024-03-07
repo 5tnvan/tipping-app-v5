@@ -13,7 +13,6 @@ import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
-  // const { isAuth, profile } = useAuthentication();
   const { isLoading, isAuth, profile } = useContext(AppContext);
 
   /* ROUTE */

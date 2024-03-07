@@ -6,6 +6,8 @@
 
 /* APP */
 #wildpay { min-width: 506px; }
+#wildpay-avatar {display: flex; justify-content: center; align-items: center;}
+#wildpay-avatar-cta { top: -10px; border: 1px solid #3D45E7; /* Added 'solid' as the border style */ }
 
 /* CUSTOM */
 .custom-gradient-01 { background: linear-gradient(to right, rgba(190, 133, 146, 1) 0%, rgba(252, 150, 122, 1) 22%, rgba(253, 211, 156, 1) 45%, rgba(230, 212, 180, 1) 68%, rgba(215, 239, 185, 1) 100%); }

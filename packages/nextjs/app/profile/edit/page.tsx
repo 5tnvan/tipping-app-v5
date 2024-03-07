@@ -2,12 +2,11 @@
 
 import React, { useState } from "react";
 import { useContext } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AppContext } from "~~/app/context";
-import { updateProfileAvatar, updateProfileSocial } from "~~/app/profile/actions";
+import { updateProfileSocial } from "~~/app/profile/actions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -19,14 +18,8 @@ import "~~/styles/app.css";
 
 const ProfileEdit: NextPage = () => {
   const router = useRouter();
-  const { isLoading, isAuth, profile } = useContext(AppContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(1);
-  const gif = {
-    1: "https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif",
-    2: "https://media1.tenor.com/m/pSq-OwdqmHgAAAAC/heartbeat-static.gif",
-    3: "https://media1.tenor.com/m/qA1mRnYpyfwAAAAC/pixel-heart.gif",
-  };
+  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
+
   const [socialMedia, setSocialMedia] = useState({
     youtube: true,
     instagram: true,
@@ -37,19 +30,8 @@ const ProfileEdit: NextPage = () => {
     twitterInput: "",
     tiktokInput: "",
   });
-  const soc = {
-    yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
-    ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
-    tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
-    tt: { val: profile.tiktok, link: "https://tiktok.com/" + profile.tiktok },
-  };
 
-  /* ROUTE */
-  if (isAuth == "no") {
-    router.push("/login");
-  }
-
-  /* HANDLE ACTIONS */
+  /* HANDLE SOCIAL LINKS UPDATE */
   // Switch edit, save, cancel for each social media input
   const handleSwitch = (social: string) => {
     setSocialMedia(prevState => ({
@@ -58,35 +40,19 @@ const ProfileEdit: NextPage = () => {
     }));
   };
 
-  // Show modal on avatar edit
-  const handleAvatarEdit = () => {
-    setIsModalOpen(true);
-  };
-
-  // Select image
-  const handleImageClick = index => {
-    setSelectedImage(index);
-  };
-
   // Update social changes to supabase
   const handleSocialSave = async (social: string) => {
     const inputVal = socialMedia[`${social}Input`];
-    updateProfileSocial(social, inputVal);
+    updateProfileSocial(user, social, inputVal);
     handleSwitch(social);
     refetch();
   };
 
-  // Update avatar change to supabase
-  const handleAvatarSave = async () => {
-    if (selectedImage !== null) {
-      const selectedImageUrl = gif[selectedImage];
-      updateProfileAvatar(selectedImageUrl);
-      setIsModalOpen(false);
-      refetch();
-    }
-  };
-
   /* RENDER HTML */
+  if (isAuth == "no") {
+    router.push("/login");
+  }
+
   if (isAuth == "yes") {
     return (
       <>
@@ -97,72 +63,6 @@ const ProfileEdit: NextPage = () => {
           </Link>
         </div>
         <div id="profile-edit-content" className="profile mt-5 mb-5 z-10 ">
-          {/* PROFILE INTRO */}
-          <div className="intro flex justify-between mb-7 text-black">
-            {/* <div className="flex">
-                <span
-                  className="left avatar edit mr-5"
-                  onClick={() => {
-                    handleAvatarEdit();
-                  }}
-                >
-                  <span className="editCircle">
-                    <svg
-                      className="editIcon"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ffffff"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <g transform="translate(2 3)">
-                        <path d="M20 16a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3l2-3h6l2 3h3a2 2 0 0 1 2 2v11z" />
-                        <circle cx="10" cy="10" r="4" />
-                      </g>
-                    </svg>
-                  </span>
-                  <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    {profile.avatar_url && <Image alt="SE2 logo" src={profile.avatar_url} width={500} height={500} />}
-                  </div>
-                </span>
-              </div> */}
-          </div>
-          {/* AVATAR MODAL */}
-          <dialog id="my_modal_3" className="modal" open={isModalOpen}>
-            <div className="modal-box">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button
-                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  ✕
-                </button>
-
-                <div className="mb-5 mt-5">Choose your avatar:</div>
-                {Object.entries(gif).map(([index, src]) => (
-                  <div key={index} className="left avatar edit mr-5" onClick={() => handleImageClick(Number(index))}>
-                    <div
-                      className={`w-16 rounded-full edit mr-5 ring-primary ring-offset-base-100 ring-offset-2 ${
-                        selectedImage === Number(index) ? "ring" : ""
-                      }`}
-                    >
-                      <Image alt={`Image ${index}`} src={src} width={500} height={500} />
-                    </div>
-                  </div>
-                ))}
-                <div className="flex justify-center">
-                  <button className="btn btn-neutral mt-3" onClick={() => handleAvatarSave()}>
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
-          </dialog>
 
           {/* SOCIAL */}
           <div className="mb-3">Social links:</div>

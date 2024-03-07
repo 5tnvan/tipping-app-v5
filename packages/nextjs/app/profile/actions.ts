@@ -25,23 +25,19 @@ export async function getUser() {
 }
 
 /* UPDATE PROFILE SOCIAL */
-export async function updateProfileSocial(social, inputVal) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-
-  //get user from supabase db
-  const { data, error } = await supabase.auth.getUser();
+export async function updateProfileSocial(user, social, inputVal) {
+  const supabase = createClient();
 
   //if user not found, redirect to login
-  if (error || !data?.user) {
-    console.log("user not found");
-    return { user: data, error: error };
+  if (!user.id) {
+    console.log("no user_id");
+    return null;
   } else {
     //otherwise fetch user profile using user ID
     const { error } = await supabase
       .from("profiles")
       .update({ [social]: inputVal })
-      .eq("id", data.user.id);
+      .eq("id", user.id);
 
     if (error) {
       console.log(error);
