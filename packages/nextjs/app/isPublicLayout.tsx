@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { AppContext, PublicContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
+import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
+import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -14,8 +16,10 @@ export const metadata = getMetadata({
 });
 
 const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isLoadingAuth, profile, refetchAuth } = useContext(AppContext);
+  const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+
+  console.log("isauth? " + isAuth);
 
   let soc;
 
@@ -36,9 +40,11 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   if (publicProfile?.id) {
     return (
       <>
-        <div id="wildpay-public" className="bg-white h-full pr-7 pl-7 grow">
+        <div id="wildpay-public" className={`bg-white h-full grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
+          {isAuth == "no" && <IsNotAuthMenu />}
+
           {/* ISPUBLIC CUSTOM-BG */}
-          <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>
+          {isAuth == "no" && <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>}
 
           <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
             {/* ISPUBLIC PROFILE INTRO */}

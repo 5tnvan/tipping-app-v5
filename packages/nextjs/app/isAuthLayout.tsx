@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
 import { AppContext, PublicContext } from "./context";
+import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -94,13 +95,13 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
-        {/* ISAUTH SEARCH MODAL */}
-        <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}>
-          <h2>Modal Content</h2>
-          <p>This is the content of the modal.</p>
-        </SearchModal>
+      {/* ISAUTH SEARCH MODAL */}
+      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}>
+        <h2>Modal Content</h2>
+        <p>This is the content of the modal.</p>
+      </SearchModal>
 
+      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
         {/* ISAUTH MENU DROPDOWN */}
         {isLoadingAuth ? (
           <>
@@ -150,118 +151,80 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
-          <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
-            <div className="flex items-start">
-              {/* ISAUTH PROFILE INTRO - AVATAR */}
-              {/* ISAUTH PROFILE INTRO - AVATAR (@[USERNAME]) */}
-              {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
-              <div className="left mr-5 flex flex-col items-center ">
-                {username && publicProfile?.id &&
-                  (isLoadingPublic ? (
-                    <div className="avatar">
-                      <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-                    </div>
+        {username && <IsPublicLayout>{children}</IsPublicLayout>}
+        {!username && (
+          <>
+            <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
+              <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
+                <div className="flex items-start">
+                  {/* ISAUTH PROFILE INTRO - AVATAR */}
+                  {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
+                  <div className="left mr-5 flex flex-col items-center ">
+                    {isLoadingAuth ? (
+                      <div className="avatar">
+                        <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                      </div>
+                    ) : (
+                      <>
+                        <Avatar profile={profile} width={16} />
+                        {isProfileEdit && (
+                          <div
+                            id="wildpay-avatar-cta"
+                            className="relative rounded-full bg-white w-5 h-5"
+                            onClick={() => handleAvatarEdit()}
+                          >
+                            <DashCircleIcon />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                  {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
+                  {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
+                  <div className="right info flex justify-center flex-col">
+                    {isLoadingAuth ? (
+                      <>
+                        <IsLoading shape="rounded-md" width={28} height={6} />
+                        <IsLoading shape="rounded-md" width={28} height={8} />
+                      </>
+                    ) : (
+                      <>
+                        {!isSettings && (
+                          <>
+                            <div className="font-semibold">@{profile.username}</div>
+                            <SocialIcons soc={soc} />
+                          </>
+                        )}
+                        {isSettings && (
+                          <>
+                            <div className="font-semibold">{user.email}</div>
+                            {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+                {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
+                {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
+                <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
+                  {isLoadingAuth ? (
+                    <IsLoading shape="rounded-md" width={28} height={8} />
                   ) : (
-                    <Avatar profile={publicProfile} width={16} />
-                  ))}
-                {!username &&
-                  (isLoadingAuth ? (
-                    <div className="avatar">
-                      <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-                    </div>
-                  ) : (
                     <>
-                      <Avatar profile={profile} width={16} />
-                      {isProfileEdit && (
-                        <div
-                          id="wildpay-avatar-cta"
-                          className="relative rounded-full bg-white w-5 h-5"
-                          onClick={() => handleAvatarEdit()}
-                        >
-                          <DashCircleIcon />
-                        </div>
-                      )}
+                      <span>
+                        <TipsValueSum receiverAddress={profile.wallet_id} />
+                      </span>
+                      <span className="text-xl"> Ξ</span>
                     </>
-                  ))}
-              </div>
-              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
-              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@[USERNAME]) */}
-              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
-              <div className="right info flex justify-center flex-col">
-                {username && publicProfile?.id &&
-                  (isLoadingPublic ? (
-                    <>
-                      <IsLoading shape="rounded-md" width={28} height={6} />
-                      <IsLoading shape="rounded-md" width={28} height={8} />
-                    </>
-                  ) : (
-                    <>
-                      <div className="font-semibold">@{publicProfile.username}</div>
-                      <SocialIcons soc={soc} />
-                    </>
-                  ))}
-                {!username &&
-                  (isLoadingAuth ? (
-                    <>
-                      <IsLoading shape="rounded-md" width={28} height={6} />
-                      <IsLoading shape="rounded-md" width={28} height={8} />
-                    </>
-                  ) : (
-                    <>
-                      {!isSettings && (
-                        <>
-                          <div className="font-semibold">@{profile.username}</div>
-                          <SocialIcons soc={soc} />
-                        </>
-                      )}
-                      {isSettings && (
-                        <>
-                          <div className="font-semibold">{user.email}</div>
-                          {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
-                        </>
-                      )}
-                    </>
-                  ))}
+                  )}
+                </div>
               </div>
             </div>
-            {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
-            {/* ISAUTH PROFILE INTRO - ETH BALANCE @[USERNAME] */}
-            {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
-            {username && publicProfile?.id && (
-              <div className="text-4xl flex justify-center items-center gap-2">
-                {isLoadingPublic ? (
-                  <IsLoading shape="rounded-md" width={28} height={8} />
-                ) : (
-                  <>
-                    <span>
-                      <TipsValueSum receiverAddress={publicProfile.wallet_id} />
-                    </span>
-                    <span className="text-xl"> Ξ</span>
-                  </>
-                )}
-              </div>
-            )}
-            {!username && (
-              <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
-                {isLoadingAuth ? (
-                  <IsLoading shape="rounded-md" width={28} height={8} />
-                ) : (
-                  <>
-                    <span>
-                      <TipsValueSum receiverAddress={profile.wallet_id} />
-                    </span>
-                    <span className="text-xl"> Ξ</span>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-        {/* ISAUTH PROFILE CHILDREN */}
-        {username && publicProfile?.id && <>{children}</>}
-        {/* {username && !publicProfile?.id && <>{children}</>} */}
-        {!username && <>{children}</>}
+            {/* ISAUTH PROFILE CHILDREN */}
+            {children}
+          </>
+        )}
       </div>
 
       {/* WILDPAY APP MENU */}
