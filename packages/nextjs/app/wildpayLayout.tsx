@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { AppContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";

@@ -8,7 +8,7 @@ export async function isUsernameTaken(usernameToCheck: string) {
 
   const { data } = await supabase.from("profiles").select("*").eq("username", usernameToCheck);
 
-  if(data?.length >= 1) {
+  if (data?.length >= 1) {
     return true;
   }
   return false;

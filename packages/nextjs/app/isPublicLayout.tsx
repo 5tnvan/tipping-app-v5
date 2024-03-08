@@ -71,11 +71,11 @@ const IsPublicLayout = ({ children, username }: { children: React.ReactNode; use
             {/* USER INTRO */}
             <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
-                <div className="left avatar mr-5">
+                <div className="left mr-5">
                   {isLoading ? (
                     <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
                   ) : (
-                    <Avatar profile={publicProfile} width={500} height={500} />
+                    <Avatar profile={publicProfile} width={16} />
                   )}
                 </div>
                 <div className="right info flex justify-center flex-col">

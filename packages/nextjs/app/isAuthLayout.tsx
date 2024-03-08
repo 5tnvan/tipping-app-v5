@@ -1,12 +1,16 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Router } from "next/router";
 import { AppContext } from "./context";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
+import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
+import { HomeIcon } from "~~/components/assets/HomeIcon";
+import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { Address } from "~~/components/scaffold-eth";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
@@ -18,6 +22,18 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
+  //Search Modal
+
+  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
+
+  const openSearchModal = () => {
+    setSearchModalOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    setSearchModalOpen(false);
+  };
+
   //App Context
   const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
 
@@ -65,6 +81,12 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
+        {/* SEARCH MODAL*/}
+        <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}>
+          <h2>Modal Content</h2>
+          <p>This is the content of the modal.</p>
+        </SearchModal>
+
         {/* USER MENU BAR */}
         {isLoading ? (
           <>
@@ -83,7 +105,9 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                 onClick={() => setIsModalOpen(false)}
-              >✕</button>
+              >
+                ✕
+              </button>
               {/* choose avatar */}
               <div className="mb-5 mt-5">Choose your avatar:</div>
               {Object.entries(gif).map(([index, src]) => (
@@ -114,12 +138,14 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
             <div className="flex items-start">
               {/* USER INTRO - AVATAR */}
-              <div className="left avatar mr-5 flex flex-col items-center ">
+              <div className="left mr-5 flex flex-col items-center ">
                 {isLoading ? (
-                  <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                  <div className="avatar">
+                    <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                  </div>
                 ) : (
                   <>
-                    <Avatar profile={profile} width={500} height={500} />
+                    <Avatar profile={profile} width={16}/>
                     {isProfileEdit && (
                       <div
                         id="wildpay-avatar-cta"
@@ -173,6 +199,31 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
         {children}
+      </div>
+
+      {/* WILDPAY APP MENU */}
+      <div
+        id="wildpay-app-menu"
+        className="flex justify-around text-white items-center custom-bg-blue w-full h-14 z-40"
+      >
+        {/* HOME */}
+        <div className="flex flex-col items-center">
+          <HomeIcon />
+          Home
+        </div>
+
+        {/* PAY */}
+        <div className="flex flex-col items-center">
+          <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
+            <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img>
+          </div>
+          <div className="mb-10 font-semibold">Pay</div>
+        </div>
+
+        <div className="flex flex-col items-center" onClick={openSearchModal}>
+          <SearchIcon />
+          Search
+        </div>
       </div>
     </>
   );

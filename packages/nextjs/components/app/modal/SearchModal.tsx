@@ -1,0 +1,93 @@
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { Avatar } from "../authentication/Avatar";
+import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
+import { fetchPublicProfile } from "~~/utils/app/fetchUser";
+
+export const SearchModal = ({ isOpen, onClose }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [profile, setProfile] = useState(null);
+
+  //fetch profile on search
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const result = await fetchPublicProfile(searchValue);
+        setProfile(result);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setProfile(null);
+      }
+    };
+
+    if (searchValue.trim() !== "") {
+      fetchProfile();
+    }
+  }, [searchValue]);
+
+  const handleClose = () => {
+    setSearchValue("");
+    setProfile(null); // Clear the search results
+    onClose();
+  };
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col text-black z-30 absolute w-full h-full left-0">
+      {/* SEARCH FRAME */}
+      <div className="modal-content grow">
+        {/* SEARCH CLOSE */}
+        <span className="close-button" onClick={handleClose}>
+          &times;
+        </span>
+        {/* SEARCH CONTENT */}
+        <div>
+          {/* SEARCH INPUT */}
+          <label className="input input-bordered flex items-center gap-2">
+            <input
+              type="text"
+              className="grow"
+              placeholder="Search"
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="w-4 h-4 opacity-70"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </label>
+          {/* SEARCH RESULTS */}
+          <div id="wildpay-search-results" className="">
+            {profile && (
+              <>
+                <Link href={`/${profile.username}`}>
+                  <div className="result flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Avatar profile={profile} width={12} />
+                      <div className="ml-2">@{profile.username}</div>
+                    </div>
+
+                    <div>
+                      <ArrowRightIcon />
+                    </div>
+                  </div>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

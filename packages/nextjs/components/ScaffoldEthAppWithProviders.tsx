@@ -28,7 +28,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div id="master" className="min-h-full custom-gradient-01">
-        <Header />
+        {/* <Header /> */}
         <main id="main" className="flex justify-center min-h-screen h-full pt-10">
           {children}
         </main>
