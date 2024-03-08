@@ -8,7 +8,7 @@ import { Address } from "~~/components/scaffold-eth/Address";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
 const WalletConnectVerify = () => {
-  const { profile, refetch } = useContext(AppContext);
+  const { profile, refetchAuth } = useContext(AppContext);
   //WALLET
   const [isWallet, setIsWallet] = useState(false);
   // const { profile, refetch } = useAuthentication();
@@ -27,7 +27,7 @@ const WalletConnectVerify = () => {
 
       if (signMessageData) {
         updateProfile(address, signMessageData, new Date().toISOString());
-        refetch();
+        refetchAuth();
       }
     })();
   }, [signMessageData, variables?.message]);

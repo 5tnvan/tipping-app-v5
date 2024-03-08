@@ -18,7 +18,7 @@ import "~~/styles/app.css";
 
 const ProfileEdit: NextPage = () => {
   const router = useRouter();
-  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
+  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   const [socialMedia, setSocialMedia] = useState({
     youtube: true,
@@ -45,7 +45,7 @@ const ProfileEdit: NextPage = () => {
     const inputVal = socialMedia[`${social}Input`];
     updateProfileSocial(user, social, inputVal);
     handleSwitch(social);
-    refetch();
+    refetchAuth();
   };
 
   /* RENDER HTML */

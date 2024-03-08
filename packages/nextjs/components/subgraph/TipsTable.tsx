@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useEffect } from "react";
 import { TimeAgoUnix } from "../app/TimeAgo";
 import { EthIcon } from "../assets/EthIcon";
@@ -8,6 +9,7 @@ import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 
 const TipsTable = ({ receiverAddress, keyProp }) => {
+
   const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
       tips(
@@ -45,7 +47,6 @@ const TipsTable = ({ receiverAddress, keyProp }) => {
 
   // Subgraph maybe not yet configured
   if (error) {
-    console.log(error);
     return <></>;
   }
 

@@ -18,7 +18,7 @@ const Settings: NextPage = () => {
   const [buttonText, setButtonText] = useState("");
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
+  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   useEffect(() => {
     if (!profile.wallet_id) {
@@ -58,7 +58,7 @@ const Settings: NextPage = () => {
           {/* CTA BUTTON */}
           <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
             <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={handleModal}>
-              {isLoading ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
+              {isLoadingAuth ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
             </button>
           </div>
 

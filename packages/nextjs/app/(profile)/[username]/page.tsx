@@ -9,6 +9,7 @@ import TipsTable from "~~/components/subgraph/TipsTable";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { useParams } from "next/navigation";
 
 /**
  * ROUTE: /[username]
@@ -16,21 +17,28 @@ import "~~/styles/app.css";
  **/
 
 const ProfileUsername: NextPage = ({ params }) => {
+  //CONTEXTS
+  const { isLoadingAuth, profile, refetchAuth } = useContext(AppContext);
+  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { publicProfile } = useContext(PublicContext);
-  const { refetch } = useContext(AppContext);
   const [refetchTrigger, setRefetchTrigger] = useState(0);
 
   // Use effect to refresh TipsTable when refetch is triggered
   useEffect(() => {
     // Call the TipsTable refresh logic here
     setRefetchTrigger(prev => prev + 1);
-  }, [refetch]);
+  }, [refetchAuth]);
 
   //On click Tip Now, show modal
   const handleTipNow = () => {
     setIsModalOpen(true);
   };
+
+  if (!isLoadingPublic && !publicProfile?.id) {
+    console.log("user not found");
+    return <div className="mt-50">User not found</div>;
+  }
 
   //rendering HTML
   return (
@@ -54,7 +62,7 @@ const ProfileUsername: NextPage = ({ params }) => {
               <div>@{publicProfile.username}</div>
               <div>{publicProfile.wallet_id}</div>
 
-              <Tipping2 receiver={publicProfile.wallet_id} refetch={refetch} />
+              <Tipping2 receiver={publicProfile.wallet_id} refetch={refetchAuth} />
             </form>
           </div>
         </dialog>

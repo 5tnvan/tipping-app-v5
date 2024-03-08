@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { Router } from "next/router";
-import { AppContext } from "./context";
+import { useParams, usePathname } from "next/navigation";
+import { AppContext, PublicContext } from "./context";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -22,35 +21,39 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
-  //Search Modal
-
-  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
-
-  const openSearchModal = () => {
-    setSearchModalOpen(true);
-  };
-
-  const closeSearchModal = () => {
-    setSearchModalOpen(false);
-  };
-
-  //App Context
-  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
-
-  //Check pathname
+  //Check pathname/params
   const pathname = usePathname();
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
+  const { username } = useParams();
+
+  //CONTEXT
+  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
 
   //Set-up social media links
-  const soc = {
-    yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
-    ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
-    tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
-    tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
-  };
+  let soc = {};
+  console.log(username);
 
-  //Avatar update
+  if (!username) {
+    // Set up social media links using profile data
+    soc = {
+      yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
+      ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
+      tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
+      tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
+    };
+  } else if (publicProfile?.id) {
+    // Use publicProfile data
+    soc = {
+      yt: { val: publicProfile.youtube, link: "https://youtube.com/" + publicProfile.youtube },
+      ig: { val: publicProfile.instagram, link: "https://instagram.com/" + publicProfile.instagram },
+      tw: { val: publicProfile.twitter, link: "https://x.com/" + publicProfile.twitter },
+      tt: { val: publicProfile.tiktok, link: "https://twitter.com/" + publicProfile.tiktok },
+    };
+  }
+
+  //AVATAR MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(1);
   const gif = {
@@ -74,30 +77,42 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
       const selectedImageUrl = gif[selectedImage];
       updateProfileAvatar(selectedImageUrl);
       setIsModalOpen(false);
-      refetch();
+      refetchAuth();
     }
+  };
+
+  //SEARCH MODAL
+  const [isSearchModalOpen, setSearchModalOpen] = useState(false);
+
+  const openSearchModal = () => {
+    setSearchModalOpen(true);
+  };
+
+  const closeSearchModal = () => {
+    setSearchModalOpen(false);
   };
 
   return (
     <>
       <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
-        {/* SEARCH MODAL*/}
+        {/* ISAUTH SEARCH MODAL */}
         <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}>
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
         </SearchModal>
 
-        {/* USER MENU BAR */}
-        {isLoading ? (
+        {/* ISAUTH MENU DROPDOWN */}
+        {isLoadingAuth ? (
           <>
             <div className="z-10 custom-is-auth-menu absolute">
               <div tabIndex={0} role="button" className="btn m-1 btn-primary bg-slate-300 animate-pulse w-24"></div>
             </div>
           </>
         ) : (
-          <IsAuthMenu profile={profile} refetch={refetch} />
+          <IsAuthMenu profile={profile} refetch={refetchAuth} />
         )}
-        {/* AVATAR MODAL */}
+
+        {/* ISAUTH AVATAR MODAL */}
         <dialog id="my_modal_3" className="modal" open={isModalOpen}>
           <div className="modal-box z-20 relative">
             <form method="dialog">
@@ -130,75 +145,123 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             </form>
           </div>
         </dialog>
-        {/* CUSTOM-BG-AUTH */}
+
+        {/* ISAUTH CUSTOM-BG */}
         <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>
 
-        {/* USER INTRO */}
+        {/* ISAUTH PROFILE INTRO */}
         <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
           <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
             <div className="flex items-start">
-              {/* USER INTRO - AVATAR */}
+              {/* ISAUTH PROFILE INTRO - AVATAR */}
+              {/* ISAUTH PROFILE INTRO - AVATAR (@[USERNAME]) */}
+              {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
               <div className="left mr-5 flex flex-col items-center ">
-                {isLoading ? (
-                  <div className="avatar">
-                    <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-                  </div>
-                ) : (
-                  <>
-                    <Avatar profile={profile} width={16}/>
-                    {isProfileEdit && (
-                      <div
-                        id="wildpay-avatar-cta"
-                        className="relative rounded-full bg-white w-5 h-5"
-                        onClick={() => handleAvatarEdit()}
-                      >
-                        <DashCircleIcon />
-                      </div>
-                    )}
-                  </>
-                )}
+                {username && publicProfile?.id &&
+                  (isLoadingPublic ? (
+                    <div className="avatar">
+                      <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                    </div>
+                  ) : (
+                    <Avatar profile={publicProfile} width={16} />
+                  ))}
+                {!username &&
+                  (isLoadingAuth ? (
+                    <div className="avatar">
+                      <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                    </div>
+                  ) : (
+                    <>
+                      <Avatar profile={profile} width={16} />
+                      {isProfileEdit && (
+                        <div
+                          id="wildpay-avatar-cta"
+                          className="relative rounded-full bg-white w-5 h-5"
+                          onClick={() => handleAvatarEdit()}
+                        >
+                          <DashCircleIcon />
+                        </div>
+                      )}
+                    </>
+                  ))}
               </div>
-              {/* USER INTRO - USERNAME + SOCIAL */}
+              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
+              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@[USERNAME]) */}
+              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
               <div className="right info flex justify-center flex-col">
-                {isLoading ? (
-                  <>
-                    <IsLoading shape="rounded-md" width={28} height={6} />
-                    <IsLoading shape="rounded-md" width={28} height={8} />
-                  </>
+                {username && publicProfile?.id &&
+                  (isLoadingPublic ? (
+                    <>
+                      <IsLoading shape="rounded-md" width={28} height={6} />
+                      <IsLoading shape="rounded-md" width={28} height={8} />
+                    </>
+                  ) : (
+                    <>
+                      <div className="font-semibold">@{publicProfile.username}</div>
+                      <SocialIcons soc={soc} />
+                    </>
+                  ))}
+                {!username &&
+                  (isLoadingAuth ? (
+                    <>
+                      <IsLoading shape="rounded-md" width={28} height={6} />
+                      <IsLoading shape="rounded-md" width={28} height={8} />
+                    </>
+                  ) : (
+                    <>
+                      {!isSettings && (
+                        <>
+                          <div className="font-semibold">@{profile.username}</div>
+                          <SocialIcons soc={soc} />
+                        </>
+                      )}
+                      {isSettings && (
+                        <>
+                          <div className="font-semibold">{user.email}</div>
+                          {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
+                        </>
+                      )}
+                    </>
+                  ))}
+              </div>
+            </div>
+            {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
+            {/* ISAUTH PROFILE INTRO - ETH BALANCE @[USERNAME] */}
+            {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
+            {username && publicProfile?.id && (
+              <div className="text-4xl flex justify-center items-center gap-2">
+                {isLoadingPublic ? (
+                  <IsLoading shape="rounded-md" width={28} height={8} />
                 ) : (
                   <>
-                    {!isSettings && (
-                      <>
-                        <div className="font-semibold">@{profile.username}</div>
-                        <SocialIcons soc={soc} />
-                      </>
-                    )}
-                    {isSettings && (
-                      <>
-                        <div className="font-semibold">{user.email}</div>
-                        {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
-                      </>
-                    )}
+                    <span>
+                      <TipsValueSum receiverAddress={publicProfile.wallet_id} />
+                    </span>
+                    <span className="text-xl"> Ξ</span>
                   </>
                 )}
               </div>
-            </div>
-            {/* USER INTRO - USER BALANCE */}
-            <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
-              {isLoading ? (
-                <IsLoading shape="rounded-md" width={28} height={8} />
-              ) : (
-                <>
-                  <span>
-                    <TipsValueSum receiverAddress={profile.wallet_id} />
-                  </span>
-                  <span className="text-xl"> Ξ</span>
-                </>
-              )}
-            </div>
+            )}
+            {!username && (
+              <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
+                {isLoadingAuth ? (
+                  <IsLoading shape="rounded-md" width={28} height={8} />
+                ) : (
+                  <>
+                    <span>
+                      <TipsValueSum receiverAddress={profile.wallet_id} />
+                    </span>
+                    <span className="text-xl"> Ξ</span>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
-        {children}
+        {/* ISAUTH PROFILE CHILDREN */}
+        {username && publicProfile?.id && <>{children}</>}
+        {/* {username && !publicProfile?.id && <>{children}</>} */}
+        {!username && <>{children}</>}
       </div>
 
       {/* WILDPAY APP MENU */}

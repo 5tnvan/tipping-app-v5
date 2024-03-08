@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { Avatar } from "../authentication/Avatar";
+import { PublicContext } from "~~/app/context";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { fetchPublicProfile } from "~~/utils/app/fetchUser";
 
 export const SearchModal = ({ isOpen, onClose }) => {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [profile, setProfile] = useState(null);
+  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+  const { username } = useParams();
 
   //fetch profile on search
   useEffect(() => {
@@ -26,9 +31,17 @@ export const SearchModal = ({ isOpen, onClose }) => {
   }, [searchValue]);
 
   const handleClose = () => {
+    console.log("closin");
     setSearchValue("");
     setProfile(null); // Clear the search results
     onClose();
+  };
+  const handleLink = () => {
+    console.log("handlelink(): " + `/${profile.username}`);
+    console.log(username);
+    handleClose();
+    router.refresh();
+    router.push(`/${profile.username}`);
   };
 
   if (!isOpen) {
@@ -71,18 +84,28 @@ export const SearchModal = ({ isOpen, onClose }) => {
           <div id="wildpay-search-results" className="">
             {profile && (
               <>
-                <Link href={`/${profile.username}`}>
-                  <div className="result flex items-center justify-between">
-                    <div className="flex items-center">
-                      <Avatar profile={profile} width={12} />
-                      <div className="ml-2">@{profile.username}</div>
-                    </div>
-
-                    <div>
-                      <ArrowRightIcon />
-                    </div>
+                <div className="result flex items-center justify-between" onClick={handleLink}>
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width={14} />
+                    <div className="ml-2">@{profile.username}</div>
                   </div>
-                </Link>
+                  <div>
+                    <ArrowRightIcon />
+                  </div>
+                </div>
+
+                {/* <div
+                  className="result flex items-center justify-between"
+                  onClick={() => router.push(`/${profile.username}`)}
+                >
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width={14} />
+                    <div className="ml-2">@{profile.username}</div>
+                  </div>
+                  <div>
+                    <ArrowRightIcon />
+                  </div>
+                </div> */}
               </>
             )}
           </div>

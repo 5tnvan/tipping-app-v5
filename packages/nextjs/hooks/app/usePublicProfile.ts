@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetchUser";
+import { fetchPublicProfile } from "~~/utils/app/fetchUser";
 
-export const useAuthentication = () => {
+export const usePublicProfile = (username) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState("init");
-  const [user, setUser] = useState();
-  const [profile, setProfile] = useState({
+  const [publicProfile, setProfile] = useState({
     id: null,
     updated_at: null,
     username: null,
@@ -32,24 +30,14 @@ export const useAuthentication = () => {
     const initUser = async () => {
       setIsLoading(true); // Set loading to true when starting data fetch
 
-      //fetch session
-      const sessionData = await fetchSession();
-
-      if (sessionData?.session != null) {
-        setIsAuth("yes");
-        const userData = await fetchUser();
-        const profileData = await fetchProfile();
-        setUser(userData.userData.user);
-        setProfile(profileData);
-      } else {
-        setIsAuth("no");
-      }
+      const profileData = await fetchPublicProfile(username);
+      setProfile(profileData);
 
       setIsLoading(false); // Set loading to false when fetch is complete
     };
 
     initUser();
-  }, [triggerRefetch]);
+  }, [triggerRefetch, username]);
 
-  return { isLoading, isAuth, user, profile, refetch };
+  return { isLoading, publicProfile, refetch };
 };

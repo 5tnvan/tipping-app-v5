@@ -10,7 +10,7 @@ import { Signup } from "~~/components/app/authentication/Signup";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { isLoading, isAuth, user, profile, refetch } = useContext(AppContext);
+  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   if (isAuth == "yes") {
     router.push("/profile/view");
@@ -22,7 +22,7 @@ export default function SignUpPage() {
         {/* CONTENT */}
         <div id="wildpay-is-not-auth-sign-up" className="z-10">
         <div className="font-semibold text-3xl mb-5">{"Create an account"}</div>
-          <Signup refetch={refetch} />
+          <Signup refetch={refetchAuth} />
         </div>
       </>
     );

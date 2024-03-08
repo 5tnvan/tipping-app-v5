@@ -44,7 +44,7 @@ export const Login = ({ refetch }) => {
           </svg>
           <input type="password" name="password" placeholder="Password" className="" />
         </label>
-        
+
         <button type="submit" className="btn btn-neutral text-base w-full">
           Login
         </button>
@@ -53,19 +53,6 @@ export const Login = ({ refetch }) => {
           <span>{"Don't have an account? "}</span>
           <Link href="/getstarted">Sign Up</Link>
         </div>
-
-        {/* {type == "signup" && (
-          <button className="btn btn-neutral text-base w-full" formAction={signup}>
-            Sign Up
-          </button>
-        )} */}
-
-        {/* {linkLogin == "yes" && (
-          <div className="additional mt-5">
-            <span>{"Have an account? "}</span>
-            <Link href="/login">Log In</Link>
-          </div>
-        )} */}
       </form>
     </>
   );
