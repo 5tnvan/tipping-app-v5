@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { AppContext } from "~~/app/context";
-import { updateProfile } from "~~/app/settings/actions";
+import { updateProfileWallet } from "~~/app/settings/actions";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
 const WalletConnectVerify = () => {
   const { profile, refetchAuth } = useContext(AppContext);
@@ -26,7 +25,7 @@ const WalletConnectVerify = () => {
       }
 
       if (signMessageData) {
-        updateProfile(address, signMessageData, new Date().toISOString());
+        updateProfileWallet(address, signMessageData, new Date().toISOString());
         refetchAuth();
       }
     })();

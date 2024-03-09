@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateProfile } from "../../actions";
+import { updateProfileWallet } from "../../actions";
 import type { NextPage } from "next";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
@@ -29,7 +29,7 @@ const SettingsWallet: NextPage = () => {
       }
 
       if (signMessageData) {
-        updateProfile(address, signMessageData, new Date().toISOString());
+        updateProfileWallet(address, signMessageData, new Date().toISOString());
         refetch();
       }
     })();

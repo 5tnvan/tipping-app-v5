@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { logout } from "../login/actions";
 import { NextPage } from "next";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 
