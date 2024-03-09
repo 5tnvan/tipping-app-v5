@@ -4,16 +4,30 @@
 
 /* Modal.css */
 
-/* .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+/* Remove default styling for number input */
+#wildpay-fastpay input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  width: 100%; /* Adjust width as needed */
+  padding: 0.5rem; /* Adjust padding as needed */
+}
+
+/* Webkit browsers like Chrome and Safari use a different appearance property */
+#wildpay-fastpay input::-webkit-outer-spin-button,
+#wildpay-fastpay input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove arrows in IE 10 and above */
+#wildpay-fastpay input[type="number"]::-ms-clear {
+  display: none;
+}
+
+/* Remove outline on focus for number input */
+#wildpay-fastpay input[type="number"]:focus {
+  outline: none;
+}
 
 .modal-content {
   background: white;

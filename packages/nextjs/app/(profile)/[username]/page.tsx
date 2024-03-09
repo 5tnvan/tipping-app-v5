@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { AppContext, PublicContext } from "~~/app/context";
-import Tipping2 from "~~/components/app/tipping/Tipping2";
+import Tipping2 from "~~/components/app/pay/Tipping2";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import "~~/styles/app-profile.css";

@@ -1,51 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
-import { FollowersContext, PublicContext } from "~~/app/context";
+import FastPay from "../pay/FastPay";
+import { AppContext, FollowersContext, PublicContext } from "~~/app/context";
+import { useFollowers } from "~~/hooks/app/useFollowers";
 import { fetchPublicProfile, fetchPublicProfileFromId } from "~~/utils/app/fetchUser";
 
 export const PayModal = ({ isOpen, onClose }) => {
-  const router = useRouter();
-  const [searchValue, setSearchValue] = useState("");
-  const [profile, setProfile] = useState(null);
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
-  const { username } = useParams();
-
-  //fetch profile on search
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const result = await fetchPublicProfile(searchValue);
-        setProfile(result);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setProfile(null);
-      }
-    };
-
-    if (searchValue.trim() !== "") {
-      fetchProfile();
-    }
-  }, [searchValue]);
-
-  const getFollowings = id => {
-    const data = fetchPublicProfileFromId(id);
-    console.log(data);
-  };
+  const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
+  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
+  const [receiver, setReceiver] = useState("");
+  const [picked, setPicked] = useState("");
 
   const handleClose = () => {
-    console.log("closin");
-    setSearchValue("");
-    setProfile(null); // Clear the search results
     onClose();
   };
-  const handleLink = () => {
-    console.log("handlelink(): " + `/${profile.username}`);
-    console.log(username);
-    handleClose();
-    router.refresh();
-    router.push(`/${profile.username}`);
+  const handlePicked = wallet_id => {
+    setReceiver(wallet_id);
+    setPicked("sending to: " + wallet_id);
   };
 
   if (!isOpen) {
@@ -54,22 +25,28 @@ export const PayModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="flex flex-col text-black z-30 absolute w-full h-full left-0">
-      {/* SEARCH FRAME */}
+      {/* PAY FRAME */}
       <div className="modal-content grow">
-        {/* SEARCH CLOSE */}
+        {/* PAY CLOSE */}
         <span className="close-button" onClick={handleClose}>
           &times;
         </span>
+        {/* PAY FOLLOWING */}
         <div>Following:</div>
         <div className="flex flex-col">
           {followersData.following.map((following, index) => (
             <>
-              <div className="flex">
+              <div key={index} className="flex" onClick={() => handlePicked(following.wallet_id)}>
                 <Avatar profile={following} width={10} />
                 <div className="ml-2">@{following.username}</div>
               </div>
             </>
           ))}
+          <div>{picked}</div>
+        </div>
+        {/* FAST PAY */}
+        <div>
+          <FastPay receiver={receiver} />
         </div>
       </div>
     </div>

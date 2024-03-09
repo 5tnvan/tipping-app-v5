@@ -65,3 +65,16 @@ export const fetchPublicProfile = async (username: string) => {
 
   return profileData?.[0] ?? null;
 };
+
+/**
+ * FETCH: fetchPublicProfile(username)
+ * DB: supabase
+ * TABLE: "profiles"
+ **/
+
+export const fetchPublicProfileFromId = async (id: string) => {
+  const supabase = createClient();
+  const { data: profileData } = await supabase.from("profiles").select("*").eq("id", id);
+
+  return profileData?.[0].username ?? null;
+};

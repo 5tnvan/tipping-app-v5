@@ -18,7 +18,7 @@ export const fetchFollowers = async (profile_id: string) => {
   const { userData } = await fetchUser();
 
   // Initialize an object to store follower-related data
-  const followersData = { followed: false, followers: [], followersCount: 0, following: [], followingCount: 0 };
+  const followersData = { followed: false, followers: [], followersCount: 0, following: {}, followingCount: 0 };
 
   try {
     // Check if the profile is followed by the authenticated user
@@ -52,9 +52,17 @@ export const fetchFollowers = async (profile_id: string) => {
       .eq("follower_id", profile_id);
 
     // If there is data, set 'following' and 'followingCount'
+    console.log(profileFollowingData);
     if (profileFollowingData) {
-      followersData.following = profileFollowingData;
-      followersData.followingCount = profileFollowingData.length;
+      // Extract profile IDs from the result
+      const profileIDs = profileFollowingData.map(item => item.following_id);
+
+      // Fetch profile data for each ID
+      const { data: profilesData } = await supabase.from("profiles").select().in("id", profileIDs);
+
+      // Set 'following' to an array of profiles
+      followersData.following = profilesData || [];
+      followersData.followingCount = profilesData?.length || 0;
     }
   } catch (error) {
     console.error("Error fetching followers data:", error);
