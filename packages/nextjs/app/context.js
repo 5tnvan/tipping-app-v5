@@ -4,6 +4,6 @@ import { createContext } from "react";
 
 const AppContext = createContext();
 const PublicContext = createContext();
-const ProfileEditContext = createContext();
+const FollowersContext = createContext();
 
-export { AppContext, PublicContext, ProfileEditContext };
+export { AppContext, PublicContext, FollowersContext };

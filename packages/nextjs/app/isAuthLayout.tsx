@@ -34,7 +34,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //Set-up social media links
   let soc = {};
-  console.log(username);
 
   if (!username) {
     // Set up social media links using profile data

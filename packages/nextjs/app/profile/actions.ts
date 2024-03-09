@@ -28,6 +28,10 @@ export async function getUser() {
 export async function updateProfileSocial(user, social, inputVal) {
   const supabase = createClient();
 
+  //get user from supabase db
+  const { data, error } = await supabase.auth.getUser();
+  console.log(JSON.stringify(data, null, 2));
+
   //if user not found, redirect to login
   if (!user.id) {
     console.log("no user_id");
@@ -52,6 +56,8 @@ export async function updateProfileAvatar(url) {
 
   //get user from supabase db
   const { data, error } = await supabase.auth.getUser();
+
+  console.log(JSON.stringify(data, null, 2));
 
   //if user not found, redirect to login
   if (error || !data?.user) {
