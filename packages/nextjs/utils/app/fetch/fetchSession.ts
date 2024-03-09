@@ -1,13 +1,11 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { createClient } from "~~/utils/supabase/server";
 
 /**
  * Create Supabase Client
  **/
-const cookieStore = cookies();
-const supabase = createClient(cookieStore);
+const supabase = createClient();
 
 /**
  * FETCH: fetchUser()

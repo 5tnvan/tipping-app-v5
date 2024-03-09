@@ -1,3 +1,7 @@
+/**
+ * FUNCTION: convertUsdToEth()
+ * RETURN: { roundedEthAmount }
+ **/
 export const convertUsdToEth = (value, nativeCurrencyPrice) => {
   // Convert USD to ETH using the nativeCurrencyPrice
   const calculatedEthAmount = value / nativeCurrencyPrice;

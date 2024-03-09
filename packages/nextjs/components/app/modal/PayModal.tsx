@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import FastPay from "../pay/FastPay";
-import { AppContext, FollowersContext, PublicContext } from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import { useFollowers } from "~~/hooks/app/useFollowers";
-import { fetchPublicProfile, fetchPublicProfileFromId } from "~~/utils/app/fetchUser";
 
 export const PayModal = ({ isOpen, onClose }) => {
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);

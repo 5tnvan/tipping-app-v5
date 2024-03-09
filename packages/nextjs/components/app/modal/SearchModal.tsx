@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Avatar } from "../authentication/Avatar";
 import { PublicContext } from "~~/app/context";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
-import { fetchPublicProfile } from "~~/utils/app/fetchUser";
+import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
 
 export const SearchModal = ({ isOpen, onClose }) => {
   const router = useRouter();

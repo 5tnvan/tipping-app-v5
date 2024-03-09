@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetchUser";
+import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetch/fetchUser";
 
 export const useAuthentication = () => {
   const [isLoading, setIsLoading] = useState(true);

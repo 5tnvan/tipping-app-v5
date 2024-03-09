@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchPublicProfile } from "~~/utils/app/fetchUser";
+import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
 
 export const usePublicProfile = (username) => {
   const [isLoading, setIsLoading] = useState(true);

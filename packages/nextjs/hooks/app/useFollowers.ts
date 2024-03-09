@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchFollowers } from "~~/utils/app/fetchFollowers";
+import { fetchFollowers } from "~~/utils/app/fetch/fetchFollowers";
 
 export const useFollowers = profile_id => {
   const [isLoading, setIsLoading] = useState(true);
