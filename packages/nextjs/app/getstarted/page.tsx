@@ -20,28 +20,36 @@ const GetStarted: NextPage = () => {
   const { isAuth } = useContext(AppContext);
 
   const [username, setUsername] = useState<string>("");
-  const [availability, setAvailability] = useState<[string, string, string]>(["", "badge-info", "btn-disabled"]);
+  const [availability, setAvailability] = useState<[string, string, string, string]>([
+    "",
+    "",
+    "btn-light",
+    "Get started-it's free",
+  ]);
 
   // perform a side effect as user types 'username'
   useEffect(() => {
     (async () => {
       let warningText = "";
       let badgeClass = "";
-      let btnClass = "btn-disabled";
+      let btnClass = "btn-light";
+      let btnValue = "Get started-it's free";
 
       if (username.length === 0) {
         warningText = "";
-      } else if (username.length < 4) {
+      } else if (username.length === 1) {
+      } else if (username.length < 3) {
         warningText = "Type more";
         badgeClass = "badge-warning";
       } else {
         const taken = await isUsernameTaken(username);
         warningText = taken ? "Taken" : "Available";
         badgeClass = taken ? "badge-error" : "badge-success";
-        btnClass = taken ? "btn-disabled" : "";
+        btnValue = taken ? "Claim" : "Claim";
+        btnClass = taken ? "btn-light btn-disabled" : "btn-neutral";
       }
 
-      setAvailability([warningText, badgeClass, btnClass]);
+      setAvailability([warningText, badgeClass, btnClass, btnValue]);
     })();
   }, [username]);
 
@@ -80,7 +88,7 @@ const GetStarted: NextPage = () => {
             <div className="scr-item custom-bg-image-01"></div>
           </div>
 
-          {/* GET STARTED CLAIM LINK */}
+          {/* GET STARTED CLAIM USERNAME */}
           <form id="wildpay-claim">
             <label className="input flex items-center mb-3">
               <Image alt="wildpay" src="/wildpay-logo.svg" width={20} height={20} className="mr-2" />
@@ -88,26 +96,28 @@ const GetStarted: NextPage = () => {
               <div id="wildpay-claim-domain" className="font-semibold tracking-wide">
                 wildpay.eth /{" "}
               </div>
-              {/* GET STARTED CLAIM LINK INPUT */}
+              {/* GET STARTED USERNAME INPUT */}
               <input
                 id="username"
                 name="username"
                 type="text"
                 className="grow tracking-wider ml-1"
                 placeholder="yourname"
+                pattern="^[a-z][a-z0-9_]{2,15}$"
+                title="Only letters, numbers, and underscores."
                 value={username}
                 onChange={e => setUsername(e.target.value)}
               />
 
-              {/* GET STARTED CLAIM LINK AVAILABILITY */}
+              {/* GET STARTED USERNAME AVAILABILITY */}
               <span id="wildpay-claim-avail" className={`${availability[1]} badge`}>
                 {availability[0]}
               </span>
             </label>
 
-            {/* GET STARTED CLAIM LINK CONFIRM */}
-            <button className={`btn btn-neutral text-base w-full ${availability[2]}`} formAction={setUsernameCookie}>
-              Claim
+            {/* GET STARTED USERNAME CONFIRM */}
+            <button className={`btn text-base w-full ${availability[2]}`} formAction={setUsernameCookie}>
+              {availability[3]}
             </button>
           </form>
         </div>

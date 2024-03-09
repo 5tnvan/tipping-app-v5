@@ -4,6 +4,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "~~/utils/supabase/server";
 
+// Import the regex pattern for username validation
+const usernameRegex = /^[a-z][a-z0-9_]{2,15}$/i;
+
 /**
  * ACTION: setUsernameCookie(formData)
  **/
@@ -21,7 +24,7 @@ export async function setUsernameCookie(formData: FormData) {
 /**
  * ACTION: signup(formData)
  **/
-export async function signup(formData: FormData) {
+export async function signup(formData: { email: string; password: string }) {
   const cookieStore = cookies();
   const supabase = createClient();
   const cookie = cookieStore.get("wildpay-username");
@@ -29,8 +32,8 @@ export async function signup(formData: FormData) {
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+    email: formData.email,
+    password: formData.password,
     options: {
       data: {
         username: "",
@@ -38,14 +41,18 @@ export async function signup(formData: FormData) {
     },
   };
 
-  if (cookie != undefined) {
+  if (cookie != undefined && usernameRegex.test(cookie.value)) {
     data.options.data.username = cookie.value;
+    // Check if the username follows the specified pattern
   }
+  if (cookie == undefined) {
+    redirect("/error");
+  }
+
   const { error } = await supabase.auth.signUp(data);
   cookieStore.delete("wildpay-username");
 
   if (error) {
-    console.log(error);
     redirect("/error");
   }
 
