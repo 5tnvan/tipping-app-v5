@@ -7,6 +7,7 @@ import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
+import { PayModal } from "~~/components/app/modal/PayModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
 import { HomeIcon } from "~~/components/assets/HomeIcon";
@@ -81,6 +82,17 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  //PAY MODAL
+  const [isPayModalOpen, setPayModalOpen] = useState(false);
+
+  const openPayModal = () => {
+    setPayModalOpen(true);
+  };
+
+  const closePayModal = () => {
+    setPayModalOpen(false);
+  };
+
   //SEARCH MODAL
   const [isSearchModalOpen, setSearchModalOpen] = useState(false);
 
@@ -94,11 +106,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
+      {/* ISAUTH PAY MODAL */}
+      <PayModal isOpen={isPayModalOpen} onClose={closePayModal}></PayModal>
+
       {/* ISAUTH SEARCH MODAL */}
-      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}>
-        <h2>Modal Content</h2>
-        <p>This is the content of the modal.</p>
-      </SearchModal>
+      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
 
       <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
         {/* ISAUTH MENU DROPDOWN */}
@@ -238,7 +250,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* PAY */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center" onClick={openPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
             <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img>
           </div>

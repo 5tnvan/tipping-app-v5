@@ -104,7 +104,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
             {/* ISAUTH PROFILE INTRO - FOLLOWERS */}
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <div className="btn btn-secondary w-full mb-1" onClick={handleFollow}>
                 follow
               </div>
@@ -126,12 +126,10 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 <h3>Following Count: {followersData?.followingCount}</h3>
                 <p>Following:</p>
                 <ul>
-                  {followersData?.following.map(following => (
-                    <li key={following.following_id}>{following.following_id}</li>
-                  ))}
+                  {JSON.stringify(followersData)};
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
           {/* ISPUBLIC CHILDREN */}
           {children}
