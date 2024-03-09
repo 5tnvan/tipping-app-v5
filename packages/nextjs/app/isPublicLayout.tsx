@@ -29,7 +29,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   if (!isLoadingPublic && !publicProfile?.id) {
-    console.log("user not found");
     return <div className="mt-20 text-black z-50 relative">User not found</div>;
   }
 

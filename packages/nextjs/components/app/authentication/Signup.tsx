@@ -1,4 +1,4 @@
-import { signup } from "../../../app/login/actions";
+import { signup } from "~~/app/signup/actions";
 
 export const Signup = () => {
   return (
