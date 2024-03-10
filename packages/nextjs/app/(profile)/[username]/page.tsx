@@ -10,6 +10,7 @@ import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 import { useParams } from "next/navigation";
+import { CardWithUsername } from "~~/components/app/CardWithUsername";
 
 /**
  * ROUTE: /[username]
@@ -49,7 +50,7 @@ const ProfileUsername: NextPage = ({ params }) => {
           Pay Now
         </button>
       </div>
-      <div id="wildpay-username" className="profile mt-5 mb-5 z-10">
+      <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">
         <dialog id="my_modal_3" className="modal" open={isModalOpen}>
           <div className="modal-box">
             <form method="dialog">
@@ -67,19 +68,12 @@ const ProfileUsername: NextPage = ({ params }) => {
           </div>
         </dialog>
 
-        <div className="scr mb-6">
-          <div className="scr-item custom-bg-image-01 flex items-center relative">
-            <div className=" text-6xl font-black custom-difference-blend">{publicProfile.username}</div>
-            <div className="absolute url flex custom-bg-blue pt-2 pb-2 pr-3 pl-3 text-white rounded-full text-sm items-center">
-              <div className="mr-2">wildpay.eth/{publicProfile.username}</div>
-              <CopyIcon />
-            </div>
-          </div>
-        </div>
+        <CardWithUsername username={publicProfile.username} />
 
-        <div className="latest"></div>
-        {/* Refresh TipsTable by changing key when refetch is triggered */}
+        <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
+          {/* Refresh TipsTable by changing key when refetch is triggered */}
         <TipsTable receiverAddress={publicProfile.wallet_id} keyProp={refetchTrigger} />
+        </div>
       </div>
     </>
   );

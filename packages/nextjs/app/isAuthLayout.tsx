@@ -165,7 +165,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {!username && (
           <>
-            <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
+            <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
               <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
                 <div className="flex items-start">
                   {/* ISAUTH PROFILE INTRO - AVATAR */}
@@ -250,11 +250,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* PAY */}
-        <div className="flex flex-col items-center" onClick={openPayModal}>
+        <div id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
             <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img>
           </div>
-          <div className="mb-10 font-semibold">Pay</div>
+          <div className="font-semibold">Pay</div>
         </div>
 
         <div className="flex flex-col items-center" onClick={openSearchModal}>

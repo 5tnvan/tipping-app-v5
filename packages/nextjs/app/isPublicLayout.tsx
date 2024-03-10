@@ -67,7 +67,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           {/* ISPUBLIC CUSTOM-BG */}
           {isAuth == "no" && <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>}
 
-          <div id="wildpay-is-auth-top" className="profile mt-20 relative z-10">
+          <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
             {/* ISPUBLIC PROFILE INTRO */}
             <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
@@ -82,7 +82,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                           <Avatar profile={publicProfile} width={16} />
                           <button
                             id="wildpay-avatar-cta"
-                            className="flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                            className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
                             onClick={() => handleFollow()}
                           >
                             Follow
@@ -95,7 +95,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                           <Avatar profile={publicProfile} width={16} />
                           <button
                             id="wildpay-avatar-cta"
-                            className="flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                            className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
                             onClick={() => openFollowersModal()}
                           >
                             Followed

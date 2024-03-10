@@ -29,6 +29,13 @@
   outline: none;
 }
 
+#wildpay-app-menu-pay {top: -20px;}
+
+#wildpay-profile-tx {
+  max-height: 150px;
+  overflow: scroll;
+}
+
 .disabled-button {
   pointer-events: none;
   opacity: 0.7; /* Optional: reduces opacity for a visual indication */
@@ -63,7 +70,7 @@
 /* APP */
 #wildpay { min-width: 506px; }
 #wildpay-avatar {display: flex; justify-content: center; align-items: center;}
-#wildpay-avatar-cta { top: -10px; border: 1px solid #3D45E7; /* Added 'solid' as the border style */ }
+#wildpay-avatar-cta { border: 1px solid #3D45E7; /* Added 'solid' as the border style */ }
 #wildpay-app-menu {border-radius: 20px 20px 0 0;}
 
 /* CUSTOM */
@@ -74,7 +81,7 @@
 .custom-bg-blue { background-color: #3D45E7; }
 .custom-text-blue { color: #3D45E7 }
 .custom-bg-image-01 { background-image: url('/card-01.png'); background-size: cover; isolation: isolate; }
-.custom-bg-auth { background-image: url("/Frame360.png"); width: 100%; height: 252px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
+.custom-bg-auth { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
 .custom-difference-blend { mix-blend-mode: difference; color: #fff; }
 .custom-is-auth-menu { top: 20px; right: 20px; }
 
@@ -104,7 +111,7 @@
 .slides>div { scroll-snap-align: start; flex-shrink: 0; width: 300px; height: 200px; margin-right: 20px; margin-bottom: 3px; }
 .slides>div { border-radius: 10px; background: #eee; transform-origin: center center; transform: scale(1); transition: transform 0.5s; position: relative; display: flex; justify-content: center; align-items: center; font-size: 100px; } */
 
-.scr { display: inline-flex; width: 450px; height: 283px; scroll-snap-type: x mandatory; scroll-behavior: smooth; overflow-x: auto; }
+.scr { display: inline-flex; width: 370px; height: 239.07px; scroll-snap-type: x mandatory; scroll-behavior: smooth; overflow-x: auto; }
 .scr-item { box-sizing: content-box; display: flex; flex: none; scroll-snap-align: start; width: 100%; border-radius: 10px; margin-right: 10px; margin-bottom: 3px; font-size: 18px; }
 .scr-item .url { bottom: 7px; right: 7px; }
 .scr::-webkit-scrollbar { width: 10px; height: 5px; }
