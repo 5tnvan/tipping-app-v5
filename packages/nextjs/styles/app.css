@@ -29,6 +29,19 @@
   outline: none;
 }
 
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.7; /* Optional: reduces opacity for a visual indication */
+  cursor: not-allowed;
+}
+
+.box-shadow-01 {
+  box-shadow: rgba(0, 0, 0, 1) 0px 25px 50px -12px;
+}
+.box-shadow-02 {
+  box-shadow: rgba(0, 0, 0, 1) 0px -20px 50px -12px;
+}
+
 .modal-content {
   background: white;
   padding: 20px;

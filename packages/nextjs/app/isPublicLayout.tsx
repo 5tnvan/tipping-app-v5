@@ -1,11 +1,13 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 import { insertFollowing } from "./(profile)/[username]/actions";
 import { AppContext, FollowersContext, PublicContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
+import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowDownIcon } from "~~/components/assets/ArrowDownIcon";
+import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -28,6 +30,17 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  //PAY MODAL
+  const [isFollowersModalOpen, setFollowersModalOpen] = useState(false);
+
+  const openFollowersModal = () => {
+    setFollowersModalOpen(true);
+  };
+
+  const closeFollowersModal = () => {
+    setFollowersModalOpen(false);
+  };
+
   if (!isLoadingPublic && !publicProfile?.id) {
     return <div className="mt-20 text-black z-50 relative">User not found</div>;
   }
@@ -45,6 +58,9 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   if (publicProfile?.id) {
     return (
       <>
+        {/* ISAUTH PAY MODAL */}
+        <FollowersModal isOpen={isFollowersModalOpen} onClose={closeFollowersModal}></FollowersModal>
+
         <div id="wildpay-public" className={`bg-white h-full grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
           {isAuth == "no" && <IsNotAuthMenu />}
 
@@ -56,20 +72,37 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
             <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
-                <div className="left mr-5">
+                <div className="left mr-5 flex flex-col items-center">
                   {isLoadingAuth ? (
                     <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
                   ) : (
                     <>
-                      <Avatar profile={publicProfile} width={16} />
-                      <div
-                        id="wildpay-avatar-cta"
-                        className="flex justify-center items-center btn rounded-full bg-white"
-                        onClick={() => handleFollow()}
-                      >
-                        {followersData?.followed ? <>Followed</> : <>Follow</>}
-                        <ArrowDownIcon />
-                      </div>
+                      {!followersData?.followed && (
+                        <>
+                          <Avatar profile={publicProfile} width={16} />
+                          <button
+                            id="wildpay-avatar-cta"
+                            className="flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                            onClick={() => handleFollow()}
+                          >
+                            Follow
+                            <ArrowRightIcon />
+                          </button>
+                        </>
+                      )}
+                      {followersData?.followed && (
+                        <>
+                          <Avatar profile={publicProfile} width={16} />
+                          <button
+                            id="wildpay-avatar-cta"
+                            className="flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                            onClick={() => openFollowersModal()}
+                          >
+                            Followed
+                            <ArrowRightIcon />
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

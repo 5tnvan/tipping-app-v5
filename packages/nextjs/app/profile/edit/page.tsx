@@ -48,6 +48,8 @@ const ProfileEdit: NextPage = () => {
     refetchAuth();
   };
 
+  console.log(profile);
+
   /* RENDER HTML */
   if (isAuth == "no") {
     router.push("/login");
@@ -63,7 +65,6 @@ const ProfileEdit: NextPage = () => {
           </Link>
         </div>
         <div id="profile-edit-content" className="profile mt-5 mb-5 z-10 ">
-
           {/* SOCIAL */}
           <div className="mb-3">Social links:</div>
 
@@ -85,7 +86,7 @@ const ProfileEdit: NextPage = () => {
                   <input type="text" className="grow bg-white" placeholder={profile.youtube || ""} disabled />
                 </div>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
-                  {profile.youtube !== null ? "Edit" : "Add"}
+                  {profile.youtube && profile.youtube?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
             ) : (
@@ -131,7 +132,7 @@ const ProfileEdit: NextPage = () => {
                   <input type="text" className="grow bg-white" placeholder={profile.instagram || ""} disabled />
                 </div>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("instagram")}>
-                  {profile.instagram !== null ? "Edit" : "Add"}
+                  {profile.instagram && profile.instagram?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
             ) : (
@@ -177,7 +178,7 @@ const ProfileEdit: NextPage = () => {
                   <input type="text" className="grow bg-white" placeholder={profile.twitter || ""} disabled />
                 </div>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("twitter")}>
-                  {profile.twitter !== null ? "Edit" : "Add"}
+                  {profile.twitter && profile.twitter?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
             ) : (
@@ -231,7 +232,7 @@ const ProfileEdit: NextPage = () => {
                   <input type="text" className="grow bg-white" placeholder={profile.tiktok || ""} disabled />
                 </div>
                 <button className="btn btn-secondary" onClick={() => handleSwitch("tiktok")}>
-                  {profile.twitter !== null ? "Edit" : "Add"}
+                  {profile.tiktok && profile.tiktok?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
             ) : (
