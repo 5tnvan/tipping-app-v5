@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { login, signup } from "../../../app/login/actions";
+import { login } from "../../../app/login/actions";
 
 export const Login = ({ refetch }) => {
   const router = useRouter();
   const handleLogin = async event => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
-    // Pass both formData and refetch to the login function
-    await login(formData);
-    refetch();
-    router.push("/profile/view");
+    try {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      await login(formData);
+      refetch();
+      // router.push("profile/view");
+    } catch (error) {
+      console.error("Login error:", error);
+      router.push("error");
+    }
   };
 
   return (

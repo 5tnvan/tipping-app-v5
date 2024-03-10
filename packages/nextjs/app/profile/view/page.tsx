@@ -17,7 +17,17 @@ const ProfileView: NextPage = () => {
 
   /* ROUTE */
   if (isAuth == "no") {
-    router.push("/login");
+    return (
+      <>
+        {/* CONTENT */}
+        <div id="wildpay-is-not-auth" className="z-10 pt-28">
+          <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
+          <Link href="/login" className="btn text-base mb-3 w-full">
+            {"Go to login"}
+          </Link>
+        </div>
+      </>
+    );
   }
 
   if (isAuth == "yes") {

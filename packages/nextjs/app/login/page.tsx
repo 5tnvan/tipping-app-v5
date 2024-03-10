@@ -7,13 +7,14 @@ import { Login } from "../../components/app/authentication/Login";
 import { AppContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   if (isAuth == "yes") {
-    router.push("/profile/view");
+    router.push("profile/view");
   }
 
   if (isAuth == "no") {
