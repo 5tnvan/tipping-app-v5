@@ -37,7 +37,7 @@ export const PayModal = ({ isOpen, onClose }) => {
           <div className="flex flex-col">
             {!receiver && Array.isArray(followersData.following) && (
               <>
-                <div className="font-semibold">Choose receiver:</div>
+                <div className="font-semibold">Pay to:</div>
                 {followersData.following.map(following => (
                   <>
                     <div

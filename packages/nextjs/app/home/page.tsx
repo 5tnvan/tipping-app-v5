@@ -13,9 +13,6 @@ const HomePage: NextPage = () => {
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const [showFollow, setShowFollow] = useState("followers");
 
-  console.log(followersData.followers);
-  console.log(followersData.following);
-
   if (isAuth == "no") {
     return (
       <>
@@ -46,32 +43,25 @@ const HomePage: NextPage = () => {
             </button>
           </div>
           {/* FOLLOWERS DATA */}
-          {showFollow == "followers" && (
+          {isLoadingFollowers && <div>is loading</div>}
+          {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
             <ul id="followers" className="flex">
               {followersData?.followers.map(followers => (
-                <button
-                  key={followers}
-                  className="flex flex-col items-center mr-2"
-                  onClick={() => router.push(`/${followers.username}`)}
-                >
+                <Link href={`/${followers.username}`} key={followers} className="flex flex-col items-center mr-2">
                   <Avatar profile={followers} width={12} />
                   {followers.username}
-                </button>
+                </Link>
               ))}
             </ul>
           )}
 
-          {showFollow == "following" && (
+          {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
             <div id="following" className="flex">
               {followersData?.following.map(following => (
-                <button
-                  key={following}
-                  className="flex flex-col items-center mr-2"
-                  onClick={() => router.push(`/${following.username}`)}
-                >
+                <Link href={`/${following.username}`} key={following} className="flex flex-col items-center mr-2">
                   <Avatar profile={following} width={12} />
                   {following.username}
-                </button>
+                </Link>
               ))}
             </div>
           )}

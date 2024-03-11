@@ -18,6 +18,8 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
+  console.log("wildpay layout");
+
   return (
     <>
       <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>

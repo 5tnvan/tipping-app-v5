@@ -13,7 +13,7 @@ export const metadata = getMetadata({
 const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+  //const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
 
   return (
     <>

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { deleteFollowing } from "~~/app/(profile)/[username]/actions";
-import { PublicContext } from "~~/app/context";
+import { FollowersContext, PublicContext } from "~~/app/context";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 
-export const FollowersModal = ({ isOpen, onClose }) => {
+export const FollowersModal = ({ isOpen, onClose, data: followersPublicData, refetch: refetchPublicFollowers }) => {
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(publicProfile.id);
+  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
 
   const handleClose = () => {
     onClose();
@@ -17,6 +17,7 @@ export const FollowersModal = ({ isOpen, onClose }) => {
     try {
       await deleteFollowing(publicProfile.id);
       handleClose();
+      refetchPublicFollowers();
       refetchFollowers();
     } catch (error) {
       console.error("Error:", error);
@@ -43,32 +44,22 @@ export const FollowersModal = ({ isOpen, onClose }) => {
         {/* FOLLOWERS STATS */}
         <div className="flex justify-around m-5">
           <div className="flex flex-col items-center">
-            <div className="font-semibold">{followersData?.followersCount}</div>
+            <div className="font-semibold">{followersPublicData?.followersCount}</div>
             <div>Followers</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="font-semibold">{followersData?.followingCount}</div>
+            <div className="font-semibold">{followersPublicData?.followingCount}</div>
             <div>Following</div>
           </div>
-          {/* <ul>
-              {followersData?.followers.map(follower => (
-                <li key={follower.follower_id}>{follower.follower_id}</li>
-              ))}
-            </ul> */}
-          {/* <ul>
-              {followersData?.following.map(following => (
-                <li key={following.id}>{following.id}</li>
-              ))}
-            </ul> */}
         </div>
         {/* FOLLOWERS CTA */}
         <div className="m-5">
-          {followersData?.followed && (
+          {followersPublicData?.followed && (
             <div className="btn btn-light w-full" onClick={handleUnfollow}>
               Unfollow
             </div>
           )}
-          {!followersData?.followed && <div className="btn btn-light w-full">Follow</div>}
+          {!followersPublicData?.followed && <div className="btn btn-light w-full">Follow</div>}
         </div>
       </div>
     </div>

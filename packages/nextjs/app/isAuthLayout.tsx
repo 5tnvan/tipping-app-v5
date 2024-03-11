@@ -225,6 +225,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </>
         )}
+        {/* ISAUTH HOME */}
         {!username && isHome && <>{children}</>}
       </div>
 

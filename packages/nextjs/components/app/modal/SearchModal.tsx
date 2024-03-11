@@ -95,7 +95,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
             {!isSearchLoading && searchProfile && (
               <>
                 <Link
-                  href={`${searchProfile.username}`}
+                  href={`/${searchProfile.username}`}
                   className="result flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"
                   onClick={handleLink}
                 >
