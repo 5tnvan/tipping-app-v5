@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { AppContext, PublicContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
@@ -23,8 +23,11 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
+
+  const router = useRouter();
   //Check pathname/params
   const pathname = usePathname();
+  const isHome = pathname === "/home";
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const { username } = useParams();
@@ -159,11 +162,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         </dialog>
 
         {/* ISAUTH CUSTOM-BG */}
-        <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>
+        <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
-        {!username && (
+        {!username && !isHome && (
           <>
             <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
               <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
@@ -236,6 +239,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </>
         )}
+        {!username && isHome && <>{children}</>}
       </div>
 
       {/* WILDPAY APP MENU */}
@@ -244,7 +248,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         className="flex justify-around text-white items-center custom-bg-blue w-full h-14 z-40"
       >
         {/* HOME */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center" onClick={() => router.push("/home")}>
           <HomeIcon />
           Home
         </div>

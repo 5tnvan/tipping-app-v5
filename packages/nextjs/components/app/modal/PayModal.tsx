@@ -70,6 +70,7 @@ export const PayModal = ({ isOpen, onClose }) => {
                   <div className="flex flex-col items-center justify-center mt-5">
                     <Avatar profile={receiver} width={12} />
                     <div className="font-semibold mt-2">@{receiver.username}</div>
+                    <div className="font-semibold mt-2">@{receiver.wallet_id}</div>
                   </div>
                 </>
               )}

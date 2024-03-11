@@ -18,7 +18,7 @@ export const fetchFollowers = async (profile_id: string) => {
   const { userData } = await fetchUser();
 
   // Initialize an object to store follower-related data
-  const followersData = { followed: false, followers: [], followersCount: 0, following: {}, followingCount: 0 };
+  const followersData = { followed: false, followers: {}, followersCount: 0, following: {}, followingCount: 0 };
 
   try {
     // Check if the profile is followed by the authenticated user
@@ -41,8 +41,14 @@ export const fetchFollowers = async (profile_id: string) => {
 
     // If there is data, set 'followers' and 'followersCount'
     if (profileFollowersData) {
-      followersData.followers = profileFollowersData;
-      followersData.followersCount = profileFollowersData.length;
+      // Extract profile IDs from the result
+      const profileIDs = profileFollowersData.map(item => item.follower_id);
+
+      // Fetch profile data for each ID
+      const { data: profilesData } = await supabase.from("profiles").select().in("id", profileIDs);
+
+      followersData.followers = profilesData || [];
+      followersData.followersCount = profilesData?.length || 0;
     }
 
     // Fetch data of profile following and count how many following
