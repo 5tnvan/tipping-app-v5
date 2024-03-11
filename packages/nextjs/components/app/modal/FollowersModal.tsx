@@ -32,9 +32,9 @@ export const FollowersModal = ({ isOpen, onClose }) => {
       {/* FOLLOWERS FRAME */}
       <div className="modal-content grow box-shadow-01">
         {/* FOLLOWERS CLOSE */}
-        <span className="close-button" onClick={handleClose}>
-          &times;
-        </span>
+        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
+          ✕
+        </button>
         {/* FOLLOWERS INTO */}
         <div className="flex flex-col justify-center items-center mt-10">
           <Avatar profile={publicProfile} width={16} />

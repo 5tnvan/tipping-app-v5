@@ -11,7 +11,7 @@ export const Avatar = ({ profile, width }) => {
         ) : (
           <div
             id="wildpay-avatar"
-            className={`w-${width} rounded-full ring ring-primary ring-offset-base-100 ring-offset-2`}>
+            className={`w-${width} bg-slate-100 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2`}>
             {/* Placeholder or default avatar */}
             <div className="text-4xl custom-text-blue">{profile.username.charAt(0).toUpperCase()}</div>
           </div>

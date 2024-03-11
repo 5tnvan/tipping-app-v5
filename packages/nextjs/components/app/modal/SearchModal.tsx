@@ -1,34 +1,36 @@
-import React, { useContext, useEffect, useState } from "react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Avatar } from "../authentication/Avatar";
-import { PublicContext } from "~~/app/context";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
+import { useDebounce } from "~~/hooks/app/useDebounce";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
+import { IsLoading } from "../IsLoading";
 
 export const SearchModal = ({ isOpen, onClose }) => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
+  const debouncedSearchValue = useDebounce(searchValue);
   const [profile, setProfile] = useState(null);
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { username } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   //fetch profile on search
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const result = await fetchPublicProfile(searchValue);
-        setProfile(result);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setProfile(null);
-      }
-    };
+      console.log("debouncedSearchValue: ", debouncedSearchValue);
+      setIsLoading(true);
 
-    if (searchValue.trim() !== "") {
+      const result = await fetchPublicProfile(debouncedSearchValue);
+      setProfile(result);
+
+      setIsLoading(false);
+    };
+    if (debouncedSearchValue.trim() !== "") {
       fetchProfile();
+    } else {
+      //clear results
+      setProfile(null);
     }
-  }, [searchValue]);
+  }, [debouncedSearchValue]);
 
   const handleClose = () => {
     console.log("closin");
@@ -37,8 +39,6 @@ export const SearchModal = ({ isOpen, onClose }) => {
     onClose();
   };
   const handleLink = () => {
-    console.log("handlelink(): " + `/${profile.username}`);
-    console.log(username);
     handleClose();
     router.refresh();
     router.push(`/${profile.username}`);
@@ -53,11 +53,11 @@ export const SearchModal = ({ isOpen, onClose }) => {
       {/* SEARCH FRAME */}
       <div className="modal-content grow">
         {/* SEARCH CLOSE */}
-        <span className="close-button" onClick={handleClose}>
-          &times;
-        </span>
+        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
+          ✕
+        </button>
         {/* SEARCH CONTENT */}
-        <div>
+        <div className="pt-12 pl-5 pr-5 pb-10">
           {/* SEARCH INPUT */}
           <label className="input input-bordered flex items-center gap-2">
             <input
@@ -81,31 +81,29 @@ export const SearchModal = ({ isOpen, onClose }) => {
             </svg>
           </label>
           {/* SEARCH RESULTS */}
-          <div id="wildpay-search-results" className="">
-            {profile && (
+          <div id="wildpay-search-results" className="mt-5">
+            {isLoading && (
+              <div className="result flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                  <IsLoading shape="rounded-md" width={28} height={6} />
+                </div>
+                <div>
+                  <ArrowRightIcon />
+                </div>
+              </div>
+            )}
+            {!isLoading && profile && (
               <>
                 <div className="result flex items-center justify-between" onClick={handleLink}>
                   <div className="flex items-center">
-                    <Avatar profile={profile} width={14} />
+                    <Avatar profile={profile} width={12} />
                     <div className="ml-2">@{profile.username}</div>
                   </div>
                   <div>
                     <ArrowRightIcon />
                   </div>
                 </div>
-
-                {/* <div
-                  className="result flex items-center justify-between"
-                  onClick={() => router.push(`/${profile.username}`)}
-                >
-                  <div className="flex items-center">
-                    <Avatar profile={profile} width={14} />
-                    <div className="ml-2">@{profile.username}</div>
-                  </div>
-                  <div>
-                    <ArrowRightIcon />
-                  </div>
-                </div> */}
               </>
             )}
           </div>

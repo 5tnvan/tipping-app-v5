@@ -74,7 +74,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
                 <div className="left mr-5 flex flex-col items-center">
                   {isLoadingAuth ? (
-                    <div className="w-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                    <div className="w-16 h-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
                   ) : (
                     <>
                       {!followersData?.followed && (
