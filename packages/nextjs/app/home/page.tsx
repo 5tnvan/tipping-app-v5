@@ -36,10 +36,12 @@ const HomePage: NextPage = () => {
           {/* FOLLOWERS */}
           <div className="flex mb-3">
             <button className="mr-2" onClick={() => setShowFollow("followers")}>
-              <span className="font-semibold">Followers</span> <span>{followersData?.followersCount}</span>
+              <span className={`${showFollow == "followers" && "font-semibold"}`}>Followers </span>
+              <span>({followersData?.followersCount})</span>
             </button>
             <button className="mr-2" onClick={() => setShowFollow("following")}>
-              <span className="font-semibold">Following</span> <span>{followersData?.followingCount}</span>
+              <span className={`${showFollow == "following" && "font-semibold"}`}>Following </span>
+              <span>({followersData?.followingCount})</span>
             </button>
           </div>
           {/* FOLLOWERS DATA */}

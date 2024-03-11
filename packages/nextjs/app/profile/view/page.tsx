@@ -39,7 +39,7 @@ const ProfileView: NextPage = () => {
             <button className="btn-neutral btn w-full text-base custom-bg-blue border-0">Edit Profile</button>
           </Link>
         </div>
-        <div id="profile-view-content" className="profile mt-5 mb-5 z-10">
+        <div id="profile-view-content" className="flex flex-col profile mt-5 mb-5 z-10 items-center">
           {/* Scroll Snap */}
           <div className="scr mb-6">
             {/* Card 3 */}
@@ -54,7 +54,9 @@ const ProfileView: NextPage = () => {
 
           {/* Tips Table */}
           <div className="latest"></div>
-          <TipsTable receiverAddress={profile.wallet_id} />
+          <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
+            <TipsTable receiverAddress={profile.wallet_id} keyProp={undefined} />
+          </div>
         </div>
       </>
     );
