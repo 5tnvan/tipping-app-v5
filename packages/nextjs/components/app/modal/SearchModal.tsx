@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { IsLoading } from "../IsLoading";
 import { Avatar } from "../authentication/Avatar";
+import { PublicContext } from "~~/app/context";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { useDebounce } from "~~/hooks/app/useDebounce";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
-import { IsLoading } from "../IsLoading";
+import Link from "next/link";
 
 export const SearchModal = ({ isOpen, onClose }) => {
   const router = useRouter();
+  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
   const [searchValue, setSearchValue] = useState("");
+  const [searchProfile, setSearchProfile] = useState(null);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
   const debouncedSearchValue = useDebounce(searchValue);
-  const [profile, setProfile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   //fetch profile on search
   useEffect(() => {
     const fetchProfile = async () => {
       console.log("debouncedSearchValue: ", debouncedSearchValue);
-      setIsLoading(true);
+      setIsSearchLoading(true);
 
       const result = await fetchPublicProfile(debouncedSearchValue);
-      setProfile(result);
+      setSearchProfile(result);
 
-      setIsLoading(false);
+      setIsSearchLoading(false);
     };
     if (debouncedSearchValue.trim() !== "") {
       fetchProfile();
     } else {
       //clear results
-      setProfile(null);
+      setSearchProfile(null);
     }
   }, [debouncedSearchValue]);
 
   const handleClose = () => {
-    console.log("closin");
-    setSearchValue("");
-    setProfile(null); // Clear the search results
+    setSearchValue(""); // Clear search results
+    setSearchProfile(null); // Clear the search results
     onClose();
   };
   const handleLink = () => {
+    //router.refresh();
+    //refetchPublic();
+    //router.push(`/${searchProfile.username}`);
     handleClose();
-    router.refresh();
-    router.push(`/${profile.username}`);
   };
 
   if (!isOpen) {
@@ -82,28 +85,32 @@ export const SearchModal = ({ isOpen, onClose }) => {
           </label>
           {/* SEARCH RESULTS */}
           <div id="wildpay-search-results" className="mt-5">
-            {isLoading && (
-              <div className="result flex items-center justify-between">
+            {isSearchLoading && (
+              <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
                 <div className="flex items-center">
-                  <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-                  <IsLoading shape="rounded-md" width={28} height={6} />
+                  <div className="w-8 h-6 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mr-3"></div>
+                  <IsLoading shape="rounded-md" width={24} height={6} />
                 </div>
                 <div>
                   <ArrowRightIcon />
                 </div>
               </div>
             )}
-            {!isLoading && profile && (
+            {!isSearchLoading && searchProfile && (
               <>
-                <div className="result flex items-center justify-between" onClick={handleLink}>
+                <Link
+                  href={`${searchProfile.username}`}
+                  className="result flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"
+                  onClick={handleLink}
+                >
                   <div className="flex items-center">
-                    <Avatar profile={profile} width={12} />
-                    <div className="ml-2">@{profile.username}</div>
+                    <Avatar profile={searchProfile} width={8} />
+                    <div className="ml-2">@{searchProfile.username}</div>
                   </div>
                   <div>
                     <ArrowRightIcon />
                   </div>
-                </div>
+                </Link>
               </>
             )}
           </div>

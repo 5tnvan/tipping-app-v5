@@ -109,12 +109,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {/* ISAUTH PAY MODAL */}
-      <PayModal isOpen={isPayModalOpen} onClose={closePayModal}></PayModal>
-
-      {/* ISAUTH SEARCH MODAL */}
-      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
-
       <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
         {/* ISAUTH MENU DROPDOWN */}
         {isLoadingAuth ? (
@@ -242,25 +236,33 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {!username && isHome && <>{children}</>}
       </div>
 
-      {/* WILDPAY APP MENU */}
+      {/* WILDPAY PAY MODAL */}
+      <PayModal isOpen={isPayModalOpen} onClose={closePayModal}></PayModal>
+
+      {/* WILDPAY SEARCH MODAL */}
+      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
+
+      {/* WILDPAY MENU */}
       <div
         id="wildpay-app-menu"
         className="flex justify-around text-white items-center custom-bg-blue w-full h-14 z-40"
       >
-        {/* HOME */}
+        {/* WILDPAY MENU @HOME */}
         <div className="flex flex-col items-center" onClick={() => router.push("/home")}>
           <HomeIcon />
           Home
         </div>
 
-        {/* PAY */}
+        {/* WILDPAY MENU @PAY */}
         <div id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
-            <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img>
+            {/* <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img> */}
+            <Image alt="wildpay" className="z-10" src="/wildpay-logo.svg" width={35} height={35} />
           </div>
           <div className="font-semibold">Pay</div>
         </div>
 
+        {/* WILDPAY MENU @SEARCH */}
         <div className="flex flex-col items-center" onClick={openSearchModal}>
           <SearchIcon />
           Search

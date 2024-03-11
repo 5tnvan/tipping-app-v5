@@ -36,6 +36,8 @@ export const PayModal = ({ isOpen, onClose }) => {
 
         {/* PAY TO */}
         <div className="pt-12 pl-5 pr-5 pb-10">
+
+          {/* PAY TO - FOLLOWING */}
           <div className="flex flex-col">
             {!receiver && Array.isArray(followersData.following) && (
               <>
@@ -60,13 +62,14 @@ export const PayModal = ({ isOpen, onClose }) => {
               </>
             )}
 
+            {/* PAY TO - CHOSEN RECEIVER */}
             <div className="mt-3">
               {receiver && (
                 <>
-                  <div className="font-semibold flex items-center" onClick={() => setReceiver(null)}>
+                  <button className="font-semibold flex items-center" onClick={() => setReceiver(null)}>
                     <ArrowLeftIcon />
                     Back
-                  </div>
+                  </button>
                   <div className="flex flex-col items-center justify-center mt-5">
                     <Avatar profile={receiver} width={12} />
                     <div className="font-semibold mt-2">@{receiver.username}</div>

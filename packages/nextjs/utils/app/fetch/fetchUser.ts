@@ -60,10 +60,9 @@ export const fetchProfile = async () => {
  **/
 
 export const fetchPublicProfile = async (username: string) => {
-  console.log("im here");
   const supabase = createClient();
   const { data: profileData } = await supabase.from("profiles").select("*").eq("username", username);
-  console.log("im here 2");
+  console.log("server:fetchPublicProfile()");
   return profileData?.[0];
 };
 
