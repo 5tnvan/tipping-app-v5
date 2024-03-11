@@ -1,12 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { AppContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, FollowersContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useFollowers } from "~~/hooks/app/useFollowers";
-import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -15,14 +13,8 @@ export const metadata = getMetadata({
 });
 
 const WildPay = ({ children }: { children: React.ReactNode }) => {
-  const { username } = useParams();
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
-  const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
-
-  let profile_id;
-  if (username) profile_id = publicProfile?.id;
-  if (!username) profile_id = profile.id;
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile_id);
+  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
@@ -34,12 +26,10 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             <img className="z-10" src="/wildpay-logo.svg" width={30} height={30}></img>
             <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
           </div>
-          <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
-            <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-              {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
-              {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
-            </FollowersContext.Provider>
-          </PublicContext.Provider>
+          <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
+            {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
+            {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+          </FollowersContext.Provider>
         </div>
       </AppContext.Provider>
     </>

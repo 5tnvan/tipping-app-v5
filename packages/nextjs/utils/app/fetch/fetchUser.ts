@@ -12,6 +12,8 @@ import { createClient } from "~~/utils/supabase/server";
 export const fetchSession = async () => {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getSession();
+  // console.log("server:fetchSession(): " + JSON.stringify(data, null, 2));
+  console.log("server:fetchSession()");
 
   if (error) {
     console.log(error);
@@ -32,6 +34,7 @@ export const fetchUser = async () => {
   const supabase = createClient();
   //fetch user from supabase db
   const { data: userData } = await supabase.auth.getUser();
+  console.log("server:fetchUser()");
   return { userData };
 };
 
@@ -44,6 +47,7 @@ export const fetchUser = async () => {
 export const fetchProfile = async () => {
   const supabase = createClient();
   const { userData } = await fetchUser();
+  console.log("server:fetchProfile()");
 
   if (userData) {
     const { data: profileData } = await supabase.from("profiles").select().eq("id", userData.user?.id);
@@ -74,6 +78,7 @@ export const fetchPublicProfile = async (username: string) => {
 
 export const fetchPublicProfileFromId = async (id: string) => {
   const supabase = createClient();
+  console.log("server:fetchPublicProfileId()");
   const { data: profileData } = await supabase.from("profiles").select("*").eq("id", id);
 
   return profileData?.[0].username ?? null;

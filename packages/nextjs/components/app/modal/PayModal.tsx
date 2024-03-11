@@ -1,17 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import FastPay from "../pay/FastPay";
-import { AppContext } from "~~/app/context";
+import { FollowersContext } from "~~/app/context";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
-import { CheckMarkIcon } from "~~/components/assets/CheckMarkIcon";
-import { useFollowers } from "~~/hooks/app/useFollowers";
 
 export const PayModal = ({ isOpen, onClose }) => {
-  const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
+  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const [receiver, setReceiver] = useState();
-  const [picked, setPicked] = useState("");
 
   const handleClose = () => {
     onClose();

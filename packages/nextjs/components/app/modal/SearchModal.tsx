@@ -1,16 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { IsLoading } from "../IsLoading";
 import { Avatar } from "../authentication/Avatar";
-import { PublicContext } from "~~/app/context";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { useDebounce } from "~~/hooks/app/useDebounce";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
-import Link from "next/link";
 
 export const SearchModal = ({ isOpen, onClose }) => {
-  const router = useRouter();
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
   const [searchValue, setSearchValue] = useState("");
   const [searchProfile, setSearchProfile] = useState(null);
   const [isSearchLoading, setIsSearchLoading] = useState(false);

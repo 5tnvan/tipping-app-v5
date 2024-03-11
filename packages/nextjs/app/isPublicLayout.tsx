@@ -1,15 +1,17 @@
 import { useContext, useState } from "react";
 import React from "react";
+import { useParams } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, PublicContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
-import { ArrowDownIcon } from "~~/components/assets/ArrowDownIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import { useFollowers } from "~~/hooks/app/useFollowers";
+import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -18,9 +20,10 @@ export const metadata = getMetadata({
 });
 
 const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
+  const { username } = useParams();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+  const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
+  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(publicProfile?.id);
 
   const handleFollow = () => {
     //handle follow
@@ -58,9 +61,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   if (publicProfile?.id) {
     return (
       <>
-        {/* ISAUTH PAY MODAL */}
-        <FollowersModal isOpen={isFollowersModalOpen} onClose={closeFollowersModal}></FollowersModal>
-
         <div id="wildpay-public" className={`bg-white h-full grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
           {isAuth == "no" && <IsNotAuthMenu />}
 
@@ -135,36 +135,14 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 )}
               </div>
             </div>
-            {/* ISAUTH PROFILE INTRO - FOLLOWERS */}
-            {/* <div className="flex flex-col">
-              <div className="btn btn-secondary w-full mb-1" onClick={handleFollow}>
-                follow
-              </div>
-              <div className="btn btn-secondary w-full mb-1">followers</div>
-              <div className="btn btn-secondary w-full mb-1">following</div>
-
-              <div>
-                <h2>Followers Data:</h2>
-                <p>Followed: {followersData?.followed.toString()}</p>
-                <p>Followers Count: {followersData?.followersCount}</p>
-
-                <h3>Followers:</h3>
-                <ul>
-                  {followersData?.followers.map(follower => (
-                    <li key={follower.follower_id}>{follower.follower_id}</li>
-                  ))}
-                </ul>
-
-                <h3>Following Count: {followersData?.followingCount}</h3>
-                <p>Following:</p>
-                <ul>
-                  {JSON.stringify(followersData)};
-                </ul>
-              </div>
-            </div> */}
           </div>
           {/* ISPUBLIC CHILDREN */}
-          {children}
+          <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
+            {/* ISAUTH PAY MODAL */}
+            <FollowersModal isOpen={isFollowersModalOpen} onClose={closeFollowersModal}></FollowersModal>
+
+            {children}
+          </PublicContext.Provider>
         </div>
       </>
     );

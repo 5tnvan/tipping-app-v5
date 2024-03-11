@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { deleteFollowing } from "~~/app/(profile)/[username]/actions";
-import { AppContext, FollowersContext, PublicContext } from "~~/app/context";
+import { PublicContext } from "~~/app/context";
+import { useFollowers } from "~~/hooks/app/useFollowers";
 
 export const FollowersModal = ({ isOpen, onClose }) => {
-  const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(publicProfile.id);
 
   const handleClose = () => {
     onClose();

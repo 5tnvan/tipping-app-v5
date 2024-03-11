@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext, PublicContext } from "./context";
+import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -25,6 +25,7 @@ export const metadata = getMetadata({
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const router = useRouter();
+
   //Check pathname/params
   const pathname = usePathname();
   const isHome = pathname === "/home";
@@ -34,7 +35,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //CONTEXT
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
 
   //Set-up social media links
   let soc = {};
@@ -46,14 +46,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
       ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
       tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
       tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
-    };
-  } else if (publicProfile?.id) {
-    // Use publicProfile data
-    soc = {
-      yt: { val: publicProfile.youtube, link: "https://youtube.com/" + publicProfile.youtube },
-      ig: { val: publicProfile.instagram, link: "https://instagram.com/" + publicProfile.instagram },
-      tw: { val: publicProfile.twitter, link: "https://x.com/" + publicProfile.twitter },
-      tt: { val: publicProfile.tiktok, link: "https://twitter.com/" + publicProfile.tiktok },
     };
   }
 

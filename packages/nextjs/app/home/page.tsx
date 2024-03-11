@@ -3,15 +3,14 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppContext } from "../context";
+import { AppContext, FollowersContext } from "../context";
 import { NextPage } from "next";
 import { Avatar } from "~~/components/app/authentication/Avatar";
-import { useFollowers } from "~~/hooks/app/useFollowers";
 
 const HomePage: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
+  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const [showFollow, setShowFollow] = useState("followers");
 
   console.log(followersData.followers);

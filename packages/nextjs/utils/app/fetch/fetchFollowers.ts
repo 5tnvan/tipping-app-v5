@@ -58,7 +58,6 @@ export const fetchFollowers = async (profile_id: string) => {
       .eq("follower_id", profile_id);
 
     // If there is data, set 'following' and 'followingCount'
-    console.log(profileFollowingData);
     if (profileFollowingData) {
       // Extract profile IDs from the result
       const profileIDs = profileFollowingData.map(item => item.following_id);
@@ -70,6 +69,7 @@ export const fetchFollowers = async (profile_id: string) => {
       followersData.following = profilesData || [];
       followersData.followingCount = profilesData?.length || 0;
     }
+    console.log("server:fetchFollowers()");
   } catch (error) {
     console.error("Error fetching followers data:", error);
   }

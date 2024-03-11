@@ -3,14 +3,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { AppContext, PublicContext } from "~~/app/context";
+import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Tipping2 from "~~/components/app/pay/Tipping2";
-import { CopyIcon } from "~~/components/assets/CopyIcon";
 import TipsTable from "~~/components/subgraph/TipsTable";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { useParams } from "next/navigation";
-import { CardWithUsername } from "~~/components/app/CardWithUsername";
 
 /**
  * ROUTE: /[username]
@@ -72,7 +70,7 @@ const ProfileUsername: NextPage = ({ params }) => {
 
         <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
           {/* Refresh TipsTable by changing key when refetch is triggered */}
-        <TipsTable receiverAddress={publicProfile.wallet_id} keyProp={refetchTrigger} />
+          <TipsTable receiverAddress={publicProfile.wallet_id} keyProp={refetchTrigger} />
         </div>
       </div>
     </>
