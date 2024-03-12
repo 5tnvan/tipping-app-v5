@@ -71,7 +71,7 @@ const HomePage: NextPage = () => {
           {/* TRANSACTIONS */}
           <div className="flex mt-3">
             <button className="mr-2">
-              <span className="font-semibold">Transactions</span> <span>3</span>
+              <span className="font-semibold">Outgoing x Incoming Transactions</span>
             </button>
           </div>
         </div>
