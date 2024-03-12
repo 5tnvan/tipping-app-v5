@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext, FastPayContext } from "./context";
+import { AccountingContext, AppContext, FastPayContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -15,7 +15,7 @@ import { HomeIcon } from "~~/components/assets/HomeIcon";
 import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { Address } from "~~/components/scaffold-eth";
-import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
+import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useFastPay } from "~~/hooks/app/useFastPay";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -34,9 +34,15 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const isSettings = pathname === "/settings";
   const { username } = useParams();
 
-  //CONTEXT
+  //PARENT CONTEXT:
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+
+  //SET CONTEXT:
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(profile.wallet_id);
   const { fastPaySuccess, setFastPaySuccess, refetch: refetchFastPaySuccess } = useFastPay();
+
+  console.log("isAuthLayout: profile.wallet_id ", profile.wallet_id);
+  console.log("isAuthLayout: incomingTx ", incomingTx);
 
   //Set-up social media links
   let soc = {};
@@ -173,11 +179,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && (
-          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess }}>
-            <IsPublicLayout>{children}</IsPublicLayout>
-          </FastPayContext.Provider>
-        )}
+        {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {!username && !isHome && (
           <>
             <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
@@ -238,23 +240,24 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                     <IsLoading shape="rounded-md" width={28} height={8} />
                   ) : (
                     <>
-                      <span>
-                        <PayIncomingTransactionsSum receiverAddress={profile.wallet_id} />
-                      </span>
-                      <span className="text-xl"> Ξ</span>
+                      <span className="text-xl">{incomingTxSum}Ξ</span>
                     </>
                   )}
                 </div>
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            {children}
+            <AccountingContext.Provider value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch }}>
+              {children}
+            </AccountingContext.Provider>
           </>
         )}
         {/* ISAUTH HOME */}
         {!username && isHome && (
           <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess }}>
-            {children}
+            <AccountingContext.Provider value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch }}>
+              {children}
+            </AccountingContext.Provider>
           </FastPayContext.Provider>
         )}
       </div>

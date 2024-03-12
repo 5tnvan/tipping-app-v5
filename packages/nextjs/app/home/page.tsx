@@ -2,32 +2,31 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AppContext, FastPayContext, FollowersContext } from "../context";
+import { useRouter } from "next/navigation";
+import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "../context";
 import { NextPage } from "next";
+import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { ArrowDownLeft } from "~~/components/assets/ArrowDownLeft";
 import { ArrowUpRight } from "~~/components/assets/ArrowUpRight";
-import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
-import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
-import PayOutgoingTransactions from "~~/components/subgraph/PayOutgoingTransactions";
-import PayOutgoingTransactionsSum from "~~/components/subgraph/PayOutgoingTransactionsSum";
 
 const HomePage: NextPage = () => {
+  const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useContext(AccountingContext);
   const [showFollow, setShowFollow] = useState("followers");
   const [showTransactions, setShowTransactions] = useState("incoming");
-
-  console.log(profile.wallet_id);
 
   // Watch out, if FASTPAYSUCCESS changes, execute
   useEffect(() => {
     console.log("fastPaySuccess:", fastPaySuccess);
     if (fastPaySuccess) {
       //refresh transactions
+      router.refresh();
       setFastPaySuccess(!fastPaySuccess); // fastPaySuccess: false
-      console.log("refresh transactions on home page");
+      console.log("refreshed transactions on home page");
     }
   }, [fastPaySuccess]);
 
@@ -92,25 +91,19 @@ const HomePage: NextPage = () => {
               <span className={`${showTransactions == "incoming" && "font-semibold"} flex items-center`}>
                 Incoming <ArrowDownLeft />
               </span>
-              <span className="custom-text-blue">
-                (<PayIncomingTransactionsSum receiverAddress={profile.wallet_id} />
-                Ξ)
-              </span>
+              <span className="custom-text-blue">{incomingTxSum}Ξ</span>
             </button>
             <button className="mr-2 flex" onClick={() => setShowTransactions("outgoing")}>
               <span className={`${showTransactions == "outgoing" && "font-semibold"} flex items-center`}>
                 Outgoing <ArrowUpRight />
               </span>
-              <span className="custom-text-blue">
-                (<PayOutgoingTransactionsSum senderAddress={profile.wallet_id} />
-                Ξ)
-              </span>
+              <span className="custom-text-blue">{outgoingTxSum}Ξ</span>
             </button>
           </div>
           {/* TRANSACTION DATA */}
 
-          {showTransactions == "incoming" && <PayIncomingTransactions receiverAddress={profile.wallet_id} />}
-          {showTransactions == "outgoing" && <PayOutgoingTransactions senderAddress={profile.wallet_id} />}
+          {showTransactions == "incoming" && <Transactions tx={incomingTx} />}
+          {showTransactions == "outgoing" && <Transactions tx={outgoingTx} />}
         </div>
       </>
     );

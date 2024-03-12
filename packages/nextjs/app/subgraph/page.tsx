@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
+import { AccountingContext } from "../context";
 import type { NextPage } from "next";
 import { MagnifyingGlassIcon, PlusIcon, PowerIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
-import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
 
 const Subgraph: NextPage = () => {
   return (
@@ -84,7 +84,6 @@ const Subgraph: NextPage = () => {
             </div>
           </div>
         </div>
-        <PayIncomingTransactions receiverAddress={"0x34E366a88250f330A35fc28fBe6209f399815728"} />
       </div>
     </>
   );

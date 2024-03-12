@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { PublicContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
+import Transactions from "~~/components/app/accounting/Transactions";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
-import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
+import { useAccounting } from "~~/hooks/app/useAccounting";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -20,6 +21,7 @@ const ProfileUsername: NextPage = ({ params }) => {
   const router = useRouter();
   //CONTEXTS
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
 
   const handlePaySuccess = () => {
     console.log("profile/username, handlePaySuccess()");
@@ -68,7 +70,7 @@ const ProfileUsername: NextPage = ({ params }) => {
         <CardWithUsername username={publicProfile.username} />
 
         <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
-          <PayIncomingTransactions receiverAddress={publicProfile.wallet_id} />
+          <Transactions tx={incomingTx} />
         </div>
       </div>
     </>

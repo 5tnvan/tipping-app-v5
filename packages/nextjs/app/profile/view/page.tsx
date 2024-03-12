@@ -4,16 +4,17 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AppContext } from "~~/app/context";
+import { AccountingContext, AppContext } from "~~/app/context";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
-import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import Transactions from "~~/components/app/accounting/Transactions";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile } = useContext(AppContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useContext(AccountingContext);
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -55,7 +56,7 @@ const ProfileView: NextPage = () => {
           {/* Tips Table */}
           <div className="latest"></div>
           <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
-            <PayIncomingTransactions receiverAddress={profile.wallet_id} />
+            <Transactions tx={incomingTx} />
           </div>
         </div>
       </>

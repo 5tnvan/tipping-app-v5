@@ -9,7 +9,7 @@ import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
+import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -24,8 +24,9 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
-  const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+  const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
   const {
     isLoading: isLoadingPublicFollowers,
     followersData: followersPublicData,
@@ -154,10 +155,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                   <IsLoading shape="rounded-md" width={28} height={8} />
                 ) : (
                   <>
-                    <span>
-                      <PayIncomingTransactionsSum receiverAddress={publicProfile.wallet_id} />
-                    </span>
-                    <span className="text-xl"> Ξ</span>
+                    <span className="text-xl">{incomingTxSum}Ξ</span>
                   </>
                 )}
               </div>

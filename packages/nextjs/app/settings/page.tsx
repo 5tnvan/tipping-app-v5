@@ -4,11 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AppContext } from "~~/app/context";
+import { AccountingContext, AppContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
-import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -19,6 +18,7 @@ const Settings: NextPage = () => {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useContext(AccountingContext);
 
   useEffect(() => {
     if (!profile.wallet_id) {
@@ -157,7 +157,7 @@ const Settings: NextPage = () => {
                     d="m12 1.75l-6.25 10.5L12 16l6.25-3.75zM5.75 13.5L12 22.25l6.25-8.75L12 17.25z"
                   ></path>
                 </svg>
-                <PayIncomingTransactionsSum receiverAddress={profile.wallet_id} />Ξ
+                {incomingTxSum}Ξ
               </div>
               <button className="btn btn-secondary" onClick={() => handleWithdrawModal()}>
                 Widthdraw
