@@ -8,12 +8,10 @@ import { gql, useQuery } from "@apollo/client";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 
-const TipsTable = ({ receiverAddress }) => {
-
+const PayIncomingTransactions = ({ receiverAddress }) => {
   const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
       tips(
-        first: 25
         where: { receiver: $receiverAddress }
         orderBy: createdAt
         orderDirection: desc
@@ -59,7 +57,7 @@ const TipsTable = ({ receiverAddress }) => {
               <Address address={tip?.sender} />
               <div className="flex font-semibold">
                 <EthIcon width={16} height={16} />
-                {Number(formatEther(tip?.value)).toFixed(2)}
+                {Number(formatEther(tip?.value)).toFixed(4)}
               </div>
             </div>
             <div className="flex justify-between text-gray-500">
@@ -77,4 +75,4 @@ const TipsTable = ({ receiverAddress }) => {
   );
 };
 
-export default TipsTable;
+export default PayIncomingTransactions;

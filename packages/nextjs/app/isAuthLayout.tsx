@@ -15,7 +15,7 @@ import { HomeIcon } from "~~/components/assets/HomeIcon";
 import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { Address } from "~~/components/scaffold-eth";
-import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
 import { useFastPay } from "~~/hooks/app/useFastPay";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -239,7 +239,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                   ) : (
                     <>
                       <span>
-                        <TipsValueSum receiverAddress={profile.wallet_id} />
+                        <PayIncomingTransactionsSum receiverAddress={profile.wallet_id} />
                       </span>
                       <span className="text-xl"> Ξ</span>
                     </>

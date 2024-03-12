@@ -3,8 +3,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { formatEther } from "viem";
 
-const TipsValueSum = ({ receiverAddress }) => {
-  if (!receiverAddress) {
+const PayOutgoingTransactionsSum = ({ senderAddress }) => {
+  if (!senderAddress) {
     return (
       <>
         <span>0</span>
@@ -13,10 +13,9 @@ const TipsValueSum = ({ receiverAddress }) => {
   }
 
   const TIPS_GRAPHQL = `
-    query GetTips($receiverAddress: Bytes!) {
+    query GetTips($senderAddress: Bytes!) {
       tips(
-        first: 25
-        where: { receiver: $receiverAddress }
+        where: { sender: $senderAddress }
         orderBy: createdAt
         orderDirection: desc
       ) {
@@ -33,7 +32,7 @@ const TipsValueSum = ({ receiverAddress }) => {
   `;
   const TIPS_GQL = gql(TIPS_GRAPHQL);
   const { data: tipsData, error } = useQuery(TIPS_GQL, {
-    variables: { receiverAddress },
+    variables: { senderAddress },
     fetchPolicy: "network-only",
   });
 
@@ -49,7 +48,7 @@ const TipsValueSum = ({ receiverAddress }) => {
       return sum + Number(tip.value);
     }, 0) || 0;
 
-  const totalSumEth = Number(formatEther(totalSum)).toFixed(2);
+  const totalSumEth = Number(formatEther(totalSum)).toFixed(4);
 
   return (
     <>
@@ -58,4 +57,4 @@ const TipsValueSum = ({ receiverAddress }) => {
   );
 };
 
-export default TipsValueSum;
+export default PayOutgoingTransactionsSum;

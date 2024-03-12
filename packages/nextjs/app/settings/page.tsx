@@ -8,7 +8,7 @@ import { AppContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
-import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -157,7 +157,7 @@ const Settings: NextPage = () => {
                     d="m12 1.75l-6.25 10.5L12 16l6.25-3.75zM5.75 13.5L12 22.25l6.25-8.75L12 17.25z"
                   ></path>
                 </svg>
-                <TipsValueSum receiverAddress={profile.wallet_id} />Ξ
+                <PayIncomingTransactionsSum receiverAddress={profile.wallet_id} />Ξ
               </div>
               <button className="btn btn-secondary" onClick={() => handleWithdrawModal()}>
                 Widthdraw

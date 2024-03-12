@@ -6,7 +6,7 @@ import { NextPage } from "next";
 import { PublicContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
-import TipsTable from "~~/components/subgraph/TipsTable";
+import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -68,7 +68,7 @@ const ProfileUsername: NextPage = ({ params }) => {
         <CardWithUsername username={publicProfile.username} />
 
         <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
-          <TipsTable receiverAddress={publicProfile.wallet_id} />
+          <PayIncomingTransactions receiverAddress={publicProfile.wallet_id} />
         </div>
       </div>
     </>

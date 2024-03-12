@@ -9,7 +9,7 @@ import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import PayIncomingTransactionsSum from "~~/components/subgraph/PayIncomingTransactionsSum";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -155,7 +155,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <>
                     <span>
-                      <TipsValueSum receiverAddress={publicProfile.wallet_id} />
+                      <PayIncomingTransactionsSum receiverAddress={publicProfile.wallet_id} />
                     </span>
                     <span className="text-xl"> Ξ</span>
                   </>

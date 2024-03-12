@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AppContext } from "~~/app/context";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
-import TipsTable from "~~/components/subgraph/TipsTable";
+import PayIncomingTransactions from "~~/components/subgraph/PayIncomingTransactions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -55,7 +55,7 @@ const ProfileView: NextPage = () => {
           {/* Tips Table */}
           <div className="latest"></div>
           <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
-            <TipsTable receiverAddress={profile.wallet_id} keyProp={undefined} />
+            <PayIncomingTransactions receiverAddress={profile.wallet_id} />
           </div>
         </div>
       </>
