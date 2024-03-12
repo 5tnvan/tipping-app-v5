@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { parseEther } from "viem";
+import { PublicContext } from "~~/app/context";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { useGlobalState } from "~~/services/store/store";
 
-const TippingBill = ({ receiver, tipAmount, message, refetch }) => {
+const TippingBill = ({ receiver, tipAmount, message, onSuccess }) => {
+  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
   const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrencyPrice);
   const [totalAmountUSD, setTotalAmountUSD] = useState(0);
   const [totalAmountETH, setTotalAmountETH] = useState(0);
@@ -31,7 +33,9 @@ const TippingBill = ({ receiver, tipAmount, message, refetch }) => {
 
   const handleSetTip = () => {
     setTip();
-    refetch();
+    //paid success, now alert success
+    console.log("paid");
+    onSuccess();
   };
 
   //HOOK: useScaffoldContractWrite | set: greeting

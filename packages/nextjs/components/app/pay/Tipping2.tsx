@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TippingBill from "./TippingBill";
 
-const Tipping2 = ({ receiver, refetch}) => {
+const Tipping2 = ({ receiver, onSuccess }) => {
   const [tipAmount, setTipAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
@@ -12,7 +12,6 @@ const Tipping2 = ({ receiver, refetch}) => {
     setTipAmount(num);
     setClickedButton(num);
     setIsClicked(true);
-    console.log(tipAmount);
   };
 
   const addMessageClick = () => {
@@ -64,7 +63,7 @@ const Tipping2 = ({ receiver, refetch}) => {
               onChange={e => onMessageChange(e)}
             />
           )}
-          <TippingBill receiver={receiver} tipAmount={tipAmount} message={message} refetch={refetch} />
+          <TippingBill receiver={receiver} tipAmount={tipAmount} message={message} onSuccess={onSuccess} />
         </>
       )}
     </>

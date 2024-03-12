@@ -8,7 +8,7 @@ import { gql, useQuery } from "@apollo/client";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 
-const TipsTable = ({ receiverAddress, keyProp }) => {
+const TipsTable = ({ receiverAddress }) => {
 
   const TIPS_GRAPHQL = `
     query GetTips($receiverAddress: Bytes!) {
@@ -41,9 +41,9 @@ const TipsTable = ({ receiverAddress, keyProp }) => {
   });
 
   // Refetch the query when refetchTrigger changes
-  useEffect(() => {
-    refetch();
-  }, [refetch, keyProp]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch, keyProp]);
 
   // Subgraph maybe not yet configured
   if (error) {
