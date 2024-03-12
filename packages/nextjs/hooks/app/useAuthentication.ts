@@ -28,26 +28,29 @@ export const useAuthentication = () => {
     setTriggerRefetch(prev => !prev);
   };
 
+  const initUser = async () => {
+    setIsLoading(true); // Set loading to true when starting data fetch
+
+    //fetch session
+    const sessionData = await fetchSession();
+    console.log("useAuthentication(): sessionData", sessionData);
+
+    if (sessionData?.session != null) {
+      setIsAuth("yes");
+      const userData = await fetchUser();
+      const profileData = await fetchProfile();
+      console.log("useAuthentication(): userData", userData);
+      console.log("useAuthentication(): profileData", profileData);
+      setUser(userData.userData.user);
+      setProfile(profileData);
+    } else {
+      setIsAuth("no");
+    }
+
+    setIsLoading(false); // Set loading to false when fetch is complete
+  };
+
   useEffect(() => {
-    const initUser = async () => {
-      setIsLoading(true); // Set loading to true when starting data fetch
-
-      //fetch session
-      const sessionData = await fetchSession();
-
-      if (sessionData?.session != null) {
-        setIsAuth("yes");
-        const userData = await fetchUser();
-        const profileData = await fetchProfile();
-        setUser(userData.userData.user);
-        setProfile(profileData);
-      } else {
-        setIsAuth("no");
-      }
-
-      setIsLoading(false); // Set loading to false when fetch is complete
-    };
-
     initUser();
   }, [triggerRefetch]);
 
