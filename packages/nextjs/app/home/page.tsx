@@ -14,19 +14,15 @@ const HomePage: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
-  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useContext(AccountingContext);
+  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
   const [showFollow, setShowFollow] = useState("followers");
   const [showTransactions, setShowTransactions] = useState("incoming");
 
-  // Watch out, if FASTPAYSUCCESS changes, execute
+  //LISTEN TO: fastPaySuccess
   useEffect(() => {
-    console.log("fastPaySuccess:", fastPaySuccess);
     if (fastPaySuccess) {
-      //refresh transactions
       router.refresh();
-      setFastPaySuccess(!fastPaySuccess); // fastPaySuccess: false
-      console.log("refreshed transactions on home page");
     }
   }, [fastPaySuccess]);
 
@@ -66,7 +62,7 @@ const HomePage: NextPage = () => {
           {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
             <ul id="followers" className="flex">
               {followersData?.followers.map(followers => (
-                <Link href={`/${followers.username}`} key={followers} className="flex flex-col items-center mr-4">
+                <Link href={`/${followers.username}`} key={followers.id} className="flex flex-col items-center mr-4">
                   <Avatar profile={followers} width={12} />
                   {followers.username}
                 </Link>
@@ -77,7 +73,7 @@ const HomePage: NextPage = () => {
           {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
             <div id="following" className="flex">
               {followersData?.following.map(following => (
-                <Link href={`/${following.username}`} key={following} className="flex flex-col items-center mr-4">
+                <Link href={`/${following.username}`} key={following.id} className="flex flex-col items-center mr-4">
                   <Avatar profile={following} width={12} />
                   {following.username}
                 </Link>

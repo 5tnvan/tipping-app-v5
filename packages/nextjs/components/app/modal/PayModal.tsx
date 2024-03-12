@@ -46,21 +46,19 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
               <>
                 <div className="font-semibold">Pay to:</div>
                 {followersData.following.map(following => (
-                  <>
-                    <div
-                      key={following.wallet_id}
-                      className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"
-                      onClick={() => handlePicked(following)}
-                    >
-                      <div className="flex items-center">
-                        <Avatar profile={following} width={8} />
-                        <div className="ml-2 font-semibold pl-3">{following.username}</div>
-                      </div>
-                      <div>
-                        <ArrowRightIcon />
-                      </div>
+                  <div
+                    key={following.wallet_id}
+                    className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"
+                    onClick={() => handlePicked(following)}
+                  >
+                    <div className="flex items-center">
+                      <Avatar profile={following} width={8} />
+                      <div className="ml-2 font-semibold pl-3">{following.username}</div>
                     </div>
-                  </>
+                    <div>
+                      <ArrowRightIcon />
+                    </div>
+                  </div>
                 ))}
               </>
             )}

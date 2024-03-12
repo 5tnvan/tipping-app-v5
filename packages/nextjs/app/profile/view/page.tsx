@@ -14,7 +14,7 @@ import Transactions from "~~/components/app/accounting/Transactions";
 const ProfileView: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile } = useContext(AppContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useContext(AccountingContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
 
   /* ROUTE */
   if (isAuth == "no") {

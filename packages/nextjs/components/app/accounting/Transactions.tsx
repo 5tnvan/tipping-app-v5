@@ -7,7 +7,6 @@ import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth";
 
 const Transactions = ({tx}) => {
-  console.log(tx);
   return (
     <>
       <div className="">

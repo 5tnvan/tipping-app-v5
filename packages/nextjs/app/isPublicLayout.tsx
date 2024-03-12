@@ -20,28 +20,20 @@ export const metadata = getMetadata({
 });
 
 const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
-  const { username } = useParams();
   const router = useRouter();
+  const { username } = useParams();
+
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
-  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
-  const {
-    isLoading: isLoadingPublicFollowers,
-    followersData: followersPublicData,
-    refetch: refetchPublicFollowers,
-  } = useFollowers(publicProfile?.id);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useAccounting(publicProfile?.wallet_id);
+  const { isLoading: isLoadingPublicFollowers, followersData: followersPublicData, refetch: refetchPublicFollowers } = useFollowers(publicProfile?.id);
+  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
 
-  // Watch out, if FASTPAYSUCCESS changes, execute
+  //LISTEN TO: fastPaySuccess
   useEffect(() => {
-    console.log("fastPaySuccess:", fastPaySuccess);
     if (fastPaySuccess) {
-      setFastPaySuccess(!fastPaySuccess); // fastPaySuccess: false
-      refetchPublic();
       router.refresh();
-      console.log("executed: refetchPublic()");
-      console.log("executed: router.refresh()");
     }
   }, [fastPaySuccess]);
 

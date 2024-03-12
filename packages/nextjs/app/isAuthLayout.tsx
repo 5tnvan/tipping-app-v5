@@ -38,15 +38,18 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   //SET CONTEXT:
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(profile.wallet_id);
-  const { fastPaySuccess, setFastPaySuccess, refetch: refetchFastPaySuccess } = useFastPay();
+  const {
+    incomingTx,
+    incomingTxSum,
+    outgoingTx,
+    outgoingTxSum,
+    refetch: refetchAccounting,
+  } = useAccounting(profile.wallet_id);
 
-  console.log("isAuthLayout: profile.wallet_id ", profile.wallet_id);
-  console.log("isAuthLayout: incomingTx ", incomingTx);
+  const { fastPaySuccess, setFastPaySuccess } = useFastPay();
 
-  //Set-up social media links
+  //SOCIAL MEDIA LINKS
   let soc = {};
-
   if (!username) {
     // Set up social media links using profile data
     soc = {
@@ -98,11 +101,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const handlePaySuccess = () => {
     //home and /username app page needs refresh
-    //refetchPublic();
-    //router.refresh();
     setFastPaySuccess(true); //update FastPaySuccess Context
     setPayModalOpen(false); //closes fast pay modal
     openPayReceiptModal(); // opens fast pay receipt
+    refetchAccounting();
+    router.refresh();
   };
 
   //PAY RECEIPT MODAL
@@ -179,7 +182,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && <IsPublicLayout>{children}</IsPublicLayout>}
+        {username && (
+          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
+            <IsPublicLayout>{children}</IsPublicLayout>
+          </FastPayContext.Provider>
+        )}
         {!username && !isHome && (
           <>
             <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
@@ -247,15 +254,19 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            <AccountingContext.Provider value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch }}>
+            <AccountingContext.Provider
+              value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
+            >
               {children}
             </AccountingContext.Provider>
           </>
         )}
         {/* ISAUTH HOME */}
         {!username && isHome && (
-          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess }}>
-            <AccountingContext.Provider value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch }}>
+          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
+            <AccountingContext.Provider
+              value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
+            >
               {children}
             </AccountingContext.Provider>
           </FastPayContext.Provider>

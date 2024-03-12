@@ -24,7 +24,6 @@ const ProfileUsername: NextPage = ({ params }) => {
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
 
   const handlePaySuccess = () => {
-    console.log("profile/username, handlePaySuccess()");
     refetchPublic();
     router.refresh();
   };

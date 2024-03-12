@@ -12,8 +12,6 @@ const FastPay = ({ receiver, onSuccess }) => {
   const [success, setSuccess] = useState("");
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
-  console.log("client:", receiver);
-
   const addMessageClick = () => {
     if (addMessage == false) {
       setAddMessage(true);

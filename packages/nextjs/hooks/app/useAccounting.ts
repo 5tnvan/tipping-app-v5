@@ -5,7 +5,7 @@ import { formatEther } from "viem";
 import { useIncomingTransactions } from "~~/utils/supabase/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/supabase/fetch/fetchOutgoingTransactions";
 
-export const useAccounting = wallet_id => {
+export const useAccounting = (wallet_id: any) => {
   const [incomingTx, setIncomingTx] = useState<any>();
   const [incomingTxSum, setIncomingTxSum] = useState<any>();
   const [outgoingTx, setOutgoingTx] = useState<any>();
@@ -30,19 +30,18 @@ export const useAccounting = wallet_id => {
   };
 
   useEffect(() => {
-    console.log("useAccounting(), wallet_id", wallet_id);
     const initAccounting = async () => {
       if (wallet_id) {
         //incoming
         setIncomingTx(incomingTransactionsData);
-        setIncomingTxSum(calculateSum(incomingTransactionsData));
+        setIncomingTxSum(calculateSum(incomingTx));
         //outgoing
         setOutgoingTx(outgoingTransactionsData);
-        setOutgoingTxSum(calculateSum(outgoingTransactionsData));
+        setOutgoingTxSum(calculateSum(outgoingTx));
       }
     };
     initAccounting();
-  }, [incomingTransactionsData, outgoingTransactionsData, wallet_id]);
+  }, [incomingTransactionsData, incomingTx, outgoingTransactionsData, outgoingTx, wallet_id, triggerRefetch]);
 
   return { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch };
 };

@@ -3,20 +3,15 @@
 import { useEffect, useState } from "react";
 
 export const useFastPay = () => {
-  const [fastPaySuccess, setFastPaySuccess] = useState<boolean>();
-  const [triggerRefetch, setTriggerRefetch] = useState(false);
-
-  const refetch = () => {
-    setTriggerRefetch(prev => !prev);
-  };
+  const [fastPaySuccess, setFastPaySuccess] = useState<boolean>(false);
 
   useEffect(() => {
     const initFastPay = async () => {
-      setFastPaySuccess(false);
+      if (fastPaySuccess) setFastPaySuccess(false);
     };
 
     initFastPay();
-  }, [triggerRefetch]);
+  }, [fastPaySuccess, setFastPaySuccess]);
 
-  return { fastPaySuccess, setFastPaySuccess, refetch };
+  return { fastPaySuccess, setFastPaySuccess };
 };

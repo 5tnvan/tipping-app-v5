@@ -41,7 +41,7 @@ export const useOutgoingTransactions = senderAddress => {
   });
 
   if (error) {
-    console.log("fetchOutgoingTransactions() error");
+    //console.log("fetchOutgoingTransactions() error");
   }
 
   return outgoingTransactionsData;
