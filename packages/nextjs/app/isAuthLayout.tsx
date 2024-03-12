@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext } from "./context";
+import { AppContext, FastPayContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
 import { PayModal } from "~~/components/app/modal/PayModal";
+import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
 import { HomeIcon } from "~~/components/assets/HomeIcon";
@@ -15,6 +16,7 @@ import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { Address } from "~~/components/scaffold-eth";
 import TipsValueSum from "~~/components/subgraph/TipsValueSum";
+import { useFastPay } from "~~/hooks/app/useFastPay";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -23,7 +25,6 @@ export const metadata = getMetadata({
 });
 
 const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
-
   const router = useRouter();
 
   //Check pathname/params
@@ -35,6 +36,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //CONTEXT
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { fastPaySuccess, setFastPaySuccess, refetch: refetchFastPaySuccess } = useFastPay();
 
   //Set-up social media links
   let soc = {};
@@ -77,7 +79,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  //PAY MODAL
+  //FAST PAY MODAL
   const [isPayModalOpen, setPayModalOpen] = useState(false);
 
   const openPayModal = () => {
@@ -86,6 +88,26 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const closePayModal = () => {
     setPayModalOpen(false);
+  };
+
+  const handlePaySuccess = () => {
+    //home and /username app page needs refresh
+    //refetchPublic();
+    //router.refresh();
+    setFastPaySuccess(true); //update FastPaySuccess Context
+    setPayModalOpen(false); //closes fast pay modal
+    openPayReceiptModal(); // opens fast pay receipt
+  };
+
+  //PAY RECEIPT MODAL
+  const [isPayReceiptModalOpen, setPayReceiptModalOpen] = useState(false);
+
+  const openPayReceiptModal = () => {
+    setPayReceiptModalOpen(true);
+  };
+
+  const closePayReceiptModal = () => {
+    setPayReceiptModalOpen(false);
   };
 
   //SEARCH MODAL
@@ -151,7 +173,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && <IsPublicLayout>{children}</IsPublicLayout>}
+        {username && (
+          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess }}>
+            <IsPublicLayout>{children}</IsPublicLayout>
+          </FastPayContext.Provider>
+        )}
         {!username && !isHome && (
           <>
             <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
@@ -226,11 +252,16 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           </>
         )}
         {/* ISAUTH HOME */}
-        {!username && isHome && <>{children}</>}
+        {!username && isHome && (
+          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess }}>
+            {children}
+          </FastPayContext.Provider>
+        )}
       </div>
 
       {/* WILDPAY PAY MODAL */}
-      <PayModal isOpen={isPayModalOpen} onClose={closePayModal}></PayModal>
+      <PayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handlePaySuccess}></PayModal>
+      <ReceiptModal isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
 
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
@@ -249,7 +280,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {/* WILDPAY MENU @PAY */}
         <div id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
-            {/* <img className="z-10" src="/wildpay-logo.svg" width={35} height={35}></img> */}
             <Image alt="wildpay" className="z-10" src="/wildpay-logo.svg" width={35} height={35} />
           </div>
           <div className="font-semibold">Pay</div>

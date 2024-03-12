@@ -5,16 +5,24 @@ import { FollowersContext } from "~~/app/context";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 
-export const PayModal = ({ isOpen, onClose }) => {
+export const PayModal = ({ isOpen, onClose, onSuccess }) => {
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
-  const [receiver, setReceiver] = useState();
+  const [receiver, setReceiver] = useState<any>();
 
   const handleClose = () => {
     onClose();
     setReceiver(null);
   };
   const handlePicked = following => {
+    console.log(following);
     setReceiver(following);
+    console.log(receiver);
+  };
+
+  const handlePaySuccess = () => {
+    //share receipt
+    handleClose();
+    onSuccess();
   };
 
   if (!isOpen) {
@@ -32,7 +40,6 @@ export const PayModal = ({ isOpen, onClose }) => {
 
         {/* PAY TO */}
         <div className="pt-12 pl-5 pr-5 pb-10">
-
           {/* PAY TO - FOLLOWING */}
           <div className="flex flex-col">
             {!receiver && Array.isArray(followersData.following) && (
@@ -77,7 +84,7 @@ export const PayModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* FAST PAY */}
-          <div>{receiver && <FastPay receiver={receiver.wallet_id} />}</div>
+          <div>{receiver && <FastPay receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />}</div>
         </div>
         {/* PAY FOLLOWING */}
       </div>

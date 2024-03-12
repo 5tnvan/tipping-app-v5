@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppContext, FollowersContext } from "../context";
+import { AppContext, FastPayContext, FollowersContext } from "../context";
 import { NextPage } from "next";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 
@@ -11,7 +11,18 @@ const HomePage: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
   const [showFollow, setShowFollow] = useState("followers");
+
+  // Watch out, if FASTPAYSUCCESS changes, execute
+  useEffect(() => {
+    console.log("fastPaySuccess:", fastPaySuccess);
+    if (fastPaySuccess) {
+      //refresh transactions
+      setFastPaySuccess(!fastPaySuccess); // fastPaySuccess: false
+      console.log("refresh transactions on home page");
+    }
+  }, [fastPaySuccess]);
 
   if (isAuth == "no") {
     return (

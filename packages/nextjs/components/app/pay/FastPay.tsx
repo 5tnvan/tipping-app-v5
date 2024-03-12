@@ -4,13 +4,15 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
-const FastPay = receiver => {
+const FastPay = ({ receiver, onSuccess }) => {
   const [inputValue, setInputValue] = useState(0);
   const [ethAmount, setEthAmount] = useState(0);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState("");
   const nativeCurrencyPrice = useNativeCurrencyPrice();
+
+  console.log("client:", receiver);
 
   const addMessageClick = () => {
     if (addMessage == false) {
@@ -31,16 +33,17 @@ const FastPay = receiver => {
     setEthAmount(ethAmount);
   };
   const handlePay = () => {
-    console.log(receiver.receiver, message, ethAmount);
+    console.log("client:", receiver, message, ethAmount);
     pay();
     setSuccess("success");
+    onSuccess();
   };
 
   //HOOK: useScaffoldContractWrite | set: greeting
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setTip",
-    args: [receiver.receiver, message],
+    args: [receiver, message],
     value: parseEther(ethAmount.toString()),
   });
 

@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, FastPayContext, FollowersContext, PublicContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
@@ -21,7 +21,9 @@ export const metadata = getMetadata({
 
 const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
+  const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
+  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const {
@@ -30,8 +32,20 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     refetch: refetchPublicFollowers,
   } = useFollowers(publicProfile?.id);
 
+  // Watch out, if FASTPAYSUCCESS changes, execute
+  useEffect(() => {
+    console.log("fastPaySuccess:", fastPaySuccess);
+    if (fastPaySuccess) {
+      setFastPaySuccess(!fastPaySuccess); // fastPaySuccess: false
+      refetchPublic();
+      router.refresh();
+      console.log("executed: refetchPublic()");
+      console.log("executed: router.refresh()");
+    }
+  }, [fastPaySuccess]);
+
+  //HANDLE FOLLOW
   const handleFollow = () => {
-    //handle follow
     if (!followersPublicData?.follow) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
@@ -39,7 +53,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  //PAY MODAL
+  //FOLLOWERS MODAL
   const [isFollowersModalOpen, setFollowersModalOpen] = useState(false);
 
   const openFollowersModal = () => {
@@ -151,7 +165,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           {/* ISPUBLIC CHILDREN */}
           <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
-            {/* ISAUTH PAY MODAL */}
+            {/* ISAUTH FOLLOWERS MODAL */}
             <FollowersModal
               isOpen={isFollowersModalOpen}
               onClose={closeFollowersModal}
