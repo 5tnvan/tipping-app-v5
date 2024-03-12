@@ -25,21 +25,22 @@ export const useAccounting = (wallet_id: any) => {
     return totalSumEth;
   };
 
+  const initAccounting = async () => {
+    if (wallet_id) {
+      //incoming
+      setIncomingTx(incomingTransactionsData);
+      setIncomingTxSum(calculateSum(incomingTx));
+      //outgoing
+      setOutgoingTx(outgoingTransactionsData);
+      setOutgoingTxSum(calculateSum(outgoingTx));
+    }
+  };
+
   const refetch = () => {
     setTriggerRefetch(prev => !prev);
   };
 
   useEffect(() => {
-    const initAccounting = async () => {
-      if (wallet_id) {
-        //incoming
-        setIncomingTx(incomingTransactionsData);
-        setIncomingTxSum(calculateSum(incomingTx));
-        //outgoing
-        setOutgoingTx(outgoingTransactionsData);
-        setOutgoingTxSum(calculateSum(outgoingTx));
-      }
-    };
     initAccounting();
   }, [incomingTransactionsData, incomingTx, outgoingTransactionsData, outgoingTx, wallet_id, triggerRefetch]);
 

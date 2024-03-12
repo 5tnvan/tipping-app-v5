@@ -14,6 +14,7 @@ export const metadata = getMetadata({
 
 const WildPay = ({ children }: { children: React.ReactNode }) => {
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
+  console.log("wildlayout: profile.id ", profile.id);
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";

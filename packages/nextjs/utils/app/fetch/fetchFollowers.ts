@@ -18,7 +18,7 @@ export const fetchFollowers = async (profile_id: string) => {
   const { userData } = await fetchUser();
 
   // Initialize an object to store follower-related data
-  const followersData = { followed: false, followers: {}, followersCount: 0, following: {}, followingCount: 0 };
+  const followersData = { followed: false, followers: <any>[], followersCount: 0, following: <any>[], followingCount: 0 };
 
   try {
     // Check if the profile is followed by the authenticated user

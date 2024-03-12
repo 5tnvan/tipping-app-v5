@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "../context";
 import { NextPage } from "next";
+import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { ArrowDownLeft } from "~~/components/assets/ArrowDownLeft";
@@ -48,17 +49,27 @@ const HomePage: NextPage = () => {
           <div className="text-3xl mb-2">Home</div>
           {/* FOLLOWERS */}
           <div className="flex mb-3">
-            <button className="mr-2" onClick={() => setShowFollow("followers")}>
-              <span className={`${showFollow == "followers" && "font-semibold"}`}>Followers </span>
-              <span>({followersData?.followersCount})</span>
+            <button className="mr-2 flex items-center" onClick={() => setShowFollow("followers")}>
+              <span className={`mr-2 ${showFollow == "followers" && "font-semibold"}`}>Followers</span>
+              <span className="flex">
+                {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
+                {!isLoadingFollowers && followersData?.followersCount}
+              </span>
             </button>
-            <button className="mr-2" onClick={() => setShowFollow("following")}>
-              <span className={`${showFollow == "following" && "font-semibold"}`}>Following </span>
-              <span>({followersData?.followingCount})</span>
+            <button className="mr-2 flex items-center" onClick={() => setShowFollow("following")}>
+              <span className={`mr-2 ${showFollow == "following" && "font-semibold"}`}>Following</span>
+              <span className="flex">
+                {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
+                {!isLoadingFollowers && followersData?.followingCount}
+              </span>
             </button>
           </div>
           {/* FOLLOWERS DATA */}
-          {isLoadingFollowers && <div>is loading</div>}
+          {isLoadingFollowers && (
+            <div className="">
+              <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+            </div>
+          )}
           {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
             <ul id="followers" className="flex">
               {followersData?.followers.map(followers => (
