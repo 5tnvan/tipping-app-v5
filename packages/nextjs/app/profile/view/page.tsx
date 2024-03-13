@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AccountingContext, AppContext } from "~~/app/context";
+import Transactions from "~~/components/app/accounting/Transactions";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import Transactions from "~~/components/app/accounting/Transactions";
 
 const ProfileView: NextPage = () => {
   const router = useRouter();

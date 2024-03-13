@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AppContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { LoginIcon } from "~~/components/assets/LoginIcon";
 
-export const IsAuthMenu = ({ profile, refetch }) => {
+export const IsAuthMenu = ({ refetch }) => {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   const handleMenu = () => {
     const dropdown = document.getElementById("wildpay-is-auth-menu");
     dropdown?.removeAttribute("open");
   };
 
-  const handleLogout = () => {
-    logout();
-    refetch();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      refetch();
+    } catch (error) {
+      console.error("Logout error:", error);
+      router.push("error");
+    }
   };
 
   return (
@@ -50,31 +58,6 @@ export const IsAuthMenu = ({ profile, refetch }) => {
           </li>
         </ul>
       </details>
-      {/* <div
-        id="wildpay-is-auth-menu"
-        className={`dropdown dropdown-end z-20 custom-is-auth-menu absolute ${isDropdownOpen ? "dropdown-open" : ""}`}
-      >
-        <div
-          tabIndex={0}
-          role="button"
-          className="btn m-1 btn-primary"
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        >
-          <LoginIcon />
-          {profile.username}
-        </div>
-        <ul tabIndex={0} className="dropdown-content z-20 menu p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
-            <div onClick={() => router.push("/profile/view")}>My Profile</div>
-          </li>
-          <li>
-            <div onClick={() => router.push("/settings")}>My Settings</div>
-          </li>
-          <li>
-            <a onClick={handleLogout}>Logout</a>
-          </li>
-        </ul>
-      </div> */}
     </>
   );
 };

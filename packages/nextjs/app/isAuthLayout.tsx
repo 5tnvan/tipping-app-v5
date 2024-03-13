@@ -36,15 +36,16 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //PARENT CONTEXT:
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
 
   //SET CONTEXT:
-  const {
-    incomingTx,
-    incomingTxSum,
-    outgoingTx,
-    outgoingTxSum,
-    refetch: refetchAccounting,
-  } = useAccounting(profile.wallet_id);
+  // const {
+  //   incomingTx,
+  //   incomingTxSum,
+  //   outgoingTx,
+  //   outgoingTxSum,
+  //   refetch: refetchAccounting,
+  // } = useAccounting(profile.wallet_id);
 
   const { fastPaySuccess, setFastPaySuccess } = useFastPay();
 
@@ -56,7 +57,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
       yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
       ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
       tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
-      tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
+      tt: { val: profile.tiktok, link: "https://tiktok.com/" + profile.tiktok },
     };
   }
 
@@ -100,7 +101,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handlePaySuccess = () => {
-    //home and /username app page needs refresh
     setFastPaySuccess(true); //update FastPaySuccess Context
     setPayModalOpen(false); //closes fast pay modal
     openPayReceiptModal(); // opens fast pay receipt
@@ -141,7 +141,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </>
         ) : (
-          <IsAuthMenu profile={profile} refetch={refetchAuth} />
+          <IsAuthMenu refetch={refetchAuth} />
         )}
 
         {/* ISAUTH AVATAR MODAL */}
@@ -203,13 +203,13 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                       <>
                         <Avatar profile={profile} width={16} />
                         {isProfileEdit && (
-                          <div
+                          <button
                             id="wildpay-avatar-cta"
-                            className="relative rounded-full bg-white w-5 h-5"
+                            className="absolute top-14 rounded-full bg-white w-5 h-5"
                             onClick={() => handleAvatarEdit()}
                           >
                             <DashCircleIcon />
-                          </div>
+                          </button>
                         )}
                       </>
                     )}
@@ -254,21 +254,21 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            <AccountingContext.Provider
+            {/* <AccountingContext.Provider
               value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
-            >
-              {children}
-            </AccountingContext.Provider>
+            > */}
+            {children}
+            {/* </AccountingContext.Provider> */}
           </>
         )}
         {/* ISAUTH HOME */}
         {!username && isHome && (
           <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
-            <AccountingContext.Provider
+            {/* <AccountingContext.Provider
               value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
-            >
-              {children}
-            </AccountingContext.Provider>
+            > */}
+            {children}
+            {/* </AccountingContext.Provider> */}
           </FastPayContext.Provider>
         )}
       </div>

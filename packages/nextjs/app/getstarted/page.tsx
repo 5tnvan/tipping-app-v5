@@ -84,8 +84,6 @@ const GetStarted: NextPage = () => {
           {/* GET STARTED CARDS */}
           <div className="scr mb-6">
             <div className="scr-item custom-bg-image-01"></div>
-            <div className="scr-item custom-bg-image-01"></div>
-            <div className="scr-item custom-bg-image-01"></div>
           </div>
 
           {/* GET STARTED CLAIM USERNAME */}

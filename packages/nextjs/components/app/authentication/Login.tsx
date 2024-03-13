@@ -10,7 +10,6 @@ export const Login = ({ refetch }) => {
       const formData = new FormData(event.currentTarget);
       await login(formData);
       refetch();
-      // router.push("profile/view");
     } catch (error) {
       console.error("Login error:", error);
       router.push("error");

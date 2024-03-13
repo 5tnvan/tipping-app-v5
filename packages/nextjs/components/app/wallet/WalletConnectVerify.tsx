@@ -68,7 +68,7 @@ const WalletConnectVerify = () => {
           {/* 1.Select a network */}
           <li className="step step-primary">
             <div className="font-semibold">Select a network</div>
-            <div className="ml-10 flex bg-slate-200 border-1 border-sky-950 rounded-lg p-5">
+            <div className="ml-10 flex bg-slate-200 border-1 border-sky-950 rounded-lg p-3">
               <EthIcon width="20" height="20" />
               <div>Eth</div>
             </div>

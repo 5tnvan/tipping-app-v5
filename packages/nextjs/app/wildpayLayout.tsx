@@ -1,6 +1,7 @@
 "use client";
 
-import { AppContext, FollowersContext } from "./context";
+import { useAccounting } from "~~/hooks/app/useAccounting";
+import { AccountingContext, AppContext, FollowersContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
@@ -14,8 +15,14 @@ export const metadata = getMetadata({
 
 const WildPay = ({ children }: { children: React.ReactNode }) => {
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
-  console.log("wildlayout: profile.id ", profile.id);
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
+  const {
+    incomingTx,
+    incomingTxSum,
+    outgoingTx,
+    outgoingTxSum,
+    refetch: refetchAccounting,
+  } = useAccounting(profile.wallet_id);
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
@@ -27,10 +34,14 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             <img className="z-10" src="/wildpay-logo.svg" width={30} height={30}></img>
             <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
           </div>
-          <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-            {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
-            {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
-          </FollowersContext.Provider>
+          <AccountingContext.Provider
+            value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
+          >
+            <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
+              {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
+              {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+            </FollowersContext.Provider>
+          </AccountingContext.Provider>
         </div>
       </AppContext.Provider>
     </>

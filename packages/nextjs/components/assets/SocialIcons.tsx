@@ -2,15 +2,15 @@ import React from "react";
 
 export const SocialIcons = ({ soc }) => {
   // Initialize color variables
-  const ytFill = soc.yt.val != null ? "currentColor" : "grey";
-  const igFill = soc.ig.val != null ? "currentColor" : "grey";
-  const twFill = soc.tw.val != null ? "currentColor" : "grey";
-  const ttFill = soc.tt.val != null ? "currentColor" : "grey";
+  const ytFill = soc.yt.val?.length > 0 ? "currentColor" : "grey";
+  const igFill = soc.ig.val?.length > 0 ? "currentColor" : "grey";
+  const twFill = soc.tw.val?.length > 0 ? "currentColor" : "grey";
+  const ttFill = soc.tt.val?.length > 0 ? "currentColor" : "grey";
 
-  const ytLink = soc.yt.val != null ? soc.yt.link : null;
-  const igLink = soc.ig.val != null ? soc.ig.link : null;
-  const twLink = soc.tw.val != null ? soc.tw.link : null;
-  const ttLink = soc.tt.val != null ? soc.tt.link : null;
+  const ytLink = soc.yt.val?.length > 0 ? soc.yt.link : null;
+  const igLink = soc.ig.val?.length > 0 ? soc.ig.link : null;
+  const twLink = soc.tw.val?.length > 0 ? soc.tw.link : null;
+  const ttLink = soc.tt.val?.length > 0 ? soc.tt.link : null;
 
   const handleButtonClick = link => {
     if (link) {

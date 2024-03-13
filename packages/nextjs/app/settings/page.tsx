@@ -104,9 +104,9 @@ const Settings: NextPage = () => {
                 </svg>
                 <input type="text" className="grow bg-white" placeholder="******" disabled />
               </div>
-              <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
+              {/* <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
                 Reset
-              </button>
+              </button> */}
             </label>
           </div>
 

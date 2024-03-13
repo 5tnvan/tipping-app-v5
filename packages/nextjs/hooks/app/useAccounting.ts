@@ -6,10 +6,10 @@ import { useIncomingTransactions } from "~~/utils/supabase/fetch/fetchIncomingTr
 import { useOutgoingTransactions } from "~~/utils/supabase/fetch/fetchOutgoingTransactions";
 
 export const useAccounting = (wallet_id: any) => {
-  const [incomingTx, setIncomingTx] = useState<any>();
-  const [incomingTxSum, setIncomingTxSum] = useState<any>();
-  const [outgoingTx, setOutgoingTx] = useState<any>();
-  const [outgoingTxSum, setOutgoingTxSum] = useState<any>();
+  const [incomingTx, setIncomingTx] = useState<any>(null);
+  const [incomingTxSum, setIncomingTxSum] = useState(0);
+  const [outgoingTx, setOutgoingTx] = useState<any>(null);
+  const [outgoingTxSum, setOutgoingTxSum] = useState(0);
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const incomingTransactionsData = useIncomingTransactions(wallet_id);
@@ -21,7 +21,7 @@ export const useAccounting = (wallet_id: any) => {
         return sum + Number(tip.value);
       }, 0) || 0;
 
-    const totalSumEth = Number(formatEther(totalSum)).toFixed(4);
+    const totalSumEth = Number(Number(formatEther(totalSum)).toFixed(4));
     return totalSumEth;
   };
 
@@ -33,6 +33,9 @@ export const useAccounting = (wallet_id: any) => {
       //outgoing
       setOutgoingTx(outgoingTransactionsData);
       setOutgoingTxSum(calculateSum(outgoingTx));
+      //
+      console.log(incomingTransactionsData);
+      console.log(incomingTx);
     }
   };
 
