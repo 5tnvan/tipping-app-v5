@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AccountingContext, AppContext } from "~~/app/context";
+import { AccountingContext, AppContext, FastPayContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
@@ -20,6 +20,14 @@ const Settings: NextPage = () => {
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
+  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
+
+  //LISTEN TO: fastPaySuccess
+  useEffect(() => {
+    if (fastPaySuccess) {
+      router.refresh();
+    }
+  }, [fastPaySuccess]);
 
   useEffect(() => {
     if (!profile.wallet_id) {
@@ -30,10 +38,6 @@ const Settings: NextPage = () => {
       setButtonText("Withdraw");
     }
   }, [profile.wallet_id, profile.wallet_sign_hash]);
-
-  // useEffect(() => {
-
-  // }, [isWalletModalOpen]);
 
   //WALLET
   const handleWalletModal = () => {

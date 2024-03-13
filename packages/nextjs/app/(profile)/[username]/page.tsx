@@ -23,6 +23,7 @@ const ProfileUsername: NextPage = ({ params }) => {
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
 
+  //LISTEN TO: fastPaySuccess
   const handlePaySuccess = () => {
     refetchPublic();
     router.refresh();
