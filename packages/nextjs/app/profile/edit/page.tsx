@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AppContext } from "~~/app/context";
 import { updateProfileSocial } from "~~/app/profile/actions";
@@ -17,7 +16,6 @@ import "~~/styles/app.css";
  **/
 
 const ProfileEdit: NextPage = () => {
-  const router = useRouter();
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   const [socialMedia, setSocialMedia] = useState({
@@ -48,11 +46,18 @@ const ProfileEdit: NextPage = () => {
     refetchAuth();
   };
 
-  console.log(profile);
+  console.log("isAuth: ", isAuth);
 
   /* RENDER HTML */
   if (isAuth == "no") {
-    router.push("/login");
+    return (
+      <div id="wildpay-is-not-auth" className="z-10 pt-28">
+        <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
+        <Link href="/login" className="btn text-base mb-3 w-full">
+          {"Go to login"}
+        </Link>
+      </div>
+    );
   }
 
   if (isAuth == "yes") {

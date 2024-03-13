@@ -2,7 +2,6 @@
 
 import { useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AccountingContext, AppContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
@@ -12,22 +11,18 @@ import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
-  const router = useRouter();
   const { isLoadingAuth, isAuth, profile } = useContext(AppContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
 
   /* ROUTE */
   if (isAuth == "no") {
     return (
-      <>
-        {/* CONTENT */}
-        <div id="wildpay-is-not-auth" className="z-10 pt-28">
-          <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
-          <Link href="/login" className="btn text-base mb-3 w-full">
-            {"Go to login"}
-          </Link>
-        </div>
-      </>
+      <div id="wildpay-is-not-auth" className="z-10 pt-28">
+        <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
+        <Link href="/login" className="btn text-base mb-3 w-full">
+          {"Go to login"}
+        </Link>
+      </div>
     );
   }
 

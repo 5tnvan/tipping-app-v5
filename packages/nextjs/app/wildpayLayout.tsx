@@ -1,10 +1,11 @@
 "use client";
 
-import { useAccounting } from "~~/hooks/app/useAccounting";
-import { AccountingContext, AppContext, FollowersContext } from "./context";
+import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
+import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
+import { useFastPay } from "~~/hooks/app/useFastPay";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -23,6 +24,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     outgoingTxSum,
     refetch: refetchAccounting,
   } = useAccounting(profile.wallet_id);
+  const { fastPaySuccess, setFastPaySuccess } = useFastPay();
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
@@ -38,8 +40,10 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
           >
             <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-              {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
-              {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+              <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
+                {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
+                {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+              </FastPayContext.Provider>
             </FollowersContext.Provider>
           </AccountingContext.Provider>
         </div>

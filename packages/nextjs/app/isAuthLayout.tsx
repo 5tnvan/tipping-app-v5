@@ -37,17 +37,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   //PARENT CONTEXT:
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
-
-  //SET CONTEXT:
-  // const {
-  //   incomingTx,
-  //   incomingTxSum,
-  //   outgoingTx,
-  //   outgoingTxSum,
-  //   refetch: refetchAccounting,
-  // } = useAccounting(profile.wallet_id);
-
-  const { fastPaySuccess, setFastPaySuccess } = useFastPay();
+  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
 
   //SOCIAL MEDIA LINKS
   let soc = {};
@@ -182,11 +172,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && (
-          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
-            <IsPublicLayout>{children}</IsPublicLayout>
-          </FastPayContext.Provider>
-        )}
+        {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {!username && !isHome && (
           <>
             <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
@@ -254,23 +240,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            {/* <AccountingContext.Provider
-              value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
-            > */}
             {children}
-            {/* </AccountingContext.Provider> */}
           </>
         )}
         {/* ISAUTH HOME */}
-        {!username && isHome && (
-          <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
-            {/* <AccountingContext.Provider
-              value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
-            > */}
-            {children}
-            {/* </AccountingContext.Provider> */}
-          </FastPayContext.Provider>
-        )}
+        {!username && isHome && <>{children}</>}
       </div>
 
       {/* WILDPAY PAY MODAL */}
