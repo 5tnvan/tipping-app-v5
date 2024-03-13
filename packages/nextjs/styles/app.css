@@ -70,7 +70,7 @@
 
 
 /* APP */
-#wildpay { min-width: 506px; }
+#wildpay { min-width: 506px; max-width: 506px; }
 #wildpay-avatar {display: flex; justify-content: center; align-items: center;}
 #wildpay-avatar-cta { border: 1px solid #3D45E7; /* Added 'solid' as the border style */ }
 #wildpay-app-menu {border-radius: 20px 20px 0 0;}

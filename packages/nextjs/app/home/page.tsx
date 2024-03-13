@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "../context";
 import { NextPage } from "next";
+import { BanknotesIcon, UserCircleIcon, UserIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -44,73 +45,100 @@ const HomePage: NextPage = () => {
     return (
       <>
         {/* CONTENT */}
-        <div id="wildpay-is-auth-home" className="z-10 pt-28 text-black">
-          {/* HOME */}
-          <div className="text-3xl mb-2">Home</div>
-          {/* FOLLOWERS */}
-          <div className="flex mb-3">
-            <button className="mr-2 flex items-center" onClick={() => setShowFollow("followers")}>
-              <span className={`mr-2 ${showFollow == "followers" && "font-semibold"}`}>Followers</span>
-              <span className="flex">
+        <div id="wildpay-is-auth-home" className="z-10 pt-8 text-black">
+          {/* FOLLOWS */}
+          <div className="text-xl mt-10 mb-3 flex items-center ">
+            <div className="w-4">
+              <UserIcon />
+            </div>
+            <span className="ml-1 font-semibold">Follows</span>
+          </div>
+          {/* FOLLOWERS TAB */}
+          <div role="tablist" className="tabs tabs-bordered">
+            <div
+              role="tab"
+              className={`tab p-0 mr-2 justify-between text-base ${showFollow == "followers" && "tab-active"}`}
+              onClick={() => setShowFollow("followers")}
+            >
+              Followers
+              <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold"}`}>
                 {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                 {!isLoadingFollowers && followersData?.followersCount}
               </span>
-            </button>
-            <button className="mr-2 flex items-center" onClick={() => setShowFollow("following")}>
-              <span className={`mr-2 ${showFollow == "following" && "font-semibold"}`}>Following</span>
-              <span className="flex">
+            </div>
+            <div
+              role="tab"
+              className={`tab p-0 justify-between text-base ${showFollow == "following" && "tab-active"}`}
+              onClick={() => setShowFollow("following")}
+            >
+              Following
+              <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold"}`}>
                 {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                 {!isLoadingFollowers && followersData?.followingCount}
               </span>
-            </button>
+            </div>
           </div>
           {/* FOLLOWERS DATA */}
-          {isLoadingFollowers && (
-            <div className="">
-              <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-            </div>
-          )}
-          {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
-            <ul id="followers" className="flex">
-              {followersData?.followers.map(followers => (
-                <Link href={`/${followers.username}`} key={followers.id} className="flex flex-col items-center mr-4">
-                  <Avatar profile={followers} width={12} />
-                  {followers.username}
-                </Link>
-              ))}
-            </ul>
-          )}
+          <div className="pt-4">
+            {isLoadingFollowers && (
+              <div className="">
+                <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+              </div>
+            )}
+            {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
+              <ul id="followers" className="flex">
+                {followersData?.followers.map(followers => (
+                  <Link href={`/${followers.username}`} key={followers.id} className="flex flex-col items-center mr-4">
+                    <Avatar profile={followers} width={12} />
+                    {followers.username}
+                  </Link>
+                ))}
+              </ul>
+            )}
 
-          {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
-            <div id="following" className="flex">
-              {followersData?.following.map(following => (
-                <Link href={`/${following.username}`} key={following.id} className="flex flex-col items-center mr-4">
-                  <Avatar profile={following} width={12} />
-                  {following.username}
-                </Link>
-              ))}
-            </div>
-          )}
+            {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
+              <div id="following" className="flex">
+                {followersData?.following.map(following => (
+                  <Link href={`/${following.username}`} key={following.id} className="flex flex-col items-center mr-4">
+                    <Avatar profile={following} width={12} />
+                    {following.username}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* TRANSACTIONS */}
-          <div className="flex mb-3 mt-5">
-            <button className="mr-2 flex" onClick={() => setShowTransactions("incoming")}>
-              <span className={`${showTransactions == "incoming" && "font-semibold"} flex items-center`}>
-                Incoming <ArrowDownLeft />
-              </span>
-              <span className="custom-text-blue">{incomingTxSum}Ξ</span>
-            </button>
-            <button className="mr-2 flex" onClick={() => setShowTransactions("outgoing")}>
-              <span className={`${showTransactions == "outgoing" && "font-semibold"} flex items-center`}>
-                Outgoing <ArrowUpRight />
-              </span>
-              <span className="custom-text-blue">{outgoingTxSum}Ξ</span>
-            </button>
+          <div className="text-xl mt-10 mb-3 flex items-center ">
+            <div className="w-4">
+              <BanknotesIcon />
+            </div>
+            <span className="ml-1 font-semibold">Transactions</span>
+          </div>
+          {/* TRANSACTIONS TAB */}
+          <div role="tablist" className="tabs tabs-bordered">
+            <div
+              role="tab"
+              className={`tab mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
+              onClick={() => setShowTransactions("incoming")}
+            >
+              <div className="badge badge-success text-white text-base">Incoming</div>
+              <span className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold"}`}>{incomingTxSum}Ξ</span>
+            </div>
+            <div
+              role="tab"
+              className={`tab p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
+              onClick={() => setShowTransactions("outgoing")}
+            >
+              <div className="badge badge-warning text-white text-base">Outgoing</div>
+              <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>{outgoingTxSum}Ξ</span>
+            </div>
           </div>
           {/* TRANSACTION DATA */}
-
-          {showTransactions == "incoming" && <Transactions tx={incomingTx} />}
-          {showTransactions == "outgoing" && <Transactions tx={outgoingTx} />}
+          <div className="pt-4">
+            {showTransactions == "incoming" && <Transactions tx={incomingTx} />}
+            {showTransactions == "outgoing" && <Transactions tx={outgoingTx} />}
+          </div>
         </div>
       </>
     );

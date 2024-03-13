@@ -26,8 +26,14 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useAccounting(publicProfile?.wallet_id);
-  const { isLoading: isLoadingPublicFollowers, followersData: followersPublicData, refetch: refetchPublicFollowers } = useFollowers(publicProfile?.id);
+  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useAccounting(
+    publicProfile?.wallet_id,
+  );
+  const {
+    isLoading: isLoadingPublicFollowers,
+    followersData: followersPublicData,
+    refetch: refetchPublicFollowers,
+  } = useFollowers(publicProfile?.id);
   const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
 
   //LISTEN TO: fastPaySuccess
@@ -39,10 +45,12 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
 
   //HANDLE FOLLOW
   const handleFollow = () => {
-    if (!followersPublicData?.follow) {
+    if (isAuth == "yes" && !followersPublicData?.follow) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
       refetchFollowers();
+    } else if (isAuth == "no") {
+      router.push("/login");
     }
   };
 
