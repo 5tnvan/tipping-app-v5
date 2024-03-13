@@ -5,10 +5,12 @@ import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContr
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
 const FastPay = ({ receiver, onSuccess }) => {
-  const [inputValue, setInputValue] = useState(0);
   const [ethAmount, setEthAmount] = useState(0);
+  const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
+  const [dollarAmount, setDollarAmount] = useState(0);
+  const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   const [addMessage, setAddMessage] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("n/a");
   const [success, setSuccess] = useState("");
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
@@ -25,24 +27,26 @@ const FastPay = ({ receiver, onSuccess }) => {
   };
 
   const handleInput = e => {
-    const value = parseFloat(e.target.value);
-    const ethAmount = convertUsdToEth(value, nativeCurrencyPrice);
-    setInputValue(value);
+    const dollarAmount = Number(e.target.value);
+    const ethAmount = convertUsdToEth(dollarAmount, nativeCurrencyPrice);
+    setDollarAmount(dollarAmount);
+    setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
     setEthAmount(ethAmount);
+    setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
   };
   const handlePay = () => {
-    console.log("client:", receiver, message, ethAmount);
+    console.log("client:", receiver, message, ethAmount, ethAmountWithFee);
     pay();
     setSuccess("success");
     onSuccess();
   };
 
-  //HOOK: useScaffoldContractWrite | set: greeting
+  //HOOK: useScaffoldContractWrite | set: setTip
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setTip",
     args: [receiver, message],
-    value: parseEther(ethAmount.toString()),
+    value: parseEther(ethAmountWithFee.toString()),
   });
 
   return (
@@ -55,8 +59,23 @@ const FastPay = ({ receiver, onSuccess }) => {
         </div>
         <span className="text-3xl">USD</span>
       </div>
-      {/* USD */}
-      <div className="flex justify-end">Eth: {ethAmount} Ξ</div>
+      {/* ETH */}
+      {dollarAmount > 0 && (
+        <div>
+          <div className="flex justify-between border-b pt-8 pb-3 mb-3">
+            <div>Amount</div>
+            <div className="font-semibold">${dollarAmount}</div>
+          </div>
+          <div className="flex justify-between">
+            <div className="pb-1">Total Bill</div>
+            <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
+          </div>
+          <div className="flex justify-end">
+            <div>{`${ethAmountWithFee} ETH`}</div>
+          </div>
+        </div>
+      )}
+
       {/* MESSAGE */}
       <div className="flex flex-col items-center mt-10">
         <span className="link-primary block mt-2" onClick={() => addMessageClick()}>

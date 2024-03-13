@@ -30,14 +30,14 @@ const ProfileUsername: NextPage = ({ params }) => {
   };
 
   //PAY MODAL
-  const [isFollowersModalOpen, setFollowersModalOpen] = useState(false);
+  const [isPayModalOpen, setPayModalOpen] = useState(false);
 
-  const openFollowersModal = () => {
-    setFollowersModalOpen(true);
+  const openPayModal = () => {
+    setPayModalOpen(true);
   };
 
-  const closeFollowersModal = () => {
-    setFollowersModalOpen(false);
+  const closePayModal = () => {
+    setPayModalOpen(false);
   };
 
   //rendering jsx
@@ -50,20 +50,13 @@ const ProfileUsername: NextPage = ({ params }) => {
     <>
       {/* PAY NOW */}
       <div className="mb-5 z-10 relative">
-        <button
-          className="btn-neutral btn w-full text-base custom-bg-blue border-0"
-          onClick={() => openFollowersModal()}
-        >
+        <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={() => openPayModal()}>
           Pay Now
         </button>
       </div>
 
       {/* PAY MODAL */}
-      <ProfilePayModal
-        isOpen={isFollowersModalOpen}
-        onClose={closeFollowersModal}
-        onSuccess={handlePaySuccess}
-      ></ProfilePayModal>
+      <ProfilePayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handlePaySuccess}></ProfilePayModal>
 
       {/* PAY TRANSACTIONS */}
       <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">

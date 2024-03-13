@@ -33,9 +33,6 @@ export const useAccounting = (wallet_id: any) => {
       //outgoing
       setOutgoingTx(outgoingTransactionsData);
       setOutgoingTxSum(calculateSum(outgoingTx));
-      //
-      console.log(incomingTransactionsData);
-      console.log(incomingTx);
     }
   };
 

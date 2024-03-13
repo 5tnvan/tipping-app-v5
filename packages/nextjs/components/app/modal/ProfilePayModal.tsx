@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import Tipping2 from "../pay/Tipping2";
+import ProfilePay from "../pay/ProfilePay";
 import { PublicContext } from "~~/app/context";
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }) => {
@@ -33,7 +33,7 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }) => {
             <div>@{publicProfile.username}</div>
             <div>{publicProfile.wallet_id}</div>
 
-            <Tipping2 receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
+            <ProfilePay receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
           </div>
         </div>
       </div>

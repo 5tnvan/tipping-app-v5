@@ -64,7 +64,7 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
             )}
 
             {/* PAY TO - CHOSEN RECEIVER */}
-            <div className="mt-3">
+            <div className="">
               {receiver && (
                 <>
                   <button className="font-semibold flex items-center" onClick={() => setReceiver(null)}>
@@ -82,7 +82,22 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
 
           {/* FAST PAY */}
-          <div>{receiver && <FastPay receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />}</div>
+          <div>
+            {receiver && receiver.wallet_id && <FastPay receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />}
+            {receiver && !receiver.wallet_id && (
+              <>
+                <div className="flex justify-center">
+                  <span className="font-semibold mr-1">@{receiver.username}</span>
+                  {" has no verified wallet, yet."}
+                </div>
+                <div className="flex justify-center">
+                  <button className="btn btn-neutral w-full mt-3" onClick={() => setReceiver(null)}>
+                    Go Back
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
         {/* PAY FOLLOWING */}
       </div>
