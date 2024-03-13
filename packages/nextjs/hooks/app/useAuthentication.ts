@@ -33,14 +33,11 @@ export const useAuthentication = () => {
 
     //fetch session
     const sessionData = await fetchSession();
-    console.log("useAuthentication(): sessionData", sessionData);
 
     if (sessionData?.session != null) {
       setIsAuth("yes");
       const userData = await fetchUser();
       const profileData = await fetchProfile();
-      console.log("useAuthentication(): userData", userData);
-      console.log("useAuthentication(): profileData", profileData);
       setUser(userData.userData.user);
       setProfile(profileData);
     } else {

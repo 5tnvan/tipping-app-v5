@@ -1,12 +1,13 @@
 "use client";
 
-import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "./context";
+import { AccountingContext, AppContext, FastPayContext, FollowersContext, WithdrawContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useFastPay } from "~~/hooks/app/useFastPay";
 import { useFollowers } from "~~/hooks/app/useFollowers";
+import { useWithdraw } from "~~/hooks/app/useWithdraw";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -18,6 +19,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
   const {
+    withdrawBalance,
     incomingTx,
     incomingTxSum,
     outgoingTx,
@@ -25,6 +27,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     refetch: refetchAccounting,
   } = useAccounting(profile.wallet_id);
   const { fastPaySuccess, setFastPaySuccess } = useFastPay();
+  const { withdrawSuccess, setWithdrawSuccess } = useWithdraw();
 
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
@@ -37,12 +40,14 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
           </div>
           <AccountingContext.Provider
-            value={{ incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
+            value={{ withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
           >
             <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
               <FastPayContext.Provider value={{ fastPaySuccess, setFastPaySuccess }}>
-                {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
-                {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+                <WithdrawContext.Provider value={{ withdrawSuccess, setWithdrawSuccess }}>
+                  {isAuth == "yes" && <IsAuthLayout>{children}</IsAuthLayout>}
+                  {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
+                </WithdrawContext.Provider>
               </FastPayContext.Provider>
             </FollowersContext.Provider>
           </AccountingContext.Provider>

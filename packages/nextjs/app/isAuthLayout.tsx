@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AccountingContext, AppContext, FastPayContext } from "./context";
+import { AccountingContext, AppContext, FastPayContext, WithdrawContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -15,8 +15,6 @@ import { HomeIcon } from "~~/components/assets/HomeIcon";
 import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { Address } from "~~/components/scaffold-eth";
-import { useAccounting } from "~~/hooks/app/useAccounting";
-import { useFastPay } from "~~/hooks/app/useFastPay";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -36,8 +34,20 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //PARENT CONTEXT:
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
+  const { withdrawBalance, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } =
+    useContext(AccountingContext);
   const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
+  const { withdrawSuccess, setWithdrawSuccess } = useContext(WithdrawContext);
+
+  //LISTEN TO: withdrawSuccess
+  useEffect(() => {
+    console.log("withdrawSuccess: ", withdrawSuccess);
+    if (withdrawSuccess) {
+      console.log("withdrawSuccess: refetchAccounting() router.refresh()");
+      refetchAccounting();
+      router.refresh();
+    }
+  }, [withdrawSuccess]);
 
   //SOCIAL MEDIA LINKS
   let soc = {};
@@ -228,18 +238,19 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
+                {/* ISAUTH PROFILE INTRO - ETH BALANCE @SETTINGS */}
                 <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
-                  {isLoadingAuth ? (
-                    <IsLoading shape="rounded-md" width={28} height={8} />
-                  ) : (
-                    <>
-                      <span className="text-xl">{incomingTxSum}Ξ</span>
-                    </>
+                  {isLoadingAuth && <IsLoading shape="rounded-md" width={28} height={8} />}
+                  {!isLoadingAuth && !isSettings && <span className="text-xl">{incomingTxSum}Ξ</span>}
+                  {!isLoadingAuth && isSettings && (
+                    <span className="text-xl">{Number(withdrawBalance).toFixed(4)}Ξ</span>
                   )}
                 </div>
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
+            {/* {isSettings && { children }}
+            {!isSettings && { children }} */}
             {children}
           </>
         )}

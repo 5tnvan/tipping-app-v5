@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { formatEther } from "viem";
-import { useIncomingTransactions } from "~~/utils/supabase/fetch/fetchIncomingTransactions";
-import { useOutgoingTransactions } from "~~/utils/supabase/fetch/fetchOutgoingTransactions";
+import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 
 export const useAccounting = (wallet_id: any) => {
+  const [dummyWallet, setDummyWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E");
+  const [withdrawBalance, setWithdrawBalance] = useState<any>();
   const [incomingTx, setIncomingTx] = useState<any>(null);
   const [incomingTxSum, setIncomingTxSum] = useState(0);
   const [outgoingTx, setOutgoingTx] = useState<any>(null);
@@ -14,6 +17,7 @@ export const useAccounting = (wallet_id: any) => {
 
   const incomingTransactionsData = useIncomingTransactions(wallet_id);
   const outgoingTransactionsData = useOutgoingTransactions(wallet_id);
+  const res = useFetchBalance(dummyWallet);
 
   const calculateSum = txData => {
     const totalSum =
@@ -27,6 +31,9 @@ export const useAccounting = (wallet_id: any) => {
 
   const initAccounting = async () => {
     if (wallet_id) {
+      //withdraw balance
+      setDummyWallet(wallet_id);
+      setWithdrawBalance(res);
       //incoming
       setIncomingTx(incomingTransactionsData);
       setIncomingTxSum(calculateSum(incomingTx));
@@ -44,5 +51,5 @@ export const useAccounting = (wallet_id: any) => {
     initAccounting();
   }, [incomingTransactionsData, incomingTx, outgoingTransactionsData, outgoingTx, wallet_id, triggerRefetch]);
 
-  return { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch };
+  return { withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch };
 };

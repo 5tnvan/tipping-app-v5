@@ -2,16 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AccountingContext, AppContext, FastPayContext } from "~~/app/context";
+import { AccountingContext, AppContext, FastPayContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import Link from "next/link";
 
 const Settings: NextPage = () => {
   const router = useRouter();
@@ -19,8 +20,10 @@ const Settings: NextPage = () => {
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
+  const { withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } =
+    useContext(AccountingContext);
   const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
+  const { withdrawSuccess, setWithdrawSuccess } = useContext(WithdrawContext);
 
   //LISTEN TO: fastPaySuccess
   useEffect(() => {
@@ -49,7 +52,20 @@ const Settings: NextPage = () => {
     setIsWithdrawModalOpen(true);
   };
 
+  const handleWithdraw = () => {
+    withdraw(); //withdraw
+    setWithdrawSuccess(true); //trigger witdraw context
+    setIsWithdrawModalOpen(false); // close withdraw modal
+    console.log("withdraw end: success");
+  };
+
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
+
+  //HOOK: useScaffoldContractWrite | set: setTip
+  const { writeAsync: withdraw } = useScaffoldContractWrite({
+    contractName: "YourContract",
+    functionName: "withdrawAmount",
+  });
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -169,9 +185,9 @@ const Settings: NextPage = () => {
                     d="m12 1.75l-6.25 10.5L12 16l6.25-3.75zM5.75 13.5L12 22.25l6.25-8.75L12 17.25z"
                   ></path>
                 </svg>
-                {incomingTxSum}Ξ
+                {Number(withdrawBalance).toFixed(4)}Ξ
               </div>
-              <button className="btn btn-secondary" onClick={() => handleWithdrawModal()}>
+              <button className="btn btn-secondary" onClick={handleWithdrawModal}>
                 Widthdraw
               </button>
             </label>
@@ -180,7 +196,7 @@ const Settings: NextPage = () => {
           {/* Balance Modal */}
           <dialog id="my_modal_4" className="modal" open={isWithdrawModalOpen}>
             <div className="modal-box p-10 pt-15">
-              <form method="dialog">
+              <div>
                 {/* if there is a button in form, it will close the modal */}
                 <button
                   className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -188,8 +204,23 @@ const Settings: NextPage = () => {
                 >
                   ✕
                 </button>
-                <div>Withdraw confirm</div>
-              </form>
+                {withdrawBalance == 0 && (
+                  <>
+                    <div className="mb-2 flex items-align justify-center">Your balance is {withdrawBalance} ETH. Try again later.</div>
+                    <div className="btn btn-neutral w-full" onClick={() => setIsWithdrawModalOpen(false)}>
+                      Go Back
+                    </div>
+                  </>
+                )}
+                {withdrawBalance > 0 && (
+                  <>
+                    <div className="mb-2">Withdrawing {withdrawBalance} ETH</div>
+                    <div className="btn btn-neutral w-full" onClick={handleWithdraw}>
+                      Confirm
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </dialog>
         </div>
