@@ -56,7 +56,6 @@ const Settings: NextPage = () => {
     withdraw(); //withdraw
     setWithdrawSuccess(true); //trigger witdraw context
     setIsWithdrawModalOpen(false); // close withdraw modal
-    console.log("withdraw end: success");
   };
 
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;

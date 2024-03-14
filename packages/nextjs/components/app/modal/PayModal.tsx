@@ -14,9 +14,7 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
     setReceiver(null);
   };
   const handlePicked = following => {
-    console.log(following);
     setReceiver(following);
-    console.log(receiver);
   };
 
   const handlePaySuccess = () => {

@@ -1,6 +1,11 @@
 import React, { useContext } from "react";
+import Link from "next/link";
+import TransactionLatest from "../accounting/TransactionsLatest";
+import { AccountingContext } from "~~/app/context";
 
 export const ReceiptModal = ({ isOpen, onClose }) => {
+  const { outgoingTx } = useContext(AccountingContext);
+
   const handleClose = () => {
     onClose();
   };
@@ -17,11 +22,12 @@ export const ReceiptModal = ({ isOpen, onClose }) => {
         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
           ✕
         </button>
-        {/* FOLLOWERS INTO */}
-        <div className="flex flex-col justify-center items-center mt-10">Done🎉 Save this receipt.</div>
-        {/* FOLLOWERS CTA */}
-        <div className="m-5">
-          <div className="btn btn-light w-full" onClick={handleClose}>Share</div>
+        {/* RECEIPT INTO */}
+        <div className="p-5">
+          <div className="font-semibold custom-text-blue text-3xl pt-10">{"Done 🎉."}</div>
+          <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
+          {/* RECEIPT */}
+          <TransactionLatest tx={outgoingTx} />
         </div>
       </div>
     </div>

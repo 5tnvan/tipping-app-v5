@@ -41,7 +41,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //LISTEN TO: withdrawSuccess
   useEffect(() => {
-    console.log("withdrawSuccess: ", withdrawSuccess);
     if (withdrawSuccess) {
       console.log("withdrawSuccess: refetchAccounting() router.refresh()");
       refetchAccounting();
@@ -101,10 +100,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handlePaySuccess = () => {
+    console.log("handlePaySuccess");
     setFastPaySuccess(true); //update FastPaySuccess Context
     setPayModalOpen(false); //closes fast pay modal
-    openPayReceiptModal(); // opens fast pay receipt
     refetchAccounting();
+    openPayReceiptModal(); // opens fast pay receipt
     router.refresh();
   };
 
