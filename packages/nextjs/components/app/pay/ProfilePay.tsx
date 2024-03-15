@@ -53,10 +53,10 @@ const ProfilePay = ({ receiver, onSuccess }) => {
     onSuccess();
   };
 
-  //HOOK: useScaffoldContractWrite | set: greeting
+  //HOOK: useScaffoldContractWrite
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
-    functionName: "setTip",
+    functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),
   });

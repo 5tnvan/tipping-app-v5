@@ -1,5 +1,5 @@
 specVersion: 0.0.4
-description: Greetings
+description: WildPay
 repository: https://github.com/scaffold-eth/se-2/packages/subgraph/
 schema:
   file: ./src/schema.graphql
@@ -9,18 +9,18 @@ dataSources:
     network: localhost
     source:
       abi: YourContract
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+      address: "0xc5a5C42992dECbae36851359345FE25997F5C42d"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Tip
+        - Payment
         - Sender
       abis:
         - name: YourContract
           file: ./abis/localhost_YourContract.json
       eventHandlers:
-        - event: TipChange(indexed address,indexed address,string,uint256,uint256)
-          handler: handleTipChange
+        - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
+          handler: handlePaymentChange
       file: ./src/mapping.ts

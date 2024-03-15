@@ -60,10 +60,10 @@ const Settings: NextPage = () => {
 
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
 
-  //HOOK: useScaffoldContractWrite | set: setTip
+  //HOOK: useScaffoldContractWrite | set: setPayment
   const { writeAsync: withdraw } = useScaffoldContractWrite({
     contractName: "YourContract",
-    functionName: "withdrawAmount",
+    functionName: "withdraw",
   });
 
   /* ROUTE */

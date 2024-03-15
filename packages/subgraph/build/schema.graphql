@@ -1,8 +1,8 @@
-type Tip @entity {
+type Payment @entity {
   id: ID!
   sender: Bytes!
   receiver: Bytes!
-  greeting: String!
+  message: String!
   value: BigInt!
   fee: BigInt!
   createdAt: BigInt!

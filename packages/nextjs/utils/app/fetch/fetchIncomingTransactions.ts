@@ -5,14 +5,14 @@ import { gql, useQuery } from "@apollo/client";
 /**
  * FETCH: fetchIncomingTransactions()
  * DB: subpgraph
- * TABLE: "tips"
+ * TABLE: "payments"
  * RETURN: { incomingTransactionsData }
  **/
 
 export const useIncomingTransactions = receiverAddress => {
-  const TIPS_GRAPHQL = `
-    query GetTips($receiverAddress: Bytes!) {
-      tips(
+  const PAYMENTS_GRAPHQL = `
+    query GetPayments($receiverAddress: Bytes!) {
+      payments(
         where: { receiver: $receiverAddress }
         orderBy: createdAt
         orderDirection: desc
@@ -20,7 +20,7 @@ export const useIncomingTransactions = receiverAddress => {
         id
         sender
         receiver
-        greeting
+        message
         value
         fee
         createdAt
@@ -29,12 +29,12 @@ export const useIncomingTransactions = receiverAddress => {
     }
   `;
 
-  const TIPS_GQL = gql(TIPS_GRAPHQL);
+  const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
   const {
     data: incomingTransactionsData,
     error,
     refetch,
-  } = useQuery(TIPS_GQL, {
+  } = useQuery(PAYMENTS_GQL, {
     variables: { receiverAddress },
     fetchPolicy: "network-only",
   });

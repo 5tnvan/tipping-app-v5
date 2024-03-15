@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Tip extends Entity {
+export class Payment extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,22 +19,22 @@ export class Tip extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Tip entity without an ID");
+    assert(id != null, "Cannot save Payment entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Tip must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Payment must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Tip", id.toString(), this);
+      store.set("Payment", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): Tip | null {
-    return changetype<Tip | null>(store.get_in_block("Tip", id));
+  static loadInBlock(id: string): Payment | null {
+    return changetype<Payment | null>(store.get_in_block("Payment", id));
   }
 
-  static load(id: string): Tip | null {
-    return changetype<Tip | null>(store.get("Tip", id));
+  static load(id: string): Payment | null {
+    return changetype<Payment | null>(store.get("Payment", id));
   }
 
   get id(): string {
@@ -76,8 +76,8 @@ export class Tip extends Entity {
     this.set("receiver", Value.fromBytes(value));
   }
 
-  get greeting(): string {
-    let value = this.get("greeting");
+  get message(): string {
+    let value = this.get("message");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -85,8 +85,8 @@ export class Tip extends Entity {
     }
   }
 
-  set greeting(value: string) {
-    this.set("greeting", Value.fromString(value));
+  set message(value: string) {
+    this.set("message", Value.fromString(value));
   }
 
   get value(): BigInt {

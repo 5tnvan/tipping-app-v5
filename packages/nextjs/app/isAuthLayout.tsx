@@ -271,24 +271,24 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         className="flex justify-around text-white items-center custom-bg-blue w-full h-14 z-40"
       >
         {/* WILDPAY MENU @HOME */}
-        <div className="flex flex-col items-center" onClick={() => router.push("/home")}>
+        <button className="flex flex-col items-center" onClick={() => router.push("/home")}>
           <HomeIcon />
           Home
-        </div>
+        </button>
 
         {/* WILDPAY MENU @PAY */}
-        <div id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
+        <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
             <Image alt="wildpay" className="z-10" src="/wildpay-logo.svg" width={35} height={35} />
           </div>
           <div className="font-semibold">Pay</div>
-        </div>
+        </button>
 
         {/* WILDPAY MENU @SEARCH */}
-        <div className="flex flex-col items-center" onClick={openSearchModal}>
+        <button className="flex flex-col items-center" onClick={openSearchModal}>
           <SearchIcon />
           Search
-        </div>
+        </button>
       </div>
     </>
   );

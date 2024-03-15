@@ -25,14 +25,6 @@ const ProfilePayBill = ({ receiver, amount, message, onSuccess }) => {
     onSuccess();
   };
 
-  // //HOOK: useScaffoldContractWrite | set: greeting
-  // const { writeAsync: pay } = useScaffoldContractWrite({
-  //   contractName: "YourContract",
-  //   functionName: "setTip",
-  //   args: [receiver, message],
-  //   value: parseEther(ethAmountWithFee.toString()),
-  // });
-
   return (
     <>
       {/* BILL */}

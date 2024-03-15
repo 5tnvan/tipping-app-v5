@@ -9,36 +9,36 @@ import { EthIcon } from "~~/components/assets/EthIcon";
 const Transactions = ({ tx, hide }) => {
   return (
     <>
-      {tx?.tips?.map((tip: any) => (
-        <div className="mb-3" key={tip.id}>
+      {tx?.payments?.map((payment: any) => (
+        <div className="mb-3" key={payment.id}>
           {/* sender, value */}
           <div className="flex justify-between mb-1">
             {hide == "to" && (
               <div className="flex">
-                <AddressWithReveal address={tip?.sender} />
+                <AddressWithReveal address={payment?.sender} />
               </div>
             )}
             {hide == "from" && (
               <div className="flex">
-                <AddressWithReveal address={tip?.receiver} />
+                <AddressWithReveal address={payment?.receiver} />
               </div>
             )}
             <div className="flex font-semibold">
               <EthIcon width={16} height={16} />
-              {Number(formatEther(tip?.value)).toFixed(4)}
+              {Number(formatEther(payment?.value)).toFixed(4)}
             </div>
           </div>
           {/* msg and time */}
           <div className="flex justify-between text-gray-500">
-            <div>{tip?.greeting}</div>
+            <div>{payment?.message}</div>
             <div>
-              <TimeAgoUnix timestamp={tip?.createdAt} />
+              <TimeAgoUnix timestamp={payment?.createdAt} />
             </div>
           </div>
         </div>
       ))}
 
-      {tx?.tips?.length === 0 && <div>Be the first to pay</div>}
+      {tx?.payments?.length === 0 && <div>Be the first to pay</div>}
     </>
   );
 };

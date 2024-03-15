@@ -10,16 +10,16 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class TipChange extends ethereum.Event {
-  get params(): TipChange__Params {
-    return new TipChange__Params(this);
+export class PaymentChange extends ethereum.Event {
+  get params(): PaymentChange__Params {
+    return new PaymentChange__Params(this);
   }
 }
 
-export class TipChange__Params {
-  _event: TipChange;
+export class PaymentChange__Params {
+  _event: PaymentChange;
 
-  constructor(event: TipChange) {
+  constructor(event: PaymentChange) {
     this._event = event;
   }
 
@@ -31,7 +31,7 @@ export class TipChange__Params {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get newGreeting(): string {
+  get newMessage(): string {
     return this._event.parameters[2].value.toString();
   }
 
@@ -72,14 +72,14 @@ export class YourContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  greeting(): string {
-    let result = super.call("greeting", "greeting():(string)", []);
+  message(): string {
+    let result = super.call("message", "message():(string)", []);
 
     return result[0].toString();
   }
 
-  try_greeting(): ethereum.CallResult<string> {
-    let result = super.tryCall("greeting", "greeting():(string)", []);
+  try_message(): ethereum.CallResult<string> {
+    let result = super.tryCall("message", "message():(string)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -133,20 +133,20 @@ export class ConstructorCall__Outputs {
   }
 }
 
-export class SetTipCall extends ethereum.Call {
-  get inputs(): SetTipCall__Inputs {
-    return new SetTipCall__Inputs(this);
+export class SetPaymentCall extends ethereum.Call {
+  get inputs(): SetPaymentCall__Inputs {
+    return new SetPaymentCall__Inputs(this);
   }
 
-  get outputs(): SetTipCall__Outputs {
-    return new SetTipCall__Outputs(this);
+  get outputs(): SetPaymentCall__Outputs {
+    return new SetPaymentCall__Outputs(this);
   }
 }
 
-export class SetTipCall__Inputs {
-  _call: SetTipCall;
+export class SetPaymentCall__Inputs {
+  _call: SetPaymentCall;
 
-  constructor(call: SetTipCall) {
+  constructor(call: SetPaymentCall) {
     this._call = call;
   }
 
@@ -154,41 +154,41 @@ export class SetTipCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _greeting(): string {
+  get _message(): string {
     return this._call.inputValues[1].value.toString();
   }
 }
 
-export class SetTipCall__Outputs {
-  _call: SetTipCall;
+export class SetPaymentCall__Outputs {
+  _call: SetPaymentCall;
 
-  constructor(call: SetTipCall) {
+  constructor(call: SetPaymentCall) {
     this._call = call;
   }
 }
 
-export class WithdrawAmountCall extends ethereum.Call {
-  get inputs(): WithdrawAmountCall__Inputs {
-    return new WithdrawAmountCall__Inputs(this);
+export class WithdrawCall extends ethereum.Call {
+  get inputs(): WithdrawCall__Inputs {
+    return new WithdrawCall__Inputs(this);
   }
 
-  get outputs(): WithdrawAmountCall__Outputs {
-    return new WithdrawAmountCall__Outputs(this);
+  get outputs(): WithdrawCall__Outputs {
+    return new WithdrawCall__Outputs(this);
   }
 }
 
-export class WithdrawAmountCall__Inputs {
-  _call: WithdrawAmountCall;
+export class WithdrawCall__Inputs {
+  _call: WithdrawCall;
 
-  constructor(call: WithdrawAmountCall) {
+  constructor(call: WithdrawCall) {
     this._call = call;
   }
 }
 
-export class WithdrawAmountCall__Outputs {
-  _call: WithdrawAmountCall;
+export class WithdrawCall__Outputs {
+  _call: WithdrawCall;
 
-  constructor(call: WithdrawAmountCall) {
+  constructor(call: WithdrawCall) {
     this._call = call;
   }
 }

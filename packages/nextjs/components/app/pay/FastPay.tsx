@@ -41,10 +41,10 @@ const FastPay = ({ receiver, onSuccess }) => {
     onSuccess();
   };
 
-  //HOOK: useScaffoldContractWrite | set: setTip
+  //HOOK: useScaffoldContractWrite | set: setPayment
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
-    functionName: "setTip",
+    functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),
   });

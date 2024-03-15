@@ -13,16 +13,16 @@ import "hardhat/console.sol";
  * @author BuidlGuidl
  */
 contract YourContract {
-		// State Variables
+	// State Variables
 	address public immutable owner;
-	string public greeting = "Building Unstoppable Apps!!!";
+	string public message = "Building Unstoppable Apps!!!";
     mapping(address => uint256) public amountsReceived;  // Mapping to track amounts sent to each receiver
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event TipChange(
+	event PaymentChange(
 		address indexed sender,
 		address indexed receiver,
-		string newGreeting,
+		string newMessage,
 		uint256 value,
         uint256 fee
 	);
@@ -45,13 +45,13 @@ contract YourContract {
 	}
 
 	/**
- * Function that allows anyone to send a tip to a receiver, updating the state variables
+ * Function that allows anyone to send a payment to a receiver, updating the state variables
  *
  * @param _receiver (address) - address of the receiver
- * @param _greeting (string memory) - optional greeting associated with the tip
+ * @param _message (string memory) - optional message associated with the payment
  */
-function setTip(address _receiver, string memory _greeting) public payable {
-        require(msg.value > 0, "Tip value must be higher than 0");
+function setPayment(address _receiver, string memory _message) public payable {
+        require(msg.value > 0, "Payment value must be higher than 0");
         require(_receiver != address(0), "Receiver address cannot be zero");
 
         // Calculate 3% fee
@@ -59,18 +59,17 @@ function setTip(address _receiver, string memory _greeting) public payable {
         uint256 amountAfterFee = msg.value - fee;
 
         // Print data to the hardhat chain console. Remove when deploying to a live network.
-        // Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log("Sending tip '%s' from %s to %s", _greeting, msg.sender, _receiver);
+		console.log("Sending payment '%s' from %s to %s", _message, msg.sender, _receiver);
 		console.log("Amount After Fee: %s, Fee: %s", amountAfterFee, fee);
 
         // Track amounts sent to the contract
         amountsReceived[_receiver] += amountAfterFee;
 
-        // Transfer 1.99% fee to the owner
+        // Transfer 3% fee to the owner
         (bool feeTransferSuccess, ) = owner.call{ value: fee }("");
         require(feeTransferSuccess, "Failed to send fee to owner");
 
-        emit TipChange(msg.sender, _receiver, _greeting, amountAfterFee, fee);
+        emit PaymentChange(msg.sender, _receiver, _message, amountAfterFee, fee);
     }
 
 
@@ -79,7 +78,7 @@ function setTip(address _receiver, string memory _greeting) public payable {
 	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
 	 */
 
-    function withdrawAmount() public {
+    function withdraw() public {
         uint256 amount = amountsReceived[msg.sender];
         require(amount > 0, "No amount to withdraw");
 

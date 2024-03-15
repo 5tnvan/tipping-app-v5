@@ -4,10 +4,10 @@ import { formatEther, parseGwei } from "viem";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth/useScaffoldContractRead";
 
 /**
- * FETCH: fetchIncomingTransactions()
+ * FETCH: useFetchBalance()
  * DB: subpgraph
- * TABLE: "tips"
- * RETURN: { incomingTransactionsData }
+ * TABLE: "payments"
+ * RETURN: formatEther(balanceInGwei)
  **/
 
 export const useFetchBalance = wallet_id => {

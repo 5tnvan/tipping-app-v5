@@ -58,7 +58,7 @@ const ProfileView: NextPage = () => {
             </div>
           </div>
 
-          {/* Tips Table */}
+          {/* Payments Table */}
           <div className="latest"></div>
           <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
             <Transactions tx={incomingTx} hide="to" />

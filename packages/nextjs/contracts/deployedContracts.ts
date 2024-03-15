@@ -6,136 +6,8 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    TippingContract: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_owner",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "sender",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "receiver",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "newGreeting",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "value",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "fee",
-              type: "uint256",
-            },
-          ],
-          name: "TipChange",
-          type: "event",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          name: "amountsReceived",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "greeting",
-          outputs: [
-            {
-              internalType: "string",
-              name: "",
-              type: "string",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "owner",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_receiver",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "_greeting",
-              type: "string",
-            },
-          ],
-          name: "setTip",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "withdrawAmount",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          stateMutability: "payable",
-          type: "receive",
-        },
-      ],
-      inheritedFunctions: {},
-    },
     YourContract: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0xc5a5C42992dECbae36851359345FE25997F5C42d",
       abi: [
         {
           inputs: [
@@ -166,7 +38,7 @@ const deployedContracts = {
             {
               indexed: false,
               internalType: "string",
-              name: "newGreeting",
+              name: "newMessage",
               type: "string",
             },
             {
@@ -182,7 +54,7 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          name: "TipChange",
+          name: "PaymentChange",
           type: "event",
         },
         {
@@ -206,7 +78,7 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "greeting",
+          name: "message",
           outputs: [
             {
               internalType: "string",
@@ -239,18 +111,18 @@ const deployedContracts = {
             },
             {
               internalType: "string",
-              name: "_greeting",
+              name: "_message",
               type: "string",
             },
           ],
-          name: "setTip",
+          name: "setPayment",
           outputs: [],
           stateMutability: "payable",
           type: "function",
         },
         {
           inputs: [],
-          name: "withdrawAmount",
+          name: "withdraw",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

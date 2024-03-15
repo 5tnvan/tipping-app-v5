@@ -11,10 +11,10 @@ export const WithdrawModal = ({ isOpen, amount, onClose, refetch }) => {
     //alert("handleWithdraw");
   };
 
-  //HOOK: useScaffoldContractWrite | set: setTip
+  //HOOK: useScaffoldContractWrite
   const { writeAsync: withdraw } = useScaffoldContractWrite({
     contractName: "YourContract",
-    functionName: "withdrawAmount",
+    functionName: "withdraw",
   });
 
   if (!isOpen) {
