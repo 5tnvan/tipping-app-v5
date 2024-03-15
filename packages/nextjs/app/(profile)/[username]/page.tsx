@@ -63,7 +63,7 @@ const ProfileUsername: NextPage = ({ params }) => {
         <CardWithUsername username={publicProfile.username} />
 
         <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
-          <Transactions tx={incomingTx} />
+          <Transactions tx={incomingTx} hide="to" />
         </div>
       </div>
     </>

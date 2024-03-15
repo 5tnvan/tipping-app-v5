@@ -83,3 +83,19 @@ export const fetchPublicProfileFromId = async (id: string) => {
 
   return profileData?.[0].username ?? null;
 };
+
+/**
+ * FETCH: fetchPublicProfile(username)
+ * DB: supabase
+ * TABLE: "profiles"
+ **/
+
+export const fetchPublicProfileFromWalletId = async (wallet_id: string) => {
+  const supabase = createClient();
+  console.log("server:fetchPublicProfileFromWalletId(), id: ", wallet_id);
+
+  const { data: profileData, error } = await supabase.from("profiles").select("*").ilike("wallet_id", wallet_id);
+  console.log("server:fetchPublicProfileFromWalletId(), profileData: ", profileData);
+  if (error) console.log(error);
+  return profileData?.[0] ?? null;
+};

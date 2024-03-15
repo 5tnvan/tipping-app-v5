@@ -136,8 +136,8 @@ const HomePage: NextPage = () => {
           </div>
           {/* TRANSACTION DATA */}
           <div className="pt-4">
-            {showTransactions == "incoming" && <Transactions tx={incomingTx} />}
-            {showTransactions == "outgoing" && <Transactions tx={outgoingTx} />}
+            {showTransactions == "incoming" && <Transactions tx={incomingTx} hide="to" />}
+            {showTransactions == "outgoing" && <Transactions tx={outgoingTx} hide="from" />}
           </div>
         </div>
       </>
