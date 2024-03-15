@@ -5,7 +5,7 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AccountingContext, AppContext, FastPayContext, WithdrawContext } from "~~/app/context";
+import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
 import { Address } from "~~/components/scaffold-eth/Address";
@@ -19,18 +19,9 @@ const Settings: NextPage = () => {
   const [buttonText, setButtonText] = useState("");
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } =
-    useContext(AccountingContext);
-  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
-  const { withdrawSuccess, setWithdrawSuccess } = useContext(WithdrawContext);
-
-  //LISTEN TO: fastPaySuccess
-  useEffect(() => {
-    if (fastPaySuccess) {
-      router.refresh();
-    }
-  }, [fastPaySuccess]);
+  const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
+  const { withdrawBalance, refetchAccounting } = useContext(AccountingContext);
+  const { setWithdrawSuccess } = useContext(WithdrawContext);
 
   useEffect(() => {
     if (!profile.wallet_id) {
@@ -54,8 +45,10 @@ const Settings: NextPage = () => {
 
   const handleWithdraw = () => {
     withdraw(); //withdraw
-    setWithdrawSuccess(true); //trigger witdraw context
+    setWithdrawSuccess(true); //trigger isAuthLayout
     setIsWithdrawModalOpen(false); // close withdraw modal
+    refetchAccounting();
+    router.refresh();
   };
 
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;

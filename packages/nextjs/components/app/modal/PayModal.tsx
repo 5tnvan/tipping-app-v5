@@ -18,8 +18,7 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
   };
 
   const handlePaySuccess = () => {
-    //share receipt
-    handleClose();
+    handleClose(); // empty receiver address
     onSuccess();
   };
 

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, FastPayContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, FollowersContext, ProfilePayContext, PublicAccountingContext, PublicContext } from "./context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
@@ -19,29 +19,30 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
+const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; onSuccess: () => void }) => {
   const router = useRouter();
   const { username } = useParams();
 
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useAccounting(
-    publicProfile?.wallet_id,
-  );
+  const { incomingTx, incomingTxSum, refetch: refetchPublicAccounting } = useAccounting(publicProfile?.wallet_id);
   const {
     isLoading: isLoadingPublicFollowers,
     followersData: followersPublicData,
     refetch: refetchPublicFollowers,
   } = useFollowers(publicProfile?.id);
-  const { fastPaySuccess, setFastPaySuccess, refetchFastPaySuccess } = useContext(FastPayContext);
+  const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
 
-  //LISTEN TO: fastPaySuccess
+  //LISTEN TO: profilePaySuccess
   useEffect(() => {
-    if (fastPaySuccess) {
-      router.refresh();
+    if (profilePaySuccess) {
+      onSuccess(); //trigger isAuthLayout
+      refetchPublicAccounting();
+      console.log("isPublicLayout profilePaySuccess: refetchPublicAccounting()");
+      //router.refresh();
     }
-  }, [fastPaySuccess]);
+  }, [profilePaySuccess]);
 
   //HANDLE FOLLOW
   const handleFollow = () => {
@@ -163,15 +164,17 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           {/* ISPUBLIC CHILDREN */}
           <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
-            {/* ISAUTH FOLLOWERS MODAL */}
-            <FollowersModal
-              isOpen={isFollowersModalOpen}
-              onClose={closeFollowersModal}
-              data={followersPublicData}
-              refetch={refetchPublicFollowers}
-            ></FollowersModal>
+            <PublicAccountingContext.Provider value={{ incomingTx, refetchPublicAccounting }}>
+              {/* ISAUTH FOLLOWERS MODAL */}
+              <FollowersModal
+                isOpen={isFollowersModalOpen}
+                onClose={closeFollowersModal}
+                data={followersPublicData}
+                refetch={refetchPublicFollowers}
+              ></FollowersModal>
 
-            {children}
+              {children}
+            </PublicAccountingContext.Provider>
           </PublicContext.Provider>
         </div>
       </>

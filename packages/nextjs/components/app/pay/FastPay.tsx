@@ -35,8 +35,8 @@ const FastPay = ({ receiver, onSuccess }) => {
     setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
   };
   const handlePay = () => {
-    console.log("client:", receiver, message, ethAmount, ethAmountWithFee);
     pay();
+    console.log("paid:", receiver, message, ethAmount, ethAmountWithFee);
     setSuccess("success");
     onSuccess();
   };

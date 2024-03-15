@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AppContext, FastPayContext } from "~~/app/context";
+import { AppContext } from "~~/app/context";
 import { updateProfileSocial } from "~~/app/profile/actions";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
@@ -17,9 +16,7 @@ import "~~/styles/app.css";
  **/
 
 const ProfileEdit: NextPage = () => {
-  const router = useRouter();
   const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
 
   const [socialMedia, setSocialMedia] = useState({
     youtube: true,
@@ -31,13 +28,6 @@ const ProfileEdit: NextPage = () => {
     twitterInput: "",
     tiktokInput: "",
   });
-
-  //LISTEN TO: fastPaySuccess
-  useEffect(() => {
-    if (fastPaySuccess) {
-      router.refresh();
-    }
-  }, [fastPaySuccess]);
 
   /* HANDLE SOCIAL LINKS UPDATE */
   // Switch edit, save, cancel for each social media input

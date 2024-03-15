@@ -1,10 +1,10 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AccountingContext, AppContext, FastPayContext } from "~~/app/context";
+import { AccountingContext, AppContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import "~~/styles/app-profile.css";
@@ -15,14 +15,6 @@ const ProfileView: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile } = useContext(AppContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
-  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
-
-  //LISTEN TO: fastPaySuccess
-  useEffect(() => {
-    if (fastPaySuccess) {
-      router.refresh();
-    }
-  }, [fastPaySuccess]);
 
   /* ROUTE */
   if (isAuth == "no") {

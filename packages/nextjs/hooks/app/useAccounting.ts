@@ -44,11 +44,13 @@ export const useAccounting = (wallet_id: any) => {
   };
 
   const refetch = () => {
+    console.log("accounting refresh triggered");
     setTriggerRefetch(prev => !prev);
   };
 
   useEffect(() => {
     initAccounting();
+    console.log("initAccounting triggered");
   }, [incomingTransactionsData, incomingTx, outgoingTransactionsData, outgoingTx, wallet_id, triggerRefetch]);
 
   return { withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch };

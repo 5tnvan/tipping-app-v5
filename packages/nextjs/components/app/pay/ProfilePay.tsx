@@ -37,12 +37,9 @@ const ProfilePay = ({ receiver, onSuccess }) => {
 
   useEffect(() => {
     if (nativeCurrencyPrice > 0) {
-      console.log("payAmount:", payAmount);
-      console.log("nativeCurrencyPrice:", nativeCurrencyPrice);
       setDollarAmount(Number(payAmount));
       setDollarAmountWithFee(payAmount + (payAmount * 3) / 100);
       const ethAmount = convertUsdToEth(Number(payAmount), nativeCurrencyPrice);
-      console.log("ethAmount:", ethAmount);
       setEthAmount(ethAmount);
       setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
     }

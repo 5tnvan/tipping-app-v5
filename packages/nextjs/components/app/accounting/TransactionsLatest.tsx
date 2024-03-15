@@ -19,12 +19,8 @@ const TransactionLatest = ({ tx }) => {
       if (tx.payments[0]) {
         const senderProfileData = await fetchPublicProfileFromWalletId(tx.payments[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(tx.payments[0].receiver);
-
         setSenderProfile(senderProfileData);
         setReceiverProfile(receiverProfileData);
-
-        console.log(senderProfileData);
-        console.log(receiverProfileData);
       }
     };
 

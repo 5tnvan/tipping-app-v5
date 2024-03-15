@@ -3,11 +3,10 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { PublicContext } from "~~/app/context";
+import { AccountingContext, ProfilePayContext, PublicAccountingContext, PublicContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
-import { useAccounting } from "~~/hooks/app/useAccounting";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -21,11 +20,13 @@ const ProfileUsername: NextPage = ({ params }) => {
   const router = useRouter();
   //CONTEXTS
   const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetch } = useAccounting(publicProfile.wallet_id);
+  const { refetchAccounting } = useContext(AccountingContext);
+  const { incomingTx, refetchPublicAccounting } = useContext(PublicAccountingContext);
+  const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
 
-  //LISTEN TO: fastPaySuccess
-  const handlePaySuccess = () => {
-    refetchPublic();
+  const handleProfilePaySuccess = () => {
+    console.log("profile pay success");
+    setProfilePaySuccess(true); //trigger isPublicLayout
     router.refresh();
   };
 
@@ -56,7 +57,7 @@ const ProfileUsername: NextPage = ({ params }) => {
       </div>
 
       {/* PAY MODAL */}
-      <ProfilePayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handlePaySuccess}></ProfilePayModal>
+      <ProfilePayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handleProfilePaySuccess}></ProfilePayModal>
 
       {/* PAY TRANSACTIONS */}
       <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">

@@ -1,32 +1,22 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AccountingContext, AppContext, FastPayContext, FollowersContext } from "../context";
+import { AccountingContext, AppContext, FollowersContext } from "../context";
 import { NextPage } from "next";
-import { BanknotesIcon, UserCircleIcon, UserIcon } from "@heroicons/react/24/solid";
+import { BanknotesIcon, UserIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
-import { ArrowDownLeft } from "~~/components/assets/ArrowDownLeft";
-import { ArrowUpRight } from "~~/components/assets/ArrowUpRight";
 
 const HomePage: NextPage = () => {
   const router = useRouter();
   const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
   const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
-  const { fastPaySuccess, setFastPaySuccess } = useContext(FastPayContext);
   const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
   const [showFollow, setShowFollow] = useState("followers");
   const [showTransactions, setShowTransactions] = useState("incoming");
-
-  //LISTEN TO: fastPaySuccess
-  useEffect(() => {
-    if (fastPaySuccess) {
-      router.refresh();
-    }
-  }, [fastPaySuccess]);
 
   if (isAuth == "no") {
     return (
