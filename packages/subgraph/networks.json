@@ -1,10 +1,15 @@
 {
   "localhost": {
     "YourContract": {
-      "address": "0xc351628EB244ec633d5f21fBD6621e1a683B1181"
+      "address": "0xcbEAF3BDe82155F56486Fb5a1072cb8baAf547cc"
     },
     "TippingContract": {
       "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+    }
+  },
+  "sepolia": {
+    "YourContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A"
     }
   }
 }
