@@ -133,6 +133,32 @@ export class ConstructorCall__Outputs {
   }
 }
 
+export class SaveSwitchCall extends ethereum.Call {
+  get inputs(): SaveSwitchCall__Inputs {
+    return new SaveSwitchCall__Inputs(this);
+  }
+
+  get outputs(): SaveSwitchCall__Outputs {
+    return new SaveSwitchCall__Outputs(this);
+  }
+}
+
+export class SaveSwitchCall__Inputs {
+  _call: SaveSwitchCall;
+
+  constructor(call: SaveSwitchCall) {
+    this._call = call;
+  }
+}
+
+export class SaveSwitchCall__Outputs {
+  _call: SaveSwitchCall;
+
+  constructor(call: SaveSwitchCall) {
+    this._call = call;
+  }
+}
+
 export class SetPaymentCall extends ethereum.Call {
   get inputs(): SetPaymentCall__Inputs {
     return new SetPaymentCall__Inputs(this);

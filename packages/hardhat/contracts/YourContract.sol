@@ -74,8 +74,8 @@ function setPayment(address _receiver, string memory _message) public payable {
 
 
 	/**
-	 * Function that allows the owner to withdraw all the Ether in the contract
-	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
+	 * Function that allows the [msg.sender] to withdraw all the Ether they've received in the contract
+	 * The function can only be called by the [msg.sender]
 	 */
 
     function withdraw() public {
@@ -87,6 +87,16 @@ function setPayment(address _receiver, string memory _message) public payable {
         require(success, "Failed to send amount");
 
     }
+
+	/**
+	 * Function that allows the owner to rescue all the Ether in the contract
+	 * The function can only be called by the owner
+	 */
+
+    function saveSwitch() public isOwner {
+		(bool success, ) = owner.call{ value: address(this).balance }("");
+		require(success, "Failed to send Ether");
+	}
 
 	/**
 	 * Function that allows the contract to receive ETH

@@ -4,16 +4,18 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
-const FastPay = ({ receiver, onSuccess }) => {
-  const [ethAmount, setEthAmount] = useState(0);
+const FastPayConfirm = ({ receiver, onSuccess }) => {
+  //const [ethAmount, setEthAmount] = useState(0);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
-  const [success, setSuccess] = useState("");
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
+  /**
+   * ACTION: Add message
+   **/
   const addMessageClick = () => {
     if (addMessage == false) {
       setAddMessage(true);
@@ -26,27 +28,38 @@ const FastPay = ({ receiver, onSuccess }) => {
     setMessage(e.target.value);
   };
 
+  /**
+   * ACTION: Show billing
+   **/
   const handleInput = e => {
     const dollarAmount = Number(e.target.value);
     const ethAmount = convertUsdToEth(dollarAmount, nativeCurrencyPrice);
     setDollarAmount(dollarAmount);
     setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
-    setEthAmount(ethAmount);
+    //setEthAmount(ethAmount);
     setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
   };
-  const handlePay = () => {
-    pay();
-    console.log("paid:", receiver, message, ethAmount, ethAmountWithFee);
-    setSuccess("success");
-    onSuccess();
+
+  /**
+   * ACTION: Trigger parents on success
+   **/
+  const handlePay = (hash: any) => {
+    onSuccess(hash);
   };
 
-  //HOOK: useScaffoldContractWrite | set: setPayment
+  /**
+   * ACTION: Pay
+   **/
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.transactionHash);
+      handlePay(txnReceipt.transactionHash);
+    },
   });
 
   return (
@@ -75,7 +88,6 @@ const FastPay = ({ receiver, onSuccess }) => {
           </div>
         </div>
       )}
-
       {/* MESSAGE */}
       <div className="flex flex-col items-center mt-10">
         <span className="link-primary block mt-2" onClick={() => addMessageClick()}>
@@ -90,10 +102,9 @@ const FastPay = ({ receiver, onSuccess }) => {
           />
         )}
       </div>
-      <div>{success}</div>
       {/* BUTTON */}
       <div className="flex justify-center">
-        <button className="btn btn-neutral w-full mt-3" onClick={handlePay}>
+        <button className="btn btn-neutral w-full mt-3" onClick={() => pay()}>
           Confirm
         </button>
       </div>
@@ -101,4 +112,4 @@ const FastPay = ({ receiver, onSuccess }) => {
   );
 };
 
-export default FastPay;
+export default FastPayConfirm;

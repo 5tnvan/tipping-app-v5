@@ -10,6 +10,7 @@ import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 
 /**
  * ROUTE: /[username]
@@ -23,22 +24,42 @@ const ProfileUsername: NextPage = ({ params }) => {
   const { refetchAccounting } = useContext(AccountingContext);
   const { incomingTx, refetchPublicAccounting } = useContext(PublicAccountingContext);
   const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
+  const [hashRes, setHashRes] = useState();
 
-  const handleProfilePaySuccess = () => {
-    console.log("profile pay success");
-    setProfilePaySuccess(true); //trigger isPublicLayout
+  const handleProfilePaySuccess = (hash: any) => {
+    console.log("/profile/username: handleProfilePaySuccess()");
+    setTimeout(() => {
+      setProfilePaySuccess(true); //trigger isPublicLayout
+      setHashRes(hash); // set transaction hash
+    }, 2000);
+    openPayReceiptModal(); // opens receipt
     router.refresh();
   };
 
-  //PAY MODAL
-  const [isPayModalOpen, setPayModalOpen] = useState(false);
+  /**
+   * ACTION: Open close receipt modal
+   **/
+  const [isPayReceiptModalOpen, setPayReceiptModalOpen] = useState(false);
 
-  const openPayModal = () => {
-    setPayModalOpen(true);
+  const openPayReceiptModal = () => {
+    setPayReceiptModalOpen(true);
   };
 
-  const closePayModal = () => {
-    setPayModalOpen(false);
+  const closePayReceiptModal = () => {
+    setPayReceiptModalOpen(false);
+  };
+
+  /**
+   * ACTION: Open close profile modal
+   **/
+  const [isProfilePayModalOpen, setProfilePayModalOpen] = useState(false);
+
+  const openProfilePayModal = () => {
+    setProfilePayModalOpen(true);
+  };
+
+  const closeProfilePayModal = () => {
+    setProfilePayModalOpen(false);
   };
 
   //rendering jsx
@@ -51,13 +72,25 @@ const ProfileUsername: NextPage = ({ params }) => {
     <>
       {/* PAY NOW */}
       <div className="mb-5 z-10 relative">
-        <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={() => openPayModal()}>
+        <button
+          className="btn-neutral btn w-full text-base custom-bg-blue border-0"
+          onClick={() => openProfilePayModal()}
+        >
           Pay Now
         </button>
       </div>
 
       {/* PAY MODAL */}
-      <ProfilePayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handleProfilePaySuccess}></ProfilePayModal>
+      <ProfilePayModal
+        isOpen={isProfilePayModalOpen}
+        onClose={closeProfilePayModal}
+        onSuccess={handleProfilePaySuccess}
+      ></ProfilePayModal>
+
+      {/* PAY RECEIPT MODAL */}
+      {hashRes && (
+        <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
+      )}
 
       {/* PAY TRANSACTIONS */}
       <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">

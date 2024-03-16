@@ -34,13 +34,13 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
   } = useFollowers(publicProfile?.id);
   const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
 
-  //LISTEN TO: profilePaySuccess
+  //LISTEN TO: profilePaySuccess from profile/username
   useEffect(() => {
     if (profilePaySuccess) {
       onSuccess(); //trigger isAuthLayout
-      refetchPublicAccounting();
+      refetchPublicAccounting(); // refresh public accounting top and table
       console.log("isPublicLayout profilePaySuccess: refetchPublicAccounting()");
-      //router.refresh();
+      router.refresh();
     }
   }, [profilePaySuccess]);
 

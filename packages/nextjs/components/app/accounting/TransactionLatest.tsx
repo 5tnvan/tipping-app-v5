@@ -16,7 +16,8 @@ const TransactionLatest = ({ tx }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (tx.payments[0]) {
+      if (tx) {
+        console.log("TransactionLatest: tx ", tx);
         const senderProfileData = await fetchPublicProfileFromWalletId(tx.payments[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(tx.payments[0].receiver);
         setSenderProfile(senderProfileData);
@@ -24,14 +25,14 @@ const TransactionLatest = ({ tx }) => {
       }
     };
 
-    fetchData(); // Call the fetchData function when the component mounts or when tx.payments[0] changes
+    fetchData(); // Call the fetchData function when the component mounts or when tx changes
   }, []);
 
   return (
     <>
-      {tx?.payments?.[0] && senderProfile && (
+      {senderProfile && (
         <>
-          <div className="mb-3 custom-gradient-01 bg-slate-900 text-black p-5 rounded-lg" key={tx.payments[0].id}>
+          <div className="mb-3 custom-gradient-01 bg-slate-900 text-black p-5 rounded-lg" key={tx.payments[0].transactionHash}>
             <div className="flex justify-between mb-6">
               {senderProfile && (
                 <>
@@ -48,11 +49,11 @@ const TransactionLatest = ({ tx }) => {
               </div>
               <div className="flex flex-col items-end mb-6">
                 <div className="text-2xl">
-                  ${convertEthToUsd(formatEther(tx.payments[0]?.value), nativeCurrencyPrice).toFixed(0)}
+                  ${convertEthToUsd(formatEther(tx.payments[0].value), nativeCurrencyPrice).toFixed(0)}
                 </div>
                 <div className="flex justify-center">
                   <EthIcon width={18} height={18} />
-                  {Number(formatEther(tx.payments[0]?.value)).toFixed(4)}
+                  {Number(formatEther(tx.payments[0].value)).toFixed(4)}
                 </div>
               </div>
             </div>
@@ -60,10 +61,7 @@ const TransactionLatest = ({ tx }) => {
               <TimeAgoUnix timestamp={tx.payments[0]?.createdAt} /> <span className="ml-1">ago</span>
             </div>
           </div>
-          <Link
-            href={`/blockexplorer/transaction/${tx.payments[0]?.transactionHash}`}
-            className="btn btn-neutral w-full"
-          >
+          <Link href={`/blockexplorer/transaction/${tx.payments[0].transactionHash}`} className="btn btn-neutral w-full">
             Go to transaction
           </Link>
         </>

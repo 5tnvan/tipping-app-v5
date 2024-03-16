@@ -4,19 +4,28 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
-const ProfilePay = ({ receiver, onSuccess }) => {
+const ProfilePayConfirm = ({ receiver, onSuccess }) => {
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
 
+  /**
+   * ACTION: Choose Amount
+   **/
   const handleChooseAmount = num => {
     setPayAmount(num);
     setClickedButton(num);
     setIsClicked(true);
   };
 
+  /**
+   * ACTION: Add Message
+   **/
+  const onMessageChange = e => {
+    setMessage(e.target.value);
+  };
   const handleAddMessage = () => {
     if (addMessage == false) {
       setAddMessage(true);
@@ -25,37 +34,42 @@ const ProfilePay = ({ receiver, onSuccess }) => {
     }
   };
 
-  const onMessageChange = e => {
-    setMessage(e.target.value);
-  };
-
-  const [dollarAmount, setDollarAmount] = useState(0);
+  /**
+   * ACTION: Show Billing
+   **/
+  //const [dollarAmount, setDollarAmount] = useState(0);
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
-  const [ethAmount, setEthAmount] = useState(0);
+  //const [ethAmount, setEthAmount] = useState(0);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   useEffect(() => {
     if (nativeCurrencyPrice > 0) {
-      setDollarAmount(Number(payAmount));
+      //setDollarAmount(Number(payAmount));
       setDollarAmountWithFee(payAmount + (payAmount * 3) / 100);
       const ethAmount = convertUsdToEth(Number(payAmount), nativeCurrencyPrice);
-      setEthAmount(ethAmount);
+      //setEthAmount(ethAmount);
       setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
     }
   }, [nativeCurrencyPrice, payAmount]);
 
-  const handlePay = () => {
-    pay();
-    onSuccess();
+  /**
+   * ACTION: Pay and trigger parents to refresh
+   **/
+  const handlePay = (hash: any) => {
+    onSuccess(hash); //trigger profile pay modal
   };
 
-  //HOOK: useScaffoldContractWrite
   const { writeAsync: pay } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),
+    blockConfirmations: 1,
+    onBlockConfirmation: txnReceipt => {
+      console.log("Transaction blockHash", txnReceipt.transactionHash);
+      handlePay(txnReceipt.transactionHash);
+    },
   });
 
   return (
@@ -112,7 +126,7 @@ const ProfilePay = ({ receiver, onSuccess }) => {
           </div>
           {/* CONFIRM BUTTON */}
           <div className="flex justify-center">
-            <button className="btn btn-neutral mt-3" onClick={handlePay}>
+            <button className="btn btn-neutral mt-3" onClick={() => pay()}>
               Confirm
             </button>
           </div>
@@ -122,4 +136,4 @@ const ProfilePay = ({ receiver, onSuccess }) => {
   );
 };
 
-export default ProfilePay;
+export default ProfilePayConfirm;

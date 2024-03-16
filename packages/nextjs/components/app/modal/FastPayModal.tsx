@@ -1,25 +1,37 @@
 import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
-import FastPay from "../pay/FastPay";
+import FastPayConfirm from "../pay/FastPayConfirm";
 import { FollowersContext } from "~~/app/context";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 
-export const PayModal = ({ isOpen, onClose, onSuccess }) => {
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+export const FastPayModal = ({ isOpen, onClose, onSuccess }) => {
+  const { followersData } = useContext(FollowersContext);
   const [receiver, setReceiver] = useState<any>();
 
+  /**
+   * ACTION: Close modal
+   **/
   const handleClose = () => {
     onClose();
     setReceiver(null);
   };
-  const handlePicked = following => {
+
+  /**
+   * ACTION: Pick receiver
+   **/
+  const handlePicked = (following: any) => {
     setReceiver(following);
   };
 
-  const handlePaySuccess = () => {
-    handleClose(); // empty receiver address
-    onSuccess();
+  /**
+   * ACTION: Trigger parents on success
+   **/
+  const handlePaySuccess = (hash: any) => {
+    console.log("FastPayModal: close");
+    handleClose();
+    console.log("FastPayModal: triggerIsAuthLayout(hash)");
+    onSuccess(hash);
   };
 
   if (!isOpen) {
@@ -28,16 +40,14 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
 
   return (
     <div className="flex flex-col text-black z-30 absolute w-full h-full left-0">
-      {/* PAY FRAME */}
+      {/* FAST PAY FRAME */}
       <div className="modal-content grow">
-        {/* PAY CLOSE */}
+        {/* FAST PAY CLOSE */}
         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
           ✕
         </button>
-
-        {/* PAY TO */}
+        {/* FAST PAY TO */}
         <div className="pt-12 pl-5 pr-5 pb-10">
-          {/* PAY TO - FOLLOWING */}
           <div className="flex flex-col">
             {!receiver && Array.isArray(followersData.following) && (
               <>
@@ -59,8 +69,7 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
                 ))}
               </>
             )}
-
-            {/* PAY TO - CHOSEN RECEIVER */}
+            {/* FAST PAY CHOSEN RECEIVER */}
             <div className="">
               {receiver && (
                 <>
@@ -77,10 +86,11 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
               )}
             </div>
           </div>
-
-          {/* FAST PAY */}
+          {/* FAST PAY CONFIRM */}
           <div>
-            {receiver && receiver.wallet_id && <FastPay receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />}
+            {receiver && receiver.wallet_id && (
+              <FastPayConfirm receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />
+            )}
             {receiver && !receiver.wallet_id && (
               <>
                 <div className="flex justify-center">
@@ -96,7 +106,6 @@ export const PayModal = ({ isOpen, onClose, onSuccess }) => {
             )}
           </div>
         </div>
-        {/* PAY FOLLOWING */}
       </div>
     </div>
   );

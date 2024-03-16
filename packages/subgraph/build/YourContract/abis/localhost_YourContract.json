@@ -93,6 +93,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "saveSwitch",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",

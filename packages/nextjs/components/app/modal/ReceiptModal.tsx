@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
-import Link from "next/link";
-import TransactionLatest from "../accounting/TransactionsLatest";
-import { AccountingContext } from "~~/app/context";
+import React, { useContext, useEffect, useState } from "react";
+import TransactionLatest from "../accounting/TransactionLatest";
+import { useFetchTransaction } from "~~/utils/app/fetch/fetchTransaction";
 
-export const ReceiptModal = ({ isOpen, onClose }) => {
-  const { outgoingTx } = useContext(AccountingContext);
-
+export const ReceiptModal = ({ hash, isOpen, onClose }) => {
+  const { transactionData } = useFetchTransaction(hash);
+  
   const handleClose = () => {
     onClose();
   };
@@ -27,7 +26,7 @@ export const ReceiptModal = ({ isOpen, onClose }) => {
           <div className="font-semibold custom-text-blue text-3xl pt-10">{"Done 🎉."}</div>
           <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
           {/* RECEIPT */}
-          <TransactionLatest tx={outgoingTx} />
+          {transactionData ? <TransactionLatest tx={transactionData} /> : <div>Loading...</div>}
         </div>
       </div>
     </div>

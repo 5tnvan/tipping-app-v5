@@ -7,7 +7,7 @@ import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
-import { PayModal } from "~~/components/app/modal/PayModal";
+import { FastPayModal, PayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
@@ -35,28 +35,19 @@ const IsAuthLayout = ({
 }) => {
   const router = useRouter();
 
-  //Check pathname/params
+  //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
   const isHome = pathname === "/home";
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const { username } = useParams();
 
-  //PARENT CONTEXT:
+  //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { withdrawBalance, incomingTxSum, refetchAccounting } = useContext(AccountingContext);
+  const { withdrawBalance, incomingTxSum } = useContext(AccountingContext);
   const { withdrawSuccess } = useContext(WithdrawContext);
 
-  //LISTEN TO: withdrawSuccess
-  useEffect(() => {
-    if (withdrawSuccess) {
-      onWithdrawSuccess();
-      console.log("isauthLayout: withdrawSuccess: router.refresh()");
-      router.refresh();
-    }
-  }, [withdrawSuccess]);
-
-  //SOCIAL MEDIA LINKS
+  //SOCIAL MEDIA LINKS:
   let soc = {};
   if (!username) {
     // Set up social media links using profile data
@@ -68,34 +59,60 @@ const IsAuthLayout = ({
     };
   }
 
-  //FAST PAY MODAL + PROFILE PAY
-  const [isPayModalOpen, setPayModalOpen] = useState(false);
+  /**
+   * ACTION: Listen to
+   **/
+  useEffect(() => {
+    if (withdrawSuccess) {
+      onWithdrawSuccess();
+      console.log("isauthLayout: withdrawSuccess: router.refresh()");
+      router.refresh();
+    }
+  }, [withdrawSuccess]);
 
-  const openPayModal = () => {
-    setPayModalOpen(true);
+  /**
+   * ACTION: Open and close Pay Modal
+   **/
+  const [isFastPayModalOpen, setFastPayModalOpen] = useState(false);
+
+  const openFastPayModal = () => {
+    setFastPayModalOpen(true);
   };
 
-  const closePayModal = () => {
-    setPayModalOpen(false);
+  const closeFastPayModal = () => {
+    setFastPayModalOpen(false);
   };
 
-  const handleFastPaySuccess = () => {
-    console.log("isAuthLayout: handleFastsPaySuccess() -> refetchAccounting()");
-    onFastPaySuccess(); // trigger wildpayLayout
-    setPayModalOpen(false); //closes fast pay modal
-    router.refresh();
-    openPayReceiptModal(); // opens fast pay receipt
+  /**
+   * ACTION: Trigger parents and children on success
+   **/
+  const [hashRes, setHashRes] = useState();
+
+  const handleFastPaySuccess = (hash: any) => {
+    console.log("isAuthLayout: triggerWildpayLayout(hash)");
+    closeFastPayModal(); //closes fast pay
+    setTimeout(() => {
+      onFastPaySuccess(); // trigger parent wildpay layout
+      console.log("isAuthLayout: router.refresh()");
+      router.refresh();
+      setHashRes(hash); // set transaction hash
+      openPayReceiptModal(); //open receipt
+    }, 5000);
   };
 
+  /**
+   * ACTION: Trigger parents and children on success
+   **/
   const handleProfilePaySuccess = () => {
     onProfilePaySuccess(); // trigger wildpayLayout
-    setPayModalOpen(false); //closes fast pay modal
+    console.log("isAuthLayout: handleProfilePaySuccess()");
+    console.log("isAuthLayout: router.refresh()");
     router.refresh();
-    openPayReceiptModal(); // opens fast pay receipt
-    console.log("isAuthLayout: handleProfilePaySuccess() -> opens receipt");
   };
 
-  //PAY RECEIPT MODAL
+  /**
+   * ACTION: Open close receipt modal
+   **/
   const [isPayReceiptModalOpen, setPayReceiptModalOpen] = useState(false);
 
   const openPayReceiptModal = () => {
@@ -106,7 +123,9 @@ const IsAuthLayout = ({
     setPayReceiptModalOpen(false);
   };
 
-  //SEARCH MODAL
+  /**
+   * ACTION: Open close search modal
+   **/
   const [isSearchModalOpen, setSearchModalOpen] = useState(false);
 
   const openSearchModal = () => {
@@ -273,9 +292,17 @@ const IsAuthLayout = ({
         {!username && isHome && <>{children}</>}
       </div>
 
+      {/* PAY RECEIPT MODAL */}
+      {hashRes && (
+        <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
+      )}
+
       {/* WILDPAY PAY MODAL */}
-      <PayModal isOpen={isPayModalOpen} onClose={closePayModal} onSuccess={handleFastPaySuccess}></PayModal>
-      <ReceiptModal isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
+      <FastPayModal
+        isOpen={isFastPayModalOpen}
+        onClose={closeFastPayModal}
+        onSuccess={handleFastPaySuccess}
+      ></FastPayModal>
 
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
@@ -291,8 +318,8 @@ const IsAuthLayout = ({
           Home
         </button>
 
-        {/* WILDPAY MENU @PAY */}
-        <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openPayModal}>
+        {/* WILDPAY MENU @FAST PAY */}
+        <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openFastPayModal}>
           <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
             <Image alt="wildpay" className="z-10" src="/wildpay-logo.svg" width={35} height={35} />
           </div>

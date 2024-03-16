@@ -1,18 +1,24 @@
 import React, { useContext } from "react";
-import ProfilePay from "../pay/ProfilePay";
+import ProfilePayConfirm from "../pay/ProfilePayConfirm";
 import { PublicContext } from "~~/app/context";
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }) => {
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+  const { publicProfile } = useContext(PublicContext);
 
+  /**
+   * ACTION: Close modal
+   **/
   const handleClose = () => {
     onClose();
   };
 
-  const handlePaySuccess = () => {
+  /**
+   * ACTION: Trigger parents on success
+   **/
+  const handlePaySuccess = (hash: any) => {
     console.log("profile/username/profilepaymodal, handlePaySuccess()");
-    onSuccess();
-    onClose();
+    onSuccess(hash); //trigger profile/username
+    onClose(); // closes profile pay
   };
 
   if (!isOpen) {
@@ -27,13 +33,13 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }) => {
         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-30" onClick={handleClose}>
           ✕
         </button>
-
+        {/* PAY CONTENT */}
         <div className="modal-content">
           <div className="p-5">
             <div>@{publicProfile.username}</div>
             <div>{publicProfile.wallet_id}</div>
-
-            <ProfilePay receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
+            {/* PAY CONFIRM */}
+            <ProfilePayConfirm receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
           </div>
         </div>
       </div>

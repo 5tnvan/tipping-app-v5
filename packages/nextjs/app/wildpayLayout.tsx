@@ -37,7 +37,8 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
 
   const handlePaySuccess = () => {
-    console.log("isWildLayout: handlePaySuccess(): refetchAccounting()");
+    console.log("isWildLayout: handlePaySuccess()");
+    console.log("isWildLayout: refetchAccounting()");
     refetchAccounting(); // refetch private accounting
   };
 
