@@ -54,7 +54,7 @@ const GetStarted: NextPage = () => {
   }, [username]);
 
   if (isAuth == "yes") {
-    router.push("/profile/view");
+    router.push("/home");
   }
 
   if (isAuth == "no") {

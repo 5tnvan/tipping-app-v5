@@ -15,14 +15,14 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Tipping App",
-    template: "%s | Tipping App",
+    default: "WildPay",
+    template: "%s | WildPay",
   },
   description: "Built with ♡",
   openGraph: {
     title: {
-      default: "Tipping App",
-      template: "%s | Tipping App",
+      default: "WildPay",
+      template: "%s | WildPay",
     },
     description: "Built with ♡",
     images: [
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [imageUrl],
     title: {
-      default: "Tipping App",
-      template: "%s | Tipping App",
+      default: "WildPay",
+      template: "%s | WildPay",
     },
     description: "Built with ♡",
   },

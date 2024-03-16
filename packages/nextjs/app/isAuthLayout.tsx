@@ -97,7 +97,7 @@ const IsAuthLayout = ({
       router.refresh();
       setHashRes(hash); // set transaction hash
       openPayReceiptModal(); //open receipt
-    }, 5000);
+    }, 1000);
   };
 
   /**

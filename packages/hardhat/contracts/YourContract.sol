@@ -2,20 +2,19 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 // Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
+//import "hardhat/console.sol";
 
 // Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
 // import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * A smart contract that allows changing a state variable of the contract and tracking the changes
- * It also allows the owner to withdraw the Ether in the contract
- * @author BuidlGuidl
+ * A smart contract that allows sending of payments from a wallet to a wallet
+ * @author WildPay
  */
 contract YourContract {
 	// State Variables
 	address public immutable owner;
-	string public message = "Building Unstoppable Apps!!!";
+	string public message = "Dare to get paid?";
     mapping(address => uint256) public amountsReceived;  // Mapping to track amounts sent to each receiver
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
@@ -36,9 +35,6 @@ contract YourContract {
 	// Modifier: used to define a set of rules that must be met before or after a function is executed
 	// Check the withdraw() function
 	modifier isOwner() {
-		// msg.sender: predefined variable that represents address of the account that called the current function
-		console.log(msg.sender);
-		console.log(owner);
 
 		require(msg.sender == owner, "Not the Owner");
 		_;
@@ -57,10 +53,6 @@ function setPayment(address _receiver, string memory _message) public payable {
         // Calculate 3% fee
         uint256 fee = (msg.value * 3) / 100;
         uint256 amountAfterFee = msg.value - fee;
-
-        // Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log("Sending payment '%s' from %s to %s", _message, msg.sender, _receiver);
-		console.log("Amount After Fee: %s, Fee: %s", amountAfterFee, fee);
 
         // Track amounts sent to the contract
         amountsReceived[_receiver] += amountAfterFee;
