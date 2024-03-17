@@ -19,9 +19,9 @@ export const useAccounting = (wallet_id: any) => {
   const outgoingTransactionsData = useOutgoingTransactions(wallet_id);
   const res = useFetchBalance(dummyWallet);
 
-  const calculateSum = txData => {
+  const calculateSum = (txData: any) => {
     const totalSum =
-      txData?.payments?.reduce((sum, payment) => {
+      txData?.payments?.reduce((sum: number, payment: { value: any }) => {
         return sum + Number(payment.value);
       }, 0) || 0;
 

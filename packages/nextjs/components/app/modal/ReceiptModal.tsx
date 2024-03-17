@@ -1,10 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import TransactionLatest from "../accounting/TransactionLatest";
 import { useFetchTransaction } from "~~/utils/app/fetch/fetchTransaction";
 
-export const ReceiptModal = ({ hash, isOpen, onClose }) => {
+type Props = {
+  hash: string;
+  isOpen: any;
+  onClose: any;
+};
+
+export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
   const { transactionData } = useFetchTransaction(hash);
-  
+
   const handleClose = () => {
     onClose();
   };

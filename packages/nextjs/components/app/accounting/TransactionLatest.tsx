@@ -9,7 +9,11 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
-const TransactionLatest = ({ tx }) => {
+type Props = {
+  tx: any;
+};
+
+const TransactionLatest = ({ tx }: Props) => {
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
@@ -32,7 +36,10 @@ const TransactionLatest = ({ tx }) => {
     <>
       {senderProfile && (
         <>
-          <div className="mb-3 custom-gradient-01 bg-slate-900 text-black p-5 rounded-lg" key={tx.payments[0].transactionHash}>
+          <div
+            className="mb-3 custom-gradient-01 bg-slate-900 text-black p-5 rounded-lg"
+            key={tx.payments[0].transactionHash}
+          >
             <div className="flex justify-between mb-6">
               {senderProfile && (
                 <>
@@ -61,7 +68,10 @@ const TransactionLatest = ({ tx }) => {
               <TimeAgoUnix timestamp={tx.payments[0]?.createdAt} /> <span className="ml-1">ago</span>
             </div>
           </div>
-          <Link href={`/blockexplorer/transaction/${tx.payments[0].transactionHash}`} className="btn btn-neutral w-full">
+          <Link
+            href={`/blockexplorer/transaction/${tx.payments[0].transactionHash}`}
+            className="btn btn-neutral w-full"
+          >
             Go to transaction
           </Link>
         </>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AccountingContext, AppContext, FollowersContext, ProfilePayContext, WithdrawContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
@@ -53,7 +52,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
               <WithdrawContext.Provider value={{ withdrawSuccess, setWithdrawSuccess }}>
                 <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 rounded-t-2xl`}>
                   <div id="wildpay-logo" className="flex items-center z-10 ml-7 mt-7">
-                    <img className="z-10" src="/wildpay-logo.svg" width={30} height={30}></img>
+                    <img className="z-10" alt="wildpay" src="/wildpay-logo.svg" width={30} height={30}></img>
                     <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
                   </div>
                   {isAuth == "yes" && !isDebug && !isBlockExplorer && (

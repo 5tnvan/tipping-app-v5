@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import { Signup } from "~~/components/app/authentication/Signup";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import "~~/styles/app-reuse.css";

@@ -1,7 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 
-export const WithdrawModal = ({ isOpen, amount, onClose, refetch }) => {
+type Props = {
+  isOpen: any;
+  amount: any;
+  onClose: any;
+};
+
+export const WithdrawModal = ({ isOpen, amount, onClose }: Props) => {
   const handleClose = () => {
     onClose();
   };

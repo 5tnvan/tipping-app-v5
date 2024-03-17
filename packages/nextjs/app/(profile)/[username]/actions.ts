@@ -3,10 +3,10 @@
 import { createClient } from "~~/utils/supabase/server";
 
 /* INSERT FOLLOWING */
-export async function insertFollowing(following_id: string) {
+export async function insertFollowing(following_id: any) {
   //get follower_id, that's the currently authenticated user
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
   if (data) {
     //insert to db: followers table
@@ -22,7 +22,7 @@ export async function deleteFollowing(following_id: string) {
   console.log("Im here");
   //get follower_id, that's the currently authenticated user
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
   console.log("Data:", data);
 

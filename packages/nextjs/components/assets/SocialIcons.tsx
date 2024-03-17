@@ -1,6 +1,10 @@
 import React from "react";
 
-export const SocialIcons = ({ soc }) => {
+type Props = {
+  soc: any;
+};
+
+export const SocialIcons = ({ soc }: Props) => {
   // Initialize color variables
   const ytFill = soc.yt.val?.length > 0 ? "currentColor" : "grey";
   const igFill = soc.ig.val?.length > 0 ? "currentColor" : "grey";
@@ -12,7 +16,7 @@ export const SocialIcons = ({ soc }) => {
   const twLink = soc.tw.val?.length > 0 ? soc.tw.link : null;
   const ttLink = soc.tt.val?.length > 0 ? soc.tt.link : null;
 
-  const handleButtonClick = link => {
+  const handleButtonClick = (link: any) => {
     if (link) {
       window.open(link, "_blank"); // Opens link in a new tab
     }

@@ -4,7 +4,12 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
-const FastPayConfirm = ({ receiver, onSuccess }) => {
+type Props = {
+  receiver: any;
+  onSuccess: any;
+};
+
+const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
   //const [ethAmount, setEthAmount] = useState(0);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
@@ -24,14 +29,14 @@ const FastPayConfirm = ({ receiver, onSuccess }) => {
     }
   };
 
-  const onMessageChange = e => {
+  const onMessageChange = (e: any) => {
     setMessage(e.target.value);
   };
 
   /**
    * ACTION: Show billing
    **/
-  const handleInput = e => {
+  const handleInput = (e: any) => {
     const dollarAmount = Number(e.target.value);
     const ethAmount = convertUsdToEth(dollarAmount, nativeCurrencyPrice);
     setDollarAmount(dollarAmount);

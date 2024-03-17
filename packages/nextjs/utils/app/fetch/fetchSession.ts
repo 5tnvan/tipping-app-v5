@@ -8,7 +8,7 @@ import { createClient } from "~~/utils/supabase/server";
 const supabase = createClient();
 
 /**
- * FETCH: fetchUser()
+ * FETCH: fetchSession()
  * DB: supabase
  * TABLE: "auth.user"
  * RETURN: { data }

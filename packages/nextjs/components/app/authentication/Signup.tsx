@@ -9,15 +9,15 @@ export const Signup = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const handleEmailChange = e => {
+  const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = e => {
+  const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     // Perform email validation
@@ -96,7 +96,7 @@ export const Signup = () => {
 
         {passwordError && <div className="custom-warning text-red-600 pb-2 pl-2">{passwordError}</div>}
 
-        <button type="submit" className="btn btn-neutral text-base w-full" formAction={signup}>
+        <button type="submit" className="btn btn-neutral text-base w-full">
           Sign Up
         </button>
       </form>

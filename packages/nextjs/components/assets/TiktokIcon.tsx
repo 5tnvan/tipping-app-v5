@@ -1,4 +1,8 @@
-export const TiktokIcon = ({ handle }) => {
+type Props = {
+  handle: any;
+};
+
+export const TiktokIcon = ({ handle }: Props) => {
   const link = "https://tiktok.com" + handle;
   return (
     <>

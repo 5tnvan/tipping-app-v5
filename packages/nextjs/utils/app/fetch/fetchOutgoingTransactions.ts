@@ -9,7 +9,7 @@ import { gql, useQuery } from "@apollo/client";
  * RETURN: { outgoingTransactionsData }
  **/
 
-export const useOutgoingTransactions = senderAddress => {
+export const useOutgoingTransactions = (senderAddress: any) => {
   const PAYMENTS_GRAPHQL = `
       query GetPayments($senderAddress: Bytes!) {
         payments(
@@ -30,11 +30,7 @@ export const useOutgoingTransactions = senderAddress => {
     `;
 
   const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
-  const {
-    data: outgoingTransactionsData,
-    error,
-    refetch,
-  } = useQuery(PAYMENTS_GQL, {
+  const { data: outgoingTransactionsData, error } = useQuery(PAYMENTS_GQL, {
     variables: { senderAddress },
     fetchPolicy: "network-only",
   });

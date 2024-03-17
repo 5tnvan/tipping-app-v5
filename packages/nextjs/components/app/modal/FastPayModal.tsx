@@ -5,7 +5,13 @@ import { FollowersContext } from "~~/app/context";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 
-export const FastPayModal = ({ isOpen, onClose, onSuccess }) => {
+type Props = {
+  isOpen: any;
+  onClose: any;
+  onSuccess: any;
+};
+
+export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
   const { followersData } = useContext(FollowersContext);
   const [receiver, setReceiver] = useState<any>();
 
@@ -52,7 +58,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }) => {
             {!receiver && Array.isArray(followersData.following) && (
               <>
                 <div className="font-semibold">Pay to:</div>
-                {followersData.following.map(following => (
+                {followersData.following.map((following: any) => (
                   <div
                     key={following.wallet_id}
                     className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"

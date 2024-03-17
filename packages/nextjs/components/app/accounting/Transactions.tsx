@@ -6,7 +6,12 @@ import { TimeAgoUnix } from "../TimeAgo";
 import { formatEther } from "viem";
 import { EthIcon } from "~~/components/assets/EthIcon";
 
-const Transactions = ({ tx, hide }) => {
+type Props = {
+  tx: any;
+  hide: string;
+};
+
+const Transactions = ({ tx, hide }: Props) => {
   return (
     <>
       {tx?.payments?.map((payment: any) => (

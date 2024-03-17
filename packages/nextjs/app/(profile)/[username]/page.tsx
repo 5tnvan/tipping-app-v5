@@ -3,27 +3,26 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
-import { AccountingContext, ProfilePayContext, PublicAccountingContext, PublicContext } from "~~/app/context";
+import { ProfilePayContext, PublicAccountingContext, PublicContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
+import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 
 /**
  * ROUTE: /[username]
  * DESCRIPTION: Public Profile
  **/
 
-const ProfileUsername: NextPage = ({ params }) => {
+const ProfileUsername: NextPage = () => {
   const router = useRouter();
   //CONTEXTS
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { refetchAccounting } = useContext(AccountingContext);
-  const { incomingTx, refetchPublicAccounting } = useContext(PublicAccountingContext);
-  const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
+  const { isLoadingPublic, publicProfile } = useContext(PublicContext);
+  const { incomingTx } = useContext(PublicAccountingContext);
+  const { setProfilePaySuccess } = useContext(ProfilePayContext);
   const [hashRes, setHashRes] = useState();
 
   const handleProfilePaySuccess = (hash: any) => {

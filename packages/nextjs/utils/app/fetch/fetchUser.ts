@@ -35,7 +35,7 @@ export const fetchUser = async () => {
   //fetch user from supabase db
   const { data: userData } = await supabase.auth.getUser();
   console.log("server:fetchUser()");
-  return { userData };
+  return userData;
 };
 
 /**
@@ -46,7 +46,7 @@ export const fetchUser = async () => {
 
 export const fetchProfile = async () => {
   const supabase = createClient();
-  const { userData } = await fetchUser();
+  const userData = await fetchUser();
   console.log("server:fetchProfile()");
 
   if (userData) {

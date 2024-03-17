@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchFollowers } from "~~/utils/app/fetch/fetchFollowers";
 
-export const useFollowers = profile_id => {
+export const useFollowers = (profile_id: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const [followersData, setFollowersData] = useState({
     followed: false,

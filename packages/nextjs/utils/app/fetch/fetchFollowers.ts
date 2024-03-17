@@ -4,20 +4,17 @@ import { fetchUser } from "./fetchUser";
 import { createClient } from "~~/utils/supabase/server";
 
 /**
- * FETCH: fetchSession()
+ * FETCH: fetchFollowers()
  * DB: supabase
  * TABLE: none
- * RETURN: { data }
+ * RETURN: { followersData }
  **/
 
 export const fetchFollowers = async (profile_id: string) => {
-  // Initialize Supabase client
   const supabase = createClient();
 
-  // Fetch authenticated user data
-  const { userData } = await fetchUser();
+  const userData = await fetchUser();
 
-  // Initialize an object to store follower-related data
   const followersData = { followed: false, followers: <any>[], followersCount: 0, following: <any>[], followingCount: 0 };
 
   try {
@@ -29,7 +26,7 @@ export const fetchFollowers = async (profile_id: string) => {
       .eq("follower_id", userData.user?.id);
 
     // If there is data, set 'followed' to true
-    if (followedData?.length > 0) {
+    if (followedData && followedData?.length > 0) {
       followersData.followed = true;
     }
 

@@ -2,9 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
 
-export const Login = ({ refetch }) => {
+type Props = {
+  refetch: any;
+};
+
+export const Login = ({ refetch }: Props) => {
   const router = useRouter();
-  const handleLogin = async event => {
+  const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);

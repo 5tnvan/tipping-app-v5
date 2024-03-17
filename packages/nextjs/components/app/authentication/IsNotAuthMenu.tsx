@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { LoginIcon } from "~~/components/assets/LoginIcon";
 
 export const IsNotAuthMenu = () => {

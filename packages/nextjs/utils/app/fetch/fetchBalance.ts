@@ -1,6 +1,6 @@
 "use client";
 
-import { formatEther, parseGwei } from "viem";
+import { formatEther } from "viem";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth/useScaffoldContractRead";
 
 /**
@@ -10,7 +10,7 @@ import { useScaffoldContractRead } from "~~/hooks/scaffold-eth/useScaffoldContra
  * RETURN: formatEther(balanceInGwei)
  **/
 
-export const useFetchBalance = wallet_id => {
+export const useFetchBalance = (wallet_id: any) => {
   const { data: balance, error } = useScaffoldContractRead({
     contractName: "YourContract",
     functionName: "amountsReceived",

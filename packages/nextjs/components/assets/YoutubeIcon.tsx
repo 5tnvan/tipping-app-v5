@@ -1,4 +1,8 @@
-export const YoutubeIcon = ({ handle }) => {
+type Props = {
+  handle: any;
+};
+
+export const YoutubeIcon = ({ handle }: Props) => {
   const link = "https://youtube.com" + handle;
   return (
     <>

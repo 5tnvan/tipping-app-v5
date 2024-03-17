@@ -1,6 +1,12 @@
 import React from "react";
 
-export const IsLoading = ({ shape, width, height }) => {
+type Props = {
+  shape: string;
+  width: any;
+  height: any;
+};
+
+export const IsLoading = ({ shape, width, height }: Props) => {
   return (
     <>
       <div className="animate-pulse">

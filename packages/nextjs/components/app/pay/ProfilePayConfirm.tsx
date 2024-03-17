@@ -4,7 +4,12 @@ import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyP
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
-const ProfilePayConfirm = ({ receiver, onSuccess }) => {
+type Props = {
+  receiver: any;
+  onSuccess: any;
+};
+
+const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
@@ -14,7 +19,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }) => {
   /**
    * ACTION: Choose Amount
    **/
-  const handleChooseAmount = num => {
+  const handleChooseAmount = (num: any) => {
     setPayAmount(num);
     setClickedButton(num);
     setIsClicked(true);
@@ -23,7 +28,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }) => {
   /**
    * ACTION: Add Message
    **/
-  const onMessageChange = e => {
+  const onMessageChange = (e: any) => {
     setMessage(e.target.value);
   };
   const handleAddMessage = () => {

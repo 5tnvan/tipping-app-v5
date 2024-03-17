@@ -2,7 +2,13 @@ import React, { useContext } from "react";
 import ProfilePayConfirm from "../pay/ProfilePayConfirm";
 import { PublicContext } from "~~/app/context";
 
-export const ProfilePayModal = ({ isOpen, onClose, onSuccess }) => {
+type Props = {
+  isOpen: any;
+  onClose: any;
+  onSuccess: any;
+};
+
+export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
   const { publicProfile } = useContext(PublicContext);
 
   /**

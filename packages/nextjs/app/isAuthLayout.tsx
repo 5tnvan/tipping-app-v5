@@ -7,7 +7,7 @@ import { updateProfileAvatar } from "./profile/actions";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
-import { FastPayModal, PayModal } from "~~/components/app/modal/FastPayModal";
+import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
@@ -139,7 +139,8 @@ const IsAuthLayout = ({
   //AVATAR MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(1);
-  const gif = {
+  const gif: Record<number, string> = {
+    // Define gif type explicitly
     1: "https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif",
     2: "https://media1.tenor.com/m/pSq-OwdqmHgAAAAC/heartbeat-static.gif",
     3: "https://media1.tenor.com/m/qA1mRnYpyfwAAAAC/pixel-heart.gif",
@@ -150,7 +151,7 @@ const IsAuthLayout = ({
   };
 
   // Select image
-  const handleImageClick = index => {
+  const handleImageClick = (index: any) => {
     setSelectedImage(index);
   };
 

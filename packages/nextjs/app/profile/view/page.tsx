@@ -2,7 +2,6 @@
 
 import { useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { AccountingContext, AppContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
@@ -12,9 +11,8 @@ import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
-  const router = useRouter();
-  const { isLoadingAuth, isAuth, profile } = useContext(AppContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting } = useContext(AccountingContext);
+  const { isAuth, profile } = useContext(AppContext);
+  const { incomingTx } = useContext(AccountingContext);
 
   /* ROUTE */
   if (isAuth == "no") {

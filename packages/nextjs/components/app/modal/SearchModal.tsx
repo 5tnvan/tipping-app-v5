@@ -6,9 +6,17 @@ import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { useDebounce } from "~~/hooks/app/useDebounce";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
 
-export const SearchModal = ({ isOpen, onClose }) => {
+type Props = {
+  isOpen: any;
+  onClose: any;
+};
+
+export const SearchModal = ({ isOpen, onClose }: Props) => {
   const [searchValue, setSearchValue] = useState("");
-  const [searchProfile, setSearchProfile] = useState(null);
+  const [searchProfile, setSearchProfile] = useState({
+    username: null,
+    avatar_url: null,
+  });
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const debouncedSearchValue = useDebounce(searchValue);
 
@@ -27,19 +35,22 @@ export const SearchModal = ({ isOpen, onClose }) => {
       fetchProfile();
     } else {
       //clear results
-      setSearchProfile(null);
+      setSearchProfile({
+        username: null,
+        avatar_url: null,
+      });
     }
   }, [debouncedSearchValue]);
 
   const handleClose = () => {
     setSearchValue(""); // Clear search results
-    setSearchProfile(null); // Clear the search results
+    setSearchProfile({
+      username: null,
+      avatar_url: null,
+    }); // Clear the search results
     onClose();
   };
   const handleLink = () => {
-    //router.refresh();
-    //refetchPublic();
-    //router.push(`/${searchProfile.username}`);
     handleClose();
   };
 
@@ -92,7 +103,7 @@ export const SearchModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
             )}
-            {!isSearchLoading && searchProfile && (
+            {!isSearchLoading && searchProfile.username && (
               <>
                 <Link
                   href={`/${searchProfile.username}`}

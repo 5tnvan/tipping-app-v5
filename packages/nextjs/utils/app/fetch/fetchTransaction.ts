@@ -9,9 +9,8 @@ import { gql, useQuery } from "@apollo/client";
  * RETURN: { outgoingTransactionsData }
  **/
 
-export const useFetchTransaction = hash => {
+export const useFetchTransaction = (hash: any) => {
   console.log("useFetchTransaction hash", hash);
-  
   const PAYMENTS_GRAPHQL = `
       query GetPayments($hash: String!) {
         payments(
@@ -32,7 +31,11 @@ export const useFetchTransaction = hash => {
     `;
 
   const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
-  const { data: transactionData, loading, error } = useQuery(PAYMENTS_GQL, {
+  const {
+    data: transactionData,
+    loading,
+    error,
+  } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
   });

@@ -1,7 +1,11 @@
 import React from "react";
 
-export const Avatar = ({ profile, width }) => {
-  
+type Props = {
+  profile: any;
+  width: any;
+};
+
+export const Avatar = ({ profile, width }: Props) => {
   let textSize;
   if (width > 8) {
     textSize = "text-4xl";

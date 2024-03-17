@@ -1,14 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { LoginIcon } from "~~/components/assets/LoginIcon";
 
-export const IsAuthMenu = ({ refetch }) => {
-  const router = useRouter();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+type Props = {
+  refetch: any;
+};
 
-  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+export const IsAuthMenu = ({ refetch }: Props) => {
+  const router = useRouter();
+
+  const { profile } = useContext(AppContext);
 
   const handleMenu = () => {
     const dropdown = document.getElementById("wildpay-is-auth-menu");

@@ -6,7 +6,7 @@ import { fetchProfile, fetchSession, fetchUser } from "~~/utils/app/fetch/fetchU
 export const useAuthentication = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState("init");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<any>();
   const [profile, setProfile] = useState({
     id: null,
     updated_at: null,
@@ -38,7 +38,7 @@ export const useAuthentication = () => {
       setIsAuth("yes");
       const userData = await fetchUser();
       const profileData = await fetchProfile();
-      setUser(userData.userData.user);
+      setUser(userData.user);
       setProfile(profileData);
     } else {
       setIsAuth("no");

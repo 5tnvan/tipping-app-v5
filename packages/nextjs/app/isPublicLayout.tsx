@@ -23,8 +23,8 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
   const router = useRouter();
   const { username } = useParams();
 
-  const { isLoadingAuth, isAuth, profile, refetchAuth } = useContext(AppContext);
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+  const { isLoadingAuth, isAuth } = useContext(AppContext);
+  const { refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
   const { incomingTx, incomingTxSum, refetch: refetchPublicAccounting } = useAccounting(publicProfile?.wallet_id);
   const {
@@ -32,7 +32,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
     followersData: followersPublicData,
     refetch: refetchPublicFollowers,
   } = useFollowers(publicProfile?.id);
-  const { profilePaySuccess, setProfilePaySuccess } = useContext(ProfilePayContext);
+  const { profilePaySuccess } = useContext(ProfilePayContext);
 
   //LISTEN TO: profilePaySuccess from profile/username
   useEffect(() => {
@@ -46,7 +46,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
 
   //HANDLE FOLLOW
   const handleFollow = () => {
-    if (isAuth == "yes" && !followersPublicData?.follow) {
+    if (isAuth == "yes" && !followersPublicData?.followed) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
       refetchFollowers();

@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
 import Link from "next/link";
-import { AccountingContext } from "../context";
 import type { NextPage } from "next";
 import { MagnifyingGlassIcon, PlusIcon, PowerIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
 

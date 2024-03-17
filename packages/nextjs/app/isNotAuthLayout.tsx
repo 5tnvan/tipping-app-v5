@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useParams } from "next/navigation";
-import { AppContext, PublicContext } from "./context";
+import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -12,8 +12,11 @@ export const metadata = getMetadata({
 
 const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
-  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
-  //const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
+  const { isLoadingAuth } = useContext(AppContext);
+
+  const nothing = () => {
+    console.log("nothing");
+  };
 
   return (
     <>
@@ -29,7 +32,7 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       )}
 
       {/* ISNOTAUTH CHILDREN */}
-      {username && <IsPublicLayout>{children}</IsPublicLayout>}
+      {username && <IsPublicLayout onSuccess={nothing}>{children}</IsPublicLayout>}
       {!username && (
         <div id="wildpay-is-not-auth" className="flex flex-col grow pr-7 pl-7">
           {children}

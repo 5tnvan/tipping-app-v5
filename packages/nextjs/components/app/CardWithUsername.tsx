@@ -1,6 +1,10 @@
 import { CopyIcon } from "../assets/CopyIcon";
 
-export const CardWithUsername = ({ username }) => {
+type Props = {
+  username: string;
+};
+
+export const CardWithUsername = ({ username }: Props) => {
   return (
     <>
       {/* Scroll Snap */}

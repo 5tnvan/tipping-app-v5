@@ -2,11 +2,22 @@ import React, { useContext } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { deleteFollowing } from "~~/app/(profile)/[username]/actions";
 import { FollowersContext, PublicContext } from "~~/app/context";
-import { useFollowers } from "~~/hooks/app/useFollowers";
 
-export const FollowersModal = ({ isOpen, onClose, data: followersPublicData, refetch: refetchPublicFollowers }) => {
-  const { isLoadingPublic, publicProfile, refetchPublic } = useContext(PublicContext);
-  const { isLoadingFollowers, followersData, refetchFollowers } = useContext(FollowersContext);
+type Props = {
+  isOpen: any;
+  onClose: any;
+  data: any;
+  refetch: any;
+};
+
+export const FollowersModal = ({
+  isOpen,
+  onClose,
+  data: followersPublicData,
+  refetch: refetchPublicFollowers,
+}: Props) => {
+  const { publicProfile } = useContext(PublicContext);
+  const { refetchFollowers } = useContext(FollowersContext);
 
   const handleClose = () => {
     onClose();

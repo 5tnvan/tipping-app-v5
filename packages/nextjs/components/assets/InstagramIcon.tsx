@@ -1,4 +1,8 @@
-export const InstagramIcon = ({ handle }) => {
+type Props = {
+  handle: any;
+};
+
+export const InstagramIcon = ({ handle }: Props) => {
   const link = "https://instagram.com" + handle;
   return (
     <>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
 
-export const usePublicProfile = (username) => {
+export const usePublicProfile = (username: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const [publicProfile, setProfile] = useState({
     id: null,

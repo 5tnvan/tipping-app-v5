@@ -16,7 +16,7 @@ import "~~/styles/app.css";
  **/
 
 const ProfileEdit: NextPage = () => {
-  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   const [socialMedia, setSocialMedia] = useState({
     youtube: true,
@@ -30,17 +30,15 @@ const ProfileEdit: NextPage = () => {
   });
 
   /* HANDLE SOCIAL LINKS UPDATE */
-  // Switch edit, save, cancel for each social media input
-  const handleSwitch = (social: string) => {
+  const handleSwitch = (social: keyof typeof socialMedia) => {
     setSocialMedia(prevState => ({
       ...prevState,
       [social]: !prevState[social],
     }));
   };
 
-  // Update social changes to supabase
-  const handleSocialSave = async (social: string) => {
-    const inputVal = socialMedia[`${social}Input`];
+  const handleSocialSave = async (social: keyof typeof socialMedia) => {
+    const inputVal = socialMedia[`${social}Input` as keyof typeof socialMedia];
     updateProfileSocial(user, social, inputVal);
     handleSwitch(social);
     refetchAuth();

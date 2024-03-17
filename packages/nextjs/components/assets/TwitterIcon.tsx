@@ -1,4 +1,8 @@
-export const TwitterIcon = ({ handle }) => {
+type Props = {
+  handle: any;
+};
+
+export const TwitterIcon = ({ handle }: Props) => {
   const link = "https://x.com" + handle;
   return (
     <>

@@ -2,16 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Avatar } from "./authentication/Avatar";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Address as AddressType, getAddress, isAddress } from "viem";
 import { hardhat } from "viem/chains";
 import { useEnsAvatar, useEnsName } from "wagmi";
-import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { UserCircleIcon, UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { fetchPublicProfile, fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
+import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
 type AddressProps = {
@@ -37,8 +34,7 @@ const blockieSizeMap = {
 export const AddressWithReveal = ({ address, disableAddressLink, format, size = "base" }: AddressProps) => {
   const [ens, setEns] = useState<string | null>();
   const [ensAvatar, setEnsAvatar] = useState<string | null>();
-  const [addressCopied, setAddressCopied] = useState(false);
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState<any>();
   const [isReveal, setIsReveal] = useState(false);
   const checkSumAddress = address ? getAddress(address) : undefined;
 

@@ -1,6 +1,10 @@
 import React from "react";
 
-export const TimeAgo = ({ timestamp }) => {
+type Props = {
+  timestamp: any;
+};
+
+export const TimeAgo = ({ timestamp }: Props) => {
   const currentTimestamp = new Date().getTime();
   const yourTimestampString = timestamp;
   const yourTimestamp = new Date(yourTimestampString).getTime();
@@ -16,7 +20,7 @@ export const TimeAgo = ({ timestamp }) => {
   );
 };
 
-export const TimeAgoUnix = ({ timestamp }) => {
+export const TimeAgoUnix = ({ timestamp }: Props) => {
   const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
   const yourTimestamp = timestamp;
 
@@ -27,7 +31,8 @@ export const TimeAgoUnix = ({ timestamp }) => {
   return (
     <div>
       {daysAgo > 0 && `${daysAgo}${daysAgo === 1 ? "d" : "d"} `}
-      {hoursAgo}{hoursAgo === 1 ? "h" : "h"}
+      {hoursAgo}
+      {hoursAgo === 1 ? "h" : "h"}
     </div>
   );
 };

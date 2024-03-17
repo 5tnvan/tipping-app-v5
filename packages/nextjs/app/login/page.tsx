@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useContext } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Login } from "../../components/app/authentication/Login";
 import { AppContext } from "~~/app/context";
@@ -11,7 +10,7 @@ import "~~/styles/app.css";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { isLoadingAuth, isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { isAuth, refetchAuth } = useContext(AppContext);
 
   if (isAuth == "yes") {
     router.push("/home");

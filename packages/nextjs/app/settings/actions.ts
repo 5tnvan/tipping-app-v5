@@ -5,7 +5,7 @@ import { createClient } from "~~/utils/supabase/server";
 /* PROFILE ACTIONS */
 
 /* UPDATE PROFILE */
-export async function updateProfileWallet(wallet_id: string, wallet_sign_hash: string, wallet_sign_timestamp: string) {
+export async function updateProfileWallet(wallet_id: any, wallet_sign_hash: string, wallet_sign_timestamp: string) {
   console.log("I'm updating profile with wallet sign hash");
   const supabase = createClient();
 

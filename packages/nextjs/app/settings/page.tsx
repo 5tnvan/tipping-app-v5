@@ -198,7 +198,9 @@ const Settings: NextPage = () => {
                 </button>
                 {withdrawBalance == 0 && (
                   <>
-                    <div className="mb-2 flex items-align justify-center">Your balance is {withdrawBalance} ETH. Try again later.</div>
+                    <div className="mb-2 flex items-align justify-center">
+                      Your balance is {withdrawBalance} ETH. Try again later.
+                    </div>
                     <div className="btn btn-neutral w-full" onClick={() => setIsWithdrawModalOpen(false)}>
                       Go Back
                     </div>
