@@ -1,11 +1,11 @@
 import { BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
 import {
   YourContract,
-  TipChange,
+  PaymentChange,
 } from "../generated/YourContract/YourContract";
-import { Tip, Sender, Receiver } from "../generated/schema";
+import { Payment, Sender, Receiver } from "../generated/schema";
 
-export function handleTipChange(event: TipChange): void {
+export function handlePaymentChange(event: PaymentChange): void {
   let senderString = event.params.sender.toHexString();
   let receiverString = event.params.receiver.toHexString();
 
@@ -24,19 +24,19 @@ export function handleTipChange(event: TipChange): void {
     receiver.createdAt = event.block.timestamp;
   } 
 
-  let tip = new Tip(
+  let payment = new Payment(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
 
-  tip.greeting = event.params.newGreeting;
-  tip.sender = Bytes.fromHexString(senderString) ;
-  tip.receiver = Bytes.fromHexString(receiverString);;
-  tip.value = event.params.value;
-  tip.fee = event.params.fee;
-  tip.createdAt = event.block.timestamp;
-  tip.transactionHash = event.transaction.hash.toHex();
+  payment.message = event.params.newMessage;
+  payment.sender = Bytes.fromHexString(senderString) ;
+  payment.receiver = Bytes.fromHexString(receiverString);;
+  payment.value = event.params.value;
+  payment.fee = event.params.fee;
+  payment.createdAt = event.block.timestamp;
+  payment.transactionHash = event.transaction.hash.toHex();
 
-  tip.save();
+  payment.save();
   sender.save();
   receiver.save();
 }

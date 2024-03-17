@@ -247,7 +247,7 @@ const IsAuthLayout = ({
                   </div>
                   {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
                   {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
-                  <div className="right info flex justify-center flex-col">
+                  <div className="right info flex text-black justify-center flex-col">
                     {isLoadingAuth ? (
                       <>
                         <IsLoading shape="rounded-md" width={28} height={6} />
@@ -274,7 +274,7 @@ const IsAuthLayout = ({
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @SETTINGS */}
-                <div className={`text-4xl flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
+                <div className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
                   {isLoadingAuth && <IsLoading shape="rounded-md" width={28} height={8} />}
                   {!isLoadingAuth && !isSettings && <span className="text-xl">{incomingTxSum}Ξ</span>}
                   {!isLoadingAuth && isSettings && (

@@ -106,7 +106,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                       {isLoadingPublicFollowers && (
                         <button
                           id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
                         >
                           Loading...
                           <ArrowRightIcon />
@@ -115,7 +115,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                       {!isLoadingPublicFollowers && !followersPublicData?.followed && (
                         <button
                           id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
                           onClick={() => handleFollow()}
                         >
                           Follow
@@ -125,7 +125,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                       {!isLoadingPublicFollowers && followersPublicData?.followed && (
                         <button
                           id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white z-10 text-sm"
+                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
                           onClick={() => openFollowersModal()}
                         >
                           Followed
@@ -151,7 +151,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                 </div>
               </div>
               {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
-              <div className="text-4xl flex justify-center items-center gap-2">
+              <div className="text-4xl text-black flex justify-center items-center gap-2">
                 {isLoadingAuth || isLoadingPublic ? (
                   <IsLoading shape="rounded-md" width={28} height={8} />
                 ) : (

@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: contractsepolia
+    network: sepolia
+    source:
+      address: "0x3579B02193028357ACaFE8323d2F62155078033A"
+      abi: contractsepolia
+      startBlock: 5499903
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PaymentChange
+      abis:
+        - name: contractsepolia
+          file: ./abis/contractsepolia.json
+      eventHandlers:
+        - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
+          handler: handlePaymentChange
+      file: ./src/contractsepolia.ts
