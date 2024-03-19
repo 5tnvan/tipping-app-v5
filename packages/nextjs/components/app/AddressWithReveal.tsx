@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Avatar } from "./authentication/Avatar";
 import { Address as AddressType, getAddress, isAddress } from "viem";
 import { hardhat } from "viem/chains";
 import { useEnsAvatar, useEnsName } from "wagmi";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { EyeIcon, UserIcon } from "@heroicons/react/24/solid";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -96,56 +97,37 @@ export const AddressWithReveal = ({ address, disableAddressLink, format, size = 
 
   return (
     <div className="flex items-center">
-      <div className="btn btn-primary h-6 min-h-6 mr-3" onClick={handleProfileReveal}>
-        <span className="w-4">
-          <UserIcon />
-        </span>
-        {isReveal && profile && <div className="font-semibold">@{profile.username}</div>}
+      <div className="btn btn-secondary h-8 min-h-8 mr-3" onClick={handleProfileReveal}>
+        {!isReveal && (
+          <span className="w-4">
+            <EyeIcon />
+          </span>
+        )}
+        {isReveal && profile && (
+          <div className="font-semibold flex items-center">
+            <Avatar profile={profile} width={6} ring={false} />
+            <span className="ml-1">@{profile.username}</span>
+          </div>
+        )}
         {isReveal && !profile && <div className="font-semibold">anon</div>}
       </div>
-      <div className="flex-shrink-0">
+      {/* <div className="flex-shrink-0">
         <BlockieAvatar
           address={checkSumAddress}
           ensImage={ensAvatar}
           size={(blockieSizeMap[size] * 24) / blockieSizeMap["base"]}
         />
-      </div>
-      {disableAddressLink ? (
+      </div> */}
+      {/* {disableAddressLink ? (
         <span className={`ml-1.5 text-${size} font-normal`}>{displayAddress}</span>
       ) : targetNetwork.id === hardhat.id ? (
         <span className={`ml-1.5 text-${size} font-normal`}>
-          <Link href={blockExplorerAddressLink}>{displayAddress}</Link>
+          <div>{displayAddress}</div>
         </span>
       ) : (
-        <a
-          className={`ml-1.5 text-${size} font-normal`}
-          target="_blank"
-          href={blockExplorerAddressLink}
-          rel="noopener noreferrer"
-        >
+        <div className={`ml-1.5 text-${size} font-normal`} rel="noopener noreferrer">
           {displayAddress}
-        </a>
-      )}
-      {/* {addressCopied ? (
-        <CheckCircleIcon
-          className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-          aria-hidden="true"
-        />
-      ) : (
-        <CopyToClipboard
-          text={checkSumAddress}
-          onCopy={() => {
-            setAddressCopied(true);
-            setTimeout(() => {
-              setAddressCopied(false);
-            }, 800);
-          }}
-        >
-          <DocumentDuplicateIcon
-            className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
-            aria-hidden="true"
-          />
-        </CopyToClipboard>
+        </div>
       )} */}
     </div>
   );

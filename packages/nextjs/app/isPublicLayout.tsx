@@ -3,15 +3,19 @@ import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
 import { AppContext, FollowersContext, ProfilePayContext, PublicAccountingContext, PublicContext } from "./context";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
+import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
+import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
+import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -22,6 +26,7 @@ export const metadata = getMetadata({
 const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; onSuccess: () => void }) => {
   const router = useRouter();
   const { username } = useParams();
+  const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   const { isLoadingAuth, isAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
@@ -33,6 +38,9 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
     refetch: refetchPublicFollowers,
   } = useFollowers(publicProfile?.id);
   const { profilePaySuccess } = useContext(ProfilePayContext);
+
+  console.log(isLoadingPublicFollowers);
+  console.log(followersPublicData);
 
   //LISTEN TO: profilePaySuccess from profile/username
   useEffect(() => {
@@ -96,41 +104,35 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
               <div className="flex">
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
                 <div className="left mr-5 flex flex-col items-center">
-                  {isLoadingAuth || isLoadingPublic ? (
+                  {isLoadingAuth || isLoadingPublic || isLoadingPublicFollowers ? (
                     <>
                       <div className="w-16 h-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                      <div id="wildpay-avatar-cta" className="absolute top-12">
+                        <IsLoading shape="rounded-md" width={12} height={4} />
+                      </div>
                     </>
                   ) : (
                     <>
-                      <Avatar profile={publicProfile} width={16} />
-                      {isLoadingPublicFollowers && (
-                        <button
-                          id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
-                        >
-                          Loading...
-                          <ArrowRightIcon />
-                        </button>
-                      )}
+                      <Avatar profile={publicProfile} width={16} ring={false} />
                       {!isLoadingPublicFollowers && !followersPublicData?.followed && (
-                        <button
+                        <div
                           id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
+                          className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
                           onClick={() => handleFollow()}
                         >
                           Follow
                           <ArrowRightIcon />
-                        </button>
+                        </div>
                       )}
                       {!isLoadingPublicFollowers && followersPublicData?.followed && (
-                        <button
+                        <div
                           id="wildpay-avatar-cta"
-                          className="absolute top-12 flex justify-center items-center pl-2 pr-2 rounded-full bg-white text-black z-10 text-sm"
+                          className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
                           onClick={() => openFollowersModal()}
                         >
-                          Followed
-                          <ArrowRightIcon />
-                        </button>
+                          <span>Followed</span>
+                          <ChevronRightIcon width={8} />
+                        </div>
                       )}
                     </>
                   )}
@@ -144,7 +146,9 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                     </>
                   ) : (
                     <>
-                      <div className="font-semibold">@{publicProfile.username}</div>
+                      <div className="flex">
+                        <div className="font-semibold mr-1">@{publicProfile.username}</div>
+                      </div>
                       <SocialIcons soc={soc} />
                     </>
                   )}
@@ -156,7 +160,15 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                   <IsLoading shape="rounded-md" width={28} height={8} />
                 ) : (
                   <>
-                    <span className="text-xl">{incomingTxSum}Ξ</span>
+                    <div className="flex flex-col items-end">
+                      <div className="text-xl font-semibold custom-text-blue">
+                        ${convertEthToUsd(incomingTxSum, nativeCurrencyPrice)}
+                      </div>
+                      <div className="text-xl flex items-center">
+                        <EthIcon width={16} height={16} />
+                        {incomingTxSum}
+                      </div>
+                    </div>
                   </>
                 )}
               </div>

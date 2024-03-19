@@ -78,9 +78,6 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
     },
   });
 
-  console.log("profile.wallet_id: ", profile.wallet_id);
-  console.log("address: ", connectedAddress);
-
   return (
     <>
       <div id="wildpay-fastpay" className="flex items-center pt-10 text-5xl">

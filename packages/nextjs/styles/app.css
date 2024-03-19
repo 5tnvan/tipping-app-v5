@@ -147,7 +147,7 @@ input:-webkit-autofill:focus {
 
 /* OTHER: socials, availability badge*/
 .fb .h-8 { width: 10px; }
-.h-8 { width: 18px; }
+.w-18px { width: 18px; }
 .badge { color: white; }
 .badge-info { background-color: #05C7F2!important; }
 .badge-success { background-color: #03A66A!important; }

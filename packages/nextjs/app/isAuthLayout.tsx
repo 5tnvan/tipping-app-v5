@@ -14,8 +14,11 @@ import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
+import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -35,6 +38,7 @@ const IsAuthLayout = ({
   onWithdrawSuccess: () => void;
 }) => {
   const router = useRouter();
+  const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
@@ -289,9 +293,31 @@ const IsAuthLayout = ({
                   className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}
                 >
                   {isLoadingAuth && <IsLoading shape="rounded-md" width={28} height={8} />}
-                  {!isLoadingAuth && !isSettings && <span className="text-xl">{incomingTxSum}Ξ</span>}
+                  {!isLoadingAuth && !isSettings && (
+                    <div className="flex flex-col items-end">
+                      <div className="text-xl font-semibold custom-text-blue">
+                        ${convertEthToUsd(incomingTxSum, nativeCurrencyPrice)}
+                      </div>
+                      <div className="text-xl flex items-center">
+                        <EthIcon width={16} height={16} />
+                        {incomingTxSum}
+                      </div>
+                    </div>
+                  )}
                   {!isLoadingAuth && isSettings && (
-                    <>{profile.wallet_id && <span className="text-xl">{Number(withdrawBalance).toFixed(4)}Ξ</span>}</>
+                    <>
+                      {profile.wallet_id && (
+                        <div className="flex flex-col items-end">
+                          <div className="text-xl font-semibold custom-text-blue">
+                            ${convertEthToUsd(Number(withdrawBalance), nativeCurrencyPrice)}
+                          </div>
+                          <div className="text-xl flex items-center">
+                            <EthIcon width={16} height={16} />
+                            {Number(withdrawBalance).toFixed(4)}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
