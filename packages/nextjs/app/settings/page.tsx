@@ -25,8 +25,6 @@ const Settings: NextPage = () => {
   const { setWithdrawSuccess } = useContext(WithdrawContext);
   const { address } = useAccount();
 
-  console.log(withdrawBalance);
-
   useEffect(() => {
     if (!profile.wallet_id && !address) {
       setButtonText("Connect Wallet");

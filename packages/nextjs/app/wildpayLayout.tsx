@@ -45,8 +45,6 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     console.log("isWildLayout: refetchAccounting()");
     refetchAccounting(); // refetch private accounting
   };
-  console.log("isRoot ", isRoot);
-  console.log("isAuth ", isAuth);
 
   return (
     <>
