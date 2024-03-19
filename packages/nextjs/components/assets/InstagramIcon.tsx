@@ -6,7 +6,7 @@ export const InstagramIcon = ({ handle }: Props) => {
   const link = "https://instagram.com" + handle;
   return (
     <>
-      <a className=" hover:text-orange-600 mr-3" aria-label="Instagram" href={link} target="_blank">
+      <a className="mr-3" aria-label="Instagram" href={link} target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

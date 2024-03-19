@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import type { NextPage } from "next";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -14,9 +13,10 @@ const SignUpVerify: NextPage = () => {
         <div className="font-semibold custom-text-blue text-3xl ">{"Almost there 🎉."}</div>
         <div className=" custom-text-blue text-3xl mb-5">{"Confirm your email."}</div>
 
-        <Link href="/login" className="btn text-base mb-3 w-full">
-          {"Go to login"}
-        </Link>
+        <button className="btn text-base mb-3 w-full">
+        <span className="loading loading-ring loading-xs"></span>
+          {"Waiting"}
+        </button>
       </div>
     </>
   );

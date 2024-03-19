@@ -62,7 +62,7 @@ export const Signup = () => {
           <input
             type="text"
             name="email"
-            className="grow"
+            className="bg-white grow"
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
@@ -88,6 +88,7 @@ export const Signup = () => {
           <input
             type="password"
             name="password"
+            className="bg-white grow"
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}

@@ -77,7 +77,7 @@ const HomePage: NextPage = () => {
               <div id="following" className="flex">
                 {followersData?.following.map((following: any) => (
                   <Link href={`/${following.username}`} key={following.id} className="flex flex-col items-center mr-4">
-                    <Avatar profile={following} width={12} />
+                    <Avatar profile={following} width={12} ring={false} />
                     {following.username}
                   </Link>
                 ))}
@@ -87,7 +87,7 @@ const HomePage: NextPage = () => {
               <ul id="followers" className="flex">
                 {followersData?.followers.map((followers: any) => (
                   <Link href={`/${followers.username}`} key={followers.id} className="flex flex-col items-center mr-4">
-                    <Avatar profile={followers} width={12} />
+                    <Avatar profile={followers} width={12} ring={false} />
                     {followers.username}
                   </Link>
                 ))}

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
+import { Avatar } from "../authentication/Avatar";
 import ProfilePayConfirm from "../pay/ProfilePayConfirm";
-import { PublicContext } from "~~/app/context";
+import { AppContext, PublicContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
+  const { profile } = useContext(AppContext);
   const { publicProfile } = useContext(PublicContext);
 
   /**
@@ -40,13 +42,27 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           ✕
         </button>
         {/* PAY CONTENT */}
-        <div className="modal-content">
-          <div className="p-5">
-            <div>@{publicProfile.username}</div>
-            <div>{publicProfile.wallet_id}</div>
-            {/* PAY CONFIRM */}
+        <div className="modal-content p-6">
+          {/* PAY TO */}
+          {publicProfile.wallet_id && (
+            <div className="flex flex-col items-center justify-center mt-5">
+              <Avatar profile={publicProfile} width={12} ring={false} />
+              <div className="font-semibold mt-2">@{publicProfile.username}</div>
+              {/* <div className="mt-2">{receiver.wallet_id}</div> */}
+            </div>
+          )}
+          {!publicProfile.wallet_id && (
+            <>
+              <div>User @{publicProfile.username} has no verified wallet, yet.</div>
+              <div className="btn btn-neutral w-full" onClick={handleClose}>
+                Go back
+              </div>
+            </>
+          )}
+          {/* PAY CONFIRM */}
+          {publicProfile.wallet_id && profile.wallet_id && (
             <ProfilePayConfirm receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
-          </div>
+          )}
         </div>
       </div>
     </div>

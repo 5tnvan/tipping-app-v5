@@ -65,7 +65,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     onClick={() => handlePicked(following)}
                   >
                     <div className="flex items-center">
-                      <Avatar profile={following} width={8} />
+                      <Avatar profile={following} width={8} ring={false} />
                       <div className="ml-2 font-semibold pl-3">{following.username}</div>
                     </div>
                     <div>
@@ -84,9 +84,9 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     Back
                   </button>
                   <div className="flex flex-col items-center justify-center mt-5">
-                    <Avatar profile={receiver} width={12} />
+                    <Avatar profile={receiver} width={12} ring={false} />
                     <div className="font-semibold mt-2">@{receiver.username}</div>
-                    <div className="mt-2">{receiver.wallet_id}</div>
+                    {/* <div className="mt-2">{receiver.wallet_id}</div> */}
                   </div>
                 </>
               )}

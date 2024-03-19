@@ -72,7 +72,7 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
           <label className="input input-bordered flex items-center gap-2">
             <input
               type="text"
-              className="grow"
+              className="grow bg-white"
               placeholder="Search"
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
@@ -111,7 +111,7 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
                   onClick={handleLink}
                 >
                   <div className="flex items-center">
-                    <Avatar profile={searchProfile} width={8} />
+                    <Avatar profile={searchProfile} width={8} ring={false} />
                     <div className="ml-2">@{searchProfile.username}</div>
                   </div>
                   <div>

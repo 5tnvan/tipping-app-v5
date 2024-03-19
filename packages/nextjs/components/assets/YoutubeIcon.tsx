@@ -6,7 +6,7 @@ export const YoutubeIcon = ({ handle }: Props) => {
   const link = "https://youtube.com" + handle;
   return (
     <>
-      <a className=" hover:text-orange-600 mr-3" aria-label="Youtube" href={link} target="_blank">
+      <a className="mr-3" aria-label="Youtube" href={link} target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

@@ -61,10 +61,11 @@ const GetStarted: NextPage = () => {
     return (
       <>
         {/* GET STARTED */}
-        <div id="get-started" className="z-10 flex flex-col grow justify-center">
+        <div id="wildpay-get-started" className="z-10 flex flex-col grow justify-center pb-10">
           {/* GET STARTED HERO */}
           <div className="font-light mb-3 flex justify-between">
-            <div className="custom-text-blue font-semibold text-3xl">Dare to be paid?</div>
+            <div className="custom-text-blue font-semibold text-3xl">Dare to get paid?</div>
+            {/* GET STARTED ETH ANIMATION */}
             <div className="flex justify-center">
               <EthIcon width={"20px"} height={"20px"} />
               <div className="animation text-xl font-semibold">
@@ -82,8 +83,15 @@ const GetStarted: NextPage = () => {
           </div>
 
           {/* GET STARTED CARDS */}
-          <div className="scr mb-6">
+          {/* <div className="scr mb-6">
             <div className="scr-item custom-bg-image-01"></div>
+          </div> */}
+          <div className="container mb-4">
+            <div className="gradient">
+              <div className="scr">
+                <div className="scr-item custom-bg-image-01"></div>
+              </div>
+            </div>
           </div>
 
           {/* GET STARTED CLAIM USERNAME */}
@@ -99,7 +107,7 @@ const GetStarted: NextPage = () => {
                 id="username"
                 name="username"
                 type="text"
-                className="grow tracking-wider ml-1"
+                className="grow tracking-wider ml-1 bg-white"
                 placeholder="yourname"
                 pattern="^[a-z][a-z0-9_]{2,15}$"
                 title="Only letters, numbers, and underscores."
@@ -121,11 +129,11 @@ const GetStarted: NextPage = () => {
         </div>
 
         {/* GET STARTED SOCIALS */}
-        <div id="cust-socials" className="flex justify-center mb-5">
-          <YoutubeIcon handle="heartip" />
-          <TwitterIcon handle="heartip" />
-          <InstagramIcon handle="heartip" />
-          <TiktokIcon handle="heartip" />
+        <div id="wildpay-socials" className="flex justify-center mb-5">
+          <YoutubeIcon handle="wildpay" />
+          <TwitterIcon handle="wildpay" />
+          <InstagramIcon handle="wildpay" />
+          <TiktokIcon handle="wildpay" />
         </div>
       </>
     );

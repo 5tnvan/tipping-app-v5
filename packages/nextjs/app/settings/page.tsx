@@ -5,9 +5,11 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
+import { useAccount } from "wagmi";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
-import WalletConnectVerify from "~~/components/app/wallet/WalletConnectVerify";
+import { WalletModal } from "~~/components/app/modal/WalletModal";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import "~~/styles/app-profile.css";
@@ -17,25 +19,40 @@ import "~~/styles/app.css";
 const Settings: NextPage = () => {
   const router = useRouter();
   const [buttonText, setButtonText] = useState("");
-  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
   const { withdrawBalance, refetchAccounting } = useContext(AccountingContext);
   const { setWithdrawSuccess } = useContext(WithdrawContext);
+  const { address } = useAccount();
+
+  console.log(withdrawBalance);
 
   useEffect(() => {
-    if (!profile.wallet_id) {
+    if (!profile.wallet_id && !address) {
       setButtonText("Connect Wallet");
-    } else if (profile.wallet_id && !profile.wallet_sign_hash) {
+    } else if (address && !profile.wallet_sign_hash) {
       setButtonText("Verify Wallet");
     } else {
       setButtonText("Withdraw");
     }
-  }, [profile.wallet_id, profile.wallet_sign_hash]);
+  }, [address, profile.wallet_id, profile.wallet_sign_hash]);
 
   //WALLET
   const handleWalletModal = () => {
-    setIsWalletModalOpen(true);
+    openWalletModal();
+  };
+
+  /**
+   * ACTION: Open close wallet modal
+   **/
+  const [isWalletModalOpen, setWalletModalOpen] = useState(false);
+
+  const openWalletModal = () => {
+    setWalletModalOpen(true);
+  };
+
+  const closeWalletModal = () => {
+    setWalletModalOpen(false);
   };
 
   //WITHDRAW
@@ -76,7 +93,7 @@ const Settings: NextPage = () => {
       <>
         <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 z-10">
           {/* CTA BUTTON */}
-          <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
+          <div id="wildpay-is-auth-cta" className="mb-5 z-1 relative">
             <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={handleModal}>
               {isLoadingAuth ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
             </button>
@@ -101,9 +118,6 @@ const Settings: NextPage = () => {
                 </svg>
                 <div className="grow">{user?.email || ""}</div>
               </div>
-              {/* <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
-                {profile.youtube !== null ? "Edit" : "Add"}
-              </button> */}
             </label>
           </div>
 
@@ -124,45 +138,35 @@ const Settings: NextPage = () => {
                 </svg>
                 <input type="text" className="grow bg-white" placeholder="******" disabled />
               </div>
-              {/* <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
-                Reset
-              </button> */}
             </label>
           </div>
 
           {/* My Wallet */}
-          <div className="mb-3">My Wallet</div>
+          <div className="mb-3">My Verified Wallet</div>
 
           {/* Wallet */}
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
               <div className="opacity-70 flex items-center gap-2">
-                {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : "n/a"}
+                {profile?.wallet_id ? (
+                  <>
+                    <Address address={profile?.wallet_id} />
+                    <CheckBadgeIcon width="20" />
+                  </>
+                ) : (
+                  "No Wallet"
+                )}
                 {/* <Address address={profile?.wallet_id} /> */}
               </div>
               <button className="btn btn-secondary" onClick={() => handleWalletModal()}>
-                {profile?.wallet_id && !profile?.wallet_sign_hash ? "Verify" : ""}
-                {profile?.wallet_sign_hash && "Change"}
-                {!profile?.wallet_id && !profile?.wallet_sign_hash && "Connect"}
+                {address && !profile?.wallet_sign_hash ? "Verify" : ""}
+                {profile?.wallet_sign_hash && "View"}
+                {!address && !profile?.wallet_sign_hash && "Connect"}
               </button>
             </label>
           </div>
-
           {/* Wallet Modal */}
-          <dialog id="my_modal_3" className="modal" open={isWalletModalOpen}>
-            <div className="modal-box p-10 pt-15">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button
-                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  onClick={() => setIsWalletModalOpen(false)}
-                >
-                  ✕
-                </button>
-                <WalletConnectVerify />
-              </form>
-            </div>
-          </dialog>
+          <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal}></WalletModal>
 
           {/* My Balance */}
           <div className="mb-3">My Balance</div>
@@ -177,15 +181,23 @@ const Settings: NextPage = () => {
                     d="m12 1.75l-6.25 10.5L12 16l6.25-3.75zM5.75 13.5L12 22.25l6.25-8.75L12 17.25z"
                   ></path>
                 </svg>
-                {Number(withdrawBalance).toFixed(4)}Ξ
+                {withdrawBalance == 0 || withdrawBalance > 0 ? (
+                  <>{Number(withdrawBalance).toFixed(4)}Ξ</>
+                ) : (
+                  <>No balance</>
+                )}
               </div>
-              <button className="btn btn-secondary" onClick={handleWithdrawModal}>
-                Widthdraw
-              </button>
+              {(withdrawBalance == 0 || withdrawBalance > 0) && (
+                <>
+                  <button className="btn btn-secondary" onClick={handleWithdrawModal}>
+                    Widthdraw
+                  </button>
+                </>
+              )}
             </label>
           </div>
 
-          {/* Balance Modal */}
+          {/* Withdraw Modal */}
           <dialog id="my_modal_4" className="modal" open={isWithdrawModalOpen}>
             <div className="modal-box p-10 pt-15">
               <div>

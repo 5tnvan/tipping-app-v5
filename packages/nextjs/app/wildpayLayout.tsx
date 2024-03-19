@@ -1,9 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AccountingContext, AppContext, FollowersContext, ProfilePayContext, WithdrawContext } from "./context";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
+import { Footer } from "~~/components/Footer";
+import { WildPayLogo } from "~~/components/app/WildpayLogo";
+import { BackgroundBeams } from "~~/components/app/ui/backgroudBeams";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { useFollowers } from "~~/hooks/app/useFollowers";
@@ -18,6 +22,7 @@ export const metadata = getMetadata({
 
 const WildPay = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+  const isRoot = pathname === "/";
   const isDebug = pathname === "/debug";
   const isBlockExplorer = pathname === "/blockexplorer";
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
@@ -33,45 +38,70 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const { profilePaySuccess, setProfilePaySuccess } = useProfilePay();
   const { withdrawSuccess, setWithdrawSuccess } = useWithdraw();
 
-  const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "";
+  const bgClass = isAuth === "yes" ? "bg-slate-100" : isAuth === "no" ? "custom-gradient-02" : "custom-gradient-02";
 
   const handlePaySuccess = () => {
     console.log("isWildLayout: handlePaySuccess()");
     console.log("isWildLayout: refetchAccounting()");
     refetchAccounting(); // refetch private accounting
   };
+  console.log("isRoot ", isRoot);
+  console.log("isAuth ", isAuth);
 
   return (
     <>
-      <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
-        <AccountingContext.Provider
-          value={{ withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
-        >
-          <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-            <ProfilePayContext.Provider value={{ profilePaySuccess, setProfilePaySuccess }}>
-              <WithdrawContext.Provider value={{ withdrawSuccess, setWithdrawSuccess }}>
-                <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 rounded-t-2xl`}>
-                  <div id="wildpay-logo" className="flex items-center z-10 ml-7 mt-7">
-                    <img className="z-10" alt="wildpay" src="/wildpay-logo.svg" width={30} height={30}></img>
-                    <h1 className="font-semibold custom-text-blue ml-2 z-10">wildpay</h1>
-                  </div>
-                  {isAuth == "yes" && !isDebug && !isBlockExplorer && (
-                    <IsAuthLayout
-                      onFastPaySuccess={handlePaySuccess}
-                      onProfilePaySuccess={handlePaySuccess}
-                      onWithdrawSuccess={handlePaySuccess}
-                    >
-                      {children}
-                    </IsAuthLayout>
-                  )}
-                  {isAuth == "no" && !isDebug && !isBlockExplorer && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
-                  {(isDebug || isBlockExplorer) && <>{children}</>}
-                </div>
-              </WithdrawContext.Provider>
-            </ProfilePayContext.Provider>
-          </FollowersContext.Provider>
-        </AccountingContext.Provider>
-      </AppContext.Provider>
+      {isRoot && (
+        <>
+          <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
+            <main id="main" className="flex min-h-screen h-full">
+              {children}
+            </main>
+          </AppContext.Provider>
+        </>
+      )}
+      {!isRoot && (
+        <>
+          <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
+            <AccountingContext.Provider
+              value={{ withdrawBalance, incomingTx, incomingTxSum, outgoingTx, outgoingTxSum, refetchAccounting }}
+            >
+              <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
+                <ProfilePayContext.Provider value={{ profilePaySuccess, setProfilePaySuccess }}>
+                  <WithdrawContext.Provider value={{ withdrawSuccess, setWithdrawSuccess }}>
+                    <div id="master" className="min-h-full bg-neutral-950 antialiased">
+                      <BackgroundBeams />
+                      <main id="main" className="flex justify-center min-h-screen h-full text-black">
+                        <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10`}>
+                          <Link href="/home" id="wildpay-logo" className="flex w-max items-center z-10 ml-7 mt-7">
+                            <WildPayLogo color="blue" width="30" height="30" />
+                            <h1 className="text-lg font-semibold custom-text-blue ml-2 mb-0 z-10">wildpay</h1>
+                          </Link>
+                          {isAuth == "yes" && !isDebug && !isBlockExplorer && (
+                            <IsAuthLayout
+                              onFastPaySuccess={handlePaySuccess}
+                              onProfilePaySuccess={handlePaySuccess}
+                              onWithdrawSuccess={handlePaySuccess}
+                            >
+                              {children}
+                            </IsAuthLayout>
+                          )}
+                          {isAuth == "no" && !isDebug && !isBlockExplorer && (
+                            <IsNotAuthLayout>{children}</IsNotAuthLayout>
+                          )}
+                          {(isDebug || isBlockExplorer) && <>{children}</>}
+                        </div>
+                      </main>
+                    </div>
+                    {/* <Toaster /> */}
+
+                    <Footer />
+                  </WithdrawContext.Provider>
+                </ProfilePayContext.Provider>
+              </FollowersContext.Provider>
+            </AccountingContext.Provider>
+          </AppContext.Provider>
+        </>
+      )}
     </>
   );
 };

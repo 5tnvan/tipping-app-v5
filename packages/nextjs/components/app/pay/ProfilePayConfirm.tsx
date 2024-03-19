@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
+import { useAccount } from "wagmi";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { AppContext } from "~~/app/context";
+import { Address } from "~~/components/scaffold-eth/Address";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
@@ -10,6 +17,8 @@ type Props = {
 };
 
 const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
+  const { profile } = useContext(AppContext);
+  const { address: connectedAddress } = useAccount();
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
@@ -80,21 +89,21 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   return (
     <>
       <div className="mt-6 font-semibold">Choose the amount:</div>
-      <div className="mt-3">
+      <div className="mt-3 flex justify-between">
         <span
-          className={`btn w-full ${clickedButton === 50 ? "btn-primary" : "btn-secondary"} mb-3`}
+          className={`btn ${clickedButton === 50 ? "btn-primary" : "btn-secondary"} grow`}
           onClick={() => handleChooseAmount(50)}
         >
           <span>{"$50"}</span>
         </span>
         <span
-          className={`btn w-full ${clickedButton === 100 ? "btn-primary" : "btn-secondary"} mb-3`}
+          className={`btn ${clickedButton === 100 ? "btn-primary" : "btn-secondary"} grow ml-2 mr-2`}
           onClick={() => handleChooseAmount(100)}
         >
           <span>{"$100"}</span>
         </span>
         <span
-          className={`btn w-full ${clickedButton === 150 ? "btn-primary" : "btn-secondary"} mb-3`}
+          className={`btn ${clickedButton === 150 ? "btn-primary" : "btn-secondary"} grow`}
           onClick={() => handleChooseAmount(150)}
         >
           <span>{"$150"}</span>
@@ -130,11 +139,82 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
             </div>
           </div>
           {/* CONFIRM BUTTON */}
-          <div className="flex justify-center">
-            <button className="btn btn-neutral mt-3" onClick={() => pay()}>
-              Confirm
-            </button>
+
+          {/* PAY AS */}
+          <div className="mt-10">
+            {!profile.wallet_id && (
+              <>
+                <div>You have no verified wallet, yet.</div>
+                <div className="flex justify-center">
+                  <Link href="/settings" className="btn btn-neutral w-full mt-3">
+                    Go to Settings
+                  </Link>
+                </div>
+              </>
+            )}
+            {profile.wallet_id && !connectedAddress && (
+              <>
+                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width="8" ring={false} />
+                    <span className="ml-1 font-semibold">{profile.username}</span>
+                  </div>
+                  <div className="flex">
+                    <Address address={profile.wallet_id} />
+                    <CheckBadgeIcon width={16} />
+                  </div>
+                </div>
+                <div className="w-full h-12 mt-2">
+                  <RainbowKitCustomConnectButton />
+                </div>
+              </>
+            )}
+            {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
+              <>
+                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width="8" ring={false} />
+                    <span className="ml-1 font-semibold">{profile.username}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Address address={connectedAddress} />
+                    <span className="text-green-600">
+                      <CheckBadgeIcon width={16} />
+                    </span>
+                  </div>
+                </div>
+              </>
+            )}
+            {profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
+              <>
+                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width="8" ring={false} />
+                    <span className="ml-1 font-semibold">{profile.username}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Address address={connectedAddress} />
+                    <span className="text-red-600">
+                      <CheckBadgeIcon width={16} />
+                    </span>
+                  </div>
+                </div>
+                <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
+                <div className="flex justify-center">
+                  <Link href="/settings" className="btn btn-neutral w-full mt-3">
+                    Reconnect
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
+          {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
+            <div className="flex justify-center">
+              <button className="btn btn-neutral w-full mt-3" onClick={() => pay()}>
+                Confirm
+              </button>
+            </div>
+          )}
         </>
       )}
     </>

@@ -87,7 +87,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
           {isAuth == "no" && <IsNotAuthMenu />}
 
           {/* ISPUBLIC CUSTOM-BG */}
-          {isAuth == "no" && <div className="custom-bg-auth absolute z-0 rounded-t-2xl"></div>}
+          {isAuth == "no" && <div className="custom-bg-auth absolute z-0"></div>}
 
           {/* ISPUBLIC AUTH TOP */}
           <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">

@@ -11,7 +11,7 @@ export default function SignupNewPage() {
 
   return (
     <>
-      <div id="sign-up-new" className="z-10 flex flex-col grow justify-center">
+      <div id="sign-up-new" className="z-10 flex flex-col grow justify-center pb-10">
         <div className="text-3xl mb-5 custom-text-blue font-semibold">{"Sign up."}</div>
         {/* Scroll Snap */}
         <div className="scr mb-6">

@@ -5,14 +5,13 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 import { WagmiConfig } from "wagmi";
-import { Header } from "~~/components/Header";
+// import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
-import { Footer } from "./Footer";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   const price = useNativeCurrencyPrice();
@@ -24,18 +23,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, [setNativeCurrencyPrice, price]);
 
-  return (
-    <>
-      <div id="master" className="min-h-full custom-gradient-01">
-        <Header />
-        <main id="main" className="flex justify-center min-h-screen h-full pt-10">
-          {children}
-        </main>
-        <Footer />
-      </div>
-      {/* <Toaster /> */}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }) => {
@@ -47,7 +35,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     setMounted(true);
   }, []);
 
-  // const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
+  //const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
   const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia/version/latest";
   const apolloClient = new ApolloClient({
     uri: subgraphUri,

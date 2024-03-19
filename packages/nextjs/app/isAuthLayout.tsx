@@ -4,17 +4,18 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { AccountingContext, AppContext, WithdrawContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
+import { HomeIcon } from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
+import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
 import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
-import { HomeIcon } from "~~/components/assets/HomeIcon";
-import { SearchIcon } from "~~/components/assets/SearchIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { Address } from "~~/components/scaffold-eth";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -214,7 +215,7 @@ const IsAuthLayout = ({
         </dialog>
 
         {/* ISAUTH CUSTOM-BG */}
-        <div className={`custom-bg-auth absolute z-0 rounded-t-2xl ${isHome && "h-100px"}`}></div>
+        <div className={`custom-bg-auth absolute z-0 ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
         {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
@@ -232,7 +233,7 @@ const IsAuthLayout = ({
                       </div>
                     ) : (
                       <>
-                        <Avatar profile={profile} width={16} />
+                        <Avatar profile={profile} width={16} ring={false} />
                         {isProfileEdit && (
                           <button
                             id="wildpay-avatar-cta"
@@ -264,7 +265,17 @@ const IsAuthLayout = ({
                         {isSettings && (
                           <>
                             <div className="font-semibold">{user.email}</div>
-                            {profile?.wallet_id ? <Address address={profile?.wallet_id} /> : null}
+                            <div className="flex">
+                              <RainbowKitCustomConnectButton />
+                            </div>
+                            {/* {profile?.wallet_id ? (
+                              <div className="flex">
+                                <Address address={profile?.wallet_id} />
+                                <CheckBadgeIcon width="20" />
+                              </div>
+                            ) : (
+                              <div>No verified wallet</div>
+                            )} */}
                           </>
                         )}
                       </>
@@ -274,11 +285,13 @@ const IsAuthLayout = ({
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @SETTINGS */}
-                <div className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}>
+                <div
+                  className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}
+                >
                   {isLoadingAuth && <IsLoading shape="rounded-md" width={28} height={8} />}
                   {!isLoadingAuth && !isSettings && <span className="text-xl">{incomingTxSum}Ξ</span>}
                   {!isLoadingAuth && isSettings && (
-                    <span className="text-xl">{Number(withdrawBalance).toFixed(4)}Ξ</span>
+                    <>{profile.wallet_id && <span className="text-xl">{Number(withdrawBalance).toFixed(4)}Ξ</span>}</>
                   )}
                 </div>
               </div>
@@ -315,21 +328,21 @@ const IsAuthLayout = ({
       >
         {/* WILDPAY MENU @HOME */}
         <button className="flex flex-col items-center" onClick={() => router.push("/home")}>
-          <HomeIcon />
+          <HomeIcon width={18} />
           Home
         </button>
 
         {/* WILDPAY MENU @FAST PAY */}
         <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openFastPayModal}>
-          <div className="rounded-full w-14 h-14 border bg-white flex justify-center items-center">
-            <Image alt="wildpay" className="z-10" src="/wildpay-logo.svg" width={35} height={35} />
+          <div className="rounded-full btn w-14 h-14 border bg-white flex justify-center items-center p-0">
+            <WildPayLogo width="36" height="36" color="blue" />
           </div>
           <div className="font-semibold">Pay</div>
         </button>
 
         {/* WILDPAY MENU @SEARCH */}
         <button className="flex flex-col items-center" onClick={openSearchModal}>
-          <SearchIcon />
+          <MagnifyingGlassIcon width={18} />
           Search
         </button>
       </div>
