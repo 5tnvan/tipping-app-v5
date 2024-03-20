@@ -188,7 +188,7 @@ const Settings: NextPage = () => {
               {(withdrawBalance == 0 || withdrawBalance > 0) && (
                 <>
                   <button className="btn btn-secondary" onClick={handleWithdrawModal}>
-                    Widthdraw
+                    Withdraw
                   </button>
                 </>
               )}

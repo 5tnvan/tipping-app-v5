@@ -10,7 +10,7 @@ import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { BackgroundBeams } from "~~/components/app/ui/backgroudBeams";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
-import { useFollowers } from "~~/hooks/app/useFollowers";
+import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
 import { useProfilePay } from "~~/hooks/app/useProfilePay";
 import { useWithdraw } from "~~/hooks/app/useWithdraw";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -26,7 +26,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const isDebug = pathname === "/debug";
   const isBlockExplorer = pathname === "/blockexplorer";
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = useFollowers(profile.id);
+  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
   const {
     withdrawBalance,
     incomingTx,
@@ -45,6 +45,8 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     console.log("isWildLayout: refetchAccounting()");
     refetchAccounting(); // refetch private accounting
   };
+
+  console.log("wildPayLayout");
 
   return (
     <>

@@ -12,7 +12,7 @@ import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { useAccounting } from "~~/hooks/app/useAccounting";
-import { useFollowers } from "~~/hooks/app/useFollowers";
+import { usePublicFollowers } from "~~/hooks/app/useFollowers";
 import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -36,11 +36,8 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
     isLoading: isLoadingPublicFollowers,
     followersData: followersPublicData,
     refetch: refetchPublicFollowers,
-  } = useFollowers(publicProfile?.id);
+  } = usePublicFollowers(username);
   const { profilePaySuccess } = useContext(ProfilePayContext);
-
-  console.log(isLoadingPublicFollowers);
-  console.log(followersPublicData);
 
   //LISTEN TO: profilePaySuccess from profile/username
   useEffect(() => {
