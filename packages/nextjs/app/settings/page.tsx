@@ -89,10 +89,10 @@ const Settings: NextPage = () => {
   if (isAuth == "yes") {
     return (
       <>
-        <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 z-10">
+        <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 ml-6 mr-6 z-10">
           {/* CTA BUTTON */}
-          <div id="wildpay-is-auth-cta" className="mb-5 z-1 relative">
-            <button className="btn-neutral btn w-full text-base custom-bg-blue border-0" onClick={handleModal}>
+          <div id="wildpay-cta" className="mb-5 z-1 relative">
+            <button className="btn-primary btn w-full text-base" onClick={handleModal}>
               {isLoadingAuth ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
             </button>
           </div>
@@ -156,7 +156,7 @@ const Settings: NextPage = () => {
                 )}
                 {/* <Address address={profile?.wallet_id} /> */}
               </div>
-              <button className="btn btn-secondary" onClick={() => handleWalletModal()}>
+              <button className="btn btn-accent" onClick={() => handleWalletModal()}>
                 {address && !profile?.wallet_sign_hash ? "Verify" : ""}
                 {profile?.wallet_sign_hash && "View"}
                 {!address && !profile?.wallet_sign_hash && "Connect"}
@@ -187,7 +187,7 @@ const Settings: NextPage = () => {
               </div>
               {(withdrawBalance == 0 || withdrawBalance > 0) && (
                 <>
-                  <button className="btn btn-secondary" onClick={handleWithdrawModal}>
+                  <button className="btn btn-accent" onClick={handleWithdrawModal}>
                     Withdraw
                   </button>
                 </>
@@ -211,15 +211,15 @@ const Settings: NextPage = () => {
                     <div className="mb-2 flex items-align justify-center">
                       Your balance is {withdrawBalance} ETH. Try again later.
                     </div>
-                    <div className="btn btn-neutral w-full" onClick={() => setIsWithdrawModalOpen(false)}>
+                    <div className="btn btn-secondary w-full" onClick={() => setIsWithdrawModalOpen(false)}>
                       Go Back
                     </div>
                   </>
                 )}
                 {withdrawBalance > 0 && (
                   <>
-                    <div className="mb-2">Withdrawing {withdrawBalance} ETH</div>
-                    <div className="btn btn-neutral w-full" onClick={handleWithdraw}>
+                    <div className="mb-2">Withdraw {withdrawBalance} ETH</div>
+                    <div className="btn btn-secondary w-full" onClick={handleWithdraw}>
                       Confirm
                     </div>
                   </>

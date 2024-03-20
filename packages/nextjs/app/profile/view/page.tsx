@@ -31,27 +31,32 @@ const ProfileView: NextPage = () => {
     return (
       <>
         {/* CTA */}
-        <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
+        <div id="wildpay-cta" className="ml-6 mr-6 z-10 relative">
           <Link href="/profile/edit">
-            <button className="btn-neutral btn w-full text-base custom-bg-blue border-0">Edit Profile</button>
+            <button className="btn-primary btn w-full text-base">Edit Profile</button>
           </Link>
         </div>
-        <div id="profile-view-content" className="flex flex-col profile mt-5 mb-5 z-10 items-center">
+        <div id="profile-view-content" className="flex flex-col profile z-10 items-center">
           {/* Scroll Snap */}
-          <div className="scr mb-6">
-            {/* Card 3 */}
-            <div className="scr-item custom-bg-image-01 flex items-center relative">
-              <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
-              <div className="absolute url flex custom-bg-blue pt-2 pb-2 pr-3 pl-3 text-white rounded-full text-sm items-center">
-                <div className="mr-2">wildpay.eth/{profile.username}</div>
-                <CopyIcon />
+          <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
+            <div className="scr">
+              {/* Card 3 */}
+              <div className="scr-item custom-bg-image-01 flex items-center relative">
+                <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
+                <div className="absolute btn btn-secondary url h-10 min-h-10">
+                  <div className="mr-2">wildpay.eth/{profile.username}</div>
+                  <CopyIcon />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Payments Table */}
-          <div className="latest w-full wildui-transaction-scroll-profile-view overflow-auto">
-            <Transactions tx={incomingTx} hide="to" />
+          <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
+            <div className="font-semibold pb-2 pr-6 pl-6">Latest payments (12): </div>
+            <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 ">
+              <Transactions tx={incomingTx} hide="to" />
+            </div>
           </div>
         </div>
       </>

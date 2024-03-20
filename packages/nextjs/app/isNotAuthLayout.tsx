@@ -18,6 +18,8 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
     console.log("nothing");
   };
 
+  console.log("isNotAuthLayout");
+
   return (
     <>
       {/* ISNOTAUTH MENU DROPDOWN */}

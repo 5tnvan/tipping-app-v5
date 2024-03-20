@@ -61,7 +61,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                 {followersData.following.map((following: any) => (
                   <div
                     key={following.wallet_id}
-                    className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2"
+                    className="flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
                     onClick={() => handlePicked(following)}
                   >
                     <div className="flex items-center">
@@ -104,7 +104,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                   {" has no verified wallet, yet."}
                 </div>
                 <div className="flex justify-center">
-                  <button className="btn btn-neutral w-full mt-3" onClick={() => setReceiver(null)}>
+                  <button className="btn btn-secondary w-full mt-3" onClick={() => setReceiver(null)}>
                     Go Back
                   </button>
                 </div>

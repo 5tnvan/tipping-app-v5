@@ -31,6 +31,7 @@ export const usePublicProfile = (username: any) => {
       setIsLoading(true); // Set loading to true when starting data fetch
 
       const profileData = await fetchPublicProfile(username);
+      console.log("usePublicProfile: profileData ", profileData);
       setProfile(profileData);
 
       setIsLoading(false); // Set loading to false when fetch is complete

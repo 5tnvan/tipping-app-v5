@@ -51,11 +51,11 @@ const WalletConnectVerify = () => {
         {/* Steps */}
         <ul className="steps steps-vertical lg:steps-vertical w-full">
           {/* 1.Select a network */}
-          <li className="step step-primary">
+          <li className="step step-accent">
             <div className="font-semibold flex justify-center items-center">
               Select a network <CheckMarkIcon />
             </div>
-            <div className="ml-10 flex  bg-slate-200 border-1 border-sky-950 rounded-lg p-3">
+            <div className="ml-10 flex  bg-slate-200 rounded-lg p-3 items-center">
               <EthIcon width="14" height="14" />
               <div className="text-sm">Ethereum</div>
             </div>
@@ -63,7 +63,7 @@ const WalletConnectVerify = () => {
 
           {/* 2.Link your wallet */}
           {!profile.wallet_id && (
-            <li className={`step ${address ? "step-primary" : ""}`}>
+            <li className={`step ${address ? "step-accent" : ""}`}>
               <div className={`${address ? "font-semibold flex items-center" : ""}`}>
                 Link your wallet {address && <CheckMarkIcon />}
               </div>
@@ -73,7 +73,7 @@ const WalletConnectVerify = () => {
             </li>
           )}
           {profile.wallet_id && (
-            <li className="step step-primary">
+            <li className="step step-accent">
               <div className="font-semibold flex items-center">
                 Link your wallet <CheckMarkIcon />
               </div>
@@ -103,7 +103,7 @@ const WalletConnectVerify = () => {
               </li>
 
               <div
-                className="btn btn-neutral w-full mt-5"
+                className="btn btn-secondary w-full mt-5"
                 onClick={() => {
                   signMessage({ message: "Hi WildPay, this signature is to prove the ownership of my wallet!" });
                 }}
@@ -113,7 +113,7 @@ const WalletConnectVerify = () => {
             </>
           )}
           {profile.wallet_id && profile.wallet_sign_hash && (
-            <li className="step step-primary">
+            <li className="step step-accent">
               <div className="font-semibold flex items-center">
                 Verify ownership <CheckMarkIcon />
               </div>

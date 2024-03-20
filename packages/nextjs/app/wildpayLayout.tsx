@@ -46,8 +46,6 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     refetchAccounting(); // refetch private accounting
   };
 
-  console.log("wildPayLayout");
-
   return (
     <>
       {isRoot && (
@@ -72,7 +70,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                       <BackgroundBeams />
                       <main id="main" className="flex justify-center min-h-screen h-full text-black">
                         <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-screen`}>
-                          <Link href="/home" id="wildpay-logo" className="flex w-max items-center z-10 ml-7 mt-7">
+                          <Link href="/home" id="wildpay-logo" className="flex w-max items-center z-10 pl-7 pt-7">
                             <WildPayLogo color="blue" width="30" height="30" />
                             <h1 className="text-lg font-semibold custom-text-blue ml-2 mb-0 z-10">wildpay</h1>
                           </Link>

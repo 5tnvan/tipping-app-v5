@@ -70,11 +70,8 @@ const ProfileUsername: NextPage = () => {
   return (
     <>
       {/* PAY NOW */}
-      <div className="mb-5 z-10 relative">
-        <button
-          className="btn-neutral btn w-full text-base custom-bg-blue border-0"
-          onClick={() => openProfilePayModal()}
-        >
+      <div className="mr-6 ml-6 z-10 relative">
+        <button className="btn-primary btn w-full text-base" onClick={() => openProfilePayModal()}>
           Pay Now
         </button>
       </div>
@@ -92,11 +89,17 @@ const ProfileUsername: NextPage = () => {
       )}
 
       {/* PAY TRANSACTIONS */}
-      <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">
-        <CardWithUsername username={publicProfile.username} />
+      <div className="flex flex-col items-center profile z-10">
+        {/* Scroll Snap */}
+        <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
+          <CardWithUsername username={publicProfile.username} />
+        </div>
 
-        <div className="latest w-full wildui-transaction-scroll-profile-username overflow-auto">
-          <Transactions tx={incomingTx} hide="to" />
+        <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
+          <div className="font-semibold pb-2 pr-6 pl-6">Latest payments (12): </div>
+          <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 ">
+            <Transactions tx={incomingTx} hide="to" />
+          </div>
         </div>
       </div>
     </>

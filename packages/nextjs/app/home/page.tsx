@@ -33,15 +33,10 @@ const HomePage: NextPage = () => {
     return (
       <>
         {/* CONTENT */}
-        <div id="wildpay-is-auth-home" className="z-10 max-h-screen pt-8 text-black">
-          <div className="">
+        <div id="wildpay-home" className="z-10 max-h-screen pt-8 text-black">
+          <div className="pl-6 pr-6">
             {/* FOLLOWS */}
-            <div className="text-xl mt-6 mb-3 flex items-center ">
-              <div className="w-4">
-                <UserIcon />
-              </div>
-              <span className="ml-1 font-semibold">Follows</span>
-            </div>
+            <div className="font-semibold mt-6 mb-3 text-primary text-4xl">Follows</div>
             {/* FOLLOWERS TAB */}
             <div role="tablist" className="tabs tabs-bordered">
               <div
@@ -50,7 +45,7 @@ const HomePage: NextPage = () => {
                 onClick={() => setShowFollow("following")}
               >
                 Following
-                <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold"}`}>
+                <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold text-primary"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                   {!isLoadingFollowers && followersData?.followingCount}
                 </span>
@@ -61,14 +56,14 @@ const HomePage: NextPage = () => {
                 onClick={() => setShowFollow("followers")}
               >
                 Followers
-                <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold"}`}>
+                <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold text-primary"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                   {!isLoadingFollowers && followersData?.followersCount}
                 </span>
               </div>
             </div>
             {/* FOLLOWERS DATA */}
-            <div className="pt-4">
+            <div className="pt-2 w-88 overflow-y-auto pb-2">
               {isLoadingFollowers && (
                 <div className="">
                   <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
@@ -107,21 +102,18 @@ const HomePage: NextPage = () => {
 
           <div className="">
             {/* TRANSACTIONS */}
-            <div className="text-xl mt-6 mb-3 flex items-center ">
-              <div className="w-4">
-                <BanknotesIcon />
-              </div>
-              <span className="ml-1 font-semibold">Transactions</span>
-            </div>
+            <div className="font-semibold pl-6 pr-6 mt-6 mb-3 text-primary text-4xl">Payments</div>
             {/* TRANSACTIONS TAB */}
-            <div role="tablist" className="tabs tabs-bordered">
+            <div role="tablist" className="tabs tabs-bordered pl-6 pr-6">
               <div
                 role="tab"
                 className={`tab mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
                 onClick={() => setShowTransactions("incoming")}
               >
-                <div className="badge badge-success text-white text-base">Incoming</div>
-                <span className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold"}`}>
+                <div className="text-base">Incoming</div>
+                <span
+                  className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold text-primary"}`}
+                >
                   {incomingTxSum}Ξ
                 </span>
               </div>
@@ -130,14 +122,16 @@ const HomePage: NextPage = () => {
                 className={`tab p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
                 onClick={() => setShowTransactions("outgoing")}
               >
-                <div className="badge badge-warning text-white text-base">Outgoing</div>
-                <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>
+                <div className="text-base">Outgoing</div>
+                <span
+                  className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold text-primary"}`}
+                >
                   {outgoingTxSum}Ξ
                 </span>
               </div>
             </div>
             {/* TRANSACTION DATA */}
-            <div className="wildui-transaction-scroll-home overflow-auto pt-4">
+            <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6">
               {showTransactions == "incoming" && <Transactions tx={incomingTx} hide="to" />}
               {showTransactions == "outgoing" && <Transactions tx={outgoingTx} hide="from" />}
             </div>

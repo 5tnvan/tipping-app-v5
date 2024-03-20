@@ -111,7 +111,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
           <>
             <div>You have no verified wallet, yet.</div>
             <div className="flex justify-center">
-              <Link href="/settings" className="btn btn-neutral w-full mt-3">
+              <Link href="/settings" className="btn btn-secondary w-full mt-3">
                 Go to Settings
               </Link>
             </div>
@@ -166,7 +166,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
             </div>
             <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
             <div className="flex justify-center">
-              <Link href="/settings" className="btn btn-neutral w-full mt-3">
+              <Link href="/settings" className="btn btn-secondary w-full mt-3">
                 Reconnect
               </Link>
             </div>
@@ -179,20 +179,23 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
         <>
           {/* BUTTON */}
           <div className="flex justify-center">
-            <button className="btn btn-neutral w-full mt-3" onClick={() => pay()}>
+            <button
+              className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+              onClick={() => pay()}
+            >
               Confirm
             </button>
           </div>
           {/* MESSAGE */}
           <div className="flex flex-col items-center mt-2">
-            <span className="link-primary block mt-2" onClick={() => addMessageClick()}>
+            <span className="link-secondary block mt-2" onClick={() => addMessageClick()}>
               Leave a message
             </span>
             {addMessage && (
               <input
                 type="text"
                 placeholder="Type your message"
-                className="input block input-bordered input-primary w-full mt-2"
+                className="input block input-bordered input-secondary w-full mt-2"
                 onChange={e => onMessageChange(e)}
               />
             )}

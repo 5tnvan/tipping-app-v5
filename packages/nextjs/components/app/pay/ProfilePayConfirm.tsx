@@ -91,19 +91,19 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       <div className="mt-6 font-semibold">Choose the amount:</div>
       <div className="mt-3 flex justify-between">
         <span
-          className={`btn ${clickedButton === 50 ? "btn-primary" : "btn-secondary"} grow`}
+          className={`btn ${clickedButton === 50 ? "btn-primary" : ""} grow`}
           onClick={() => handleChooseAmount(50)}
         >
           <span>{"$50"}</span>
         </span>
         <span
-          className={`btn ${clickedButton === 100 ? "btn-primary" : "btn-secondary"} grow ml-2 mr-2`}
+          className={`btn ${clickedButton === 100 ? "btn-primary" : ""} grow ml-2 mr-2`}
           onClick={() => handleChooseAmount(100)}
         >
           <span>{"$100"}</span>
         </span>
         <span
-          className={`btn ${clickedButton === 150 ? "btn-primary" : "btn-secondary"} grow`}
+          className={`btn ${clickedButton === 150 ? "btn-primary" : ""} grow`}
           onClick={() => handleChooseAmount(150)}
         >
           <span>{"$150"}</span>
@@ -210,7 +210,10 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
           </div>
           {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
             <div className="flex justify-center">
-              <button className="btn btn-neutral w-full mt-3" onClick={() => pay()}>
+              <button
+                className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+                onClick={() => pay()}
+              >
                 Confirm
               </button>
             </div>

@@ -62,9 +62,9 @@ const ProfileEdit: NextPage = () => {
     return (
       <>
         {/* CTA */}
-        <div id="wildpay-is-auth-cta" className="mb-5 z-10 relative">
+        <div id="wildpay-cta" className="mb-5 ml-6 mr-6 z-10 relative">
           <Link href="/profile/view">
-            <button className="btn-neutral btn w-full text-base custom-bg-blue border-0">View Profile</button>
+            <button className="btn-primary btn w-full text-base">View Profile</button>
           </Link>
         </div>
         <div id="profile-edit-content" className="profile mt-5 mb-5 z-10 ">
@@ -88,7 +88,7 @@ const ProfileEdit: NextPage = () => {
                   <span className="wildpay-soc-label">youtube.com/</span>
                   <input type="text" className="grow bg-white" placeholder={profile.youtube || ""} disabled />
                 </div>
-                <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
+                <button className="btn btn-accent" onClick={() => handleSwitch("youtube")}>
                   {profile.youtube && profile.youtube?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
@@ -106,10 +106,10 @@ const ProfileEdit: NextPage = () => {
                   onChange={e => setSocialMedia({ ...socialMedia, youtubeInput: e.target.value })}
                 />
                 <div className="flex justify-end">
-                  <button className="btn btn-primary" onClick={() => handleSocialSave("youtube")}>
+                  <button className="btn btn-accent" onClick={() => handleSocialSave("youtube")}>
                     Save
                   </button>
-                  <button className="btn btn-secondary" onClick={() => handleSwitch("youtube")}>
+                  <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("youtube")}>
                     Cancel
                   </button>
                 </div>
@@ -134,7 +134,7 @@ const ProfileEdit: NextPage = () => {
                   <span className="wildpay-soc-label">instagram.com/</span>
                   <input type="text" className="grow bg-white" placeholder={profile.instagram || ""} disabled />
                 </div>
-                <button className="btn btn-secondary" onClick={() => handleSwitch("instagram")}>
+                <button className="btn btn-accent" onClick={() => handleSwitch("instagram")}>
                   {profile.instagram && profile.instagram?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
@@ -152,10 +152,10 @@ const ProfileEdit: NextPage = () => {
                   onChange={e => setSocialMedia({ ...socialMedia, instagramInput: e.target.value })}
                 />
                 <div className="flex justify-end">
-                  <button className="btn btn-primary" onClick={() => handleSocialSave("instagram")}>
+                  <button className="btn btn-accent" onClick={() => handleSocialSave("instagram")}>
                     Save
                   </button>
-                  <button className="btn btn-secondary" onClick={() => handleSwitch("instagram")}>
+                  <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("instagram")}>
                     Cancel
                   </button>
                 </div>
@@ -180,7 +180,7 @@ const ProfileEdit: NextPage = () => {
                   <span className="wildpay-soc-label">twitter.com/</span>
                   <input type="text" className="grow bg-white" placeholder={profile.twitter || ""} disabled />
                 </div>
-                <button className="btn btn-secondary" onClick={() => handleSwitch("twitter")}>
+                <button className="btn btn-accent" onClick={() => handleSwitch("twitter")}>
                   {profile.twitter && profile.twitter?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
@@ -205,10 +205,10 @@ const ProfileEdit: NextPage = () => {
                     onChange={e => setSocialMedia({ ...socialMedia, twitterInput: e.target.value })}
                   />
                   <div className="flex justify-end">
-                    <button className="btn btn-primary" onClick={() => handleSocialSave("twitter")}>
+                    <button className="btn btn-accent" onClick={() => handleSocialSave("twitter")}>
                       Save
                     </button>
-                    <button className="btn btn-secondary" onClick={() => handleSwitch("twitter")}>
+                    <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("twitter")}>
                       Cancel
                     </button>
                   </div>
@@ -234,7 +234,7 @@ const ProfileEdit: NextPage = () => {
                   <span className="wildpay-soc-label">tiktok.com/</span>
                   <input type="text" className="grow bg-white" placeholder={profile.tiktok || ""} disabled />
                 </div>
-                <button className="btn btn-secondary" onClick={() => handleSwitch("tiktok")}>
+                <button className="btn btn-accent" onClick={() => handleSwitch("tiktok")}>
                   {profile.tiktok && profile.tiktok?.length > 0 ? "Edit" : "Add"}
                 </button>
               </label>
@@ -259,10 +259,10 @@ const ProfileEdit: NextPage = () => {
                     onChange={e => setSocialMedia({ ...socialMedia, tiktokInput: e.target.value })}
                   />
                   <div className="flex justify-end">
-                    <button className="btn btn-primary" onClick={() => handleSocialSave("tiktok")}>
+                    <button className="btn btn-accent" onClick={() => handleSocialSave("tiktok")}>
                       Save
                     </button>
-                    <button className="btn btn-secondary" onClick={() => handleSwitch("tiktok")}>
+                    <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("tiktok")}>
                       Cancel
                     </button>
                   </div>

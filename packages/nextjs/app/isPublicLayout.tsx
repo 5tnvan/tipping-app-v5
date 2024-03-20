@@ -88,16 +88,16 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
   if (publicProfile?.id) {
     return (
       <>
-        <div id="wildpay-public" className={`bg-white h-full grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
+        <div className={`bg-white grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
           {isAuth == "no" && <IsNotAuthMenu />}
 
           {/* ISPUBLIC CUSTOM-BG */}
           {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
           {/* ISPUBLIC AUTH TOP */}
-          <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
+          <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10">
             {/* ISPUBLIC PROFILE INTRO */}
-            <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
+            <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
                 <div className="left mr-5 flex flex-col items-center">

@@ -38,6 +38,7 @@ export const useAuthentication = () => {
       setIsAuth("yes");
       const userData = await fetchUser();
       const profileData = await fetchProfile();
+      console.log("useAuthentication: profileData ", profileData);
       setUser(userData.user);
       setProfile(profileData);
     } else {

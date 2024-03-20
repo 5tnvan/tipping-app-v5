@@ -44,7 +44,10 @@ export const AddressWithReveal = ({ address }: AddressProps) => {
 
   return (
     <div className="flex items-center">
-      <div className="btn btn-primary h-8 min-h-8 mr-3" onClick={handleProfileReveal}>
+      <div
+        className="btn btn-accent h-8 min-h-8 mr-3 bg-gradient-to-r from-cyan-600 via-lime-500"
+        onClick={handleProfileReveal}
+      >
         {!isReveal && (
           <span className="w-4">
             <EyeIcon />

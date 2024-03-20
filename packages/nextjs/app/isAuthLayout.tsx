@@ -37,7 +37,6 @@ const IsAuthLayout = ({
   onProfilePaySuccess: () => void;
   onWithdrawSuccess: () => void;
 }) => {
-  console.log("isAuthLayout");
 
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
@@ -174,7 +173,7 @@ const IsAuthLayout = ({
 
   return (
     <>
-      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7 max-h-screen">
+      <div id="wildpay-is-auth" className="bg-white grow max-h-screen">
         {/* ISAUTH MENU DROPDOWN */}
         {isLoadingAuth ? (
           <>
@@ -227,9 +226,9 @@ const IsAuthLayout = ({
         {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
         {!username && !isHome && (
           <>
-            <div id="wildpay-is-auth-top" className="profile mt-10 relative z-10">
-              <div id="wildpay-is-auth-user-intro" className="intro flex justify-between text-black mb-4">
-                <div className="flex items-start">
+            <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
+              <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
+                <div className="flex items-center">
                   {/* ISAUTH PROFILE INTRO - AVATAR */}
                   {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
                   <div className="left mr-5 flex flex-col items-center ">
