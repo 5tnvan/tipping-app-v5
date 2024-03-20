@@ -84,7 +84,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
         {/* USD */}
         <span className="text-3xl">$</span>
         <div>
-          <input type="number" placeholder="0.00" className="text-center custom-text-blue" onChange={handleInput} />
+          <input type="number" placeholder="0.00" className="text-center custom-text-blue bg-white" onChange={handleInput} />
         </div>
         <span className="text-3xl">USD</span>
       </div>

@@ -25,7 +25,7 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       {/* ISNOTAUTH MENU DROPDOWN */}
       {isLoadingAuth ? (
         <>
-          <div className="z-10 custom-is-auth-menu absolute">
+          <div className="z-10 wildui-menu absolute">
             <div tabIndex={0} role="button" className="btn m-1 btn-primary bg-slate-300 animate-pulse w-24"></div>
           </div>
         </>

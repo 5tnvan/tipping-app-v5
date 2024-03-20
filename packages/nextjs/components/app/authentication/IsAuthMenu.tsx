@@ -34,7 +34,7 @@ export const IsAuthMenu = ({ refetch }: Props) => {
 
   return (
     <>
-      <details ref={dropdownRef} className="dropdown dropdown-end z-20 custom-is-auth-menu absolute ">
+      <details ref={dropdownRef} className="dropdown dropdown-end z-20 wildui-menu absolute ">
         <summary className="btn btn-neutral">
           <Avatar profile={profile} width="8" ring={false} />
           <ChevronDownIcon width={12} />

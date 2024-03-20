@@ -14,7 +14,7 @@ export const Avatar = ({ profile, width, ring }: Props) => {
     textSize = "text-xl";
   }
 
-  const ringClass = ring ? "ring-primary ring-offset-base-100 ring-offset-2" : "border-1";
+  const ringClass = ring ? "ring-primary ring-offset-base-100 ring-offset-2" : "ring-2px";
 
   return (
     <>

@@ -76,10 +76,10 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
           {/* SEARCH RESULTS */}
           <div id="wildpay-search-results" className="mt-5">
             {isSearchLoading && (
-              <div className="flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2">
+              <div className="flex btn h-full items-center justify-between pt-2 pb-2 mt-2">
                 <div className="flex items-center">
-                  <div className="w-8 h-6 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mr-3"></div>
-                  <IsLoading shape="rounded-md" width={24} height={6} />
+                  <div className="w-8 h-6 animate-pulse bg-slate-200 rounded-full mr-3"></div>
+                  <IsLoading shape="rounded-md" width={20} height={6} />
                 </div>
                 <div>
                   <ChevronRightIcon />

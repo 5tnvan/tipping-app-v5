@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IsLoading } from "./IsLoading";
 import { Avatar } from "./authentication/Avatar";
 import { Address as AddressType, getAddress, isAddress } from "viem";
 import { EyeIcon } from "@heroicons/react/24/solid";
@@ -11,36 +12,22 @@ type AddressProps = {
 };
 
 /**
- * Displays an address (or ENS) with a Blockie image and option to copy address.
+ * On click, reveal profile
  */
 export const AddressWithReveal = ({ address }: AddressProps) => {
   const [profile, setProfile] = useState<any>();
+  const [isLoading, setIsLoading] = useState(false);
   const [isReveal, setIsReveal] = useState(false);
-  const checkSumAddress = address ? getAddress(address) : undefined;
 
   const handleProfileReveal = async () => {
     if (address) {
+      setIsLoading(true);
       const profile = await fetchPublicProfileFromWalletId(address);
       setProfile(profile);
+      setIsLoading(false);
     }
     setIsReveal(true);
   };
-
-  // Skeleton UI
-  if (!checkSumAddress) {
-    return (
-      <div className="animate-pulse flex space-x-4">
-        <div className="rounded-md bg-slate-300 h-6 w-6"></div>
-        <div className="flex items-center space-y-6">
-          <div className="h-2 w-28 bg-slate-300 rounded"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAddress(checkSumAddress)) {
-    return <span className="text-error">Wrong address</span>;
-  }
 
   return (
     <div className="flex items-center">
@@ -48,9 +35,14 @@ export const AddressWithReveal = ({ address }: AddressProps) => {
         className="btn btn-accent h-8 min-h-8 mr-3 bg-gradient-to-r from-cyan-600 via-lime-500"
         onClick={handleProfileReveal}
       >
-        {!isReveal && (
+        {!isReveal && !isLoading && (
           <span className="w-4">
             <EyeIcon />
+          </span>
+        )}
+        {isLoading && (
+          <span className="flex">
+            <IsLoading shape="rounded-md" width={12} height={3} />
           </span>
         )}
         {isReveal && profile && (

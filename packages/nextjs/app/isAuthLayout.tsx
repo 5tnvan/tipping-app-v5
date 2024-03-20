@@ -37,7 +37,6 @@ const IsAuthLayout = ({
   onProfilePaySuccess: () => void;
   onWithdrawSuccess: () => void;
 }) => {
-
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
@@ -177,8 +176,8 @@ const IsAuthLayout = ({
         {/* ISAUTH MENU DROPDOWN */}
         {isLoadingAuth ? (
           <>
-            <div className="z-10 custom-is-auth-menu absolute">
-              <div tabIndex={0} role="button" className="btn m-1 btn-primary bg-slate-300 animate-pulse w-24"></div>
+            <div className="z-10 wildui-menu absolute">
+              <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
             </div>
           </>
         ) : (
@@ -234,7 +233,7 @@ const IsAuthLayout = ({
                   <div className="left mr-5 flex flex-col items-center ">
                     {isLoadingAuth ? (
                       <div className="avatar">
-                        <div className="w-16 h-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                        <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
                       </div>
                     ) : (
                       <>
@@ -256,8 +255,12 @@ const IsAuthLayout = ({
                   <div className="right info flex text-black justify-center flex-col">
                     {isLoadingAuth ? (
                       <>
-                        <IsLoading shape="rounded-md" width={28} height={6} />
-                        <IsLoading shape="rounded-md" width={28} height={8} />
+                        <span className="mb-1">
+                          <IsLoading shape="rounded-md" width={28} height={6} />
+                        </span>
+                        <span>
+                          <IsLoading shape="rounded-md" width={28} height={8} />
+                        </span>
                       </>
                     ) : (
                       <>
@@ -293,7 +296,7 @@ const IsAuthLayout = ({
                 <div
                   className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}
                 >
-                  {isLoadingAuth && <IsLoading shape="rounded-md" width={28} height={8} />}
+                  {isLoadingAuth && <IsLoading shape="rounded-md" width={12} height={8} />}
                   {!isLoadingAuth && !isSettings && (
                     <div className="flex flex-col items-end">
                       <div className="text-xl font-semibold custom-text-blue">

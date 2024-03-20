@@ -4,7 +4,6 @@ import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { AccountingContext, AppContext, FollowersContext } from "../context";
 import { NextPage } from "next";
-import { BanknotesIcon, UserIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -66,7 +65,7 @@ const HomePage: NextPage = () => {
             <div className="pt-2 w-88 overflow-y-auto pb-2">
               {isLoadingFollowers && (
                 <div className="">
-                  <div className="w-12 h-12 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
+                  <div className="w-12 h-12 animate-pulse bg-slate-200 rounded-full"></div>
                 </div>
               )}
               {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
@@ -75,7 +74,7 @@ const HomePage: NextPage = () => {
                     <Link
                       href={`/${following.username}`}
                       key={following.id}
-                      className="flex flex-col items-center mr-4"
+                      className="flex flex-col items-center mr-4 font-medium"
                     >
                       <Avatar profile={following} width={12} ring={false} />
                       {following.username}
@@ -89,7 +88,7 @@ const HomePage: NextPage = () => {
                     <Link
                       href={`/${followers.username}`}
                       key={followers.id}
-                      className="flex flex-col items-center mr-4"
+                      className="flex flex-col items-center mr-4 font-medium"
                     >
                       <Avatar profile={followers} width={12} ring={false} />
                       {followers.username}

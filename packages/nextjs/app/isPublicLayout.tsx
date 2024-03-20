@@ -102,12 +102,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
                 <div className="left mr-5 flex flex-col items-center">
                   {isLoadingAuth || isLoadingPublic || isLoadingPublicFollowers ? (
-                    <>
-                      <div className="w-16 h-16 animate-pulse bg-slate-300 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"></div>
-                      <div id="wildpay-avatar-cta" className="absolute top-12">
-                        <IsLoading shape="rounded-md" width={12} height={4} />
-                      </div>
-                    </>
+                    <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
                   ) : (
                     <>
                       <Avatar profile={publicProfile} width={16} ring={false} />
@@ -138,8 +133,12 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                 <div className="right info flex justify-center flex-col">
                   {isLoadingAuth || isLoadingPublic ? (
                     <>
-                      <IsLoading shape="rounded-md" width={28} height={6} />
-                      <IsLoading shape="rounded-md" width={28} height={8} />
+                      <span className="mb-1">
+                        <IsLoading shape="rounded-md" width={28} height={6} />
+                      </span>
+                      <span>
+                        <IsLoading shape="rounded-md" width={28} height={8} />
+                      </span>
                     </>
                   ) : (
                     <>
@@ -154,7 +153,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
               {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
               <div className="text-4xl text-black flex justify-center items-center gap-2">
                 {isLoadingAuth || isLoadingPublic ? (
-                  <IsLoading shape="rounded-md" width={28} height={8} />
+                  <IsLoading shape="rounded-md" width={12} height={8} />
                 ) : (
                   <>
                     <div className="flex flex-col items-end">

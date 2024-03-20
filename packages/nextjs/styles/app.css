@@ -9,7 +9,7 @@
 .h-inherit {
   height: inherit !important;
 }
-.border-1 {
+.ring-2px {
   border-width: 2px;
   border-color: #3D45E7;
 }
@@ -33,6 +33,7 @@
   /* background-color: #03A66A; */
   height: calc(100vh - 35rem);
 }
+.wildui-menu { top: 20px; right: 20px; }
 
 
 /* input:-webkit-autofill,
@@ -117,7 +118,7 @@ input:-webkit-autofill:focus {
 .custom-bg-image-01 { background-image: url('/card-01.png'); background-size: cover; isolation: isolate; }
 .custom-top-cover { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
 .custom-difference-blend { mix-blend-mode: difference; color: #fff; }
-.custom-is-auth-menu { top: 20px; right: 20px; }
+
 .custom-is-not-auth-menu { top: 25px; right: 20px; }
 
 /* STEPS */
