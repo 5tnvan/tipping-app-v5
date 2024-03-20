@@ -24,11 +24,11 @@ const Transactions = ({ tx, hide }: Props) => {
           {/* line 1 */}
           <div className="flex justify-between">
             {/* left - profile, hoursago */}
-            <div className="flex flex-col mb-1">
+            <div className="flex justify-center flex-col mb-1">
               {hide == "to" && (
                 <div className="flex items-center">
                   <AddressWithReveal address={payment?.sender} />
-                  <span className="ml-1">
+                  <span className="ml-1 text-sm text-slate-600">
                     <TimeAgoUnix timestamp={payment?.createdAt} />
                   </span>
                 </div>
@@ -36,18 +36,15 @@ const Transactions = ({ tx, hide }: Props) => {
               {hide == "from" && (
                 <div className="flex items-center">
                   <AddressWithReveal address={payment?.receiver} />
-                  <span className="ml-1">
+                  <span className="ml-1 text-sm text-slate-600">
                     <TimeAgoUnix timestamp={payment?.createdAt} />
                   </span>
                 </div>
               )}
-              <div>{payment?.message}</div>
             </div>
             {/* right - usd/eth */}
             <div className="flex flex-col items-end">
-              <div className="flex font-semibold">
-                ${convertEthToUsd(formatEther(payment?.value), nativeCurrencyPrice)}
-              </div>
+              <div className="font-semibold">${convertEthToUsd(formatEther(payment?.value), nativeCurrencyPrice)}</div>
               <div className="flex items-center">
                 <EthIcon width={16} height={16} />
                 {Number(formatEther(payment?.value)).toFixed(4)}
@@ -55,11 +52,17 @@ const Transactions = ({ tx, hide }: Props) => {
             </div>
           </div>
           {/* line 2 */}
-          <div className="flex justify-end">
-            <Link href={`/blockexplorer/transaction/${payment?.transactionHash}`} className="btn btn-sm btn-outline">
-              View
-              <ArrowUpRightIcon width={8} stroke="2" />
-            </Link>
+          <div className="">
+            <div className="mt-1">
+              {payment?.message}
+              <Link
+                href={`/blockexplorer/transaction/${payment?.transactionHash}`}
+                className="inline-flex link-primary h-6 min-h-6 text-sm ml-1 p-0 pl-2 pr-2"
+              >
+                View
+                <ArrowUpRightIcon width={8} stroke="2" />
+              </Link>
+            </div>
           </div>
         </div>
       ))}

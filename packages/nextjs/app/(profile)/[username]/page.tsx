@@ -95,7 +95,7 @@ const ProfileUsername: NextPage = () => {
       <div id="wildpay-profile" className="flex flex-col items-center profile mt-5 mb-5 z-10">
         <CardWithUsername username={publicProfile.username} />
 
-        <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
+        <div className="latest w-full wildui-transaction-scroll-profile-username overflow-auto">
           <Transactions tx={incomingTx} hide="to" />
         </div>
       </div>

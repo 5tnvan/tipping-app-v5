@@ -2,7 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-
+/* Adding Tailwind CSS */
 .w-inherit {
   width: inherit;
 }
@@ -13,6 +13,24 @@
   border-width: 2px;
   border-color: #3D45E7;
 }
+.border-bottom-05px {
+  border-bottom-width: 0.5px;
+}
+
+/* Wild UI CSS */
+.wildui-transaction-scroll-home {
+  /* background-color: #03A66A; */
+  height: calc(100vh - 28rem);
+}
+.wildui-transaction-scroll-profile-view {
+  /* background-color: #03A66A; */
+  height: calc(100vh - 36rem);
+}
+.wildui-transaction-scroll-profile-username {
+  /* background-color: #03A66A; */
+  height: calc(100vh - 36rem);
+}
+
 
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -46,11 +64,6 @@ input:-webkit-autofill:focus {
 }
 
 #wildpay-app-menu-pay {top: -20px;}
-
-#wildpay-profile-tx {
-  max-height: 150px;
-  overflow: scroll;
-}
 
 .disabled-button {
   pointer-events: none;
@@ -86,7 +99,7 @@ input:-webkit-autofill:focus {
 
 /* APP */
 /* #wildpay { min-width: 506px; max-width: 506px; } */
-#wildpay { min-width: 506px; }
+#wildpay { min-width: 506px; max-width: 506px; }
 #wildpay-avatar {display: flex; justify-content: center; align-items: center;}
 #wildpay-avatar-cta { border: 1px solid #3D45E7; /* Added 'solid' as the border style */ }
 #wildpay-app-menu {border-radius: 20px 20px 0 0;}
@@ -99,7 +112,7 @@ input:-webkit-autofill:focus {
 .custom-bg-blue { background-color: #3D45E7; }
 .custom-text-blue { color: #3D45E7 }
 .custom-bg-image-01 { background-image: url('/card-01.png'); background-size: cover; isolation: isolate; }
-.custom-bg-auth { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
+.custom-top-cover { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
 .custom-difference-blend { mix-blend-mode: difference; color: #fff; }
 .custom-is-auth-menu { top: 20px; right: 20px; }
 .custom-is-not-auth-menu { top: 25px; right: 20px; }
@@ -163,7 +176,7 @@ input:-webkit-autofill:focus {
 
 /* SM: Mobile */
 @media screen and (max-width: 640px) {
-  #wildpay { min-width: 100vw; }
+  #wildpay { min-width: 100vw; max-width: 100vw; }
   #wildpay-is-auth-top.mt-20 { margin-top: 40px}
   #wildpay-claim-domain { letter-spacing: 0; text-wrap: nowrap; }
   #wildpay-claim #username { width: 55% }
@@ -174,9 +187,9 @@ input:-webkit-autofill:focus {
 
   #main.pt-10 { padding-top: 0 }
 
-  .custom-bg-auth.rounded-t-2xl { border-radius: 0 0 40px 40px !important; }
+  .custom-top-cover.rounded-t-2xl { border-radius: 0 0 40px 40px !important; }
 
-  .custom-bg-auth {height: 210px}
+  .custom-top-cover {height: 210px}
 
   /* .scr { width: 100%; height: auto; } */
   .scr {

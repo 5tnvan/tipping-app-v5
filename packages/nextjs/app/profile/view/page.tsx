@@ -14,7 +14,8 @@ const ProfileView: NextPage = () => {
   const { isAuth, profile } = useContext(AppContext);
   const { incomingTx } = useContext(AccountingContext);
 
-  /* ROUTE */
+  console.log("profileView");
+
   if (isAuth == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28">
@@ -49,8 +50,7 @@ const ProfileView: NextPage = () => {
           </div>
 
           {/* Payments Table */}
-          <div className="latest"></div>
-          <div id="wildpay-profile-tx" className="latest w-full overflow-auto">
+          <div className="latest w-full wildui-transaction-scroll-profile-view overflow-auto">
             <Transactions tx={incomingTx} hide="to" />
           </div>
         </div>

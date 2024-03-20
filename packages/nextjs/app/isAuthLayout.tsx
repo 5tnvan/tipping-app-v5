@@ -37,6 +37,8 @@ const IsAuthLayout = ({
   onProfilePaySuccess: () => void;
   onWithdrawSuccess: () => void;
 }) => {
+  console.log("isAuthLayout");
+
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
@@ -172,7 +174,7 @@ const IsAuthLayout = ({
 
   return (
     <>
-      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7">
+      <div id="wildpay-is-auth" className="bg-white grow pr-7 pl-7 max-h-screen">
         {/* ISAUTH MENU DROPDOWN */}
         {isLoadingAuth ? (
           <>
@@ -219,7 +221,7 @@ const IsAuthLayout = ({
         </dialog>
 
         {/* ISAUTH CUSTOM-BG */}
-        <div className={`custom-bg-auth absolute z-0 ${isHome && "h-100px"}`}></div>
+        <div className={`custom-top-cover absolute z-0 ${isHome && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
         {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
@@ -347,10 +349,10 @@ const IsAuthLayout = ({
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
 
-      {/* WILDPAY MENU */}
+      {/* WILDPAY APP BOTTOM MENU */}
       <div
         id="wildpay-app-menu"
-        className="flex justify-around text-white items-center custom-bg-blue w-full h-14 z-40"
+        className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40"
       >
         {/* WILDPAY MENU @HOME */}
         <button className="flex flex-col items-center" onClick={() => router.push("/home")}>

@@ -6,7 +6,7 @@ export const IsNotAuthMenu = () => {
     <>
       <Link
         href="/login"
-        className="custom-is-not-auth-menu absolute btn px-8 py-2 bg-slate-100 text-black rounded-md transition duration-100 ease-linear"
+        className="custom-is-not-auth-menu absolute btn px-8 py-2 bg-slate-100 text-black rounded-md transition duration-100 ease-linear z-20"
       >
         Login
       </Link>
