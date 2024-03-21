@@ -10,7 +10,6 @@ import "~~/styles/app.css";
 
 export default function LoginPage() {
   const { isAuth } = useContext(AppContext);
-  console.log(isAuth);
 
   if (isAuth == "yes") {
     return (

@@ -181,7 +181,7 @@ const IsAuthLayout = ({
             </div>
           </>
         ) : (
-          <IsAuthMenu refetch={refetchAuth} />
+          <IsAuthMenu />
         )}
 
         {/* ISAUTH AVATAR MODAL */}

@@ -3,18 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar } from "./Avatar";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { AppContext } from "~~/app/context";
+import { AccountingContext, AppContext, FollowersContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
-type Props = {
-  refetch: any;
-};
-
-export const IsAuthMenu = ({ refetch }: Props) => {
+export const IsAuthMenu = () => {
   const router = useRouter();
 
-  const { profile } = useContext(AppContext);
+  const { profile, refetchAuth } = useContext(AppContext);
+  const { refetchFollowers } = useContext(FollowersContext);
+  const { refetchAccounting } = useContext(AccountingContext);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -25,7 +23,10 @@ export const IsAuthMenu = ({ refetch }: Props) => {
   const handleLogout = async () => {
     try {
       await logout();
-      refetch();
+      //remove all app context after logout
+      refetchAuth();
+      refetchFollowers();
+      refetchAccounting();
     } catch (error) {
       console.error("Logout error:", error);
       router.push("error");

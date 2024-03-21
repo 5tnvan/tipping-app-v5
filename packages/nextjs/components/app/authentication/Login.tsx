@@ -2,18 +2,22 @@ import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
-import { AppContext } from "~~/app/context";
+import { AccountingContext, AppContext, FollowersContext } from "~~/app/context";
 
 export const Login = () => {
   const { refetchAuth } = useContext(AppContext);
+  const { refetchFollowers } = useContext(FollowersContext);
+  const { refetchAccounting } = useContext(AccountingContext);
   const router = useRouter();
   const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
       await login(formData);
-      refetchAuth();
       router.push("home");
+      refetchAuth();
+      refetchFollowers();
+      refetchAccounting();
     } catch (error) {
       console.error("Login error:", error);
       router.push("error");
