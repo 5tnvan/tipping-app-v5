@@ -1,5 +1,6 @@
 import { default as flattenColorPalette } from "tailwindcss/lib/util/flattenColorPalette";
 
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./utils/**/*.{js,ts,jsx,tsx}"],
@@ -11,14 +12,14 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#93BBFB",
-          "primary-content": "#212638",
-          secondary: "#DAE8FF",
-          "secondary-content": "#212638",
-          accent: "#93BBFB",
+          primary: "#3D45E7",
+          "primary-content": "#ffffff",
+          secondary: "#373737",
+          "secondary-content": "#ffffff",
+          accent: "#B6F2CE",
           "accent-content": "#212638",
-          neutral: "#000000",
-          "neutral-content": "#ffffff",
+          neutral: "#ffffff",
+          "neutral-content": "#000000",
           "base-100": "#ffffff",
           "base-200": "#f4f8ff",
           "base-300": "#DAE8FF",
