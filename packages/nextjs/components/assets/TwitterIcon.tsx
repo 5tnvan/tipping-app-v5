@@ -6,7 +6,7 @@ export const TwitterIcon = ({ handle }: Props) => {
   const link = "https://x.com" + handle;
   return (
     <>
-      <a className="mr-3" aria-label="Twitter" href={link} target="_blank">
+      <a className="" aria-label="Twitter" href={link} target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

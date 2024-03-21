@@ -40,37 +40,39 @@ export const FollowersModal = ({
   }
 
   return (
-    <div className="flex flex-col text-black z-30 absolute w-full p-5 rounded-lg left-0 top-4">
-      {/* FOLLOWERS FRAME */}
-      <div className="modal-content grow box-shadow-01">
-        {/* FOLLOWERS CLOSE */}
-        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
-          ✕
-        </button>
-        {/* FOLLOWERS INTO */}
-        <div className="flex flex-col justify-center items-center mt-10">
-          <Avatar profile={publicProfile} width={16} />
-          <div className="font-semibold mt-2">@{publicProfile.username}</div>
-        </div>
-        {/* FOLLOWERS STATS */}
-        <div className="flex justify-around m-5">
-          <div className="flex flex-col items-center">
-            <div className="font-semibold">{followersPublicData?.followersCount}</div>
-            <div>Followers</div>
+    <div className="wildui-modal-container w-full h-full top-0 left-0 fixed flex justify-center items-start z-100">
+      <div className="wildui-modal-child flex flex-col text-black z-30 mt-4">
+        {/* FOLLOWERS FRAME */}
+        <div className="modal-content grow rounded-lg">
+          {/* FOLLOWERS CLOSE */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
+            ✕
+          </button>
+          {/* FOLLOWERS INTO */}
+          <div className="flex flex-col justify-center items-center mt-10">
+            <Avatar profile={publicProfile} width={16} ring={false} />
+            <div className="font-semibold mt-2">@{publicProfile.username}</div>
           </div>
-          <div className="flex flex-col items-center">
-            <div className="font-semibold">{followersPublicData?.followingCount}</div>
-            <div>Following</div>
-          </div>
-        </div>
-        {/* FOLLOWERS CTA */}
-        <div className="m-5">
-          {followersPublicData?.followed && (
-            <div className="btn btn-light w-full" onClick={handleUnfollow}>
-              Unfollow
+          {/* FOLLOWERS STATS */}
+          <div className="flex justify-around m-5">
+            <div className="flex flex-col items-center">
+              <div className="font-semibold">{followersPublicData?.followersCount}</div>
+              <div>Followers</div>
             </div>
-          )}
-          {!followersPublicData?.followed && <div className="btn btn-light w-full">Follow</div>}
+            <div className="flex flex-col items-center">
+              <div className="font-semibold">{followersPublicData?.followingCount}</div>
+              <div>Following</div>
+            </div>
+          </div>
+          {/* FOLLOWERS CTA */}
+          <div className="m-5">
+            {followersPublicData?.followed && (
+              <div className="btn btn-light w-full" onClick={handleUnfollow}>
+                Unfollow
+              </div>
+            )}
+            {!followersPublicData?.followed && <div className="btn btn-light w-full">Follow</div>}
+          </div>
         </div>
       </div>
     </div>

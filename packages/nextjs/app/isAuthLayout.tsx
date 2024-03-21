@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { AccountingContext, AppContext, WithdrawContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
-import { HomeIcon } from "@heroicons/react/24/solid";
+import { ArrowRightIcon, ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
@@ -239,13 +239,14 @@ const IsAuthLayout = ({
                       <>
                         <Avatar profile={profile} width={16} ring={false} />
                         {isProfileEdit && (
-                          <button
+                          <div
                             id="wildpay-avatar-cta"
-                            className="absolute top-14 rounded-full bg-white w-5 h-5"
+                            className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
                             onClick={() => handleAvatarEdit()}
                           >
-                            <DashCircleIcon />
-                          </button>
+                            Edit
+                            <ChevronRightIcon width={8} />
+                          </div>
                         )}
                       </>
                     )}

@@ -29,15 +29,15 @@ export const WithdrawModal = ({ isOpen, amount, onClose }: Props) => {
 
   return (
     <div className="flex flex-col text-black z-30 absolute w-full p-5 rounded-lg left-0 top-4">
-      {/* FOLLOWERS FRAME */}
+      {/* WITHDRAW FRAME */}
       <div className="modal-content grow box-shadow-01">
-        {/* FOLLOWERS CLOSE */}
+        {/* WITHDRAW CLOSE */}
         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
           ✕
         </button>
         {/* FOLLOWERS INTO */}
         <div className="flex flex-col justify-center items-center mt-10 text-3xl">{amount} ETH</div>
-        {/* FOLLOWERS CTA */}
+        {/* WITHDRAW CTA */}
         <div className="m-5">
           <div className="btn btn-neutral w-full" onClick={handleWithdraw}>
             Confirm
