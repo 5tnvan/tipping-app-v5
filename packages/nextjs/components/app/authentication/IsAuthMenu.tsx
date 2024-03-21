@@ -23,10 +23,13 @@ export const IsAuthMenu = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      //remove all app context after logout
-      refetchAuth();
-      refetchFollowers();
-      refetchAccounting();
+      // Remove all app context after logout
+      // Wait for 1 seconds
+      setTimeout(async () => {
+        await refetchAuth();
+        await refetchFollowers();
+        await refetchAccounting();
+      }, 1000); // 3000 milliseconds = 3 seconds
     } catch (error) {
       console.error("Logout error:", error);
       router.push("error");

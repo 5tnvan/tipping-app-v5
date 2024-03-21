@@ -47,6 +47,8 @@ const IsAuthLayout = ({
   const isSettings = pathname === "/settings";
   const { username } = useParams();
 
+  console.log("ishome", isHome);
+
   //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
   const { withdrawBalance, incomingTxSum } = useContext(AccountingContext);
