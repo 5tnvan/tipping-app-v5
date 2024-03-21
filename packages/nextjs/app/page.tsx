@@ -11,22 +11,6 @@ const Home: NextPage = () => {
   const { isAuth } = useContext(AppContext);
   const launchAppLink = isAuth === "yes" ? "/home" : isAuth === "no" ? "/getstarted" : "/login";
 
-  // if (isAuth == "yes") {
-  //   return (
-  //     <>
-  //       {/* CONTENT */}
-  //       <div id="sign-up-success" className="z-10 pt-28">
-  //         {/* Hero: */}
-  //         <div className="font-semibold custom-text-blue text-3xl ">{"Welcome to Wildpay 🎉."}</div>
-  //         <div className=" custom-text-blue text-3xl mb-5">{"You are on the app."}</div>
-
-  //         <Link href="/login" className="btn text-base mb-3 w-full">
-  //           {"Go home"}
-  //         </Link>
-  //       </div>
-  //     </>
-  //   );
-  // }
   if (isAuth == "no" || isAuth == "yes") {
     return (
       <>

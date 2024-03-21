@@ -311,7 +311,7 @@ const IsAuthLayout = ({
                   )}
                   {!isLoadingAuth && isSettings && (
                     <>
-                      {profile.wallet_id && (
+                      {/* {profile.wallet_id && (
                         <div className="flex flex-col items-end">
                           <div className="text-xl font-semibold custom-text-blue">
                             ${convertEthToUsd(Number(withdrawBalance), nativeCurrencyPrice)}
@@ -321,7 +321,7 @@ const IsAuthLayout = ({
                             {Number(withdrawBalance).toFixed(4)}
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </>
                   )}
                 </div>

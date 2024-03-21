@@ -96,7 +96,7 @@ const ProfileUsername: NextPage = () => {
         </div>
 
         <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
-          <div className="font-semibold pb-2 pr-6 pl-6">Latest payments (12): </div>
+          <div className="font-semibold pb-2 pr-6 pl-6">Received: </div>
           <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 ">
             <Transactions tx={incomingTx} hide="to" />
           </div>

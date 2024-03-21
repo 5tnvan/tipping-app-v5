@@ -1,19 +1,19 @@
+import { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
+import { AppContext } from "~~/app/context";
 
-type Props = {
-  refetch: any;
-};
-
-export const Login = ({ refetch }: Props) => {
+export const Login = () => {
+  const { refetchAuth } = useContext(AppContext);
   const router = useRouter();
   const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
       await login(formData);
-      refetch();
+      refetchAuth();
+      router.push("home");
     } catch (error) {
       console.error("Login error:", error);
       router.push("error");
@@ -57,7 +57,9 @@ export const Login = ({ refetch }: Props) => {
 
         <div className="additional mt-5">
           <span>{"Don't have an account? "}</span>
-          <Link href="/getstarted" className="link link-secondary">Sign Up</Link>
+          <Link href="/getstarted" className="link link-secondary">
+            Sign Up
+          </Link>
         </div>
       </form>
     </>

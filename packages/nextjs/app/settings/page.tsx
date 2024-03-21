@@ -10,14 +10,18 @@ import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
+import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 
 const Settings: NextPage = () => {
   const router = useRouter();
+  const nativeCurrencyPrice = useNativeCurrencyPrice();
   const [buttonText, setButtonText] = useState("");
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
@@ -172,15 +176,13 @@ const Settings: NextPage = () => {
           {/* Balance */}
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
-              <div className="opacity-70 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="m12 1.75l-6.25 10.5L12 16l6.25-3.75zM5.75 13.5L12 22.25l6.25-8.75L12 17.25z"
-                  ></path>
-                </svg>
+              <div className="opacity-70 flex items-center gap-1">
+                <EthIcon width={16} height={16} />
                 {withdrawBalance == 0 || withdrawBalance > 0 ? (
-                  <>{Number(withdrawBalance).toFixed(4)}Ξ</>
+                  <>
+                    <span className="font-medium">{Number(withdrawBalance).toFixed(4)}Ξ</span>
+                    <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice)})</span>
+                  </>
                 ) : (
                   <>No balance</>
                 )}
