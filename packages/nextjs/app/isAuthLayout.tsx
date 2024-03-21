@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { AccountingContext, AppContext, WithdrawContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { updateProfileAvatar } from "./profile/actions";
-import { ArrowRightIcon, ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
@@ -13,10 +13,9 @@ import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
-import { DashCircleIcon } from "~~/components/assets/DashCircleIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -46,8 +45,6 @@ const IsAuthLayout = ({
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const { username } = useParams();
-
-  console.log("ishome", isHome);
 
   //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
@@ -278,6 +275,7 @@ const IsAuthLayout = ({
                             <div className="font-semibold">{user.email}</div>
                             <div className="flex">
                               <RainbowKitCustomConnectButton btn="small" />
+                              <FaucetButton />
                             </div>
                             {/* {profile?.wallet_id ? (
                               <div className="flex">

@@ -41,7 +41,7 @@ export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectBu
                   <button
                     className={`${
                       btn == "small" ? "btn-sm" : "w-full"
-                    } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black`}
+                    } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 text-black`}
                     onClick={openConnectModal}
                     type="button"
                   >

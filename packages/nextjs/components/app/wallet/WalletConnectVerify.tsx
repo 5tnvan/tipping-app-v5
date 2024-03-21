@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { TimeAgo, TimeAgoUnix } from "../TimeAgo";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { AppContext } from "~~/app/context";
@@ -120,9 +121,11 @@ const WalletConnectVerify = () => {
               <div className="ml-10 w-72 text-left">
                 {
                   <>
-                    <div>Signed</div>
-                    <div className="">{profile.wallet_sign_hash}</div>
-                    <div className="">{profile.wallet_sign_timestamp}</div>
+                    <div className="font-medium">Sign hash:</div>
+                    <div className="text-ellipsis overflow-hidden">{profile.wallet_sign_hash}</div>
+                    <div className="">
+                      <TimeAgo timestamp={profile.wallet_sign_timestamp} />
+                    </div>
                   </>
                 }
               </div>

@@ -98,7 +98,8 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
         <span className={`ml-1.5 text-${size} font-normal`}>{displayAddress}</span>
       ) : targetNetwork.id === hardhat.id ? (
         <span className={`ml-1.5 text-${size} font-normal`}>
-          <Link href={blockExplorerAddressLink}>{displayAddress}</Link>
+          {displayAddress}
+          {/* <Link href={blockExplorerAddressLink}>{displayAddress}</Link> */}
         </span>
       ) : (
         <a
@@ -110,7 +111,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
           {displayAddress}
         </a>
       )}
-      {addressCopied ? (
+      {/* {addressCopied ? (
         <CheckCircleIcon
           className="ml-1.5 text-xl font-normal text-sky-600 h-5 w-5 cursor-pointer"
           aria-hidden="true"
@@ -130,7 +131,7 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
             aria-hidden="true"
           />
         </CopyToClipboard>
-      )}
+      )} */}
     </div>
   );
 };

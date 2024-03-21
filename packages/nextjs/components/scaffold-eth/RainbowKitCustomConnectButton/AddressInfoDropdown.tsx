@@ -46,16 +46,14 @@ export const AddressInfoDropdown = ({
   };
   useOutsideClick(dropdownRef, closeDropdown);
 
-  console.log(btn);
-
   return (
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end leading-3">
         <summary
           tabIndex={0}
           className={`btn btn-neutral ${
-            btn == "small" ? "btn-sm pl-0" : "w-full flex justify-between"
-          } pl-2 pr-2 shadow-md dropdown-toggle gap-0 !h-auto`}
+            btn == "small" ? "btn-sm pl-0" : "pl-2 w-full flex justify-between"
+          } pr-2 shadow-md dropdown-toggle gap-0 !h-auto`}
         >
           <BlockieAvatar address={checkSumAddress} size={30} ensImage={ensAvatar} />
           <span className="ml-2 mr-1">
