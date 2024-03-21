@@ -26,7 +26,11 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       {isLoadingAuth ? (
         <>
           <div className="z-10 wildui-menu absolute">
-            <div tabIndex={0} role="button" className="btn m-1 btn-primary bg-slate-300 animate-pulse w-24"></div>
+            <div
+              tabIndex={0}
+              role="button"
+              className="custom-is-not-auth-menu w-24 absolute btn btn-neutral z-20"
+            ></div>
           </div>
         </>
       ) : (
@@ -36,7 +40,7 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       {/* ISNOTAUTH CHILDREN */}
       {username && <IsPublicLayout onSuccess={nothing}>{children}</IsPublicLayout>}
       {!username && (
-        <div id="wildpay-is-not-auth" className="flex flex-col grow pr-7 pl-7">
+        <div id="wildpay-is-not-auth" className="flex flex-col grow pr-6 pl-6">
           {children}
         </div>
       )}

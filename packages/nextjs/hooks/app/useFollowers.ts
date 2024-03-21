@@ -19,7 +19,7 @@ export const usePrivateFollowers = () => {
     setIsLoading(true); // Set loading to true when starting data fetch
 
     const profileData = await fetchProfile();
-    const followersData = await fetchFollowers(profileData.id);
+    const followersData = await fetchFollowers(profileData?.id);
     console.log("usePrivateFollowers: followersData ", followersData);
     setFollowersData(followersData);
 

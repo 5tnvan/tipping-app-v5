@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Avatar } from "../authentication/Avatar";
 import ProfilePayConfirm from "../pay/ProfilePayConfirm";
-import { AppContext, PublicContext } from "~~/app/context";
+import { PublicContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -10,7 +10,6 @@ type Props = {
 };
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
-  const { profile } = useContext(AppContext);
   const { publicProfile } = useContext(PublicContext);
 
   /**
@@ -61,7 +60,7 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
               </>
             )}
             {/* PAY CONFIRM */}
-            {publicProfile.wallet_id && profile.wallet_id && (
+            {publicProfile.wallet_id && (
               <ProfilePayConfirm receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
             )}
           </div>

@@ -88,7 +88,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
   if (publicProfile?.id) {
     return (
       <>
-        <div className={`bg-white grow ${isAuth == "yes" ? "" : "pr-7 pl-7"}`}>
+        <div className={`bg-white grow`}>
           {isAuth == "no" && <IsNotAuthMenu />}
 
           {/* ISPUBLIC CUSTOM-BG */}

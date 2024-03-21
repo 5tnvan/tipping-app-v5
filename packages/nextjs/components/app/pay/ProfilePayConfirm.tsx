@@ -17,13 +17,14 @@ type Props = {
 };
 
 const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
-  const { profile } = useContext(AppContext);
+  const { isAuth, profile } = useContext(AppContext);
   const { address: connectedAddress } = useAccount();
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
+  const [rainbowKit, setRainbowKit] = useState(false);
 
   /**
    * ACTION: Choose Amount
@@ -142,19 +143,50 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
 
           {/* PAY AS */}
           <div className="mt-10">
-            {!profile.wallet_id && (
+            {isAuth == "no" && (
+              <>
+                <div className="flex flex-col">
+                  {!rainbowKit && (
+                    <>
+                      <div className="btn btn-secondary w-full mt-3" onClick={() => setRainbowKit(true)}>
+                        Pay anonymously
+                      </div>
+                      <Link href="/login" className="btn btn-primary w-full mt-3">
+                        Login
+                      </Link>
+                    </>
+                  )}
+                  {rainbowKit && (
+                    <>
+                      <RainbowKitCustomConnectButton btn="base" />
+                      {connectedAddress && (
+                        <div className="flex justify-center">
+                          <button
+                            className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+                            onClick={() => pay()}
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+            {isAuth == "yes" && !profile.wallet_id && (
               <>
                 <div>You have no verified wallet, yet.</div>
                 <div className="flex justify-center">
-                  <Link href="/settings" className="btn btn-neutral w-full mt-3">
-                    Go to Settings
+                  <Link href="/settings" className="btn btn-secondary w-full mt-3">
+                    Verify a Wallet
                   </Link>
                 </div>
               </>
             )}
-            {profile.wallet_id && !connectedAddress && (
+            {isAuth == "yes" && profile.wallet_id && !connectedAddress && (
               <>
-                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
                     <span className="ml-1 font-semibold">{profile.username}</span>
@@ -169,9 +201,9 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 </div>
               </>
             )}
-            {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
+            {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
               <>
-                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
                     <span className="ml-1 font-semibold">{profile.username}</span>
@@ -185,9 +217,9 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 </div>
               </>
             )}
-            {profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
+            {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
               <>
-                <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
                     <span className="ml-1 font-semibold">{profile.username}</span>
@@ -208,7 +240,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
               </>
             )}
           </div>
-          {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
+          {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
             <div className="flex justify-center">
               <button
                 className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"

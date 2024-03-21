@@ -34,6 +34,8 @@
   height: calc(100vh - 35rem);
 }
 .wildui-menu { top: 20px; right: 20px; }
+.wildui-modal-container { background-color: rgba(0, 0, 0, 0.5); z-index: 100;}
+.wildui-modal-child { width: 480px; }
 
 
 /* input:-webkit-autofill,
@@ -119,7 +121,7 @@ input:-webkit-autofill:focus {
 .custom-top-cover { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
 .custom-difference-blend { mix-blend-mode: difference; color: #fff; }
 
-.custom-is-not-auth-menu { top: 25px; right: 20px; }
+.custom-is-not-auth-menu { top: 20px; right: 20px; }
 
 /* STEPS */
 
@@ -155,7 +157,7 @@ input:-webkit-autofill:focus {
   height: 292.05px;
 }
 
-#wildpay-is-auth .scr { width: 370px; height: 239.07px; }
+.scr { width: 370px; height: 239.07px; }
 .scr-item { box-sizing: content-box; display: flex; flex: none; scroll-snap-align: start; width: 100%; border-radius: 10px; font-size: 18px; }
 .scr-item .url { bottom: 7px; right: 7px; }
 .scr::-webkit-scrollbar { width: 10px; height: 5px; }
@@ -186,7 +188,7 @@ input:-webkit-autofill:focus {
   #wildpay-claim #username { width: 55% }
   #wildpay-claim-avail { text-wrap: nowrap; }
   .wildpay-soc-label {display: none;}
-  #profile-edit-content input {width: 50%;}
+  #wildpay-profile-edit input {width: 50%;}
   
   #main.pt-10 { padding-top: 0 }
 
@@ -196,4 +198,6 @@ input:-webkit-autofill:focus {
     width: 100%!important; /* Subtract twice the padding/margin on both sides */
     height: calc((100vw - 56px) * 0.629)!important; /* Adjust the aspect ratio as needed */
   }
+
+  .wildui-modal-child { width: 95%; }
 }

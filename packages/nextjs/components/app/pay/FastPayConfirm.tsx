@@ -111,15 +111,15 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
           <>
             <div>You have no verified wallet, yet.</div>
             <div className="flex justify-center">
-              <Link href="/settings" className="btn btn-secondary w-full mt-3">
-                Go to Settings
+              <Link href="/settings" className="btn btn-neutral w-full mt-3">
+                Verify a Wallet
               </Link>
             </div>
           </>
         )}
         {profile.wallet_id && !connectedAddress && (
           <>
-            <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+            <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
                 <Avatar profile={profile} width="8" ring={false} />
                 <span className="ml-1 font-semibold">{profile.username}</span>
@@ -129,14 +129,19 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
                 <CheckBadgeIcon width={16} />
               </div>
             </div>
+            {/* <div className="flex justify-center">
+              <Link href="/settings" className="btn btn-accent w-full mt-3 btn bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black">
+                Connect a Wallet
+              </Link>
+            </div> */}
             <div className="w-full h-12 mt-2">
-              <RainbowKitCustomConnectButton />
+              <RainbowKitCustomConnectButton btn="base" />
             </div>
           </>
         )}
         {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
           <>
-            <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+            <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
                 <Avatar profile={profile} width="8" ring={false} />
                 <span className="ml-1 font-semibold">{profile.username}</span>
@@ -152,7 +157,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
         )}
         {profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
           <>
-            <div className="flex btn btn-secondary h-full items-center justify-between pt-2 pb-2 mt-2">
+            <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
                 <Avatar profile={profile} width="8" ring={false} />
                 <span className="ml-1 font-semibold">{profile.username}</span>

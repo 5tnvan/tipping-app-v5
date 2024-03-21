@@ -51,13 +51,13 @@ export const Login = ({ refetch }: Props) => {
           <input type="password" name="password" placeholder="Password" className="bg-white text-black grow" />
         </label>
 
-        <button type="submit" className="btn btn-neutral text-base w-full">
+        <button type="submit" className="btn btn-primary text-base w-full">
           Login
         </button>
 
         <div className="additional mt-5">
           <span>{"Don't have an account? "}</span>
-          <Link href="/getstarted">Sign Up</Link>
+          <Link href="/getstarted" className="link link-secondary">Sign Up</Link>
         </div>
       </form>
     </>

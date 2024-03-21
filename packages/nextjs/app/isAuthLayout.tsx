@@ -275,7 +275,7 @@ const IsAuthLayout = ({
                           <>
                             <div className="font-semibold">{user.email}</div>
                             <div className="flex">
-                              <RainbowKitCustomConnectButton />
+                              <RainbowKitCustomConnectButton btn="small" />
                             </div>
                             {/* {profile?.wallet_id ? (
                               <div className="flex">

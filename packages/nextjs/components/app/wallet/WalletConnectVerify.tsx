@@ -68,7 +68,7 @@ const WalletConnectVerify = () => {
                 Link your wallet {address && <CheckMarkIcon />}
               </div>
               <div className="ml-10 flex w-max">
-                <RainbowKitCustomConnectButton />
+                <RainbowKitCustomConnectButton btn="small" />
               </div>
             </li>
           )}

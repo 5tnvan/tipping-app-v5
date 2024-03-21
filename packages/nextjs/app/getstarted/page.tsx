@@ -46,7 +46,7 @@ const GetStarted: NextPage = () => {
         warningText = taken ? "Taken" : "Available";
         badgeClass = taken ? "badge-error" : "badge-success";
         btnValue = taken ? "Claim" : "Claim";
-        btnClass = taken ? "btn-light btn-disabled" : "btn-neutral";
+        btnClass = taken ? "btn-neutral btn-disabled" : "btn-primary";
       }
 
       setAvailability([warningText, badgeClass, btnClass, btnValue]);
@@ -130,10 +130,18 @@ const GetStarted: NextPage = () => {
 
         {/* GET STARTED SOCIALS */}
         <div id="wildpay-socials" className="flex justify-center mb-5">
-          <YoutubeIcon handle="wildpay" />
-          <TwitterIcon handle="wildpay" />
-          <InstagramIcon handle="wildpay" />
-          <TiktokIcon handle="wildpay" />
+          <div className="mr-2">
+            <YoutubeIcon handle="wildpay" />
+          </div>
+          <div className="mr-2">
+            <TwitterIcon handle="wildpay" />
+          </div>
+          <div className="mr-2">
+            <InstagramIcon handle="wildpay" />
+          </div>
+          <div className="">
+            <TiktokIcon handle="wildpay" />
+          </div>
         </div>
       </>
     );
