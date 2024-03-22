@@ -7,7 +7,6 @@ import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 import { Footer } from "~~/components/Footer";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
-import { BackgroundBeams } from "~~/components/app/ui/backgroudBeams";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
@@ -47,6 +46,8 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     refetchAccounting(); // refetch private accounting
   };
 
+
+  console.log(pathname);
   // console.log("wildLayout: user ", user);
   // console.log("wildLayout: (private)followersData ", followersData);
   // console.log(

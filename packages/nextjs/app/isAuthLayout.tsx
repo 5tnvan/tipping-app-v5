@@ -44,6 +44,7 @@ const IsAuthLayout = ({
   const isHome = pathname === "/home";
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
+  const isTransaction = pathname.includes("/transaction");
   const { username } = useParams();
 
   //PARENTS CONTEXT:
@@ -218,11 +219,11 @@ const IsAuthLayout = ({
         </dialog>
 
         {/* ISAUTH CUSTOM-BG */}
-        <div className={`custom-top-cover absolute z-0 ${isHome && "h-100px"}`}></div>
+        <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
         {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
-        {!username && !isHome && (
+        {!username && !isHome && !isTransaction ? (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -332,9 +333,9 @@ const IsAuthLayout = ({
             {!isSettings && { children }} */}
             {children}
           </>
-        )}
+        ) : (<></>)}
         {/* ISAUTH HOME */}
-        {!username && isHome && <>{children}</>}
+        {(isHome || isTransaction) && <>{children}</>}
       </div>
 
       {/* PAY RECEIPT MODAL */}
