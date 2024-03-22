@@ -18,6 +18,7 @@ export async function setUsernameCookie(formData: FormData) {
   const username = formData.get("username") as string;
 
   cookieStore.set("wildpay-username", username, { expires: hr });
+  console.log("redirecting");
   redirect("/signup/new");
 }
 

@@ -22,7 +22,7 @@ type PageProps = {
   params: { txHash?: Hash };
 };
 const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
-  const client = usePublicClient({ chainId: hardhat.id });
+  const client = usePublicClient({ chainId: sepolia.id });
   const txHash = params?.txHash as Hash;
   const [transaction, setTransaction] = useState<Transaction>();
   const { targetNetwork } = useTargetNetwork();
@@ -96,7 +96,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   </div>
                   <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                     <div className="text-3xl">
-                      ${convertEthToUsd(formatEther(transactionData.payments[0].value), nativeCurrencyPrice).toFixed(0)}
+                      ${convertEthToUsd(formatEther(transactionData.payments[0].value), nativeCurrencyPrice).toFixed(2)}
                     </div>
                     <div className="flex text-xl items-center">
                       <EthIcon width={18} height={18} />

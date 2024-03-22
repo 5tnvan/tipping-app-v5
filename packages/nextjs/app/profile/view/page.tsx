@@ -14,8 +14,6 @@ const ProfileView: NextPage = () => {
   const { isAuth, profile } = useContext(AppContext);
   const { incomingTx } = useContext(AccountingContext);
 
-  console.log("profileView");
-
   if (isAuth == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28">

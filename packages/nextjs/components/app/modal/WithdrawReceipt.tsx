@@ -36,9 +36,8 @@ export const WithdrawReceipt = ({ tx, isOpen, onClose }: Props) => {
             <Link
               href={"/blockexplorer/transaction/" + tx}
               className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
-              onClick={handleClose}
             >
-              Go To Transaction
+              Go to Transaction
             </Link>
           </div>
         </div>

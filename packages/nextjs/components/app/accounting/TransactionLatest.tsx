@@ -72,7 +72,12 @@ const TransactionLatest = ({ tx }: Props) => {
               </div>
             </div>
           </div>
-          <Link href={"/blockexplorer/transaction/" + tx.payments[0].transactionHash} className="btn btn-primary w-full mt-3 mb-2">Go to receipt</Link>
+          <Link
+            href={"/blockexplorer/transaction/" + tx.payments[0].transactionHash}
+            className="btn btn-primary w-full mt-3 mb-2"
+          >
+            Go to receipt
+          </Link>
         </>
       )}
     </>

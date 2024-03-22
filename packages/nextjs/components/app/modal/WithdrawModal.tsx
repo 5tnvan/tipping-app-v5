@@ -89,12 +89,12 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                   <div>ETH</div>
                   <div className="flex items-center text-xl">
                     <EthIcon width={16} height={16} />
-                    {withdrawBalance}
+                    {Number(withdrawBalance).toFixed(4)}
                   </div>
                 </div>
                 <div className="flex justify-between mb-4">
                   <div>USD</div>
-                  <div className="text-xl">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice)})</div>
+                  <div className="text-xl">${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)}</div>
                 </div>
               </>
             )}

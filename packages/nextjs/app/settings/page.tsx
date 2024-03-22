@@ -100,7 +100,7 @@ const Settings: NextPage = () => {
   };
 
   const closeWithdrawReceipt = () => {
-    setWithdrawModalOpen(false);
+    setWithdrawReceiptOpen(false);
   };
 
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
@@ -208,7 +208,7 @@ const Settings: NextPage = () => {
                 {withdrawBalance == 0 || withdrawBalance > 0 ? (
                   <>
                     <span className="font-medium">{Number(withdrawBalance).toFixed(4)}Ξ</span>
-                    <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice)})</span>
+                    <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})</span>
                   </>
                 ) : (
                   <>No balance</>

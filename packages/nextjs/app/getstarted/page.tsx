@@ -32,12 +32,11 @@ const GetStarted: NextPage = () => {
     (async () => {
       let warningText = "";
       let badgeClass = "";
-      let btnClass = "btn-light";
+      let btnClass = "btn-neutral";
       let btnValue = "Get started-it's free";
 
       if (username.length === 0) {
         warningText = "";
-      } else if (username.length === 1) {
       } else if (username.length < 3) {
         warningText = "Type more";
         badgeClass = "badge-warning";
@@ -67,7 +66,9 @@ const GetStarted: NextPage = () => {
             <div className="custom-text-blue font-semibold text-3xl">Dare to get paid?</div>
             {/* GET STARTED ETH ANIMATION */}
             <div className="flex justify-center">
-              <EthIcon width={"20px"} height={"20px"} />
+              <span className="pt-1">
+                <EthIcon width={"20px"} height={"20px"} />
+              </span>
               <div className="animation text-xl font-semibold">
                 <div className="first">
                   <div>1.2Ξ</div>
@@ -122,7 +123,11 @@ const GetStarted: NextPage = () => {
             </label>
 
             {/* GET STARTED USERNAME CONFIRM */}
-            <button className={`btn text-base w-full ${availability[2]}`} formAction={setUsernameCookie}>
+            <button
+              className={`btn text-base w-full ${availability[2]}`}
+              formAction={setUsernameCookie}
+              disabled={!username.trim()}
+            >
               {availability[3]}
             </button>
           </form>
