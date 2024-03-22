@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { Hash, Transaction, TransactionReceipt, formatEther } from "viem";
-import { hardhat } from "viem/chains";
+import { hardhat, sepolia } from "viem/chains";
 import { usePublicClient } from "wagmi";
+import { IsLoading } from "~~/components/app/IsLoading";
 import { TimeUnix } from "~~/components/app/Time";
 import { TimeAgoUnix } from "~~/components/app/TimeAgo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -25,25 +26,19 @@ type PageProps = {
 const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const client = usePublicClient({ chainId: hardhat.id });
   const txHash = params?.txHash as Hash;
-  const router = useRouter();
   const [transaction, setTransaction] = useState<Transaction>();
-  const [receipt, setReceipt] = useState<TransactionReceipt>();
-  const [functionCalled, setFunctionCalled] = useState<string>();
-
   const { targetNetwork } = useTargetNetwork();
+  const router = useRouter();
 
+  /**
+   * ACTION: Fetch transaction
+   **/
   useEffect(() => {
     if (txHash) {
       const fetchTransaction = async () => {
         const tx = await client.getTransaction({ hash: txHash });
-        const receipt = await client.getTransactionReceipt({ hash: txHash });
-
         const transactionWithDecodedData = decodeTransactionData(tx);
         setTransaction(transactionWithDecodedData);
-        setReceipt(receipt);
-
-        const functionCalled = transactionWithDecodedData.input.substring(0, 10);
-        setFunctionCalled(functionCalled);
       };
 
       fetchTransaction();
@@ -55,30 +50,36 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
-  const { transactionData } = useFetchTransaction(params.txHash);
-  console.log(transactionData);
+  /**
+   * ACTION: Fetch transaction from graph
+   **/
+  const { transactionData, loading, error } = useFetchTransaction(params.txHash);
   useEffect(() => {
-    const fetchData = async () => {
-      if (transactionData) {
+    if (transactionData && !loading) {
+      console.log(transactionData, loading);
+      const fetchData = async () => {
         console.log("im here");
         const senderProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].receiver);
         setSenderProfile(senderProfileData);
         setReceiverProfile(receiverProfileData);
-        const myDate = new Date(Number(transactionData.payments[0].createdAt) * 1000);
+        const myDate = new Date(transactionData.payments[0].createdAt * 1000);
         setDateUnix(myDate);
-      }
-    };
-
-    fetchData(); // Call the fetchData function when the component mounts or when tx changes
+      };
+      fetchData();
+    }
   }, [transactionData]);
 
   return (
     <>
-      <div className="mt-10 pl-6 pr-6">
-        {senderProfile ? (
+      <div className="mt-14 pl-6 pr-6 overflow-auto wildui-transaction-scroll-transaction">
+        {error && <>Sorry, something went wrong. Please try again later.</>}
+        <button className="btn btn-sm btn-primary" onClick={() => router.back()}>
+          Back
+        </button>
+        {transactionData && senderProfile && (
           <>
-            <div className="w-full rounded-md bg-black/[0.96] relative ">
+            <div className="w-full rounded-xxl bg-black/[0.96] relative ">
               <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
               <div className="mt-5 p-6" key={transactionData.payments[0].transactionHash}>
                 <div className="flex justify-between mb-6">
@@ -113,48 +114,55 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
               </div>
             </div>
           </>
-        ) : (
-          <>isloading</>
         )}
-        {senderProfile && transaction && (
-          <div className="overflow-x-auto">
-            <table className="table text-base">
-              {/* head */}
-              <tbody>
-                {/* row 1 */}
-                <tr className="hover">
-                  <th>Hash</th>
-                  <td className="text-ellipsis overflow-hidden md:max-w-96 max-w-24">{transactionData?.payments[0].transactionHash}</td>
-                </tr>
-                {/* row 2 */}
-                <tr className="hover">
-                  <th>From</th>
-                  <td>
-                    <Address address={transactionData?.payments[0].sender} format="short" />
-                  </td>
-                </tr>
-                {/* row 3 */}
-                <tr className="hover">
-                  <th>To</th>
-                  <td>
-                    <Address address={transactionData?.payments[0].receiver} format="short" />
-                  </td>
-                </tr>
-                {/* row 3 */}
-                <tr className="hover">
-                  <th>Value</th>
-                  <td>
-                    {Number(formatEther(transactionData?.payments[0].value)).toFixed(4)}{" "}
-                    {targetNetwork.nativeCurrency.symbol}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Created At</th>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        {transaction && transactionData && dateUnix && (
+          <>
+            <div className="overflow-x-auto mt-3">
+              <table className="table text-base">
+                {/* head */}
+                <tbody>
+                  {/* row 0 */}
+                  <tr className="hover">
+                    <th>Receipt:</th>
+                    <td className="text-ellipsis overflow-hidden md:max-w-96 max-w-24"></td>
+                  </tr>
+                  {/* row 1 */}
+                  <tr className="hover">
+                    <th>Hash</th>
+                    <td className="text-ellipsis overflow-hidden md:max-w-96 max-w-24">
+                      {transactionData?.payments[0].transactionHash}
+                    </td>
+                  </tr>
+                  {/* row 2 */}
+                  <tr className="hover">
+                    <th>From</th>
+                    <td>
+                      <Address address={transactionData?.payments[0].sender} format="short" />
+                    </td>
+                  </tr>
+                  {/* row 3 */}
+                  <tr className="hover">
+                    <th>To</th>
+                    <td>
+                      <Address address={transactionData?.payments[0].receiver} format="short" />
+                    </td>
+                  </tr>
+                  {/* row 3 */}
+                  <tr className="hover">
+                    <th>Value</th>
+                    <td>
+                      {Number(formatEther(transactionData?.payments[0].value)).toFixed(4)}{" "}
+                      {targetNetwork.nativeCurrency.symbol}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Datetime</th>
+                    <td>{dateUnix.toUTCString()}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </>

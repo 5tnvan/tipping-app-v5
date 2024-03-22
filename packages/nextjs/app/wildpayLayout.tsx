@@ -46,8 +46,6 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     refetchAccounting(); // refetch private accounting
   };
 
-
-  console.log(pathname);
   // console.log("wildLayout: user ", user);
   // console.log("wildLayout: (private)followersData ", followersData);
   // console.log(

@@ -16,6 +16,9 @@
 .w-88px {
   width: 88px;
 }
+.rounded-xxl {
+  border-radius: 1.5rem;
+}
 
 /* Wild UI CSS */
 .wildui-transaction-scroll {
@@ -32,6 +35,9 @@
 .wildui-transaction-scroll-profile-username {
   /* background-color: #03A66A; */
   height: calc(100vh - 35rem);
+}
+.wildui-transaction-scroll-transaction {
+  height: calc(100vh - 11rem);
 }
 .wildui-menu { top: 20px; right: 20px; }
 .wildui-modal-container { background-color: rgba(0, 0, 0, 0.5); z-index: 100;}
@@ -118,6 +124,7 @@ input:-webkit-autofill:focus {
 .custom-bg-blue { background-color: #3D45E7; }
 .custom-text-blue { color: #3D45E7 }
 .custom-bg-image-01 { background-image: url('/card-01.png'); background-size: cover; isolation: isolate; }
+.custom-bg-image-02 { background-image: url('/card-02.png'); background-size: cover; isolation: isolate; }
 .custom-top-cover { background-image: url("/Frame360.png"); width: 100%; height: 210px; top:0; left:0; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; }
 .custom-difference-blend { mix-blend-mode: difference; color: #fff; }
 
@@ -200,4 +207,5 @@ input:-webkit-autofill:focus {
   }
 
   .wildui-modal-child { width: 95%; }
+  #canvas {display: none}
 }

@@ -44,5 +44,5 @@ export const useFetchTransaction = (hash: any) => {
     console.log("useTransaction() error: ", error);
   }
 
-  return { transactionData, loading };
+  return { transactionData, loading, error };
 };

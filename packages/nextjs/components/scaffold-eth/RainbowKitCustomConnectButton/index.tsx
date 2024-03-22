@@ -9,6 +9,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
 import { CheckBadgeIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
+import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import "~~/styles/app.css";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
@@ -20,7 +21,7 @@ type RainbowKitCustomConnectButtonProps = {
  * Custom Wagmi Connect Button (watch balance + custom design)
  */
 export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectButtonProps) => {
-  //useAutoConnect();
+  useAutoConnect();
   //const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
   const { profile } = useContext(AppContext);
