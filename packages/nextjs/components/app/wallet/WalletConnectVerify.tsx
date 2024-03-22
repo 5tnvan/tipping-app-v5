@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { TimeAgo, TimeAgoUnix } from "../TimeAgo";
+import { TimeAgo } from "../TimeAgo";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { AppContext } from "~~/app/context";

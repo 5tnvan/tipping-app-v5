@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { IsLoading } from "../IsLoading";
 import { Avatar } from "../authentication/Avatar";
 import { ChevronRightIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
@@ -14,7 +12,6 @@ type Props = {
 };
 
 export const SearchModal = ({ isOpen, onClose }: Props) => {
-  const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [searchProfile, setSearchProfile] = useState<any>(null);
   const [isSearchLoading, setIsSearchLoading] = useState(false);

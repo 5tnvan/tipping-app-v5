@@ -81,7 +81,6 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                 <ProfilePayContext.Provider value={{ profilePaySuccess, setProfilePaySuccess }}>
                   <WithdrawContext.Provider value={{ withdrawSuccess, setWithdrawSuccess }}>
                     <div id="master" className="min-h-full bg-neutral-950 antialiased">
-                      {/* <BackgroundBeams /> */}
                       <WavyBackground>
                         <main id="main" className="flex justify-center min-h-screen h-full text-black">
                           <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-screen`}>
@@ -108,7 +107,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                     </div>
                     {/* <Toaster /> */}
 
-                    {/* <Footer /> */}
+                    <Footer />
                   </WithdrawContext.Provider>
                 </ProfilePayContext.Provider>
               </FollowersContext.Provider>

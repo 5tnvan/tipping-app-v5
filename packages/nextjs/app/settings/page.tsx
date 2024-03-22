@@ -11,22 +11,21 @@ import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
 import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
+import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 
 const Settings: NextPage = () => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const [buttonText, setButtonText] = useState("");
   const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
-  const { withdrawBalance, refetchAccounting } = useContext(AccountingContext);
+  const { withdrawBalance } = useContext(AccountingContext);
   const { setWithdrawSuccess } = useContext(WithdrawContext);
   const { address } = useAccount();
 

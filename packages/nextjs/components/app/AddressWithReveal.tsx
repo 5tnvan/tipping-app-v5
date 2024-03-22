@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { IsLoading } from "./IsLoading";
 import { Avatar } from "./authentication/Avatar";
-import { Address as AddressType, getAddress, isAddress } from "viem";
+import { Address as AddressType } from "viem";
 import { EyeIcon } from "@heroicons/react/24/solid";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 

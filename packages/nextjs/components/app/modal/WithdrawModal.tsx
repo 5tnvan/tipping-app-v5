@@ -5,10 +5,10 @@ import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext } from "~~/app/context";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
+import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 
 type Props = {
   isOpen: any;
@@ -17,7 +17,7 @@ type Props = {
 
 export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { profile } = useContext(AppContext);
-  const { withdrawBalance, refetchAccounting } = useContext(AccountingContext);
+  const { withdrawBalance } = useContext(AccountingContext);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const { address: connectedAddress } = useAccount();
 

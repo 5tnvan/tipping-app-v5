@@ -49,7 +49,7 @@ const IsAuthLayout = ({
 
   //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { withdrawBalance, incomingTxSum } = useContext(AccountingContext);
+  const { incomingTxSum } = useContext(AccountingContext);
   const { withdrawSuccess } = useContext(WithdrawContext);
 
   //SOCIAL MEDIA LINKS:

@@ -1,15 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Address as AddressType, getAddress, isAddress } from "viem";
 import { hardhat } from "viem/chains";
 import { useEnsAvatar, useEnsName } from "wagmi";
-import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
 type AddressProps = {
   address?: AddressType;
@@ -34,7 +30,6 @@ const blockieSizeMap = {
 export const Address = ({ address, disableAddressLink, format, size = "base" }: AddressProps) => {
   const [ens, setEns] = useState<string | null>();
   const [ensAvatar, setEnsAvatar] = useState<string | null>();
-  const [addressCopied, setAddressCopied] = useState(false);
   const checkSumAddress = address ? getAddress(address) : undefined;
 
   const { targetNetwork } = useTargetNetwork();
@@ -76,7 +71,6 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
     return <span className="text-error">Wrong address</span>;
   }
 
-  const blockExplorerAddressLink = getBlockExplorerAddressLink(targetNetwork, checkSumAddress);
   let displayAddress = checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4);
 
   if (ens) {

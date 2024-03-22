@@ -49,7 +49,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
       <body>
-        <ThemeProvider enableSystem>
+        <ThemeProvider enableSystem={false} defaultTheme="light" forcedTheme="light">
           <ScaffoldEthAppWithProviders>
             <WildPay>{children}</WildPay>
           </ScaffoldEthAppWithProviders>
