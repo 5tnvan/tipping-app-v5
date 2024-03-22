@@ -9,7 +9,9 @@ type Props = {
 };
 
 export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
-  const { transactionData } = useFetchTransaction(hash);
+  const { transactionData, loading, error } = useFetchTransaction(hash);
+
+  console.log(transactionData, loading, error);
 
   const handleClose = () => {
     onClose();
@@ -20,7 +22,7 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
   }
 
   return (
-    <div className="flex flex-col text-black z-30 absolute w-full p-5 rounded-lg left-0 top-4">
+    <div className="flex flex-col text-black z-30 absolute w-full p-5 left-0 top-4">
       {/* RECEIPT FRAME */}
       <div className="modal-content grow box-shadow-01">
         {/* RECEIPT CLOSE */}
@@ -28,11 +30,14 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
           ✕
         </button>
         {/* RECEIPT INTO */}
-        <div className="p-5">
+        <div className="p-5 rounded-lg">
           <div className="font-semibold custom-text-blue text-3xl pt-10">{"Done 🎉."}</div>
           <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
           {/* RECEIPT */}
-          {transactionData ? <TransactionLatest tx={transactionData} /> : <div>Loading...</div>}
+          {error && <>Sorry, something went wrong. Please try again later.</>}
+          {transactionData && transactionData.payments[0] && !loading && !error ? (
+            <TransactionLatest tx={transactionData} />
+          ) : (<><span className="loading loading-ring loading-lg"></span></>)}
         </div>
       </div>
     </div>

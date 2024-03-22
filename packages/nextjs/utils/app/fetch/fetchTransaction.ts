@@ -10,7 +10,6 @@ import { gql, useQuery } from "@apollo/client";
  **/
 
 export const useFetchTransaction = (hash: any) => {
-  console.log("useFetchTransaction hash", hash);
   const PAYMENTS_GRAPHQL = `
       query GetPayments($hash: String!) {
         payments(

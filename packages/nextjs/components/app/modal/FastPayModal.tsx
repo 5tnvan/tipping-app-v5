@@ -34,10 +34,10 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
    * ACTION: Trigger parents on success
    **/
   const handlePaySuccess = (hash: any) => {
-    console.log("FastPayModal: close");
     handleClose();
-    console.log("FastPayModal: triggerIsAuthLayout(hash)");
+    console.log("FastPayModal: close");
     onSuccess(hash);
+    console.log("FastPayModal: triggerIsAuthLayout(hash)");
   };
 
   if (!isOpen) {

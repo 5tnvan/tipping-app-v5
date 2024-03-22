@@ -3,11 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
-import { Hash, Transaction, TransactionReceipt, formatEther } from "viem";
+import { Hash, Transaction, formatEther } from "viem";
 import { hardhat, sepolia } from "viem/chains";
 import { usePublicClient } from "wagmi";
-import { IsLoading } from "~~/components/app/IsLoading";
-import { TimeUnix } from "~~/components/app/Time";
 import { TimeAgoUnix } from "~~/components/app/TimeAgo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { Spotlight } from "~~/components/app/ui/spotlight";
@@ -18,7 +16,7 @@ import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useFetchTransaction } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { decodeTransactionData, getFunctionDetails } from "~~/utils/scaffold-eth";
+import { decodeTransactionData } from "~~/utils/scaffold-eth";
 
 type PageProps = {
   params: { txHash?: Hash };
@@ -56,9 +54,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const { transactionData, loading, error } = useFetchTransaction(params.txHash);
   useEffect(() => {
     if (transactionData && !loading) {
-      console.log(transactionData, loading);
       const fetchData = async () => {
-        console.log("im here");
         const senderProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].receiver);
         setSenderProfile(senderProfileData);
