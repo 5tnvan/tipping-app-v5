@@ -45,7 +45,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
       onSuccess(); //trigger isAuthLayout
       refetchPublicAccounting(); // refresh public accounting top and table
       console.log("isPublicLayout profilePaySuccess: refetchPublicAccounting()");
-      router.refresh();
+      //router.refresh();
     }
   }, [profilePaySuccess]);
 

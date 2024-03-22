@@ -29,10 +29,10 @@ const ProfileUsername: NextPage = () => {
     console.log("/profile/username: handleProfilePaySuccess()");
     setTimeout(() => {
       setProfilePaySuccess(true); //trigger isPublicLayout
+      router.refresh();
       setHashRes(hash); // set transaction hash
-    }, 2000);
-    openPayReceiptModal(); // opens receipt
-    router.refresh();
+      openPayReceiptModal(); // opens receipt
+    }, 1000);
   };
 
   /**
