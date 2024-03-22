@@ -44,7 +44,7 @@ export const useAccounting = (wallet_id: any) => {
   };
 
   const refetch = () => {
-    console.log("accounting refresh triggered");
+    // console.log("accounting refresh triggered");
     setTriggerRefetch(prev => !prev);
   };
 

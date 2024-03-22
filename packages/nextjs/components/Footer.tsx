@@ -5,6 +5,8 @@ import { hardhat } from "viem/chains";
 import { SwitchTheme } from "~~/components/SwitchTheme";
 //import { Faucet, FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+// import { RainbowKitCustomConnectButton } from "./scaffold-eth/RainbowKitCustomConnectButton";
+// import { FaucetButton } from "./scaffold-eth/FaucetButton";
 //import { useGlobalState } from "~~/services/store/store";
 
 /**
@@ -22,7 +24,7 @@ export const Footer = () => {
       /> */}
       <div className="fixed min-h-0 py-5 px-1 mb-11 lg:mb-0">
         <div>
-          <div className="fixed flex justify-between items-center w-full z-10 p-4 top-0 left-0 pointer-events-none">
+          <div className="fixed flex justify-between items-center w-full z-10 p-4 bottom-0 left-0 pointer-events-none">
             <div className="flex flex-col md:flex-row gap-2 pointer-events-auto">
               {/* {nativeCurrencyPrice > 0 && (
                 <div>
@@ -41,10 +43,10 @@ export const Footer = () => {
                   </Link>
                 </>
               )} */}
-              <div className="flex navbar-end z-20 flex-grow mr-4">
-                {/* <RainbowKitCustomConnectButton />
-                <FaucetButton /> */}
-              </div>
+              {/* <div className="flex navbar-end z-20 flex-grow mr-4">
+                <RainbowKitCustomConnectButton btn="base" />
+                <FaucetButton />
+              </div> */}
             </div>
             <SwitchTheme className={`pointer-events-auto ${isLocalNetwork ? "self-end md:self-auto" : ""}`} />
           </div>

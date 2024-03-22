@@ -108,7 +108,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                     </div>
                     {/* <Toaster /> */}
 
-                    <Footer />
+                    {/* <Footer /> */}
                   </WithdrawContext.Provider>
                 </ProfilePayContext.Provider>
               </FollowersContext.Provider>
