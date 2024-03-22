@@ -45,7 +45,11 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
     console.log("isWildLayout: refetchAccounting()");
     refetchAccounting(); // refetch private accounting
   };
-
+  const handleWithdrawSuccess = () => {
+    console.log("isWildLayout: handleWithdrawSuccess()");
+    console.log("isWildLayout: refetchAccounting()");
+    refetchAccounting(); // refetch private accounting
+  };
   // console.log("wildLayout: user ", user);
   // console.log("wildLayout: (private)followersData ", followersData);
   // console.log(
@@ -88,7 +92,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                               <IsAuthLayout
                                 onFastPaySuccess={handlePaySuccess}
                                 onProfilePaySuccess={handlePaySuccess}
-                                onWithdrawSuccess={handlePaySuccess}
+                                onWithdrawSuccess={handleWithdrawSuccess}
                               >
                                 {children}
                               </IsAuthLayout>

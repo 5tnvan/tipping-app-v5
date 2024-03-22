@@ -10,6 +10,7 @@ import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
+import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
@@ -18,12 +19,12 @@ import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 
 const Settings: NextPage = () => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const [buttonText, setButtonText] = useState("");
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
   const { withdrawBalance, refetchAccounting } = useContext(AccountingContext);
   const { setWithdrawSuccess } = useContext(WithdrawContext);
@@ -39,15 +40,14 @@ const Settings: NextPage = () => {
     }
   }, [address, profile.wallet_id, profile.wallet_sign_hash]);
 
-  //WALLET
+  /**
+   * ACTION: Handle wallet verify
+   **/
+  const [isWalletModalOpen, setWalletModalOpen] = useState(false);
+
   const handleWalletModal = () => {
     openWalletModal();
   };
-
-  /**
-   * ACTION: Open close wallet modal
-   **/
-  const [isWalletModalOpen, setWalletModalOpen] = useState(false);
 
   const openWalletModal = () => {
     setWalletModalOpen(true);
@@ -57,26 +57,53 @@ const Settings: NextPage = () => {
     setWalletModalOpen(false);
   };
 
-  //WITHDRAW
+  /**
+   * ACTION: Handle withdraw
+   **/
+  const [tx, setTx] = useState("");
+  const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
+
   const handleWithdrawModal = () => {
-    setIsWithdrawModalOpen(true);
+    openWithdrawModal();
   };
 
-  const handleWithdraw = () => {
-    withdraw(); //withdraw
-    setWithdrawSuccess(true); //trigger isAuthLayout
-    setIsWithdrawModalOpen(false); // close withdraw modal
-    refetchAccounting();
-    router.refresh();
+  const openWithdrawModal = () => {
+    setWithdrawModalOpen(true);
+  };
+
+  const closeWithdrawModal = () => {
+    setWithdrawModalOpen(false);
+  };
+
+  const handleWithdrawSuccess = (tx: any) => {
+    if (tx) {
+      closeWithdrawModal(); // close withdraw modal
+      setWithdrawSuccess(true); //trigger isAuthLayout
+      setTimeout(() => {
+        console.log("withdraw tx +  router.refresh", tx);
+        setTx(tx);
+        openWithdrawReceipt();
+        router.refresh();
+      }, 2000);
+    } else {
+      closeWithdrawModal();
+    }
+  };
+
+  /**
+   * ACTION: Handle withdraw receipt
+   **/
+  const [isWithdrawReceiptOpen, setWithdrawReceiptOpen] = useState(false);
+
+  const openWithdrawReceipt = () => {
+    setWithdrawReceiptOpen(true);
+  };
+
+  const closeWithdrawReceipt = () => {
+    setWithdrawModalOpen(false);
   };
 
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
-
-  //HOOK: useScaffoldContractWrite | set: setPayment
-  const { writeAsync: withdraw } = useScaffoldContractWrite({
-    contractName: "YourContract",
-    functionName: "withdraw",
-  });
 
   /* ROUTE */
   if (isAuth == "no") {
@@ -198,37 +225,10 @@ const Settings: NextPage = () => {
           </div>
 
           {/* Withdraw Modal */}
-          <dialog id="my_modal_4" className="modal" open={isWithdrawModalOpen}>
-            <div className="modal-box p-10 pt-15">
-              <div>
-                {/* if there is a button in form, it will close the modal */}
-                <button
-                  className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  onClick={() => setIsWithdrawModalOpen(false)}
-                >
-                  ✕
-                </button>
-                {withdrawBalance == 0 && (
-                  <>
-                    <div className="mb-2 flex items-align justify-center">
-                      Your balance is {withdrawBalance} ETH. Try again later.
-                    </div>
-                    <div className="btn btn-secondary w-full" onClick={() => setIsWithdrawModalOpen(false)}>
-                      Go Back
-                    </div>
-                  </>
-                )}
-                {withdrawBalance > 0 && (
-                  <>
-                    <div className="mb-2">Withdraw {withdrawBalance} ETH</div>
-                    <div className="btn btn-secondary w-full" onClick={handleWithdraw}>
-                      Confirm
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </dialog>
+          <WithdrawModal isOpen={isWithdrawModalOpen} onClose={handleWithdrawSuccess}></WithdrawModal>
+
+          {/* Withdraw Receipt */}
+          <WithdrawReceipt tx={tx} isOpen={isWithdrawReceiptOpen} onClose={closeWithdrawReceipt}></WithdrawReceipt>
         </div>
       </>
     );

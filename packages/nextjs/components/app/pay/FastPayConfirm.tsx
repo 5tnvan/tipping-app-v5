@@ -170,11 +170,11 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
               </div>
             </div>
             <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <Link href="/settings" className="btn btn-secondary w-full mt-3">
                 Reconnect
               </Link>
-            </div>
+            </div> */}
           </>
         )}
       </div>

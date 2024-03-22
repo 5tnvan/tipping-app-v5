@@ -69,9 +69,8 @@ const IsAuthLayout = ({
    **/
   useEffect(() => {
     if (withdrawSuccess) {
-      onWithdrawSuccess();
-      console.log("isauthLayout: withdrawSuccess: router.refresh()");
-      router.refresh();
+      onWithdrawSuccess(); //trigger wildpaylayout
+      console.log("isauthLayout: trigger wildpaylayout");
     }
   }, [withdrawSuccess]);
 

@@ -42,7 +42,7 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
             ✕
           </button>
           {/* PAY CONTENT */}
-          <div className="modal-content p-6">
+          <div className="p-6">
             {/* PAY TO */}
             {publicProfile.wallet_id && (
               <div className="flex flex-col items-center justify-center mt-5">
