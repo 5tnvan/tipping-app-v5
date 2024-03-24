@@ -143,7 +143,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                   ) : (
                     <>
                       <div className="flex">
-                        <div className="font-semibold mr-1">@{publicProfile.username}</div>
+                        <div className="font-semibold mr-1 text-black">@{publicProfile.username}</div>
                       </div>
                       <SocialIcons soc={soc} />
                     </>
