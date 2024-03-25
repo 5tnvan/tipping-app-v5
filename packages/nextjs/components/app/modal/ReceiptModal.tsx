@@ -36,7 +36,7 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
           {/* RECEIPT */}
           {error && <>Sorry, something went wrong. Please try again later.</>}
           {transactionData && transactionData.payments[0] && !loading && !error ? (
-            <TransactionLatest tx={transactionData} />
+            <TransactionLatest tx={transactionData} onClose={handleClose} />
           ) : (<><span className="loading loading-ring loading-lg"></span></>)}
         </div>
       </div>

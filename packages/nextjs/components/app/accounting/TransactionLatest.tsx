@@ -13,9 +13,10 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 type Props = {
   tx: any;
+  onClose: any;
 };
 
-const TransactionLatest = ({ tx }: Props) => {
+const TransactionLatest = ({ tx, onClose }: Props) => {
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
@@ -75,6 +76,7 @@ const TransactionLatest = ({ tx }: Props) => {
           <Link
             href={"/blockexplorer/transaction/" + tx.payments[0].transactionHash}
             className="btn btn-primary w-full mt-3 mb-2"
+            onClick={onClose}
           >
             Go to receipt
           </Link>
