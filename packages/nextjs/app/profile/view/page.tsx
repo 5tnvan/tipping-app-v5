@@ -1,8 +1,9 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { NextPage } from "next";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
@@ -13,6 +14,15 @@ import "~~/styles/app.css";
 const ProfileView: NextPage = () => {
   const { isAuth, profile } = useContext(AppContext);
   const { incomingTx } = useContext(AccountingContext);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500); // Reset the copied state after 2 seconds
+  };
 
   if (isAuth == "no") {
     return (
@@ -41,9 +51,25 @@ const ProfileView: NextPage = () => {
               {/* Card 3 */}
               <div className="scr-item custom-bg-image-01 flex items-center relative">
                 <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
-                <div className="absolute btn btn-secondary url h-10 min-h-10">
-                  <div className="mr-2">wildpay.eth/{profile.username}</div>
-                  <CopyIcon />
+                <div
+                  className="absolute btn btn-accent url h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0"
+                  onClick={handleCopyToClipboard}
+                >
+                  <div className="flex items-center">
+                    {copied ? (
+                      <>
+                        <span className="mr-1">Copied</span>
+                        <span className="text-secondary">
+                          <CheckCircleIcon width={20} />
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="mr-1">wildpay.app/{profile.username}</span>
+                        <CopyIcon />
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,7 +78,7 @@ const ProfileView: NextPage = () => {
           {/* Payments Table */}
           <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
             <div className="font-semibold pb-2 pr-6 pl-6">Received: </div>
-            <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 ">
+            <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
               <Transactions tx={incomingTx} hide="to" />
             </div>
           </div>

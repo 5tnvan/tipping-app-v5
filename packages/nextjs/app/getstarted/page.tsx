@@ -134,7 +134,7 @@ const GetStarted: NextPage = () => {
         </div>
 
         {/* GET STARTED SOCIALS */}
-        <div id="wildpay-socials" className="flex justify-center mb-5">
+        {/* <div id="wildpay-socials" className="flex justify-center mb-5">
           <div className="mr-2">
             <YoutubeIcon handle="wildpay" />
           </div>
@@ -147,7 +147,7 @@ const GetStarted: NextPage = () => {
           <div className="">
             <TiktokIcon handle="wildpay" />
           </div>
-        </div>
+        </div> */}
       </>
     );
   } else {

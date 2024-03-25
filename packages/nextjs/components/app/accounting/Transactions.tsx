@@ -69,7 +69,7 @@ const Transactions = ({ tx, hide }: Props) => {
         </div>
       ))}
 
-      {tx?.payments?.length === 0 && <div>Be the first to pay</div>}
+      {/* {tx?.payments?.length === 0 && <div>Be the first to pay</div>} */}
     </>
   );
 };

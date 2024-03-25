@@ -121,7 +121,7 @@ const WalletConnectVerify = () => {
               <div className="ml-10 w-72 text-left">
                 {
                   <>
-                    <div className="font-medium">Sign hash:</div>
+                    <div className="font-medium">Signed hash:</div>
                     <div className="text-ellipsis overflow-hidden">{profile.wallet_sign_hash}</div>
                     <div className="">
                       <TimeAgo timestamp={profile.wallet_sign_timestamp} />

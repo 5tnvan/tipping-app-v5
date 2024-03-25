@@ -84,25 +84,47 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
         {/* USD */}
         <span className="text-3xl">$</span>
         <div>
-          <input type="number" placeholder="0.00" className="text-center custom-text-blue bg-white" onChange={handleInput} />
+          <input
+            type="number"
+            placeholder="0.00"
+            className="text-center custom-text-blue bg-white"
+            onChange={handleInput}
+          />
         </div>
         <span className="text-3xl">USD</span>
       </div>
       {/* ETH */}
       {dollarAmount > 0 && (
-        <div className="">
-          <div className="flex justify-between border-b pt-8 pb-3 mb-3">
-            <div>Amount</div>
-            <div className="font-semibold">${dollarAmount}</div>
+        <>
+          {/* MESSAGE */}
+          <div className="flex flex-col items-center mt-2">
+            <Link className="link-primary block mt-2" onClick={() => addMessageClick()} href={""}>
+              Leave a message
+            </Link>
+            {addMessage && (
+              <input
+                type="text"
+                placeholder="Type your message"
+                className="input block input-bordered input-primary w-full mt-2"
+                onChange={e => onMessageChange(e)}
+              />
+            )}
           </div>
-          <div className="flex justify-between">
-            <div className="pb-1">Total Bill</div>
-            <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
+          {/* BILL */}
+          <div className="">
+            <div className="flex justify-between border-b pt-8 pb-3 mb-3">
+              <div>Amount</div>
+              <div className="font-semibold">${dollarAmount}</div>
+            </div>
+            <div className="flex justify-between">
+              <div className="pb-1">Total Bill</div>
+              <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
+            </div>
+            <div className="flex justify-end">
+              <div>{`${ethAmountWithFee} ETH`}</div>
+            </div>
           </div>
-          <div className="flex justify-end">
-            <div>{`${ethAmountWithFee} ETH`}</div>
-          </div>
-        </div>
+        </>
       )}
 
       {/* PAY AS */}
@@ -181,31 +203,16 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
 
       {/* CONFIRM */}
       {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
-        <>
-          {/* BUTTON */}
-          <div className="flex justify-center">
-            <button
-              className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
-              onClick={() => pay()}
-            >
-              Confirm
-            </button>
-          </div>
-          {/* MESSAGE */}
-          <div className="flex flex-col items-center mt-2">
-            <span className="link-secondary block mt-2" onClick={() => addMessageClick()}>
-              Leave a message
-            </span>
-            {addMessage && (
-              <input
-                type="text"
-                placeholder="Type your message"
-                className="input block input-bordered input-secondary w-full mt-2"
-                onChange={e => onMessageChange(e)}
-              />
-            )}
-          </div>
-        </>
+        <div className="flex justify-center">
+          <button
+            className={`${
+              dollarAmount === 0 && "btn-disabled"
+            } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3`}
+            onClick={() => pay()}
+          >
+            Confirm
+          </button>
+        </div>
       )}
     </>
   );

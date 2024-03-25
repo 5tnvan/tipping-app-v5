@@ -19,6 +19,8 @@ export const usePublicProfile = (username: any) => {
     wallet_id: null,
     wallet_sign_hash: null,
     wallet_sign_timestamp: null,
+    farcaster: null,
+    lens: null,
   });
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 

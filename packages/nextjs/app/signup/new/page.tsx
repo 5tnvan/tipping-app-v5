@@ -18,8 +18,8 @@ export default function SignupNewPage() {
           {/* Card 3 */}
           <div className="scr-item custom-bg-image-01 flex items-center relative">
             <div className=" text-6xl font-black custom-difference-blend">{cookie?.value}</div>
-            <div className="absolute url flex custom-bg-blue pt-2 pb-2 pr-3 pl-3 text-white rounded-full text-sm items-center">
-              <div className="mr-2">wildpay.eth/{cookie?.value}</div>
+            <div className="absolute url flex btn btn-accent h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0">
+              <div className="">wildpay.app/{cookie?.value}</div>
               <CopyIcon />
             </div>
           </div>

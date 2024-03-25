@@ -130,7 +130,7 @@ const HomePage: NextPage = () => {
               </div>
             </div>
             {/* TRANSACTION DATA */}
-            <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6">
+            <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6 pb-8">
               {showTransactions == "incoming" && <Transactions tx={incomingTx} hide="to" />}
               {showTransactions == "outgoing" && <Transactions tx={outgoingTx} hide="from" />}
             </div>

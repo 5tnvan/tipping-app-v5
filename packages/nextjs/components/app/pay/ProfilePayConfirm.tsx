@@ -114,14 +114,14 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       {isClicked && (
         <>
           {/* ADD MESSAGE */}
-          <span className="link-primary block mt-2" onClick={() => handleAddMessage()}>
+          <Link className="link-primary block mt-3" onClick={() => handleAddMessage()} href={""}>
             Leave a message
-          </span>
+          </Link>
           {addMessage && (
             <input
               type="text"
               placeholder="Type your message"
-              className="input block input-bordered input-primary w-full"
+              className="input block input-bordered input-primary w-full mt-2"
               onChange={e => onMessageChange(e)}
             />
           )}

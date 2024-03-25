@@ -1,15 +1,25 @@
 "use client";
 
 import { useContext } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AppContext } from "./context";
 import type { NextPage } from "next";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const { isAuth } = useContext(AppContext);
-  const launchAppLink = isAuth === "yes" ? "/home" : isAuth === "no" ? "/getstarted" : "/login";
+
+  const handleLink = () => {
+    if (isAuth === "yes") {
+      router.push("/home");
+    } else if (isAuth === "no") {
+      router.push("/getstarted");
+    } else {
+      router.push("/login");
+    }
+  };
 
   if (isAuth == "no" || isAuth == "yes") {
     return (
@@ -21,15 +31,15 @@ const Home: NextPage = () => {
               <WildPayLogo color="white" width="30" height="30" />
               <span className="ml-2 text-lg font-semibold text-white">wildpay</span>
             </div>
-            <Link
-              href={launchAppLink}
+            <div
               className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+              onClick={handleLink}
             >
               <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
               <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
                 Launch dApp
               </span>
-            </Link>
+            </div>
           </div>
 
           {/* Content */}
@@ -38,12 +48,9 @@ const Home: NextPage = () => {
             <h2 className="text-base mt-4 text-white font-normal text-center mb-4">
               Get paid 24/7, from anywhere in the world.
             </h2>
-            <Link
-              href={launchAppLink}
-              className="shadow-[0_4px_14px_0_rgb(0,0,0,10%)] hover:shadow-[0_6px_20px_rgba(93,93,93,23%)] px-8 py-2 bg-[#fff] text-[#696969] rounded-md font-light transition duration-200 ease-linear"
-            >
+            <div className="btn btn-primary" onClick={handleLink}>
               Launch dApp
-            </Link>
+            </div>
           </div>
         </WavyBackground>
       </>
