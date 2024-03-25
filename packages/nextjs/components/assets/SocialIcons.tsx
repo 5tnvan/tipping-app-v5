@@ -6,8 +6,8 @@ type Props = {
 
 export const SocialIcons = ({ soc }: Props) => {
   // Initialize color variables
-  const leFill = soc.yt.val?.length > 0 ? "currentColor" : "grey";
-  const fcFill = soc.yt.val?.length > 0 ? "currentColor" : "grey";
+  const leFill = soc.le.val?.length > 0 ? "currentColor" : "grey";
+  const fcFill = soc.fc.val?.length > 0 ? "currentColor" : "grey";
   const ytFill = soc.yt.val?.length > 0 ? "currentColor" : "grey";
   const igFill = soc.ig.val?.length > 0 ? "currentColor" : "grey";
   const twFill = soc.tw.val?.length > 0 ? "currentColor" : "grey";

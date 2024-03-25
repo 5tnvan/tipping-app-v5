@@ -6,7 +6,9 @@ import Link from "next/link";
 import { NextPage } from "next";
 import { AppContext } from "~~/app/context";
 import { updateProfileSocial } from "~~/app/profile/actions";
+import { FarcasterIcon } from "~~/components/assets/FarcasterIcon";
 import { InstagramIcon } from "~~/components/assets/InstagramIcon";
+import { LensIcon } from "~~/components/assets/LensIcon";
 import { TiktokIcon } from "~~/components/assets/TiktokIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
 import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
@@ -23,10 +25,14 @@ const ProfileEdit: NextPage = () => {
   const { isAuth, user, profile, refetchAuth } = useContext(AppContext);
 
   const [socialMedia, setSocialMedia] = useState({
+    lens: true,
+    farcaster: true,
     youtube: true,
     instagram: true,
     twitter: true,
     tiktok: true,
+    lensInput: "",
+    farcasterInput: "",
     youtubeInput: "",
     instagramInput: "",
     twitterInput: "",
@@ -74,6 +80,76 @@ const ProfileEdit: NextPage = () => {
         <div id="wildpay-profile-edit" className="mt-5 mb-5 pl-6 pr-6 z-10">
           {/* SOCIAL */}
           <div className="mb-3">Social links:</div>
+
+          {/* Lens Protocol */}
+          <div className="mb-3">
+            {socialMedia.lens ? (
+              <label className="input input-bordered flex justify-between gap-2 pr-0">
+                <div className="opacity-70 flex items-center gap-2">
+                  <LensIcon handle={undefined} />
+                  <span className="wildpay-soc-label">lensprotocol.com /</span>
+                  <input type="text" className="bg-white" placeholder={profile.lens || ""} disabled />
+                </div>
+                <button className="btn btn-accent" onClick={() => handleSwitch("lens")}>
+                  {profile.lens && profile.lens?.length > 0 ? "Edit" : "Add"}
+                </button>
+              </label>
+            ) : (
+              <label className="input input-bordered flex items-center gap-2 pr-0">
+                <LensIcon handle={undefined} />
+                <input
+                  type="text"
+                  className="bg-white grow"
+                  placeholder={profile.lens || ""}
+                  value={socialMedia.lensInput}
+                  onChange={e => setSocialMedia({ ...socialMedia, lensInput: e.target.value })}
+                />
+                <div className="flex justify-end">
+                  <button className="btn btn-accent" onClick={() => handleSocialSave("lens")}>
+                    Save
+                  </button>
+                  <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("lens")}>
+                    Cancel
+                  </button>
+                </div>
+              </label>
+            )}
+          </div>
+
+          {/* Farcaster */}
+          <div className="mb-3">
+            {socialMedia.farcaster ? (
+              <label className="input input-bordered flex justify-between gap-2 pr-0">
+                <div className="opacity-70 flex items-center gap-2">
+                  <FarcasterIcon handle={undefined} />
+                  <span className="wildpay-soc-label">farcaster.com /</span>
+                  <input type="text" className="bg-white" placeholder={profile.farcaster || ""} disabled />
+                </div>
+                <button className="btn btn-accent" onClick={() => handleSwitch("farcaster")}>
+                  {profile.farcaster && profile.farcaster?.length > 0 ? "Edit" : "Add"}
+                </button>
+              </label>
+            ) : (
+              <label className="input input-bordered flex items-center gap-2 pr-0">
+                <FarcasterIcon handle={undefined} />
+                <input
+                  type="text"
+                  className="bg-white grow"
+                  placeholder={profile.farcaster || ""}
+                  value={socialMedia.farcasterInput}
+                  onChange={e => setSocialMedia({ ...socialMedia, farcasterInput: e.target.value })}
+                />
+                <div className="flex justify-end">
+                  <button className="btn btn-accent" onClick={() => handleSocialSave("farcaster")}>
+                    Save
+                  </button>
+                  <button className="btn btn-secondary btn-outline" onClick={() => handleSwitch("farcaster")}>
+                    Cancel
+                  </button>
+                </div>
+              </label>
+            )}
+          </div>
 
           {/* Youtube */}
           <div className="mb-3">
