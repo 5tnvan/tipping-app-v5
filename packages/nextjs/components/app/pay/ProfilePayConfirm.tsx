@@ -75,7 +75,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
     onSuccess(hash); //trigger profile pay modal
   };
 
-  const { writeAsync: pay } = useScaffoldContractWrite({
+  const { writeAsync: pay, isMining } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setPayment",
     args: [receiver, message],
@@ -247,6 +247,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 onClick={() => pay()}
               >
                 Confirm
+                {isMining && <span className="loading loading-ring loading-md"></span>}
               </button>
             </div>
           )}

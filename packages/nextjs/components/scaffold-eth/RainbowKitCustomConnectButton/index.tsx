@@ -21,7 +21,7 @@ type RainbowKitCustomConnectButtonProps = {
  * Custom Wagmi Connect Button (watch balance + custom design)
  */
 export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectButtonProps) => {
-  useAutoConnect();
+  //useAutoConnect();
   //const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
   const { profile } = useContext(AppContext);

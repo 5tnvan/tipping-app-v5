@@ -66,7 +66,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
   /**
    * ACTION: Pay
    **/
-  const { writeAsync: pay } = useScaffoldContractWrite({
+  const { writeAsync: pay, isMining } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "setPayment",
     args: [receiver, message],
@@ -203,16 +203,19 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
 
       {/* CONFIRM */}
       {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
-        <div className="flex justify-center">
-          <button
-            className={`${
-              dollarAmount === 0 && "btn-disabled"
-            } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3`}
-            onClick={() => pay()}
-          >
-            Confirm
-          </button>
-        </div>
+        <>
+          <div className="flex justify-center">
+            <button
+              className={`${
+                dollarAmount === 0 && "btn-disabled"
+              } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3`}
+              onClick={() => pay()}
+            >
+              Confirm
+              {isMining && <span className="loading loading-ring loading-md"></span>}
+            </button>
+          </div>
+        </>
       )}
     </>
   );

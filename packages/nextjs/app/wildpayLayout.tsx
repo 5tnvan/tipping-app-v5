@@ -7,6 +7,7 @@ import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 // import { Footer } from "~~/components/Footer";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
+import { BackgroundBeams } from "~~/components/app/ui/backgroudBeams";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
@@ -100,6 +101,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                           {(isDebug || isBlockExplorer) && <>{children}</>}
                         </div>
                       </main>
+                      <BackgroundBeams />
                     </div>
                     {/* <Toaster /> */}
 
