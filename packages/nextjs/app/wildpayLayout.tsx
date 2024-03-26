@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AccountingContext, AppContext, FollowersContext, ProfilePayContext, WithdrawContext } from "./context";
+import IsAdminLayout from "./isAdminLayout";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
 // import { Footer } from "~~/components/Footer";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
-import { BackgroundBeams } from "~~/components/app/ui/backgroudBeams";
 import { useAccounting } from "~~/hooks/app/useAccounting";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
@@ -58,9 +58,17 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   //   incomingTxSum,
   //   outgoingTxSum,
   // );
+  console.log(isRoot);
 
   return (
     <>
+      {(isDebug || isBlockExplorer) && (
+        <>
+          <AppContext.Provider value={{ isAuth, isLoadingAuth, profile }}>
+            <IsAdminLayout>{children}</IsAdminLayout>
+          </AppContext.Provider>
+        </>
+      )}
       {isRoot && (
         <>
           <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
@@ -70,7 +78,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
           </AppContext.Provider>
         </>
       )}
-      {!isRoot && (
+      {!isRoot && !isDebug && !isBlockExplorer && (
         <>
           <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
             <AccountingContext.Provider
@@ -86,7 +94,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                             <WildPayLogo color="blue" width="30" height="30" />
                             <h1 className="text-lg font-semibold custom-text-blue ml-2 mb-0 z-10">wildpay</h1>
                           </Link>
-                          {isAuth == "yes" && !isDebug && !isBlockExplorer && (
+                          {isAuth == "yes" && (
                             <IsAuthLayout
                               onFastPaySuccess={handlePaySuccess}
                               onProfilePaySuccess={handlePaySuccess}
@@ -95,16 +103,11 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                               {children}
                             </IsAuthLayout>
                           )}
-                          {isAuth == "no" && !isDebug && !isBlockExplorer && (
-                            <IsNotAuthLayout>{children}</IsNotAuthLayout>
-                          )}
-                          {(isDebug || isBlockExplorer) && <>{children}</>}
+                          {isAuth == "no" && <IsNotAuthLayout>{children}</IsNotAuthLayout>}
                         </div>
                       </main>
-                      <BackgroundBeams />
                     </div>
                     {/* <Toaster /> */}
-
                     {/* <Footer /> */}
                   </WithdrawContext.Provider>
                 </ProfilePayContext.Provider>

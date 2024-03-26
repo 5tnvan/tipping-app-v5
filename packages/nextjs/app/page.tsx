@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AppContext } from "./context";
 import type { NextPage } from "next";
@@ -10,6 +11,8 @@ import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 const Home: NextPage = () => {
   const router = useRouter();
   const { isAuth } = useContext(AppContext);
+
+  const launchAppLink = isAuth === "yes" ? "/home" : isAuth === "no" ? "/getstarted" : "/login";
 
   const handleLink = () => {
     if (isAuth === "yes") {
@@ -31,15 +34,15 @@ const Home: NextPage = () => {
               <WildPayLogo color="white" width="30" height="30" />
               <span className="ml-2 text-lg font-semibold text-white">wildpay</span>
             </div>
-            <div
+            <Link
+              href={launchAppLink}
               className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
-              onClick={handleLink}
             >
               <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
               <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
                 Launch dApp
               </span>
-            </div>
+            </Link>
           </div>
 
           {/* Content */}
