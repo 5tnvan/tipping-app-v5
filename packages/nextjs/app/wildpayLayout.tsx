@@ -24,7 +24,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const isRoot = pathname === "/";
   const isDebug = pathname === "/debug";
-  const isBlockExplorer = pathname === "/blockexplorer";
+  const isBlockExplorer = pathname.includes("/blockexplorer");
   const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
   const {
