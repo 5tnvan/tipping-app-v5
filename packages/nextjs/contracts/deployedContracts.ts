@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     YourContract: {
-      address: "0xcbEAF3BDe82155F56486Fb5a1072cb8baAf547cc",
+      address: "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB",
       abi: [
         {
           inputs: [
@@ -55,6 +55,25 @@ const deployedContracts = {
             },
           ],
           name: "PaymentChange",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "wallet",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "WithdrawChange",
           type: "event",
         },
         {
@@ -128,7 +147,13 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+          ],
           name: "withdraw",
           outputs: [],
           stateMutability: "nonpayable",

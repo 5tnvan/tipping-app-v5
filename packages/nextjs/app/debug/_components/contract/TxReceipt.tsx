@@ -10,7 +10,7 @@ export const TxReceipt = (
   const [txResultCopied, setTxResultCopied] = useState(false);
 
   return (
-    <div className="flex text-sm rounded-3xl peer-checked:rounded-b-none min-h-0 bg-secondary py-0">
+    <div className="flex text-sm rounded-3xl peer-checked:rounded-b-none min-h-0 bg-secondary py-0 text-white">
       <div className="mt-1 pl-2">
         {txResultCopied ? (
           <CheckCircleIcon
