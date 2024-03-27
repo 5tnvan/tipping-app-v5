@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class PaymentChange extends ethereum.Event {
@@ -44,60 +44,16 @@ export class PaymentChange__Params {
   }
 }
 
-export class SaveSwitchChange extends ethereum.Event {
-  get params(): SaveSwitchChange__Params {
-    return new SaveSwitchChange__Params(this);
-  }
-}
-
-export class SaveSwitchChange__Params {
-  _event: SaveSwitchChange;
-
-  constructor(event: SaveSwitchChange) {
-    this._event = event;
-  }
-
-  get wallet(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get value(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class WithdrawChange extends ethereum.Event {
-  get params(): WithdrawChange__Params {
-    return new WithdrawChange__Params(this);
-  }
-}
-
-export class WithdrawChange__Params {
-  _event: WithdrawChange;
-
-  constructor(event: WithdrawChange) {
-    this._event = event;
-  }
-
-  get wallet(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get value(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class YourContract extends ethereum.SmartContract {
-  static bind(address: Address): YourContract {
-    return new YourContract("YourContract", address);
+export class contractsepolia extends ethereum.SmartContract {
+  static bind(address: Address): contractsepolia {
+    return new contractsepolia("contractsepolia", address);
   }
 
   amountsReceived(param0: Address): BigInt {
     let result = super.call(
       "amountsReceived",
       "amountsReceived(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -107,7 +63,7 @@ export class YourContract extends ethereum.SmartContract {
     let result = super.tryCall(
       "amountsReceived",
       "amountsReceived(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -193,10 +149,6 @@ export class SaveSwitchCall__Inputs {
   constructor(call: SaveSwitchCall) {
     this._call = call;
   }
-
-  get _amount(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
 }
 
 export class SaveSwitchCall__Outputs {
@@ -256,10 +208,6 @@ export class WithdrawCall__Inputs {
 
   constructor(call: WithdrawCall) {
     this._call = call;
-  }
-
-  get _amount(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
   }
 }
 

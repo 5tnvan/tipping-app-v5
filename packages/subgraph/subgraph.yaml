@@ -9,18 +9,23 @@ dataSources:
     network: localhost
     source:
       abi: YourContract
-      address: "0xcbEAF3BDe82155F56486Fb5a1072cb8baAf547cc"
+      address: "0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Payment
-        - Sender
+        - Withdraw
+        - SaveSwitch
       abis:
         - name: YourContract
           file: ./abis/localhost_YourContract.json
       eventHandlers:
         - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
           handler: handlePaymentChange
+        - event: WithdrawChange(address,uint256)
+          handler: handleWithdrawChange
+        - event: SaveSwitchChange(address,uint256)
+          handler: handleSaveSwitchChange
       file: ./src/mapping.ts

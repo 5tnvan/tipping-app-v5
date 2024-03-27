@@ -59,7 +59,7 @@ const Transactions = ({ tx, hide }: Props) => {
             <div className="mt-1 text-neutral-500 font-medium tracking-tight">
               {payment?.message}
               <Link
-                href={`/blockexplorer/transaction/${payment?.transactionHash}`}
+                href={`/transaction/${payment?.transactionHash}`}
                 className="inline-flex text-primary h-6 min-h-6 text-sm ml-1"
               >
                 View

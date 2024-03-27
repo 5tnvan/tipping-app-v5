@@ -51,7 +51,7 @@ input:-webkit-autofill:focus {
 } */
 
 /* Remove default styling for number input */
-#wildpay-fastpay input[type="number"] {
+#wildpay-fastpay input[type="number"], #wildpay-withdraw input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
   width: 100%; /* Adjust width as needed */
@@ -60,18 +60,22 @@ input:-webkit-autofill:focus {
 
 /* Webkit browsers like Chrome and Safari use a different appearance property */
 #wildpay-fastpay input::-webkit-outer-spin-button,
-#wildpay-fastpay input::-webkit-inner-spin-button {
+#wildpay-fastpay input::-webkit-inner-spin-button,
+#wildpay-withdraw input::-webkit-outer-spin-button,
+#wildpay-withdraw input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Remove arrows in IE 10 and above */
-#wildpay-fastpay input[type="number"]::-ms-clear {
+#wildpay-fastpay input[type="number"]::-ms-clear,
+#wildpay-withdraw input[type="number"]::-ms-clear {
   display: none;
 }
 
 /* Remove outline on focus for number input */
-#wildpay-fastpay input[type="number"]:focus {
+#wildpay-fastpay input[type="number"]:focus,
+#wildpay-withdraw input[type="number"]:focus {
   outline: none;
 }
 

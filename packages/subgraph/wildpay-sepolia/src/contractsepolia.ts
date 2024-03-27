@@ -1,19 +1,39 @@
+import { BigInt, Address, Bytes } from "@graphprotocol/graph-ts";
 import { PaymentChange as PaymentChangeEvent } from "../generated/contractsepolia/contractsepolia"
-import { PaymentChange } from "../generated/schema"
+import { Payment, Sender, Receiver } from "../generated/schema";
 
 export function handlePaymentChange(event: PaymentChangeEvent): void {
-  let entity = new PaymentChange(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.sender = event.params.sender
-  entity.receiver = event.params.receiver
-  entity.newMessage = event.params.newMessage
-  entity.value = event.params.value
-  entity.fee = event.params.fee
+  let senderString = event.params.sender.toHexString();
+  let receiverString = event.params.receiver.toHexString();
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  let sender = Sender.load(senderString);
+  let receiver = Receiver.load(receiverString);
 
-  entity.save()
+  if (sender === null) {
+    sender = new Sender(senderString);
+    sender.address = event.params.sender;
+    sender.createdAt = event.block.timestamp;
+  } 
+
+  if (receiver === null) {
+    receiver = new Receiver(receiverString);
+    receiver.address = event.params.receiver;
+    receiver.createdAt = event.block.timestamp;
+  } 
+
+  let payment = new Payment(
+    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
+  );
+
+  payment.message = event.params.newMessage;
+  payment.sender = Bytes.fromHexString(senderString) ;
+  payment.receiver = Bytes.fromHexString(receiverString);;
+  payment.value = event.params.value;
+  payment.fee = event.params.fee;
+  payment.createdAt = event.block.timestamp;
+  payment.transactionHash = event.transaction.hash.toHex();
+
+  payment.save();
+  sender.save();
+  receiver.save();
 }

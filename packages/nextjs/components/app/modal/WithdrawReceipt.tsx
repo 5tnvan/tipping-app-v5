@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 type Props = {
@@ -31,15 +32,15 @@ export const WithdrawReceipt = ({ tx, isOpen, onClose }: Props) => {
           {/* WITHDRAW INTO */}
           <div className="p-6">
             <div className="font-semibold text-3xl">{"Done 🎉"}</div>
-            {/* <div className="mb-5">this is your receipt</div> */}
+            <div className="mb-5">this is your receipt</div>
             {/* Close */}
-            {/* <Link
-              href={"https://sepolia.etherscan.io/tx/" + tx}
+            <Link
+              href={"/blockexplorer/transaction/" + tx}
               className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
               onClick={handleClose}
             >
               Go to Transaction
-            </Link> */}
+            </Link>
           </div>
         </div>
       </div>

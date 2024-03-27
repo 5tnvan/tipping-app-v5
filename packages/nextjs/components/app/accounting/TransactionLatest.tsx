@@ -74,7 +74,7 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
             </div>
           </div>
           <Link
-            href={"/blockexplorer/transaction/" + tx.payments[0].transactionHash}
+            href={"/transaction/" + tx.payments[0].transactionHash}
             className="btn btn-primary w-full mt-3 mb-2"
             onClick={onClose}
           >

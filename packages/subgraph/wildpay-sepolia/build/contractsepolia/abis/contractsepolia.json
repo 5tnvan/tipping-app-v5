@@ -48,44 +48,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "wallet",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "SaveSwitchChange",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "wallet",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "WithdrawChange",
-    "type": "event"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -131,13 +93,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "saveSwitch",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -162,13 +118,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "withdraw",
     "outputs": [],
     "stateMutability": "nonpayable",

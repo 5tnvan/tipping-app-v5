@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 // Useful for debugging. Remove when deploying to a live network.
-//import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 // Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
 // import "@openzeppelin/contracts/access/Ownable.sol";
@@ -24,6 +24,16 @@ contract YourContract {
 		string newMessage,
 		uint256 value,
         uint256 fee
+	);
+
+	event WithdrawChange(
+		address wallet,
+		uint256 value
+	);
+
+	event SaveSwitchChange(
+		address wallet,
+		uint256 value
 	);
 
 	// Constructor: Called once on contract deployment
@@ -50,6 +60,14 @@ function setPayment(address _receiver, string memory _message) public payable {
         require(msg.value > 0, "Payment value must be higher than 0");
         require(_receiver != address(0), "Receiver address cannot be zero");
 
+		// Print data to the hardhat chain console. Remove when deploying to a live network.
+		console.log(
+			"Setting new payment from '%s' to '%s' with message %s",
+			msg.sender,
+			_receiver,
+			_message
+		);
+
         // Calculate 3% fee
         uint256 fee = (msg.value * 3) / 100;
         uint256 amountAfterFee = msg.value - fee;
@@ -66,28 +84,47 @@ function setPayment(address _receiver, string memory _message) public payable {
 
 
 	/**
-	 * Function that allows the [msg.sender] to withdraw all the Ether they've received in the contract
+	 * Function that allows the [msg.sender] to withdraw a custom amount of Ether they've received in the contract
 	 * The function can only be called by the [msg.sender]
+	 * 
+	 * @param _amount The amount of Ether to withdraw
 	 */
+	function withdraw(uint256 _amount) public {
+		require(_amount > 0, "Withdrawal amount must be greater than 0");
+		require(amountsReceived[msg.sender] >= _amount, "Insufficient balance for withdrawal");
 
-    function withdraw() public {
-        uint256 amount = amountsReceived[msg.sender];
-        require(amount > 0, "No amount to withdraw");
+		// Update sender's balance
+		amountsReceived[msg.sender] -= _amount;
 
-        amountsReceived[msg.sender] = 0;
-        (bool success, ) = msg.sender.call{ value: amount }("");
-        require(success, "Failed to send amount");
+		console.log(
+			"Withdraw to '%s' with amount '%s'",
+			msg.sender,
+			_amount
+		);
 
-    }
+		// Transfer the specified amount to the sender
+		(bool success, ) = msg.sender.call{ value: _amount }("");
+		require(success, "Failed to send amount");
+
+		// Emit WithdrawChange event
+		emit WithdrawChange(msg.sender, _amount);
+	}
 
 	/**
-	 * Function that allows the owner to rescue all the Ether in the contract
+	 * Function that allows the owner to rescue Ether from the contract
 	 * The function can only be called by the owner
+	 * 
+	 * @param _amount The amount of Ether to rescue
 	 */
+	function saveSwitch(uint256 _amount) public isOwner {
+		require(_amount > 0, "Rescue amount must be greater than 0");
+		require(address(this).balance >= _amount, "Insufficient balance for rescue");
 
-    function saveSwitch() public isOwner {
-		(bool success, ) = owner.call{ value: address(this).balance }("");
-		require(success, "Failed to send Ether");
+		(bool success, ) = owner.call{ value: _amount }("");
+		require(success, "Failed to send Ether to owner");
+
+		// Emit WithdrawChange event
+		emit SaveSwitchChange(msg.sender, _amount);
 	}
 
 	/**

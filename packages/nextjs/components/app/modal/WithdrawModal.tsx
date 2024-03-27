@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { useAccount } from "wagmi";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
@@ -9,6 +9,8 @@ import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/Rainbo
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
+import { parseEther } from "viem";
 
 type Props = {
   isOpen: any;
@@ -20,12 +22,30 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { withdrawBalance } = useContext(AccountingContext);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const { address: connectedAddress } = useAccount();
-
+  const [ethAmount, setEthAmount] = useState(0);
+  const [dollarAmount, setDollarAmount] = useState(0);
+  const [confirm, setConfirm] = useState("btn-disabled");
   /**
    * ACTION: Handle Close
    **/
   const handleClose = () => {
     onClose();
+  };
+
+  /**
+   * ACTION: Show billing
+   **/
+  const handleInput = (e: any) => {
+    const ethAmount = Number(e.target.value);
+    const dollarAmount = convertEthToUsd(ethAmount, nativeCurrencyPrice);
+    setEthAmount(ethAmount);
+    setDollarAmount(dollarAmount);
+
+    if (e.target.value == 0 || e.target.value > withdrawBalance ) {
+      setConfirm("btn-disabled");
+    } else {
+      setConfirm("");
+    }
   };
 
   /**
@@ -39,10 +59,11 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { writeAsync: withdraw } = useScaffoldContractWrite({
     contractName: "YourContract",
     functionName: "withdraw",
+    args: [parseEther(ethAmount.toString())],
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
-      console.log("Transaction blockHash", txnReceipt.blockHash);
-      handleWithdraw(txnReceipt.blockHash);
+      console.log("Transaction transactionHash", txnReceipt.transactionHash);
+      handleWithdraw(txnReceipt.transactionHash);
     },
   });
 
@@ -85,17 +106,44 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
             )}
             {profile.wallet_id && withdrawBalance > 0 && (
               <>
-                <div className="flex justify-between">
-                  <div>ETH</div>
-                  <div className="flex items-center text-xl">
+                {/* BALANCE AMOUNT */}
+                <div className="font-semibold">Your balance</div>
+                <div className="flex">
+                  <div className="flex items-center text-xl mr-2 font-medium">
                     <EthIcon width={16} height={16} />
-                    {Number(withdrawBalance).toFixed(4)}
+                    {Number(withdrawBalance)}
+                  </div>
+                  <div className="text-xl text-neutral-700">
+                    (${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})
                   </div>
                 </div>
-                <div className="flex justify-between mb-4">
-                  <div>USD</div>
-                  <div className="text-xl">${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)}</div>
+                {/* WITHDRAW AMOUNT */}
+                <div id="wildpay-withdraw" className="flex items-center pt-5 pb-3 text-5xl">
+                  <span className="text-3xl">Ξ</span>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      className="text-center custom-text-blue bg-white"
+                      onChange={handleInput}
+                    />
+                  </div>
+                  <span className="text-3xl">ETH</span>
                 </div>
+                {dollarAmount > 0 && (
+                  <>
+                    {/* BILL */}
+                    <div className="mb-5">
+                      <div className="flex justify-between border-t pt-3">
+                        <div className="pb-1">Withdraw Amount</div>
+                        <div className="font-semibold">{`${ethAmount}`} ETH</div>
+                      </div>
+                      <div className="flex justify-end font-semibold">
+                        <div>{`$${dollarAmount}`}</div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </>
             )}
             {profile.wallet_id && withdrawBalance > 0 && profile.wallet_id == !connectedAddress && (
@@ -149,7 +197,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
             {/* Confirm */}
             {profile.wallet_id && withdrawBalance > 0 && profile.wallet_id == connectedAddress && (
               <div
-                className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+                className={`btn btn-accent ${confirm} bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3`}
                 onClick={() => withdraw()}
               >
                 Withdraw

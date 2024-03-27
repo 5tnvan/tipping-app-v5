@@ -9,14 +9,18 @@ type Payment @entity {
   transactionHash: String!
 }
 
-type Sender @entity {
+type Withdraw @entity {
   id: ID!
-  address: Bytes!
+  wallet: Bytes!
+  value: BigInt!
   createdAt: BigInt!
+  transactionHash: String!
 }
 
-type Receiver @entity {
+type SaveSwitch @entity {
   id: ID!
-  address: Bytes!
+  wallet: Bytes!
+  value: BigInt!
   createdAt: BigInt!
+  transactionHash: String!
 }
