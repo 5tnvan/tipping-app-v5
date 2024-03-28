@@ -106,6 +106,19 @@
   },
   {
     "inputs": [],
+    "name": "feePercentage",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "message",
     "outputs": [
       {
@@ -139,6 +152,19 @@
       }
     ],
     "name": "saveSwitch",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_percentage",
+        "type": "uint256"
+      }
+    ],
+    "name": "setFeePercentage",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

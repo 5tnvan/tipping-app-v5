@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: YourContract
+    network: sepolia
+    source:
+      address: "0xbe918cfacca771508a2cdef6e8751729acf943e3"
+      abi: YourContract
+      startBlock: 5578366
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - PaymentChange
+        - SaveSwitchChange
+        - WithdrawChange
+      abis:
+        - name: YourContract
+          file: ./abis/YourContract.json
+      eventHandlers:
+        - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
+          handler: handlePaymentChange
+        - event: SaveSwitchChange(address,uint256)
+          handler: handleSaveSwitchChange
+        - event: WithdrawChange(address,uint256)
+          handler: handleWithdrawChange
+      file: ./src/your-contract.ts

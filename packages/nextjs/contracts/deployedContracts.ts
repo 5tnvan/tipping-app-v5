@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     YourContract: {
-      address: "0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E",
+      address: "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb",
       abi: [
         {
           inputs: [
@@ -116,6 +116,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "feePercentage",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "message",
           outputs: [
             {
@@ -149,6 +162,19 @@ const deployedContracts = {
             },
           ],
           name: "saveSwitch",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_percentage",
+              type: "uint256",
+            },
+          ],
+          name: "setFeePercentage",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -194,7 +220,7 @@ const deployedContracts = {
   },
   11155111: {
     YourContract: {
-      address: "0x3579B02193028357ACaFE8323d2F62155078033A",
+      address: "0xBE918cFACCA771508A2cDeF6E8751729acf943E3",
       abi: [
         {
           inputs: [
@@ -245,6 +271,44 @@ const deployedContracts = {
           type: "event",
         },
         {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "wallet",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "SaveSwitchChange",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "wallet",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "WithdrawChange",
+          type: "event",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -253,6 +317,19 @@ const deployedContracts = {
             },
           ],
           name: "amountsReceived",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "feePercentage",
           outputs: [
             {
               internalType: "uint256",
@@ -290,8 +367,27 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+          ],
           name: "saveSwitch",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_percentage",
+              type: "uint256",
+            },
+          ],
+          name: "setFeePercentage",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -315,7 +411,13 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+          ],
           name: "withdraw",
           outputs: [],
           stateMutability: "nonpayable",

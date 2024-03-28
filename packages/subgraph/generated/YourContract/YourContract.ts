@@ -116,6 +116,25 @@ export class YourContract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  feePercentage(): BigInt {
+    let result = super.call("feePercentage", "feePercentage():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_feePercentage(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "feePercentage",
+      "feePercentage():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   message(): string {
     let result = super.call("message", "message():(string)", []);
 
@@ -203,6 +222,36 @@ export class SaveSwitchCall__Outputs {
   _call: SaveSwitchCall;
 
   constructor(call: SaveSwitchCall) {
+    this._call = call;
+  }
+}
+
+export class SetFeePercentageCall extends ethereum.Call {
+  get inputs(): SetFeePercentageCall__Inputs {
+    return new SetFeePercentageCall__Inputs(this);
+  }
+
+  get outputs(): SetFeePercentageCall__Outputs {
+    return new SetFeePercentageCall__Outputs(this);
+  }
+}
+
+export class SetFeePercentageCall__Inputs {
+  _call: SetFeePercentageCall;
+
+  constructor(call: SetFeePercentageCall) {
+    this._call = call;
+  }
+
+  get _percentage(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetFeePercentageCall__Outputs {
+  _call: SetFeePercentageCall;
+
+  constructor(call: SetFeePercentageCall) {
     this._call = call;
   }
 }

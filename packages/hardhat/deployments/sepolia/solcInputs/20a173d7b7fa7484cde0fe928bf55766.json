@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/YourContract.sol": {
+      "content": "//SPDX-License-Identifier: MIT\npragma solidity >=0.8.0 <0.9.0;\n\n/**\n * A smart contract that allows sending of payments from a wallet to a wallet\n * @author WildPay\n */\ncontract YourContract {\n\taddress public immutable owner;\n\tstring public message = \"Dare to get paid?\";\n    mapping(address => uint256) public amountsReceived;\n\tuint256 public feePercentage;\n\n\tevent PaymentChange(\n\t\taddress indexed sender,\n\t\taddress indexed receiver,\n\t\tstring newMessage,\n\t\tuint256 value,\n        uint256 fee\n\t);\n\n\tevent WithdrawChange(\n\t\taddress wallet,\n\t\tuint256 value\n\t);\n\n\tevent SaveSwitchChange(\n\t\taddress wallet,\n\t\tuint256 value\n\t);\n\n\t// Constructor: Called once on contract deployment\n\tconstructor(address _owner) {\n\t\towner = _owner;\n\t\tfeePercentage = 3; //default\n\t}\n\n\t// Modifier: used to define a set of rules that must be met before or after a function is executed\n\tmodifier isOwner() {\n\t\trequire(msg.sender == owner, \"Not the Owner\");\n\t\t_;\n\t}\n\n\t/**\n     * Function to set the fee percentage.\n     * Can only be called by the owner.\n     *\n     * @param _percentage The new fee percentage\n     */\n    function setFeePercentage(uint256 _percentage) public isOwner {\n        require(_percentage <= 100, \"Fee percentage cannot exceed 100%\");\n        feePercentage = _percentage;\n    }\n\n\t/**\n\t * Function that allows anyone to send a payment to a receiver, updating the state variables\n\t *\n\t * @param _receiver (address) - address of the receiver\n\t * @param _message (string memory) - optional message associated with the payment\n\t */\n\tfunction setPayment(address _receiver, string memory _message) public payable {\n        require(msg.value > 0, \"Payment value must be higher than 0\");\n        require(_receiver != address(0), \"Receiver address cannot be zero\");\n\n        // Calculate fee\n        uint256 fee = (msg.value * feePercentage) / 100;\n        uint256 amountAfterFee = msg.value - fee;\n\n        // Track amounts sent to the contract\n        amountsReceived[_receiver] += amountAfterFee;\n\n        // Transfer fee to the owner\n        (bool feeTransferSuccess, ) = owner.call{ value: fee }(\"\");\n        require(feeTransferSuccess, \"Failed to send fee to owner\");\n\n        emit PaymentChange(msg.sender, _receiver, _message, amountAfterFee, fee);\n    }\n\n\n\t/**\n\t * Function that allows the [msg.sender] to withdraw a custom amount of Ether they've received in the contract\n\t * The function can only be called by the [msg.sender]\n\t * \n\t * @param _amount The amount of Ether to withdraw\n\t */\n\tfunction withdraw(uint256 _amount) public {\n\t\trequire(_amount > 0, \"Withdrawal amount must be greater than 0\");\n\t\trequire(amountsReceived[msg.sender] >= _amount, \"Insufficient balance for withdrawal\");\n\n\t\t// Update sender's balance\n\t\tamountsReceived[msg.sender] -= _amount;\n\n\t\t// Transfer the specified amount to the sender\n\t\t(bool success, ) = msg.sender.call{ value: _amount }(\"\");\n\t\trequire(success, \"Failed to send amount\");\n\n\t\t// Emit WithdrawChange event\n\t\temit WithdrawChange(msg.sender, _amount);\n\t}\n\n\t/**\n\t * Function that allows the owner to rescue Ether from the contract\n\t * The function can only be called by the owner\n\t * \n\t * @param _amount The amount of Ether to rescue\n\t */\n\tfunction saveSwitch(uint256 _amount) public isOwner {\n\t\trequire(_amount > 0, \"Rescue amount must be greater than 0\");\n\t\trequire(address(this).balance >= _amount, \"Insufficient balance for rescue\");\n\n\t\t(bool success, ) = owner.call{ value: _amount }(\"\");\n\t\trequire(success, \"Failed to send Ether to owner\");\n\n\t\t// Emit SaveSwitchChange event\n\t\temit SaveSwitchChange(msg.sender, _amount);\n\t}\n\n\t/**\n\t * Function that allows the contract to receive ETH\n\t */\n\treceive() external payable {}\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -9,7 +9,7 @@ dataSources:
     network: localhost
     source:
       abi: YourContract
-      address: "0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E"
+      address: "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

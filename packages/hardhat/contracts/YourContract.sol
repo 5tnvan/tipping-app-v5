@@ -1,23 +1,16 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
-// Useful for debugging. Remove when deploying to a live network.
-import "hardhat/console.sol";
-
-// Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
-// import "@openzeppelin/contracts/access/Ownable.sol";
-
 /**
  * A smart contract that allows sending of payments from a wallet to a wallet
  * @author WildPay
  */
 contract YourContract {
-	// State Variables
 	address public immutable owner;
 	string public message = "Dare to get paid?";
-    mapping(address => uint256) public amountsReceived;  // Mapping to track amounts sent to each receiver
+    mapping(address => uint256) public amountsReceived;
+	uint256 public feePercentage;
 
-	// Events: a way to emit log statements from smart contract that can be listened to by external parties
 	event PaymentChange(
 		address indexed sender,
 		address indexed receiver,
@@ -37,45 +30,46 @@ contract YourContract {
 	);
 
 	// Constructor: Called once on contract deployment
-	// Check packages/hardhat/deploy/00_deploy_your_contract.ts
 	constructor(address _owner) {
 		owner = _owner;
+		feePercentage = 3; //default
 	}
 
 	// Modifier: used to define a set of rules that must be met before or after a function is executed
-	// Check the withdraw() function
 	modifier isOwner() {
-
 		require(msg.sender == owner, "Not the Owner");
 		_;
 	}
 
 	/**
- * Function that allows anyone to send a payment to a receiver, updating the state variables
- *
- * @param _receiver (address) - address of the receiver
- * @param _message (string memory) - optional message associated with the payment
- */
-function setPayment(address _receiver, string memory _message) public payable {
+     * Function to set the fee percentage.
+     * Can only be called by the owner.
+     *
+     * @param _percentage The new fee percentage
+     */
+    function setFeePercentage(uint256 _percentage) public isOwner {
+        require(_percentage <= 100, "Fee percentage cannot exceed 100%");
+        feePercentage = _percentage;
+    }
+
+	/**
+	 * Function that allows anyone to send a payment to a receiver, updating the state variables
+	 *
+	 * @param _receiver (address) - address of the receiver
+	 * @param _message (string memory) - optional message associated with the payment
+	 */
+	function setPayment(address _receiver, string memory _message) public payable {
         require(msg.value > 0, "Payment value must be higher than 0");
         require(_receiver != address(0), "Receiver address cannot be zero");
 
-		// Print data to the hardhat chain console. Remove when deploying to a live network.
-		console.log(
-			"Setting new payment from '%s' to '%s' with message %s",
-			msg.sender,
-			_receiver,
-			_message
-		);
-
-        // Calculate 3% fee
-        uint256 fee = (msg.value * 3) / 100;
+        // Calculate fee
+        uint256 fee = (msg.value * feePercentage) / 100;
         uint256 amountAfterFee = msg.value - fee;
 
         // Track amounts sent to the contract
         amountsReceived[_receiver] += amountAfterFee;
 
-        // Transfer 3% fee to the owner
+        // Transfer fee to the owner
         (bool feeTransferSuccess, ) = owner.call{ value: fee }("");
         require(feeTransferSuccess, "Failed to send fee to owner");
 
@@ -95,12 +89,6 @@ function setPayment(address _receiver, string memory _message) public payable {
 
 		// Update sender's balance
 		amountsReceived[msg.sender] -= _amount;
-
-		console.log(
-			"Withdraw to '%s' with amount '%s'",
-			msg.sender,
-			_amount
-		);
 
 		// Transfer the specified amount to the sender
 		(bool success, ) = msg.sender.call{ value: _amount }("");
@@ -123,7 +111,7 @@ function setPayment(address _receiver, string memory _message) public payable {
 		(bool success, ) = owner.call{ value: _amount }("");
 		require(success, "Failed to send Ether to owner");
 
-		// Emit WithdrawChange event
+		// Emit SaveSwitchChange event
 		emit SaveSwitchChange(msg.sender, _amount);
 	}
 
