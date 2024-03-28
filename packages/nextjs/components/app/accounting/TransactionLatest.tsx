@@ -17,6 +17,7 @@ type Props = {
 };
 
 const TransactionLatest = ({ tx, onClose }: Props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
@@ -29,6 +30,7 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
         const receiverProfileData = await fetchPublicProfileFromWalletId(tx.paymentChanges[0].receiver);
         setSenderProfile(senderProfileData);
         setReceiverProfile(receiverProfileData);
+        setIsLoading(false);
       }
     };
 
@@ -37,19 +39,27 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
 
   return (
     <>
-      {tx && senderProfile && (
+      {tx && (
         <>
           <div className="w-full rounded-xxl bg-black/[0.96] relative ">
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
             <div className="mt-5 p-6" key={tx.paymentChanges[0].transactionHash}>
               <div className="flex justify-between mb-6">
                 <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                  <Avatar profile={senderProfile} width={8} ring={false} />
-                  <div className="font-semibold">{senderProfile.username}</div>
+                  {senderProfile && <Avatar profile={senderProfile} width={8} ring={false} />}
+                  <div className="font-semibold">
+                    {isLoading && <div className="animate-pulse w-8 h-2"></div>}
+                    {senderProfile && !isLoading && senderProfile.username}
+                    {!senderProfile && !isLoading && "anon"}
+                  </div>
                 </div>
                 <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                  <Avatar profile={receiverProfile} width={8} ring={false} />
-                  <div className="font-semibold">{receiverProfile.username}</div>
+                  {receiverProfile && <Avatar profile={receiverProfile} width={8} ring={false} />}
+                  <div className="font-semibold">
+                    {isLoading && <div className="animate-pulse w-8 h-2"></div>}
+                    {receiverProfile && !isLoading && receiverProfile.username}
+                    {!receiverProfile && !isLoading && "anon"}
+                  </div>
                 </div>
               </div>
               <div className="flex justify-between">

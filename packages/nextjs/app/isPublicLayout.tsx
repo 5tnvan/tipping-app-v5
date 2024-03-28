@@ -78,8 +78,8 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
   let soc;
   if (publicProfile?.id) {
     soc = {
-      le: { val: publicProfile.lens, link: "https://youtube.com/" + publicProfile.lens },
-      fc: { val: publicProfile.farcaster, link: "https://youtube.com/" + publicProfile.farcaster },
+      le: { val: publicProfile.lens, link: "https://lens.xyz/" + publicProfile.lens },
+      fc: { val: publicProfile.farcaster, link: "https://warpcast.com/" + publicProfile.farcaster },
       yt: { val: publicProfile.youtube, link: "https://youtube.com/" + publicProfile.youtube },
       ig: { val: publicProfile.instagram, link: "https://instagram.com/" + publicProfile.instagram },
       tw: { val: publicProfile.twitter, link: "https://x.com/" + publicProfile.twitter },

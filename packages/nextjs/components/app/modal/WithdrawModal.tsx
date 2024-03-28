@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
+import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext } from "~~/app/context";
@@ -9,8 +10,6 @@ import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/Rainbo
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
-import { parseEther } from "viem";
 
 type Props = {
   isOpen: any;
@@ -41,7 +40,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
     setEthAmount(ethAmount);
     setDollarAmount(dollarAmount);
 
-    if (e.target.value == 0 || e.target.value > withdrawBalance ) {
+    if (e.target.value == 0 || e.target.value > withdrawBalance) {
       setConfirm("btn-disabled");
     } else {
       setConfirm("");

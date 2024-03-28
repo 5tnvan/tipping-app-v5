@@ -57,8 +57,8 @@ const IsAuthLayout = ({
   if (!username) {
     // Set up social media links using profile data
     soc = {
-      le: { val: profile.lens, link: "https://youtube.com/" + profile.lens },
-      fc: { val: profile.farcaster, link: "https://youtube.com/" + profile.farcaster },
+      le: { val: profile.lens, link: "https://lens.xyz/" + profile.lens },
+      fc: { val: profile.farcaster, link: "https://warpcast.com/" + profile.farcaster },
       yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
       ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
       tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },

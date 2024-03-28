@@ -87,7 +87,7 @@ const ProfileEdit: NextPage = () => {
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
                   <LensIcon handle={undefined} />
-                  <span className="wildpay-soc-label">lensprotocol.com /</span>
+                  <span className="wildpay-soc-label">lens.xyz /</span>
                   <input type="text" className="bg-white" placeholder={profile.lens || ""} disabled />
                 </div>
                 <button className="btn btn-accent" onClick={() => handleSwitch("lens")}>
@@ -122,7 +122,7 @@ const ProfileEdit: NextPage = () => {
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
                   <FarcasterIcon handle={undefined} />
-                  <span className="wildpay-soc-label">farcaster.com /</span>
+                  <span className="wildpay-soc-label">warpcast.com /</span>
                   <input type="text" className="bg-white" placeholder={profile.farcaster || ""} disabled />
                 </div>
                 <button className="btn btn-accent" onClick={() => handleSwitch("farcaster")}>

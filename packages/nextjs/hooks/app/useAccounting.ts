@@ -21,8 +21,8 @@ export const useAccounting = (wallet_id: any) => {
 
   const calculateSum = (txData: any) => {
     const totalSum =
-      txData?.payments?.reduce((sum: number, payment: { value: any }) => {
-        return sum + Number(payment.value);
+      txData?.paymentChanges?.reduce((sum: number, paymentChange: { value: any }) => {
+        return sum + Number(paymentChange.value);
       }, 0) || 0;
 
     const totalSumEth = Number(Number(formatEther(totalSum)).toFixed(4));
