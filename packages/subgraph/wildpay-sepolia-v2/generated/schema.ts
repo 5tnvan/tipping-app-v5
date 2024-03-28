@@ -8,7 +8,7 @@ import {
   store,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
 export class PaymentChange extends Entity {
@@ -23,7 +23,7 @@ export class PaymentChange extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type PaymentChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type PaymentChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("PaymentChange", id.toBytes().toHexString(), this);
     }
@@ -31,13 +31,13 @@ export class PaymentChange extends Entity {
 
   static loadInBlock(id: Bytes): PaymentChange | null {
     return changetype<PaymentChange | null>(
-      store.get_in_block("PaymentChange", id.toHexString())
+      store.get_in_block("PaymentChange", id.toHexString()),
     );
   }
 
   static load(id: Bytes): PaymentChange | null {
     return changetype<PaymentChange | null>(
-      store.get("PaymentChange", id.toHexString())
+      store.get("PaymentChange", id.toHexString()),
     );
   }
 
@@ -171,7 +171,7 @@ export class SaveSwitchChange extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type SaveSwitchChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type SaveSwitchChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("SaveSwitchChange", id.toBytes().toHexString(), this);
     }
@@ -179,13 +179,13 @@ export class SaveSwitchChange extends Entity {
 
   static loadInBlock(id: Bytes): SaveSwitchChange | null {
     return changetype<SaveSwitchChange | null>(
-      store.get_in_block("SaveSwitchChange", id.toHexString())
+      store.get_in_block("SaveSwitchChange", id.toHexString()),
     );
   }
 
   static load(id: Bytes): SaveSwitchChange | null {
     return changetype<SaveSwitchChange | null>(
-      store.get("SaveSwitchChange", id.toHexString())
+      store.get("SaveSwitchChange", id.toHexString()),
     );
   }
 
@@ -280,7 +280,7 @@ export class WithdrawChange extends Entity {
     if (id) {
       assert(
         id.kind == ValueKind.BYTES,
-        `Entities of type WithdrawChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type WithdrawChange must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`,
       );
       store.set("WithdrawChange", id.toBytes().toHexString(), this);
     }
@@ -288,13 +288,13 @@ export class WithdrawChange extends Entity {
 
   static loadInBlock(id: Bytes): WithdrawChange | null {
     return changetype<WithdrawChange | null>(
-      store.get_in_block("WithdrawChange", id.toHexString())
+      store.get_in_block("WithdrawChange", id.toHexString()),
     );
   }
 
   static load(id: Bytes): WithdrawChange | null {
     return changetype<WithdrawChange | null>(
-      store.get("WithdrawChange", id.toHexString())
+      store.get("WithdrawChange", id.toHexString()),
     );
   }
 

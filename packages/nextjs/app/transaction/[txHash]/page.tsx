@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 import { Hash, Transaction, formatEther } from "viem";
-//import { sepolia } from "viem/chains";
-import { hardhat } from "viem/chains";
+//import { hardhat } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { usePublicClient } from "wagmi";
 import { TimeAgoUnix } from "~~/components/app/TimeAgo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -23,7 +23,7 @@ type PageProps = {
   params: { txHash?: Hash };
 };
 const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
-  const client = usePublicClient({ chainId: hardhat.id });
+  const client = usePublicClient({ chainId: sepolia.id });
   const txHash = params?.txHash as Hash;
   const [transaction, setTransaction] = useState<Transaction>();
   const { targetNetwork } = useTargetNetwork();
@@ -56,11 +56,11 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   useEffect(() => {
     if (transactionData && !loading) {
       const fetchData = async () => {
-        const senderProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].sender);
-        const receiverProfileData = await fetchPublicProfileFromWalletId(transactionData.payments[0].receiver);
+        const senderProfileData = await fetchPublicProfileFromWalletId(transactionData.paymentChanges[0].sender);
+        const receiverProfileData = await fetchPublicProfileFromWalletId(transactionData.paymentChanges[0].receiver);
         setSenderProfile(senderProfileData);
         setReceiverProfile(receiverProfileData);
-        const myDate = new Date(transactionData.payments[0].createdAt * 1000);
+        const myDate = new Date(transactionData.paymentChanges[0].blockTimestamp * 1000);
         setDateUnix(myDate);
       };
       fetchData();
@@ -78,7 +78,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
           <>
             <div className="w-full rounded-xxl bg-black/[0.96] relative ">
               <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-              <div className="mt-5 p-6" key={transactionData.payments[0].transactionHash}>
+              <div className="mt-5 p-6" key={transactionData.paymentChanges[0].transactionHash}>
                 <div className="flex justify-between mb-6">
                   <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
                     <Avatar profile={senderProfile} width={8} ring={false} />
@@ -92,21 +92,26 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                 <div className="flex justify-between">
                   <div className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50">
                     {`"`}
-                    {transactionData.payments[0]?.message}
+                    {transactionData.paymentChanges[0]?.newMessage}
                     {`"`}
                   </div>
                   <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                     <div className="text-3xl">
-                      ${convertEthToUsd(formatEther(transactionData.payments[0].value), nativeCurrencyPrice).toFixed(2)}
+                      $
+                      {convertEthToUsd(
+                        formatEther(transactionData.paymentChanges[0].value),
+                        nativeCurrencyPrice,
+                      ).toFixed(2)}
                     </div>
                     <div className="flex text-xl items-center">
                       <EthIcon width={18} height={18} />
-                      {Number(formatEther(transactionData.payments[0].value)).toFixed(4)}
+                      {Number(formatEther(transactionData.paymentChanges[0].value)).toFixed(4)}
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-end text-neutral font-medium">
-                  <TimeAgoUnix timestamp={transactionData.payments[0]?.createdAt} /> <span className="ml-1">ago</span>
+                  <TimeAgoUnix timestamp={transactionData.paymentChanges[0]?.blockTimestamp} />
+                  <span className="ml-1">ago</span>
                 </div>
               </div>
             </div>
@@ -127,28 +132,28 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   <tr className="hover">
                     <th>Hash</th>
                     <td className="text-ellipsis overflow-hidden md:max-w-96 max-w-24">
-                      {transactionData?.payments[0].transactionHash}
+                      {transactionData?.paymentChanges[0].transactionHash}
                     </td>
                   </tr>
                   {/* row 2 */}
                   <tr className="hover">
                     <th>From</th>
                     <td>
-                      <Address address={transactionData?.payments[0].sender} format="short" />
+                      <Address address={transactionData?.paymentChanges[0].sender} format="short" />
                     </td>
                   </tr>
                   {/* row 3 */}
                   <tr className="hover">
                     <th>To</th>
                     <td>
-                      <Address address={transactionData?.payments[0].receiver} format="short" />
+                      <Address address={transactionData?.paymentChanges[0].receiver} format="short" />
                     </td>
                   </tr>
                   {/* row 3 */}
                   <tr className="hover">
                     <th>Value</th>
                     <td>
-                      {Number(formatEther(transactionData?.payments[0].value)).toFixed(4)}{" "}
+                      {Number(formatEther(transactionData?.paymentChanges[0].value)).toFixed(4)}{" "}
                       {targetNetwork.nativeCurrency.symbol}
                     </td>
                   </tr>

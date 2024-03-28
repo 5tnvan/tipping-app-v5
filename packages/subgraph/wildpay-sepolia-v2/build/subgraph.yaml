@@ -1,18 +1,19 @@
-specVersion: 0.0.4
-description: WildPay
-repository: https://github.com/scaffold-eth/se-2/packages/subgraph/
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
 schema:
-  file: ./src/schema.graphql
+  file: schema.graphql
 dataSources:
-  - kind: ethereum/contract
+  - kind: ethereum
     name: YourContract
-    network: localhost
+    network: sepolia
     source:
+      address: "0xbe918cfacca771508a2cdef6e8751729acf943e3"
       abi: YourContract
-      address: "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+      startBlock: 5578366
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - PaymentChange
@@ -20,7 +21,7 @@ dataSources:
         - WithdrawChange
       abis:
         - name: YourContract
-          file: ./abis/localhost_YourContract.json
+          file: YourContract/abis/YourContract.json
       eventHandlers:
         - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
           handler: handlePaymentChange
@@ -28,4 +29,4 @@ dataSources:
           handler: handleSaveSwitchChange
         - event: WithdrawChange(address,uint256)
           handler: handleWithdrawChange
-      file: ./src/mapping.ts
+      file: YourContract/YourContract.wasm

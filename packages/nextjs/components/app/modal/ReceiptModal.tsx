@@ -35,9 +35,13 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
           <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
           {/* RECEIPT */}
           {error && <>Sorry, something went wrong. Please try again later.</>}
-          {transactionData && transactionData.payments[0] && !loading && !error ? (
+          {transactionData && transactionData.paymentChanges[0] && !loading && !error ? (
             <TransactionLatest tx={transactionData} onClose={handleClose} />
-          ) : (<><span className="loading loading-ring loading-lg"></span></>)}
+          ) : (
+            <>
+              <span className="loading loading-ring loading-lg"></span>
+            </>
+          )}
         </div>
       </div>
     </div>

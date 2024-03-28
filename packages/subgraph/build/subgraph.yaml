@@ -15,17 +15,17 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Payment
-        - Withdraw
-        - SaveSwitch
+        - PaymentChange
+        - SaveSwitchChange
+        - WithdrawChange
       abis:
         - name: YourContract
           file: YourContract/abis/localhost_YourContract.json
       eventHandlers:
         - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
           handler: handlePaymentChange
-        - event: WithdrawChange(address,uint256)
-          handler: handleWithdrawChange
         - event: SaveSwitchChange(address,uint256)
           handler: handleSaveSwitchChange
+        - event: WithdrawChange(address,uint256)
+          handler: handleWithdrawChange
       file: YourContract/YourContract.wasm

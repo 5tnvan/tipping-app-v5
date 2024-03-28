@@ -12,18 +12,19 @@ import { gql, useQuery } from "@apollo/client";
 export const useOutgoingTransactions = (senderAddress: any) => {
   const PAYMENTS_GRAPHQL = `
       query GetPayments($senderAddress: Bytes!) {
-        payments(
+        paymentChanges(
           where: { sender: $senderAddress }
-          orderBy: createdAt
+          orderBy: blockTimestamp
           orderDirection: desc
         ) {
           id
           sender
           receiver
-          message
+          newMessage
           value
           fee
-          createdAt
+          blockNumber
+          blockTimestamp
           transactionHash
         }
       }

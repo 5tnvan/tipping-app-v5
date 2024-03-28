@@ -11,19 +11,20 @@ import { gql, useQuery } from "@apollo/client";
 
 export const useIncomingTransactions = (receiverAddress: any) => {
   const PAYMENTS_GRAPHQL = `
-    query GetPayments($receiverAddress: Bytes!) {
-      payments(
+    query GetPaymentChanges($receiverAddress: Bytes!) {
+      paymentChanges(
         where: { receiver: $receiverAddress }
-        orderBy: createdAt
+        orderBy: blockTimestamp
         orderDirection: desc
       ) {
         id
         sender
         receiver
-        message
+        newMessage
         value
         fee
-        createdAt
+        blockNumber
+        blockTimestamp
         transactionHash
       }
     }
@@ -38,6 +39,8 @@ export const useIncomingTransactions = (receiverAddress: any) => {
   if (error) {
     //console.log("fetchIncomingTransactions() error");
   }
+
+  console.log(incomingTransactionsData);
 
   return incomingTransactionsData;
 };

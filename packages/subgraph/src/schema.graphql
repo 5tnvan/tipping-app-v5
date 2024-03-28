@@ -1,26 +1,29 @@
-type Payment @entity {
-  id: ID!
-  sender: Bytes!
-  receiver: Bytes!
-  message: String!
-  value: BigInt!
-  fee: BigInt!
-  createdAt: BigInt!
-  transactionHash: String!
+type PaymentChange @entity(immutable: true) {
+  id: Bytes!
+  sender: Bytes! # address
+  receiver: Bytes! # address
+  newMessage: String! # string
+  value: BigInt! # uint256
+  fee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }
 
-type Withdraw @entity {
-  id: ID!
-  wallet: Bytes!
-  value: BigInt!
-  createdAt: BigInt!
-  transactionHash: String!
+type SaveSwitchChange @entity(immutable: true) {
+  id: Bytes!
+  wallet: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }
 
-type SaveSwitch @entity {
-  id: ID!
-  wallet: Bytes!
-  value: BigInt!
-  createdAt: BigInt!
-  transactionHash: String!
+type WithdrawChange @entity(immutable: true) {
+  id: Bytes!
+  wallet: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }

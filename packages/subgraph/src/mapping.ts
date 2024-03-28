@@ -1,38 +1,55 @@
-import { BigInt, Bytes } from "@graphprotocol/graph-ts";
 import {
-  YourContract,
+  PaymentChange as PaymentChangeEvent,
+  SaveSwitchChange as SaveSwitchChangeEvent,
+  WithdrawChange as WithdrawChangeEvent
+} from "../generated/YourContract/YourContract"
+import {
   PaymentChange,
-  WithdrawChange,
-  SaveSwitchChange
-} from "../generated/YourContract/YourContract";
-import { Payment, Withdraw, SaveSwitch } from "../generated/schema";
+  SaveSwitchChange,
+  WithdrawChange
+} from "../generated/schema"
 
-export function handlePaymentChange(event: PaymentChange): void {
-  let payment = new Payment(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
-  payment.sender = event.params.sender;
-  payment.receiver = event.params.receiver;
-  payment.message = event.params.newMessage;
-  payment.value = event.params.value;
-  payment.fee = event.params.fee;
-  payment.createdAt = event.block.timestamp;
-  payment.transactionHash = event.transaction.hash.toHex();
-  payment.save();
+export function handlePaymentChange(event: PaymentChangeEvent): void {
+  let entity = new PaymentChange(
+    event.transaction.hash.concatI32(event.logIndex.toI32())
+  )
+  entity.sender = event.params.sender
+  entity.receiver = event.params.receiver
+  entity.newMessage = event.params.newMessage
+  entity.value = event.params.value
+  entity.fee = event.params.fee
+
+  entity.blockNumber = event.block.number
+  entity.blockTimestamp = event.block.timestamp
+  entity.transactionHash = event.transaction.hash
+
+  entity.save()
 }
 
-export function handleWithdrawChange(event: WithdrawChange): void {
-  let withdraw = new Withdraw(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
-  withdraw.wallet = event.params.wallet;
-  withdraw.value = event.params.value;
-  withdraw.createdAt = event.block.timestamp;
-  withdraw.transactionHash = event.transaction.hash.toHex();
-  withdraw.save();
+export function handleSaveSwitchChange(event: SaveSwitchChangeEvent): void {
+  let entity = new SaveSwitchChange(
+    event.transaction.hash.concatI32(event.logIndex.toI32())
+  )
+  entity.wallet = event.params.wallet
+  entity.value = event.params.value
+
+  entity.blockNumber = event.block.number
+  entity.blockTimestamp = event.block.timestamp
+  entity.transactionHash = event.transaction.hash
+
+  entity.save()
 }
 
-export function handleSaveSwitchChange(event: SaveSwitchChange): void {
-  let saveSwitch = new SaveSwitch(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
-  saveSwitch.wallet = event.params.wallet;
-  saveSwitch.value = event.params.value;
-  saveSwitch.createdAt = event.block.timestamp;
-  saveSwitch.transactionHash = event.transaction.hash.toHex();
-  saveSwitch.save();
+export function handleWithdrawChange(event: WithdrawChangeEvent): void {
+  let entity = new WithdrawChange(
+    event.transaction.hash.concatI32(event.logIndex.toI32())
+  )
+  entity.wallet = event.params.wallet
+  entity.value = event.params.value
+
+  entity.blockNumber = event.block.number
+  entity.blockTimestamp = event.block.timestamp
+  entity.transactionHash = event.transaction.hash
+
+  entity.save()
 }

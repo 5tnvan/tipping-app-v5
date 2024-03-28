@@ -3,27 +3,28 @@
 import { gql, useQuery } from "@apollo/client";
 
 /**
- * FETCH: fetchOutgoingTransactions()
+ * FETCH: useFetchTransaction()
  * DB: subpgraph
- * TABLE: "payments"
- * RETURN: { outgoingTransactionsData }
+ * TABLE: "paymentChanges"
+ * RETURN: { paymentChanges }
  **/
 
 export const useFetchTransaction = (hash: any) => {
   const PAYMENTS_GRAPHQL = `
       query GetPayments($hash: String!) {
-        payments(
+        paymentChanges(
           where: { transactionHash: $hash }
-          orderBy: createdAt
+          orderBy: blockTimestamp
           orderDirection: desc
         ) {
           id
           sender
           receiver
-          message
+          newMessage
           value
           fee
-          createdAt
+          blockNumber
+          blockTimestamp
           transactionHash
         }
       }
