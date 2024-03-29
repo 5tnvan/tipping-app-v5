@@ -36,7 +36,8 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   //const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
-  const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1";
+  //const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1";
+  const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1";
   const apolloClient = new ApolloClient({
     uri: subgraphUri,
     cache: new InMemoryCache(),
