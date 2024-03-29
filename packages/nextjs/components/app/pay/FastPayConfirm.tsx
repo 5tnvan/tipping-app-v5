@@ -67,13 +67,13 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
    * ACTION: Pay
    **/
   const { writeAsync: pay, isMining } = useScaffoldContractWrite({
-    contractName: "YourContract",
+    contractName: "WildpayEthContract",
     functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
-      console.log("Transaction blockHash", txnReceipt.transactionHash);
+      console.log("FastPayConfirm trasactionHash", txnReceipt.transactionHash);
       handlePay(txnReceipt.transactionHash);
     },
   });

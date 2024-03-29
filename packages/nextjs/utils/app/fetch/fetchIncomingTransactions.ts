@@ -40,7 +40,5 @@ export const useIncomingTransactions = (receiverAddress: any) => {
     //console.log("fetchIncomingTransactions() error");
   }
 
-  console.log(incomingTransactionsData);
-
   return incomingTransactionsData;
 };

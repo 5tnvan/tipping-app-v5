@@ -56,7 +56,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   };
 
   const { writeAsync: withdraw } = useScaffoldContractWrite({
-    contractName: "YourContract",
+    contractName: "WildpayEthContract",
     functionName: "withdraw",
     args: [parseEther(ethAmount.toString())],
     blockConfirmations: 1,

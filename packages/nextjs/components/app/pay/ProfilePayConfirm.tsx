@@ -76,7 +76,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   };
 
   const { writeAsync: pay, isMining } = useScaffoldContractWrite({
-    contractName: "YourContract",
+    contractName: "WildpayEthContract",
     functionName: "setPayment",
     args: [receiver, message],
     value: parseEther(ethAmountWithFee.toString()),

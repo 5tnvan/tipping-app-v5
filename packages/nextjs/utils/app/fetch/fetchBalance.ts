@@ -12,7 +12,7 @@ import { useScaffoldContractRead } from "~~/hooks/scaffold-eth/useScaffoldContra
 
 export const useFetchBalance = (wallet_id: any) => {
   const { data: balance, error } = useScaffoldContractRead({
-    contractName: "YourContract",
+    contractName: "WildpayEthContract",
     functionName: "amountsReceived",
     args: [wallet_id],
   });

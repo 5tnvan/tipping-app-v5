@@ -58,7 +58,6 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   //   incomingTxSum,
   //   outgoingTxSum,
   // );
-  console.log(isRoot);
 
   return (
     <>

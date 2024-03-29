@@ -96,12 +96,14 @@ const IsAuthLayout = ({
 
   const handleFastPaySuccess = (hash: any) => {
     closeFastPayModal(); //closes fast pay
+    console.log("isAuthLayout: closesFastPayModal");
     setTimeout(() => {
       onFastPaySuccess(); // trigger parent wildpay layout
-      console.log("isAuthLayout: triggerWildpayLayout(hash)");
+      console.log("isAuthLayout: triggerWildpayLayout(hash) finished");
       router.refresh();
       console.log("isAuthLayout: router.refresh()");
       setHashRes(hash); // set transaction hash
+      console.log("isAuthLayout: setHashRes(hash)", hash);
       openPayReceiptModal(); //open receipt
     }, 1000);
   };

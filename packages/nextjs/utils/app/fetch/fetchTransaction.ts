@@ -40,6 +40,8 @@ export const useFetchTransaction = (hash: any) => {
     fetchPolicy: "network-only",
   });
 
+  console.log("useFetchTransaction");
+
   if (error) {
     console.log("useTransaction() error: ", error);
   }

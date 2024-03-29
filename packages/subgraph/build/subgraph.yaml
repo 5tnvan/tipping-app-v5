@@ -5,11 +5,11 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: YourContract
+    name: WildpayEthContract
     network: localhost
     source:
-      abi: YourContract
-      address: "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+      abi: WildpayEthContract
+      address: "0x4631BCAbD6dF18D94796344963cB60d44a4136b6"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -19,8 +19,8 @@ dataSources:
         - SaveSwitchChange
         - WithdrawChange
       abis:
-        - name: YourContract
-          file: YourContract/abis/localhost_YourContract.json
+        - name: WildpayEthContract
+          file: WildpayEthContract/abis/localhost_WildpayEthContract.json
       eventHandlers:
         - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
           handler: handlePaymentChange
@@ -28,4 +28,4 @@ dataSources:
           handler: handleSaveSwitchChange
         - event: WithdrawChange(address,uint256)
           handler: handleWithdrawChange
-      file: YourContract/YourContract.wasm
+      file: WildpayEthContract/WildpayEthContract.wasm

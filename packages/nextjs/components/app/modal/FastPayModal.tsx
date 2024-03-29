@@ -35,9 +35,9 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
    **/
   const handlePaySuccess = (hash: any) => {
     handleClose();
-    console.log("FastPayModal: close");
+    console.log("FastPayModal: clear receiver");
     onSuccess(hash);
-    console.log("FastPayModal: triggerIsAuthLayout(hash)");
+    console.log("FastPayModal: triggerIsAuthLayout(hash) finished");
   };
 
   if (!isOpen) {
