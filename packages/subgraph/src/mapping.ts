@@ -2,7 +2,7 @@ import {
   PaymentChange as PaymentChangeEvent,
   SaveSwitchChange as SaveSwitchChangeEvent,
   WithdrawChange as WithdrawChangeEvent
-} from "../generated/YourContract/YourContract"
+} from "../generated/WildpayEthContract/WildpayEthContract"
 import {
   PaymentChange,
   SaveSwitchChange,
