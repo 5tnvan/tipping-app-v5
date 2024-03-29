@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "WildpayEthContract": {
+      "address": "0x46D2DAF077aA27D5a36973deD157E340fe13AA8c",
+      "startBlock": 5584995
+    }
+  }
+}
