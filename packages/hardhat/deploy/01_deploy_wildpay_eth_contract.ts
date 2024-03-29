@@ -25,7 +25,7 @@ const deployWildpayEthContract: DeployFunction = async function (hre: HardhatRun
   await deploy("WildpayEthContract", {
     from: deployer,
     // Contract constructor arguments
-    args: [],
+    args: ["0x3990677113d7fd2339F85dD4b312E392b595C19f"],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -34,7 +34,7 @@ const deployWildpayEthContract: DeployFunction = async function (hre: HardhatRun
 
   // Get the deployed contract to interact with it after deploying.
   const wildpayEthContract = await hre.ethers.getContract<Contract>("WildpayEthContract", deployer);
-  console.log("👋 Initial fee:", await wildpayEthContract.feePercentage());
+  console.log("👋 Initial owner:", await wildpayEthContract.owner());
 };
 
 export default deployWildpayEthContract;

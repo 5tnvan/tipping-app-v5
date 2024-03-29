@@ -7,7 +7,7 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
+  BigInt,
 } from "@graphprotocol/graph-ts";
 
 export class Paused extends ethereum.Event {
@@ -133,7 +133,7 @@ export class WildpayEthContract extends ethereum.SmartContract {
     let result = super.call(
       "amountsReceived",
       "amountsReceived(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
 
     return result[0].toBigInt();
@@ -143,7 +143,7 @@ export class WildpayEthContract extends ethereum.SmartContract {
     let result = super.tryCall(
       "amountsReceived",
       "amountsReceived(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
+      [ethereum.Value.fromAddress(param0)],
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -162,7 +162,7 @@ export class WildpayEthContract extends ethereum.SmartContract {
     let result = super.tryCall(
       "feePercentage",
       "feePercentage():(uint256)",
-      []
+      [],
     );
     if (result.reverted) {
       return new ethereum.CallResult();

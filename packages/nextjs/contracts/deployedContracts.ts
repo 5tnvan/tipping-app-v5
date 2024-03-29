@@ -7,31 +7,18 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     WildpayEthContract: {
-      address: "0x4631BCAbD6dF18D94796344963cB60d44a4136b6",
+      address: "0xA4899D35897033b927acFCf422bc745916139776",
       abi: [
         {
-          inputs: [],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          anonymous: false,
           inputs: [
             {
-              indexed: true,
               internalType: "address",
-              name: "previousOwner",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "newOwner",
+              name: "_owner",
               type: "address",
             },
           ],
-          name: "OwnershipTransferred",
-          type: "event",
+          stateMutability: "nonpayable",
+          type: "constructor",
         },
         {
           anonymous: false,
@@ -200,13 +187,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "renounceOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
           inputs: [
             {
               internalType: "uint256",
@@ -251,19 +231,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "address",
-              name: "newOwner",
-              type: "address",
-            },
-          ],
-          name: "transferOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
           inputs: [],
           name: "unpause",
           outputs: [],
@@ -289,9 +256,6 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "@openzeppelin/contracts/access/Ownable.sol",
-        renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
-        transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         paused: "@openzeppelin/contracts/security/Pausable.sol",
       },
     },
@@ -509,31 +473,18 @@ const deployedContracts = {
   },
   11155111: {
     WildpayEthContract: {
-      address: "0x46d2daf077aa27d5a36973ded157e340fe13aa8c",
+      address: "0xb02685a993D9347bd3Ca116AEc9371a4c0cE8Cf4",
       abi: [
         {
-          inputs: [],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          anonymous: false,
           inputs: [
             {
-              indexed: true,
               internalType: "address",
-              name: "previousOwner",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "newOwner",
+              name: "_owner",
               type: "address",
             },
           ],
-          name: "OwnershipTransferred",
-          type: "event",
+          stateMutability: "nonpayable",
+          type: "constructor",
         },
         {
           anonymous: false,
@@ -702,13 +653,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "renounceOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
           inputs: [
             {
               internalType: "uint256",
@@ -753,19 +697,6 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "address",
-              name: "newOwner",
-              type: "address",
-            },
-          ],
-          name: "transferOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
           inputs: [],
           name: "unpause",
           outputs: [],
@@ -791,9 +722,6 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        owner: "@openzeppelin/contracts/access/Ownable.sol",
-        renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
-        transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         paused: "@openzeppelin/contracts/security/Pausable.sol",
       },
     },
