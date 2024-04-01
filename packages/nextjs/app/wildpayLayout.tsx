@@ -71,7 +71,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
       {isRoot && (
         <>
           <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
-            <main id="main" className="flex min-h-screen h-full">
+            <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
               {children}
             </main>
           </AppContext.Provider>
