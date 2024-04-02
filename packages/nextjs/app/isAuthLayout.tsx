@@ -1,15 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { AccountingContext, AppContext, WithdrawContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
-import { updateProfileAvatar } from "./profile/actions";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
+import { AvatarModal } from "~~/components/app/modal/AvatarModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
@@ -48,7 +47,7 @@ const IsAuthLayout = ({
   const { username } = useParams();
 
   //PARENTS CONTEXT:
-  const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { isLoadingAuth, user, profile } = useContext(AppContext);
   const { incomingTxSum } = useContext(AccountingContext);
   const { withdrawSuccess } = useContext(WithdrawContext);
 
@@ -144,33 +143,17 @@ const IsAuthLayout = ({
     setSearchModalOpen(false);
   };
 
-  //AVATAR MODAL
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(1);
-  const gif: Record<number, string> = {
-    // Define gif type explicitly
-    1: "https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif",
-    2: "https://media1.tenor.com/m/pSq-OwdqmHgAAAAC/heartbeat-static.gif",
-    3: "https://media1.tenor.com/m/qA1mRnYpyfwAAAAC/pixel-heart.gif",
+  /**
+   * ACTION: Open close avatar modal
+   **/
+  const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
+
+  const openAvatarModal = () => {
+    setAvatarModalOpen(true);
   };
 
-  const handleAvatarEdit = () => {
-    setIsModalOpen(true);
-  };
-
-  // Select image
-  const handleImageClick = (index: any) => {
-    setSelectedImage(index);
-  };
-
-  // Update avatar change to supabase
-  const handleAvatarSave = async () => {
-    if (selectedImage !== null) {
-      const selectedImageUrl = gif[selectedImage];
-      updateProfileAvatar(selectedImageUrl);
-      setIsModalOpen(false);
-      refetchAuth();
-    }
+  const closeAvatarModal = () => {
+    setAvatarModalOpen(false);
   };
 
   return (
@@ -187,39 +170,8 @@ const IsAuthLayout = ({
           <IsAuthMenu />
         )}
 
-        {/* ISAUTH AVATAR MODAL */}
-        <dialog id="my_modal_3" className="modal" open={isModalOpen}>
-          <div className="modal-box z-20 relative">
-            <form method="dialog">
-              {/* close */}
-              <button
-                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                onClick={() => setIsModalOpen(false)}
-              >
-                ✕
-              </button>
-              {/* choose avatar */}
-              <div className="mb-5 mt-5">Choose your avatar:</div>
-              {Object.entries(gif).map(([index, src]) => (
-                <div key={index} className="left avatar edit mr-5" onClick={() => handleImageClick(Number(index))}>
-                  <div
-                    className={`w-16 rounded-full edit mr-5 ring-primary ring-offset-base-100 ring-offset-2 ${
-                      selectedImage === Number(index) ? "ring" : ""
-                    }`}
-                  >
-                    <Image alt={`Image ${index}`} src={src} width={500} height={500} />
-                  </div>
-                </div>
-              ))}
-              {/* save */}
-              <div className="flex justify-center">
-                <button className="btn btn-neutral mt-3" onClick={() => handleAvatarSave()}>
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </dialog>
+        {/* WILDPAY SEARCH MODAL */}
+        <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
         {/* ISAUTH CUSTOM-BG */}
         <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
@@ -245,7 +197,7 @@ const IsAuthLayout = ({
                           <div
                             id="wildpay-avatar-cta"
                             className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                            onClick={() => handleAvatarEdit()}
+                            onClick={openAvatarModal}
                           >
                             Edit
                             <ChevronRightIcon width={8} />
@@ -336,7 +288,9 @@ const IsAuthLayout = ({
             {!isSettings && { children }} */}
             {children}
           </>
-        ) : (<></>)}
+        ) : (
+          <></>
+        )}
         {/* ISAUTH HOME */}
         {(isHome || isTransaction) && <>{children}</>}
       </div>

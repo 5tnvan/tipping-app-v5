@@ -14,3 +14,4 @@ node_modules
 subgraph/build/*
 subgraph/generated/*
 subgraph/graph-node/data/*
+packages/subgraph/graph-node/data/postgres/pg_logical/replorigin_checkpoint
