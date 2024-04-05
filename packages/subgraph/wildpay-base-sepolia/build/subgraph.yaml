@@ -1,0 +1,38 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: WildpayEthContract
+    network: base-sepolia
+    source:
+      address: "0x3579B02193028357ACaFE8323d2F62155078033A"
+      abi: WildpayEthContract
+      startBlock: 8202705
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Paused
+        - PaymentChange
+        - SaveSwitchChange
+        - Unpaused
+        - WithdrawChange
+      abis:
+        - name: WildpayEthContract
+          file: WildpayEthContract/abis/WildpayEthContract.json
+      eventHandlers:
+        - event: Paused(address)
+          handler: handlePaused
+        - event: PaymentChange(indexed address,indexed address,string,uint256,uint256)
+          handler: handlePaymentChange
+        - event: SaveSwitchChange(address,uint256)
+          handler: handleSaveSwitchChange
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: WithdrawChange(address,uint256)
+          handler: handleWithdrawChange
+      file: WildpayEthContract/WildpayEthContract.wasm
