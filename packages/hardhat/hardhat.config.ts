@@ -18,6 +18,8 @@ const deployerPrivateKey =
   process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
+// Wildpay BaseScan API Key
+const basescanApiKey = process.env.BASESCAN_API_KEY || "G8PSR86RXP4J6HYWRYR6KP9HWY8VN43MER";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -45,6 +47,18 @@ const config: HardhatUserConfig = {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
+    },
+    base: {
+      url: "https://mainnet.base.org",
+      accounts: [deployerPrivateKey],
+    },
+    baseGoerli: {
+      url: "https://goerli.base.org",
+      accounts: [deployerPrivateKey],
+    },
+    baseSepolia: {
+      url: "https://sepolia.base.org",
+      accounts: [deployerPrivateKey],
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
@@ -98,18 +112,6 @@ const config: HardhatUserConfig = {
       url: "https://rpc.chiadochain.net",
       accounts: [deployerPrivateKey],
     },
-    base: {
-      url: "https://mainnet.base.org",
-      accounts: [deployerPrivateKey],
-    },
-    baseGoerli: {
-      url: "https://goerli.base.org",
-      accounts: [deployerPrivateKey],
-    },
-    baseSepolia: {
-      url: "https://sepolia.base.org",
-      accounts: [deployerPrivateKey],
-    },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
       accounts: [deployerPrivateKey],
@@ -128,9 +130,26 @@ const config: HardhatUserConfig = {
     },
   },
   // configuration for harhdat-verify plugin
+  // etherscan: {
+  //   apiKey: `${etherscanApiKey}`,
+  // },
+
   etherscan: {
-    apiKey: `${etherscanApiKey}`,
+    apiKey: {
+      baseSepolia: `${basescanApiKey}`,
+    },
+    customChains: [
+      {
+        network: "baseSepolia",
+        chainId: 84532,
+        urls: {
+          apiURL: `https://api-sepolia.basescan.org/api`,
+          browserURL: "https://sepolia.basescan.org/",
+        },
+      },
+    ],
   },
+
   // configuration for etherscan-verify from hardhat-deploy plugin
   verify: {
     etherscan: {
