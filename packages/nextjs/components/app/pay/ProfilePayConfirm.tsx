@@ -3,10 +3,12 @@ import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import CheckCircleIcon from "@heroicons/react/20/solid/CheckCircleIcon";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
+import { RainbowKitCustomConnectButtonForPay } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/pay";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
@@ -189,11 +191,13 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
-                    <span className="ml-1 font-semibold">{profile.username}</span>
+                    <span className="ml-2 font-semibold">{profile.username}</span>
                   </div>
-                  <div className="flex">
+                  <div className="flex items-center">
                     <Address address={profile.wallet_id} />
-                    <CheckBadgeIcon width={16} />
+                    <span className="text-neutral-600 ml-1">
+                      <CheckCircleIcon width={16} />
+                    </span>
                   </div>
                 </div>
                 <div className="w-full h-12 mt-2">
@@ -203,18 +207,19 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
             )}
             {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
               <>
-                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
-                    <span className="ml-1 font-semibold">{profile.username}</span>
+                    <span className="ml-2 font-semibold">{profile.username}</span>
                   </div>
                   <div className="flex items-center">
                     <Address address={connectedAddress} />
-                    <span className="text-green-600">
-                      <CheckBadgeIcon width={16} />
+                    <span className="text-green-600 ml-1">
+                      <CheckCircleIcon width={16} />
                     </span>
                   </div>
                 </div>
+                <RainbowKitCustomConnectButtonForPay btn="base" />
               </>
             )}
             {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
@@ -222,21 +227,16 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
-                    <span className="ml-1 font-semibold">{profile.username}</span>
+                    <span className="ml-2 font-semibold">{profile.username}</span>
                   </div>
                   <div className="flex items-center">
                     <Address address={connectedAddress} />
-                    <span className="text-red-600">
-                      <CheckBadgeIcon width={16} />
+                    <span className="text-red-600 ml-1">
+                      <ExclamationCircleIcon width={16} />
                     </span>
                   </div>
                 </div>
                 <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
-                {/* <div className="flex justify-center">
-                  <Link href="/settings" className="btn btn-neutral w-full mt-3">
-                    Reconnect
-                  </Link>
-                </div> */}
               </>
             )}
           </div>

@@ -228,7 +228,7 @@ const IsAuthLayout = ({
                         )}
                         {isSettings && (
                           <>
-                            <div className="font-semibold">{user.email}</div>
+                            <div className="font-semibold mb-1">{user.email}</div>
                             <div className="flex">
                               <RainbowKitCustomConnectButton btn="small" />
                               <FaucetButton />

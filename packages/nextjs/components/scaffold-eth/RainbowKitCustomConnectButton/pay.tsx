@@ -1,16 +1,10 @@
 "use client";
 
-// @refresh reset
-import { AddressInfoDropdown } from "./AddressInfoDropdown";
-import { AddressQRCodeModal } from "./AddressQRCodeModal";
 import { SwitchNetworkDropdown } from "./SwitchNetworkDropdown";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Address } from "viem";
-// import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import "~~/styles/app.css";
-import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
 type RainbowKitCustomConnectButtonProps = {
   btn: string;
@@ -18,18 +12,13 @@ type RainbowKitCustomConnectButtonProps = {
 /**
  * Custom Wagmi Connect Button (watch balance + custom design)
  */
-export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectButtonProps) => {
-  //useAutoConnect();
-  //const networkColor = useNetworkColor();
+export const RainbowKitCustomConnectButtonForPay = ({ btn }: RainbowKitCustomConnectButtonProps) => {
   const { targetNetwork } = useTargetNetwork();
 
   return (
     <ConnectButton.Custom>
       {({ account, chain, openConnectModal, mounted }) => {
         const connected = mounted && account && chain;
-        const blockExplorerAddressLink = account
-          ? getBlockExplorerAddressLink(targetNetwork, account.address)
-          : undefined;
 
         return (
           <>
@@ -52,24 +41,7 @@ export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectBu
                 return <WrongNetworkDropdown />;
               }
 
-              return (
-                <>
-                  <div className="mr-1">
-                    <AddressInfoDropdown
-                      address={account.address as Address}
-                      displayName={account.displayName}
-                      ensAvatar={account.ensAvatar}
-                      blockExplorerAddressLink={blockExplorerAddressLink}
-                      btn={btn}
-                    />
-                  </div>
-                  <div>
-                    <SwitchNetworkDropdown chainName={chain.name} btn="small" />
-                  </div>
-
-                  <AddressQRCodeModal address={account.address as Address} modalId="qrcode-modal" />
-                </>
-              );
+              return <SwitchNetworkDropdown chainName={chain.name} btn="base" />;
             })()}
           </>
         );

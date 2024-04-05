@@ -53,7 +53,7 @@ export const usePublicFollowers = (username: any) => {
 
     const profile = await fetchPublicProfile(username);
     const followersData = await fetchFollowers(profile.id);
-    console.log("usePublicFollowers: followersData ", followersData);
+    //console.log("usePublicFollowers: followersData ", followersData);
     setFollowersData(followersData);
 
     setIsLoading(false); // Set loading to false when fetch is complete

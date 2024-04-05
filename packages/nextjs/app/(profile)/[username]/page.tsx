@@ -3,6 +3,7 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
+import ChevronDownIcon from "@heroicons/react/24/solid/ChevronDownIcon";
 import { ProfilePayContext, PublicAccountingContext, PublicContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Transactions from "~~/components/app/accounting/Transactions";
@@ -94,11 +95,21 @@ const ProfileUsername: NextPage = () => {
         <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
           <CardWithUsername username={publicProfile.username} />
         </div>
-
         <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
-          <div className="font-semibold pb-2 ==pr-6 pl-6">Received: </div>
+          <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
+            <div>Payments ({incomingTx?.paymentChanges?.length})</div>
+            <div className="flex">
+              <span className="mr-1">All</span>
+              <ChevronDownIcon width={13} />
+            </div>
+          </div>
           <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
             <Transactions tx={incomingTx} hide="to" />
+            {incomingTx?.paymentChanges?.length == 0 && (
+              <div className="flex h-full justify-center items-center">
+                <div className="btn btn-neutral">Make the first move 🥳</div>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { NetworkOptions } from "./NetworkOptions";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { getAddress } from "viem";
@@ -7,12 +7,14 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowTopRightOnSquareIcon,
   ArrowsRightLeftIcon,
-  CheckCircleIcon,
   ChevronDownIcon,
   DocumentDuplicateIcon,
   QrCodeIcon,
 } from "@heroicons/react/24/outline";
-import { BlockieAvatar, isENS } from "~~/components/scaffold-eth";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { AppContext } from "~~/app/context";
+import { Balance, BlockieAvatar, isENS } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { getTargetNetworks } from "~~/utils/scaffold-eth";
 
@@ -45,26 +47,42 @@ export const AddressInfoDropdown = ({
     dropdownRef.current?.removeAttribute("open");
   };
   useOutsideClick(dropdownRef, closeDropdown);
+  const { profile } = useContext(AppContext);
 
   return (
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end leading-3">
         <summary
           tabIndex={0}
-          className={`btn btn-neutral ${
-            btn == "small" ? "btn-sm pl-0" : "pl-2 w-full flex justify-between"
-          } pr-2 shadow-md dropdown-toggle gap-0 !h-auto`}
+          className={`btn btn-neutral pl-2 ${
+            btn == "small" ? "btn-sm" : "w-full flex justify-between"
+          } pr-2 dropdown-toggle gap-0 !h-auto`}
         >
-          <BlockieAvatar address={checkSumAddress} size={30} ensImage={ensAvatar} />
-          <span className="ml-2 mr-1">
+          <BlockieAvatar address={checkSumAddress} size={20} ensImage={ensAvatar} />
+          <span className="ml-2">
             {isENS(displayName) ? displayName : checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4)}
           </span>
+          {profile.wallet_id && profile.wallet_id !== address && (
+            <>
+              <div className="flex pl-1 text-red-600">
+                <ExclamationCircleIcon width={18} />
+              </div>
+            </>
+          )}
+          {profile.wallet_id && profile.wallet_id == address && (
+            <>
+              <div className="flex pl-1 text-green-600">
+                <CheckCircleIcon width={18} />
+              </div>
+            </>
+          )}
           <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0" />
         </summary>
         <ul
           tabIndex={0}
           className="dropdown-content menu z-[2] p-2 mt-2 shadow-center shadow-accent bg-base-200 rounded-box gap-1"
         >
+          <Balance address={address as Address} className="min-h-0 h-auto" />
           <NetworkOptions hidden={!selectingNetwork} />
           <li className={selectingNetwork ? "hidden" : ""}>
             {addressCopied ? (

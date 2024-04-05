@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
@@ -175,11 +175,13 @@ const Settings: NextPage = () => {
           {/* Wallet */}
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
-              <div className="opacity-70 flex items-center gap-2">
+              <div className="opacity-70 flex items-center gap-1">
                 {profile?.wallet_id ? (
                   <>
                     <Address address={profile?.wallet_id} />
-                    <CheckBadgeIcon width="20" />
+                    <div className="text-green-600">
+                      <CheckCircleIcon width="18" />
+                    </div>
                   </>
                 ) : (
                   "No Wallet"
