@@ -1,14 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
-import { AccountingContext, AppContext } from "~~/app/context";
-import { EthIcon } from "~~/components/assets/EthIcon";
+import { ArrowPathIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { AppContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
+import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 type Props = {
@@ -18,12 +19,24 @@ type Props = {
 
 export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { profile } = useContext(AppContext);
-  const { withdrawBalance } = useContext(AccountingContext);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const { address: connectedAddress } = useAccount();
   const [ethAmount, setEthAmount] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [confirm, setConfirm] = useState("btn-disabled");
+
+  /* WITHDRAW BALANCE */
+  const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
+  const [withdrawBalance, setWithdrawBalance] = useState<any>();
+  const balanceRes = useFetchBalance(wallet);
+
+  useEffect(() => {
+    if (profile.wallet_id) {
+      setWallet(profile.wallet_id);
+      setWithdrawBalance(balanceRes);
+    }
+  }, [balanceRes, profile.wallet_id]);
+
   /**
    * ACTION: Handle Close
    **/
@@ -55,7 +68,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
     handleClose();
   };
 
-  const { writeAsync: withdraw } = useScaffoldContractWrite({
+  const { writeAsync: withdraw, isMining } = useScaffoldContractWrite({
     contractName: "WildpayEthContract",
     functionName: "withdraw",
     args: [parseEther(ethAmount.toString())],
@@ -106,12 +119,14 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
             {profile.wallet_id && withdrawBalance > 0 && (
               <>
                 {/* BALANCE AMOUNT */}
-                <div className="font-semibold">Your balance</div>
-                <div className="flex">
-                  <div className="flex items-center text-xl mr-2 font-medium">
-                    <EthIcon width={16} height={16} />
-                    {Number(withdrawBalance)}
+                <div className="flex items-center">
+                  <div className="font-semibold mr-1">Your balance</div>
+                  <div>
+                    <ArrowPathIcon width={14} />
                   </div>
+                </div>
+                <div className="flex items-center">
+                  <div className="flex items-center text-xl mr-2 font-medium">{Number(withdrawBalance)}Ξ</div>
                   <div className="text-xl text-neutral-700">
                     (${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})
                   </div>
@@ -145,38 +160,45 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                 )}
               </>
             )}
-            {profile.wallet_id && withdrawBalance > 0 && profile.wallet_id == !connectedAddress && (
-              <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
-                <div className="flex items-center">
-                  <Avatar profile={profile} width="8" ring={false} />
-                  <span className="ml-1 font-semibold">{profile.username}</span>
-                </div>
-                <div className="flex items-center">
-                  <Address address={profile.wallet_id} />
-                  <span className="text-neutral-600">
-                    <CheckBadgeIcon width={16} />
-                  </span>
+            {profile.wallet_id && withdrawBalance > 0 && !connectedAddress && (
+              <>
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width="8" ring={false} />
+                    <span className="ml-1 font-semibold">{profile.username}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Address address={profile.wallet_id} />
+                    <span className="text-neutral-600">
+                      <CheckCircleIcon width={16} />
+                    </span>
+                  </div>
                 </div>
                 <div className="w-full h-12 mt-2">
                   <RainbowKitCustomConnectButton btn={"base"} />
                 </div>
-              </div>
+              </>
             )}
-            {profile.wallet_id && withdrawBalance > 0 && profile.wallet_id == connectedAddress && (
-              <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
-                <div className="flex items-center">
-                  <Avatar profile={profile} width="8" ring={false} />
-                  <span className="ml-1 font-semibold">{profile.username}</span>
+            {profile.wallet_id && withdrawBalance > 0 && connectedAddress && profile.wallet_id == connectedAddress && (
+              <>
+                <div className="mt-2">
+                  <RainbowKitCustomSwitchNetworkButton btn="base" />
                 </div>
-                <div className="flex items-center">
-                  <Address address={profile.wallet_id} />
-                  <span className="text-green-600">
-                    <CheckBadgeIcon width={16} />
-                  </span>
+                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
+                  <div className="flex items-center">
+                    <Avatar profile={profile} width="8" ring={false} />
+                    <span className="ml-1 font-semibold">{profile.username}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Address address={profile.wallet_id} />
+                    <span className="text-green-600">
+                      <CheckCircleIcon width={16} />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
-            {profile.wallet_id && withdrawBalance > 0 && profile.wallet_id !== connectedAddress && (
+            {profile.wallet_id && withdrawBalance > 0 && connectedAddress && profile.wallet_id !== connectedAddress && (
               <>
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
@@ -186,7 +208,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                   <div className="flex items-center">
                     <Address address={connectedAddress} />
                     <span className="text-red-600">
-                      <CheckBadgeIcon width={16} />
+                      <CheckCircleIcon width={16} />
                     </span>
                   </div>
                 </div>
@@ -200,6 +222,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                 onClick={() => withdraw()}
               >
                 Withdraw
+                {isMining && <span className="loading loading-ring loading-md"></span>}
               </div>
             )}
           </div>

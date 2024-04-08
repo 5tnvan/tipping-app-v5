@@ -7,6 +7,7 @@ import { TimeAgoUnix } from "../TimeAgo";
 import { formatEther } from "viem";
 import { ArrowDownLeftIcon } from "@heroicons/react/24/outline";
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
+import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -14,9 +15,10 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 type Props = {
   tx: any;
   hide: string;
+  network: any;
 };
 
-const Transactions = ({ tx, hide }: Props) => {
+const Transactions = ({ tx, hide, network }: Props) => {
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   return (
     <>
@@ -29,6 +31,8 @@ const Transactions = ({ tx, hide }: Props) => {
               {hide == "to" && (
                 <div className="flex items-center">
                   <AddressWithReveal address={paymentChange?.sender} />
+                  {network == "ethereum" && <EthIcon width={16} height={14} fill="#3C3C3C" />}
+                  {network == "base" && <BaseIcon width={18} height={10} fill="#3C3C3C" />}
                   <span className="mr-1 text-sm text-slate-800 font-medium">
                     <TimeAgoUnix timestamp={paymentChange?.blockTimestamp} />
                   </span>
@@ -38,6 +42,8 @@ const Transactions = ({ tx, hide }: Props) => {
               {hide == "from" && (
                 <div className="flex items-center">
                   <AddressWithReveal address={paymentChange?.receiver} />
+                  {network == "ethereum" && <EthIcon width={14} height={14} fill="#3C3C3C" />}
+                  {network == "base" && <BaseIcon width={18} height={10} fill="#3C3C3C" />}
                   <span className="mr-1 text-sm text-slate-800 font-medium">
                     <TimeAgoUnix timestamp={paymentChange?.blockTimestamp} />
                   </span>
@@ -47,10 +53,11 @@ const Transactions = ({ tx, hide }: Props) => {
             </div>
             {/* right - usd/eth */}
             <div className="flex flex-col items-end">
-              <div className="font-medium">${convertEthToUsd(formatEther(paymentChange?.value), nativeCurrencyPrice)}</div>
+              <div className="text-primary font-semibold">
+                ${convertEthToUsd(formatEther(paymentChange?.value), nativeCurrencyPrice)}
+              </div>
               <div className="flex items-center font-medium">
-                <EthIcon width={16} height={16} />
-                {Number(formatEther(paymentChange?.value)).toFixed(4)}
+                {Number(formatEther(paymentChange?.value)).toFixed(4)}Ξ
               </div>
             </div>
           </div>
@@ -59,7 +66,7 @@ const Transactions = ({ tx, hide }: Props) => {
             <div className="mt-1 text-neutral-500 font-medium tracking-tight">
               {paymentChange?.newMessage}
               <Link
-                href={`/transaction/${paymentChange?.transactionHash}`}
+                href={`/transaction/payment/${network}/${paymentChange?.transactionHash}`}
                 className="inline-flex text-primary h-6 min-h-6 text-sm ml-1"
               >
                 View
@@ -68,8 +75,6 @@ const Transactions = ({ tx, hide }: Props) => {
           </div>
         </div>
       ))}
-
-      {/* {tx?.payments?.length === 0 && <div>Be the first to pay</div>} */}
     </>
   );
 };

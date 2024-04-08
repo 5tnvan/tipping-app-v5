@@ -1,19 +1,80 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AccountingContext, AppContext, FollowersContext } from "../context";
+import { AppContext, FollowersContext } from "../context";
 import { NextPage } from "next";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
+import { BaseIcon } from "~~/components/assets/BaseIcon";
+import { EthIcon } from "~~/components/assets/EthIcon";
+import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
+import { calculateSum } from "~~/utils/app/functions/calculateSum";
+import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const HomePage: NextPage = () => {
-  const { isAuth } = useContext(AppContext);
+  /* USER, FOLLOWERS VARIABLES */
+  const { isAuth, profile } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
-  const { incomingTx, incomingTxSum, outgoingTx, outgoingTxSum } = useContext(AccountingContext);
-  const [showFollow, setShowFollow] = useState("following");
-  const [showTransactions, setShowTransactions] = useState("incoming");
+
+  /* TRANSACTIONS VARIABLES */
+  const [incomingEthTx, setIncomingEthTx] = useState<any>();
+  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
+  const [incomingBaseTx, setIncomingBaseTx] = useState<any>();
+  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
+  const [outgoingEthTx, setOutgoingEthTx] = useState<any>();
+  const [outgoingEthTxSum, setOutgoingEthTxSum] = useState(0);
+  const [outgoingBaseTx, setOutgoingBaseTx] = useState<any>();
+  const [outgoingBaseTxSum, setOutgoingBaseTxSum] = useState(0);
+
+  /* FETCH TRANSACTIONS */
+  const incomingRes = useIncomingTransactions(profile.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
+
+  useEffect(() => {
+    setIncomingEthTx(incomingRes.ethereumData);
+    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
+    setIncomingBaseTx(incomingRes.baseData);
+    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
+    setOutgoingEthTx(outgoingRes.ethereumData);
+    setOutgoingEthTxSum(calculateSum(outgoingRes.ethereumData));
+    setOutgoingBaseTx(outgoingRes.baseData);
+    setOutgoingBaseTxSum(calculateSum(outgoingRes.baseData));
+  }, [incomingRes, outgoingRes]);
+
+  /* TABS */
+  const [showFollow, setShowFollow] = useState("following"); //default tab: following
+  const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming
+  const [network, setNetwork] = useState("ethereum"); //default network: eth
+  const nativeCurrencyPrice = useNativeCurrencyPrice();
+
+  /* COPY BUTTON */
+  const [copied1, setCopied1] = useState(false);
+  const [copied2, setCopied2] = useState(false);
+  const handleCopyToClipboard = (number: any) => {
+    navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
+    if (number == 1) {
+      setCopied1(true);
+      setTimeout(() => {
+        setCopied1(false);
+      }, 1500); // Reset the copied state after 2 seconds
+    }
+    if (number == 2) {
+      setCopied2(true);
+      setTimeout(() => {
+        setCopied2(false);
+      }, 1500); // Reset the copied state after 2 seconds
+    }
+  };
+
+  //console.log("home: profile: ", profile);
+  //console.log("home: followersData: ", followersData);
+  console.log("home: transactions: ", incomingRes, outgoingRes);
+  console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
 
   if (isAuth == "no") {
     return (
@@ -68,6 +129,29 @@ const HomePage: NextPage = () => {
                   <div className="w-12 h-12 animate-pulse bg-slate-200 rounded-full"></div>
                 </div>
               )}
+              {!isLoadingFollowers && showFollow == "following" && followersData?.following?.length == 0 && (
+                <div className="flex h-full justify-center items-center">
+                  <div className="btn btn-neutral">Start following someone 🥳</div>
+                </div>
+              )}
+              {!isLoadingFollowers && showFollow == "followers" && followersData?.followers?.length == 0 && (
+                <div className="flex h-full justify-center items-center">
+                  <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(1)}>
+                    {copied1 ? (
+                      <>
+                        <span className="">
+                          Copied <span className="text-primary">{"@" + profile.username}</span>
+                        </span>
+                        <span className="text-primary">
+                          <CheckCircleIcon width={14} />
+                        </span>
+                      </>
+                    ) : (
+                      "Share your profile and get followers 🥳"
+                    )}
+                  </div>
+                </div>
+              )}
               {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
                 <div id="following" className="flex">
                   {followersData?.following.map((following: any) => (
@@ -82,7 +166,7 @@ const HomePage: NextPage = () => {
                   ))}
                 </div>
               )}
-              {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "followers" && (
+              {!isLoadingFollowers && Array.isArray(followersData.followers) && showFollow == "followers" && (
                 <ul id="followers" className="flex">
                   {followersData?.followers.map((followers: any) => (
                     <Link
@@ -100,39 +184,139 @@ const HomePage: NextPage = () => {
           </div>
 
           <div className="">
-            {/* TRANSACTIONS */}
-            <div className="font-semibold pl-6 pr-6 mt-6 mb-3 text-primary text-4xl">Payments</div>
-            {/* TRANSACTIONS TAB */}
+            {/* PAYMENTS */}
+            <div className="flex pl-6 pr-6 mt-6 mb-3 items-center justify-between">
+              <div className="font-semibold text-primary text-4xl">Payments</div>
+              {/* PAYMENTS NETWORKS TAB */}
+              <div className="flex">
+                {/* PAYMENTS NETWORKS TAB: ETHEREUM */}
+                <div
+                  className={`btn font-medium h-6 min-h-6 gap-0 px-2 mr-1 ${
+                    network === "ethereum" && "bg-primary text-neutral hover:bg-blue-800 border-0"
+                  }`}
+                  onClick={() => setNetwork("ethereum")}
+                >
+                  <EthIcon width={14} height={14} fill={`${network === "ethereum" ? "#ffffff" : "#3C3C3C"}`} />
+                  ethereum
+                </div>
+                {/* PAYMENTS NETWORKS TAB: BASE */}
+                <div
+                  className={`btn font-medium h-6 min-h-6 gap-0 px-2 ${
+                    network === "base" && "bg-primary text-neutral hover:bg-blue-800 border-0"
+                  }`}
+                  onClick={() => setNetwork("base")}
+                >
+                  <BaseIcon width={10} height={10} fill={`${network === "base" ? "#ffffff" : "#3C3C3C"}`} />
+                  <span className="pl-1">base</span>
+                </div>
+              </div>
+            </div>
+            {/* PAYMENTS TRANSACTIONS TAB */}
             <div role="tablist" className="tabs tabs-bordered pl-6 pr-6">
+              {/* PAYMENTS TRANSACTIONS TAB : INCOMING */}
               <div
                 role="tab"
                 className={`tab mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
                 onClick={() => setShowTransactions("incoming")}
               >
-                <div className="text-base">Incoming</div>
-                <span
-                  className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold text-primary"}`}
-                >
-                  {incomingTxSum}Ξ
+                {/* PAYMENTS TRANSACTIONS TAB : INCOMING SUM ($USD) */}
+                <div className="text-base">
+                  Incoming
+                  <span className={`text-primary ${showTransactions == "incoming" && "font-semibold"}`}>
+                    {" $"}
+                    {network == "ethereum" && convertEthToUsd(incomingEthTxSum, nativeCurrencyPrice)}
+                    {network == "base" && convertEthToUsd(incomingBaseTxSum, nativeCurrencyPrice)}
+                  </span>
+                </div>
+                {/* PAYMENTS TRANSACTIONS TAB : INCOMING LENGTH (NUM) */}
+                <span className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold"}`}>
+                  {network == "ethereum" && incomingEthTx?.paymentChanges?.length}
+                  {network == "base" && incomingBaseTx?.paymentChanges?.length}
                 </span>
               </div>
+              {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
               <div
                 role="tab"
                 className={`tab p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
                 onClick={() => setShowTransactions("outgoing")}
               >
-                <div className="text-base">Outgoing</div>
-                <span
-                  className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold text-primary"}`}
-                >
-                  {outgoingTxSum}Ξ
+                {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM ($USD) */}
+                <div className="text-base">
+                  Outgoing
+                  <span className={`text-primary ${showTransactions == "outgoing" && "font-semibold"}`}>
+                    {" $"}
+                    {network == "ethereum" && convertEthToUsd(outgoingEthTxSum, nativeCurrencyPrice)}
+                    {network == "base" && convertEthToUsd(outgoingBaseTxSum, nativeCurrencyPrice)}
+                  </span>
+                </div>
+                {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM LENGTH (NUM) */}
+                <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>
+                  {network == "ethereum" && outgoingEthTx?.paymentChanges?.length}
+                  {network == "base" && outgoingBaseTx?.paymentChanges?.length}
                 </span>
               </div>
             </div>
-            {/* TRANSACTION DATA */}
+            {/* PAYMENTS TRANSACTIONS DATA */}
             <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6 pb-8">
-              {showTransactions == "incoming" && <Transactions tx={incomingTx} hide="to" />}
-              {showTransactions == "outgoing" && <Transactions tx={outgoingTx} hide="from" />}
+              {showTransactions === "incoming" && (
+                <>
+                  {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length === 0 && (
+                    <div className="flex h-full justify-center items-center">
+                      <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
+                        {copied2 ? (
+                          <>
+                            <span className="">
+                              Copied <span className="text-primary">{"@" + profile.username}</span>
+                            </span>
+                            <span className="text-primary ml-0">
+                              <CheckCircleIcon width={14} />
+                            </span>
+                          </>
+                        ) : (
+                          "Share your profile and get paid 🥳"
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {profile.wallet_id == null && (
+                    <div className="flex h-full justify-center items-center">
+                      <Link href="/settings" className="btn btn-neutral">
+                        Verify your wallet to get paid 🥳
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
+              {showTransactions === "outgoing" && (
+                <>
+                  {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
+                    <div className="flex h-full justify-center items-center">
+                      <div className="btn btn-neutral">Start paying someone 🥳</div>
+                    </div>
+                  )}
+                  {profile.wallet_id == null && (
+                    <div className="flex h-full justify-center items-center">
+                      <Link href="/settings" className="btn btn-neutral">
+                        Verify your wallet to start paying 🥳
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
+              {showTransactions === "incoming" && (
+                <Transactions
+                  tx={network === "ethereum" ? incomingEthTx : incomingBaseTx}
+                  hide="to"
+                  network={network === "ethereum" ? "ethereum" : "base"}
+                />
+              )}
+              {showTransactions === "outgoing" && (
+                <Transactions
+                  tx={network === "ethereum" ? outgoingEthTx : outgoingBaseTx}
+                  hide="from"
+                  network={network === "ethereum" ? "ethereum" : "base"}
+                />
+              )}
             </div>
           </div>
         </div>

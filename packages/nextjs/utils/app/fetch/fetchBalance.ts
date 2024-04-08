@@ -15,6 +15,7 @@ export const useFetchBalance = (wallet_id: any) => {
     contractName: "WildpayEthContract",
     functionName: "amountsReceived",
     args: [wallet_id],
+    watch: true,
   });
 
   if (error) {

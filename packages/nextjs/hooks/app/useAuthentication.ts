@@ -52,5 +52,7 @@ export const useAuthentication = () => {
     initUser();
   }, [triggerRefetch]);
 
+  // console.log("useAuthentication: ", user);
+
   return { isLoading, isAuth, user, profile, refetch };
 };

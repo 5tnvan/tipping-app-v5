@@ -1,6 +1,6 @@
-import React from "react";
-import TransactionLatest from "../accounting/TransactionLatest";
-import { useFetchTransaction } from "~~/utils/app/fetch/fetchTransaction";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 
 type Props = {
   hash: string;
@@ -9,9 +9,16 @@ type Props = {
 };
 
 export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
-  const { transactionData, loading, error } = useFetchTransaction(hash);
+  const [network, setNetwork] = useState("");
+  const { targetNetwork } = useTargetNetwork();
 
-  console.log(transactionData, loading, error);
+  useEffect(() => {
+    if (targetNetwork.id == 84532 || targetNetwork.id == 8453) {
+      setNetwork("base");
+    } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
+      setNetwork("ethereum");
+    }
+  }, [targetNetwork]);
 
   const handleClose = () => {
     onClose();
@@ -29,19 +36,18 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
           ✕
         </button>
-        {/* RECEIPT INTO */}
+        {/* RECEIPT INFO */}
         <div className="p-5 rounded-lg">
-          <div className="font-semibold custom-text-blue text-3xl pt-10">{"Done 🎉."}</div>
+          <div className="font-semibold custom-text-blue text-3xl pt-10">{"Success 🎉."}</div>
           <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
           {/* RECEIPT */}
-          {error && <>Sorry, something went wrong. Please try again later.</>}
-          {transactionData && transactionData.paymentChanges[0] && !loading && !error ? (
-            <TransactionLatest tx={transactionData} onClose={handleClose} />
-          ) : (
-            <>
-              <span className="loading loading-ring loading-lg"></span>
-            </>
-          )}
+          <Link
+            href={"/transaction/payment/" + network + "/" + hash}
+            className="btn btn-primary w-full mt-3 mb-2"
+            onClick={onClose}
+          >
+            Go to transaction
+          </Link>
         </div>
       </div>
     </div>

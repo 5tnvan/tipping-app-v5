@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AccountingContext, AppContext, WithdrawContext } from "./context";
+import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
@@ -12,10 +12,12 @@ import { AvatarModal } from "~~/components/app/modal/AvatarModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
-import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
+import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -24,17 +26,7 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsAuthLayout = ({
-  children,
-  onFastPaySuccess,
-  onProfilePaySuccess,
-  onWithdrawSuccess,
-}: {
-  children: React.ReactNode;
-  onFastPaySuccess: () => void;
-  onProfilePaySuccess: () => void;
-  onWithdrawSuccess: () => void;
-}) => {
+const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
@@ -48,8 +40,19 @@ const IsAuthLayout = ({
 
   //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile } = useContext(AppContext);
-  const { incomingTxSum } = useContext(AccountingContext);
-  const { withdrawSuccess } = useContext(WithdrawContext);
+
+  /* TRANSACTIONS VARIABLES */
+  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
+  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
+
+  /* FETCH TRANSACTIONS */
+  const incomingRes = useIncomingTransactions(profile.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
+
+  useEffect(() => {
+    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
+    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
+  }, [incomingRes, outgoingRes]);
 
   //SOCIAL MEDIA LINKS:
   let soc = {};
@@ -64,16 +67,6 @@ const IsAuthLayout = ({
       tt: { val: profile.tiktok, link: "https://tiktok.com/" + profile.tiktok },
     };
   }
-
-  /**
-   * ACTION: Listen to
-   **/
-  useEffect(() => {
-    if (withdrawSuccess) {
-      onWithdrawSuccess(); //trigger wildpaylayout
-      console.log("isauthLayout: trigger wildpaylayout");
-    }
-  }, [withdrawSuccess]);
 
   /**
    * ACTION: Open and close Pay Modal
@@ -96,25 +89,9 @@ const IsAuthLayout = ({
   const handleFastPaySuccess = (hash: any) => {
     closeFastPayModal(); //closes fast pay
     console.log("isAuthLayout: closesFastPayModal");
-    setTimeout(() => {
-      onFastPaySuccess(); // trigger parent wildpay layout
-      console.log("isAuthLayout: triggerWildpayLayout(hash) finished");
-      router.refresh();
-      console.log("isAuthLayout: router.refresh()");
-      setHashRes(hash); // set transaction hash
-      console.log("isAuthLayout: setHashRes(hash)", hash);
-      openPayReceiptModal(); //open receipt
-    }, 1000);
-  };
-
-  /**
-   * ACTION: Trigger parents and children on success
-   **/
-  const handleProfilePaySuccess = () => {
-    onProfilePaySuccess(); // trigger wildpayLayout
-    console.log("isAuthLayout: handleProfilePaySuccess()");
-    console.log("isAuthLayout: router.refresh()");
-    router.refresh();
+    setHashRes(hash); // set transaction hash
+    console.log("isAuthLayout: setHashRes(hash)", hash);
+    openPayReceiptModal(); //open receipt
   };
 
   /**
@@ -170,14 +147,11 @@ const IsAuthLayout = ({
           <IsAuthMenu />
         )}
 
-        {/* WILDPAY SEARCH MODAL */}
-        <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
-
         {/* ISAUTH CUSTOM-BG */}
         <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
+        {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {!username && !isHome && !isTransaction ? (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
@@ -249,7 +223,6 @@ const IsAuthLayout = ({
                 </div>
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
-                {/* ISAUTH PROFILE INTRO - ETH BALANCE @SETTINGS */}
                 <div
                   className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}
                 >
@@ -257,41 +230,23 @@ const IsAuthLayout = ({
                   {!isLoadingAuth && !isSettings && (
                     <div className="flex flex-col items-end">
                       <div className="text-xl font-semibold custom-text-blue">
-                        ${convertEthToUsd(incomingTxSum, nativeCurrencyPrice)}
+                        ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
                       </div>
                       <div className="text-xl flex items-center">
-                        <EthIcon width={16} height={16} />
-                        {incomingTxSum}
+                        {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
                       </div>
                     </div>
-                  )}
-                  {!isLoadingAuth && isSettings && (
-                    <>
-                      {/* {profile.wallet_id && (
-                        <div className="flex flex-col items-end">
-                          <div className="text-xl font-semibold custom-text-blue">
-                            ${convertEthToUsd(Number(withdrawBalance), nativeCurrencyPrice)}
-                          </div>
-                          <div className="text-xl flex items-center">
-                            <EthIcon width={16} height={16} />
-                            {Number(withdrawBalance).toFixed(4)}
-                          </div>
-                        </div>
-                      )} */}
-                    </>
                   )}
                 </div>
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            {/* {isSettings && { children }}
-            {!isSettings && { children }} */}
             {children}
           </>
         ) : (
           <></>
         )}
-        {/* ISAUTH HOME */}
+        {/* ISAUTH /HOME */}
         {(isHome || isTransaction) && <>{children}</>}
       </div>
 
@@ -300,12 +255,15 @@ const IsAuthLayout = ({
         <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
       )}
 
-      {/* WILDPAY PAY MODAL */}
+      {/* WILDPAY FASTPAY MODAL */}
       <FastPayModal
         isOpen={isFastPayModalOpen}
         onClose={closeFastPayModal}
         onSuccess={handleFastPaySuccess}
       ></FastPayModal>
+
+      {/* WILDPAY AVATAR MODAL */}
+      <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>

@@ -63,7 +63,7 @@ const GetStarted: NextPage = () => {
             {/* GET STARTED ETH ANIMATION */}
             <div className="flex justify-center">
               <span className="pt-1">
-                <EthIcon width={"20px"} height={"20px"} />
+                <EthIcon width={"20px"} height={"20px"} fill="#3C3C3C" />
               </span>
               <div className="animation text-xl font-semibold">
                 <div className="first">

@@ -2,19 +2,20 @@ import { useContext, useEffect, useState } from "react";
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, FollowersContext, ProfilePayContext, PublicAccountingContext, PublicContext } from "./context";
+import { AppContext, FollowersContext, PublicContext } from "./context";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
-import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { useAccounting } from "~~/hooks/app/useAccounting";
 import { usePublicFollowers } from "~~/hooks/app/useFollowers";
 import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
+import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -23,31 +24,33 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; onSuccess: () => void }) => {
+const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { username } = useParams();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
+  /* USER, PUBLIC USER, FOLLOWERS, PUBLIC FOLLOWERS */
   const { isLoadingAuth, isAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
-  const { incomingTx, incomingTxSum, refetch: refetchPublicAccounting } = useAccounting(publicProfile?.wallet_id);
   const {
     isLoading: isLoadingPublicFollowers,
     followersData: followersPublicData,
     refetch: refetchPublicFollowers,
   } = usePublicFollowers(username);
-  const { profilePaySuccess } = useContext(ProfilePayContext);
 
-  //LISTEN TO: profilePaySuccess from profile/username
+  /* TRANSACTIONS VARIABLES */
+  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
+  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
+
+  /* FETCH TRANSACTIONS */
+  const incomingRes = useIncomingTransactions(publicProfile.wallet_id);
+  const outgoingRes = useOutgoingTransactions(publicProfile.wallet_id);
+
   useEffect(() => {
-    if (profilePaySuccess) {
-      onSuccess(); //trigger isAuthLayout
-      refetchPublicAccounting(); // refresh public accounting top and table
-      console.log("isPublicLayout profilePaySuccess: refetchPublicAccounting()");
-      //router.refresh();
-    }
-  }, [profilePaySuccess]);
+    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
+    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
+  }, [incomingRes, outgoingRes]);
 
   //HANDLE FOLLOW
   const handleFollow = () => {
@@ -71,6 +74,7 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
     setFollowersModalOpen(false);
   };
 
+  //RENDER
   if (!isLoadingPublic && !publicProfile?.id) {
     return <div className="mt-20 text-black z-50 relative">User not found</div>;
   }
@@ -160,11 +164,10 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
                   <>
                     <div className="flex flex-col items-end">
                       <div className="text-xl font-semibold custom-text-blue">
-                        ${convertEthToUsd(incomingTxSum, nativeCurrencyPrice)}
+                        ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
                       </div>
                       <div className="text-xl flex items-center">
-                        <EthIcon width={16} height={16} />
-                        {incomingTxSum}
+                        {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
                       </div>
                     </div>
                   </>
@@ -174,17 +177,15 @@ const IsPublicLayout = ({ children, onSuccess }: { children: React.ReactNode; on
           </div>
           {/* ISPUBLIC CHILDREN */}
           <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
-            <PublicAccountingContext.Provider value={{ incomingTx, refetchPublicAccounting }}>
-              {/* ISAUTH FOLLOWERS MODAL */}
-              <FollowersModal
-                isOpen={isFollowersModalOpen}
-                onClose={closeFollowersModal}
-                data={followersPublicData}
-                refetch={refetchPublicFollowers}
-              ></FollowersModal>
+            {/* ISAUTH FOLLOWERS MODAL */}
+            <FollowersModal
+              isOpen={isFollowersModalOpen}
+              onClose={closeFollowersModal}
+              data={followersPublicData}
+              refetch={refetchPublicFollowers}
+            ></FollowersModal>
 
-              {children}
-            </PublicAccountingContext.Provider>
+            {children}
           </PublicContext.Provider>
         </div>
       </>

@@ -34,6 +34,8 @@ export const usePrivateFollowers = () => {
     initUser();
   }, [triggerRefetch]);
 
+  // console.log("usePrivateFollowers:", followersData);
+
   return { isLoading, followersData, refetch };
 };
 

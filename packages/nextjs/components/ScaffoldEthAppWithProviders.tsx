@@ -5,7 +5,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 import { WagmiConfig } from "wagmi";
-// import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
@@ -36,15 +35,17 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   //const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
-  const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1";
-  //const subgraphUri = "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1";
-  const apolloClient = new ApolloClient({
-    uri: subgraphUri,
+  //const subgraphUriEthereumSepolia = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1";
+  //const subgraphUriEthereumMainnet = "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1";
+  //const subgraphUriBaseSepolia = "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1";
+
+  const client = new ApolloClient({
+    uri: undefined,
     cache: new InMemoryCache(),
   });
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={client}>
       <WagmiConfig config={wagmiConfig}>
         <ProgressBar />
         <RainbowKitProvider

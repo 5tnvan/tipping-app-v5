@@ -8,8 +8,6 @@ import { AddressQRCodeModal } from "./AddressQRCodeModal";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
-import { CheckBadgeIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
 import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useNetworkColor } from "~~/hooks/scaffold-eth/useNetworkColor";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
@@ -26,7 +24,6 @@ export const RainbowKitCustomConnectButtonForAdmin = ({ btn }: RainbowKitCustomC
   useAutoConnect();
   const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
-  const { profile } = useContext(AppContext);
 
   return (
     <ConnectButton.Custom>
@@ -59,12 +56,6 @@ export const RainbowKitCustomConnectButtonForAdmin = ({ btn }: RainbowKitCustomC
 
               return (
                 <>
-                  <div className="flex flex-col items-center mr-1">
-                    <Balance address={account.address as Address} className="min-h-0 h-auto" />
-                    <span className="text-xs" style={{ color: networkColor }}>
-                      {chain.name}
-                    </span>
-                  </div>
                   <AddressInfoDropdown
                     address={account.address as Address}
                     displayName={account.displayName}
@@ -73,20 +64,12 @@ export const RainbowKitCustomConnectButtonForAdmin = ({ btn }: RainbowKitCustomC
                     btn={btn}
                   />
                   <AddressQRCodeModal address={account.address as Address} modalId="qrcode-modal" />
-                  {profile.wallet_id && profile.wallet_id !== account.address && (
-                    <>
-                      <div className="flex pl-1 text-red-600">
-                        <ExclamationCircleIcon width={20} />
-                      </div>
-                    </>
-                  )}
-                  {profile.wallet_id && profile.wallet_id == account.address && (
-                    <>
-                      <div className="flex pl-1 text-green-600">
-                        <CheckBadgeIcon width={20} />
-                      </div>
-                    </>
-                  )}
+                  <div className="flex flex-col items-center mr-1">
+                    <Balance address={account.address as Address} className="min-h-0 h-auto" />
+                    <span className="text-xs" style={{ color: networkColor }}>
+                      {chain.name}
+                    </span>
+                  </div>
                 </>
               );
             })()}

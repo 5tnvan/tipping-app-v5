@@ -14,10 +14,6 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
   const { isLoadingAuth } = useContext(AppContext);
 
-  const nothing = () => {
-    console.log("nothing");
-  };
-
   return (
     <>
       {/* ISNOTAUTH MENU DROPDOWN */}
@@ -36,7 +32,7 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       )}
 
       {/* ISNOTAUTH CHILDREN */}
-      {username && <IsPublicLayout onSuccess={nothing}>{children}</IsPublicLayout>}
+      {username && <IsPublicLayout>{children}</IsPublicLayout>}
       {!username && (
         <div id="wildpay-is-not-auth" className="flex flex-col grow pr-6 pl-6">
           {children}

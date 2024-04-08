@@ -8,7 +8,7 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
-import { RainbowKitCustomConnectButtonForPay } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/pay";
+import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
@@ -207,6 +207,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
             )}
             {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
               <>
+                <RainbowKitCustomSwitchNetworkButton btn="base" />
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
                   <div className="flex items-center">
                     <Avatar profile={profile} width="8" ring={false} />
@@ -219,7 +220,6 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                     </span>
                   </div>
                 </div>
-                <RainbowKitCustomConnectButtonForPay btn="base" />
               </>
             )}
             {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (

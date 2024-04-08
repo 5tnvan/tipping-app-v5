@@ -1,14 +1,22 @@
-"use client";
+import { ApolloClient, HttpLink, InMemoryCache, gql, useQuery } from "@apollo/client";
 
-import { gql, useQuery } from "@apollo/client";
+// Define your Apollo Client instances for each endpoint
+const apolloClientEthereum = new ApolloClient({
+  link: new HttpLink({ uri: "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1" }),
+  cache: new InMemoryCache(),
+});
+
+const apolloClientBase = new ApolloClient({
+  link: new HttpLink({ uri: "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1" }),
+  cache: new InMemoryCache(),
+});
 
 /**
  * FETCH: fetchIncomingTransactions()
  * DB: subpgraph
- * TABLE: "payments"
+ * TABLE: "paymentsChanges"
  * RETURN: { incomingTransactionsData }
  **/
-
 export const useIncomingTransactions = (receiverAddress: any) => {
   const PAYMENTS_GRAPHQL = `
     query GetPaymentChanges($receiverAddress: Bytes!) {
@@ -30,15 +38,19 @@ export const useIncomingTransactions = (receiverAddress: any) => {
     }
   `;
 
-  const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
-  const { data: incomingTransactionsData, error } = useQuery(PAYMENTS_GQL, {
+  const { data: ethereumData } = useQuery(gql(PAYMENTS_GRAPHQL), {
     variables: { receiverAddress },
+    pollInterval: 1000,
     fetchPolicy: "network-only",
+    client: apolloClientEthereum,
   });
 
-  if (error) {
-    //console.log("fetchIncomingTransactions() error");
-  }
+  const { data: baseData } = useQuery(gql(PAYMENTS_GRAPHQL), {
+    variables: { receiverAddress },
+    pollInterval: 1000,
+    fetchPolicy: "network-only",
+    client: apolloClientBase,
+  });
 
-  return incomingTransactionsData;
+  return { ethereumData, baseData };
 };

@@ -1,23 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TimeAgo } from "../TimeAgo";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
 import { AppContext } from "~~/app/context";
 import { updateProfileWallet } from "~~/app/settings/actions";
 import { CheckMarkIcon } from "~~/components/assets/CheckMarkIcon";
-import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 
 const WalletConnectVerify = () => {
   const { profile, refetchAuth } = useContext(AppContext);
   //WALLET
-  // const [isWallet, setIsWallet] = useState(false);
-  // const [isWalletVerified, setIsWalletVerified] = useState(false);
   const { address } = useAccount();
   const { data: signMessageData, error, signMessage, variables } = useSignMessage();
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (variables?.message && signMessageData) {
         await recoverMessageAddress({
@@ -51,20 +48,9 @@ const WalletConnectVerify = () => {
 
         {/* Steps */}
         <ul className="steps steps-vertical lg:steps-vertical w-full">
-          {/* 1.Select a network */}
-          <li className="step step-accent">
-            <div className="font-semibold flex justify-center items-center">
-              Select a network <CheckMarkIcon />
-            </div>
-            <div className="ml-10 flex  bg-slate-200 rounded-lg p-3 items-center">
-              <EthIcon width="14" height="14" />
-              <div className="text-sm">Ethereum</div>
-            </div>
-          </li>
-
-          {/* 2.Link your wallet */}
+          {/* 1.Link your wallet */}
           {!profile.wallet_id && (
-            <li className={`step ${address ? "step-accent" : ""}`}>
+            <li className={`step ${address ? "step-primary" : ""}`}>
               <div className={`${address ? "font-semibold flex items-center" : ""}`}>
                 Link your wallet {address && <CheckMarkIcon />}
               </div>
@@ -74,7 +60,7 @@ const WalletConnectVerify = () => {
             </li>
           )}
           {profile.wallet_id && (
-            <li className="step step-accent">
+            <li className="step step-primary">
               <div className="font-semibold flex items-center">
                 Link your wallet <CheckMarkIcon />
               </div>
@@ -86,15 +72,13 @@ const WalletConnectVerify = () => {
 
           {/* 2.Verify ownership */}
           {!profile.wallet_id && !address && (
-            <>
-              <li className="step ">
-                <div>Verify ownership</div>
-              </li>
-            </>
+            <li className="step mt-4">
+              <div>Verify ownership</div>
+            </li>
           )}
           {!profile.wallet_id && address && (
             <>
-              <li className="step">
+              <li className="step mt-4">
                 <div>Verify ownership</div>
                 <div className="min-w-max text-left">
                   Sign a message to verify the ownership of your wallet.
@@ -104,7 +88,7 @@ const WalletConnectVerify = () => {
               </li>
 
               <div
-                className="btn btn-secondary w-full mt-5"
+                className="btn btn-primary w-full mt-5"
                 onClick={() => {
                   signMessage({ message: "Hi WildPay, this signature is to prove the ownership of my wallet!" });
                 }}
@@ -114,7 +98,7 @@ const WalletConnectVerify = () => {
             </>
           )}
           {profile.wallet_id && profile.wallet_sign_hash && (
-            <li className="step step-accent">
+            <li className="step step-primary">
               <div className="font-semibold flex items-center">
                 Verify ownership <CheckMarkIcon />
               </div>
@@ -124,6 +108,7 @@ const WalletConnectVerify = () => {
                     <div className="font-medium">Signed hash:</div>
                     <div className="text-ellipsis overflow-hidden">{profile.wallet_sign_hash}</div>
                     <div className="">
+                    {profile.wallet_sign_timestamp}
                       <TimeAgo timestamp={profile.wallet_sign_timestamp} />
                     </div>
                   </>

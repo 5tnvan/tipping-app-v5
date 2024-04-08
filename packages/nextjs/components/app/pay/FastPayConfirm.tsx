@@ -7,7 +7,7 @@ import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/soli
 import { AppContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
-import { RainbowKitCustomConnectButtonForPay } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/pay";
+import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
@@ -18,11 +18,8 @@ type Props = {
 };
 
 const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
-  //PARENTS CONTEXT:
-  const { profile } = useContext(AppContext);
   const { address: connectedAddress } = useAccount();
-
-  //const [ethAmount, setEthAmount] = useState(0);
+  const { profile } = useContext(AppContext);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
@@ -61,6 +58,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
    * ACTION: Trigger parents on success
    **/
   const handlePay = (hash: any) => {
+    console.log("FastPayConfirm: trigger FastPayModal");
     onSuccess(hash);
   };
 
@@ -74,7 +72,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
     value: parseEther(ethAmountWithFee.toString()),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
-      console.log("FastPayConfirm trasactionHash", txnReceipt.transactionHash);
+      console.log("FastPayConfirm trasactionHash", txnReceipt);
       handlePay(txnReceipt.transactionHash);
     },
   });
@@ -161,6 +159,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
         )}
         {profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
           <>
+            <RainbowKitCustomSwitchNetworkButton btn="base" />
             <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
               <div className="flex items-center">
                 <Avatar profile={profile} width="8" ring={false} />
@@ -173,7 +172,6 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
                 </span>
               </div>
             </div>
-            <RainbowKitCustomConnectButtonForPay btn="base" />
           </>
         )}
         {profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
