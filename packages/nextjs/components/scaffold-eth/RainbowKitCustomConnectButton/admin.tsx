@@ -1,6 +1,5 @@
 "use client";
 
-import { useContext } from "react";
 import { Balance } from "../Balance";
 // @refresh reset
 import { AddressInfoDropdown } from "./AddressInfoDropdown";
