@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AppContext } from "./context";
 import type { NextPage } from "next";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
+import { Meteors } from "~~/components/app/ui/meteors";
 import { Tabs } from "~~/components/app/ui/tabs";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 import { TelegramIcon } from "~~/components/assets/TelegramIcon";
@@ -229,6 +230,7 @@ const Home: NextPage = () => {
                   </p>
 
                   <div className="border px-4 py-1 rounded-lg border-gray-500 text-gray-300">Multi-chain</div>
+                  <Meteors number={20} />
                 </div>
               </div>
             </div>
@@ -331,13 +333,40 @@ const Home: NextPage = () => {
                     </svg>
                   </div>
 
-                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">AI</h1>
+                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">Wild NFTs</h1>
 
                   <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
                     Give your old Web2 identity a makeover with a single click of button, powered by AI.
                   </p>
 
                   <div className="border px-4 py-1 rounded-lg  border-gray-500 text-gray-300">Web3 Identity</div>
+                </div>
+              </div>
+            </div>
+            <div className="mb-5 mr-5">
+              <div className=" w-full relative max-w-xs">
+                <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
+                <div className="relative shadow-xl bg-neutral-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+                  <div className="h-5 w-5 rounded-full border flex items-center justify-center mb-4 border-gray-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-2 w-2 text-gray-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                    </svg>
+                  </div>
+
+                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">Wild Superchat</h1>
+
+                  <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
+                    We are bringing back 90s chatrooms, offering a 24/7 superchat for real-time community conversations.
+                  </p>
+
+                  <div className="border px-4 py-1 rounded-lg  border-gray-500 text-gray-300">Web3 Community</div>
                 </div>
               </div>
             </div>
