@@ -30,7 +30,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
    **/
   const { withdrawData, loading, error } = useFetchWithdraw(params.txHash, params.network);
   useEffect(() => {
-    if (withdrawData && !loading) {
+    if (withdrawData && withdrawData.withdrawChanges.length > 0 && !loading) {
       const fetchData = async () => {
         const walletProfileData = await fetchPublicProfileFromWalletId(withdrawData.withdrawChanges[0].wallet);
         setWalletProfile(walletProfileData);
@@ -45,10 +45,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   return (
     <>
       <div className="mt-14 pl-6 pr-6 overflow-auto wildui-transaction-scroll-transaction">
-        {error && <>Sorry, something went wrong. Please try again later.</>}
         <button className="btn btn-sm btn-primary" onClick={() => router.back()}>
           Back
         </button>
+        {error && <>Sorry, something went wrong. Please try again later.</>}
+        {withdrawData && withdrawData.withdrawChanges.length == 0 && (
+          <div className="mt-5">Please try again later.</div>
+        )}
         {/* SPOTLIGHT */}
         {withdrawData && (
           <>

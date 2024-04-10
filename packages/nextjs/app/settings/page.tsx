@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { ArrowPathIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
@@ -213,9 +213,6 @@ const Settings: NextPage = () => {
           {/* My Balance */}
           <div className="flex items-center mb-3">
             <div className="mr-1">My balance</div>
-            <div>
-              <ArrowPathIcon width={14} />
-            </div>
           </div>
 
           {/* Balance */}

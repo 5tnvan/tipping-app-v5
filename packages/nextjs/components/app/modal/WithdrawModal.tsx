@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
-import { ArrowPathIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
@@ -121,9 +121,6 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                 {/* BALANCE AMOUNT */}
                 <div className="flex items-center">
                   <div className="font-semibold mr-1">Your balance</div>
-                  <div>
-                    <ArrowPathIcon width={14} />
-                  </div>
                 </div>
                 <div className="flex items-center">
                   <div className="flex items-center text-xl mr-2 font-medium">{Number(withdrawBalance)}Ξ</div>

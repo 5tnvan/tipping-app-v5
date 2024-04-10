@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { useFetchPayment, useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 
 type Props = {
   tx: any;
@@ -22,6 +23,23 @@ export const WithdrawReceipt = ({ tx, isOpen, onClose }: Props) => {
       setNetwork("ethereum");
     }
   }, [targetNetwork]);
+
+  /**
+   * ACTION: Refetch till Subgraph finishes indexing
+   **/
+  const [isPopulated, setIsPopulated] = useState(false);
+  const { withdrawData, refetch } = useFetchWithdraw(tx, network);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!withdrawData || withdrawData?.withdrawChanges?.length === 0) {
+        refetch();
+      } else {
+        setIsPopulated(true);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [withdrawData, refetch]);
 
   /**
    * ACTION: Handle Close
@@ -48,13 +66,18 @@ export const WithdrawReceipt = ({ tx, isOpen, onClose }: Props) => {
             <div className="text-primary font-semibold text-3xl">{"Success 🎉"}</div>
             <div className="mb-5">Save your receipt</div>
             {/* Close */}
-            <Link
-              href={`/transaction/withdraw/${network}/${tx}`}
-              className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
-              onClick={handleClose}
-            >
-              Go to transaction
-            </Link>
+            {!isPopulated && <span className="loading loading-ring loading-md"></span>}
+            {isPopulated && (
+              <>
+                <Link
+                  href={`/transaction/withdraw/${network}/${tx}`}
+                  className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+                  onClick={handleClose}
+                >
+                  Go to transaction
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

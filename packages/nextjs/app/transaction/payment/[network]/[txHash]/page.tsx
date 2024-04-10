@@ -31,8 +31,9 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
    * ACTION: Fetch transaction from graph
    **/
   const { paymentData, loading, error } = useFetchPayment(params.txHash, params.network);
+  console.log("paymentData", paymentData);
   useEffect(() => {
-    if (paymentData && !loading) {
+    if (paymentData && paymentData.paymentChanges.length > 0 && !loading) {
       const fetchData = async () => {
         const senderProfileData = await fetchPublicProfileFromWalletId(paymentData.paymentChanges[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(paymentData.paymentChanges[0].receiver);
@@ -49,12 +50,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   return (
     <>
       <div className="mt-14 pl-6 pr-6 overflow-auto wildui-transaction-scroll-transaction">
-        {error && <>Sorry, something went wrong. Please try again later.</>}
         <button className="btn btn-sm btn-primary" onClick={() => router.back()}>
           Back
         </button>
         {/* SPOTLIGHT */}
-        {paymentData && (
+        {error && <div className="mt-5">Sorry, something went wrong. Please try again later.</div>}
+        {paymentData && paymentData.paymentChanges.length == 0 && <div className="mt-5">Please try again later.</div>}
+        {paymentData && paymentData.paymentChanges.length > 0 && (
           <>
             <div className="w-full rounded-xxl bg-black/[0.96] relative ">
               <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />

@@ -1,15 +1,15 @@
 "use client";
 
-import { ApolloClient, HttpLink, InMemoryCache, gql, useQuery } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
 
 // Define your Apollo Client instances for each endpoint
 const apolloClientEthereum = new ApolloClient({
-  link: new HttpLink({ uri: "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1" }),
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1",
   cache: new InMemoryCache(),
 });
 
 const apolloClientBase = new ApolloClient({
-  link: new HttpLink({ uri: "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1" }),
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1",
   cache: new InMemoryCache(),
 });
 
@@ -46,6 +46,7 @@ export const useFetchPayment = (hash: any, network: any) => {
     data: paymentData,
     loading,
     error,
+    refetch,
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
@@ -56,14 +57,14 @@ export const useFetchPayment = (hash: any, network: any) => {
     console.log("error: ", error);
   }
 
-  return { paymentData, loading, error };
+  return { paymentData, loading, error, refetch };
 };
 
 /**
  * FETCH: useFetchWithdraw()
  * DB: subpgraph
  * TABLE: "withdrawChanges"
- * RETURN: { paymentChanges }
+ * RETURN: { withdrawChanges }
  **/
 
 export const useFetchWithdraw = (hash: any, network: any) => {
@@ -89,6 +90,7 @@ export const useFetchWithdraw = (hash: any, network: any) => {
     data: withdrawData,
     loading,
     error,
+    refetch,
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
@@ -99,5 +101,5 @@ export const useFetchWithdraw = (hash: any, network: any) => {
     console.log("error: ", error);
   }
 
-  return { withdrawData, loading, error };
+  return { withdrawData, loading, error, refetch };
 };

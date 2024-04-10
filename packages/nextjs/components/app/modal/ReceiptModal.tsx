@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { useFetchPayment } from "~~/utils/app/fetch/fetchTransaction";
 
 type Props = {
   hash: string;
@@ -9,6 +10,10 @@ type Props = {
 };
 
 export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
+
+  /**
+   * ACTION: Get network
+   **/
   const [network, setNetwork] = useState("");
   const { targetNetwork } = useTargetNetwork();
 
@@ -20,6 +25,26 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
     }
   }, [targetNetwork]);
 
+  /**
+   * ACTION: Refetch till Subgraph finishes indexing
+   **/
+  const [isPopulated, setIsPopulated] = useState(false);
+  const { paymentData, refetch } = useFetchPayment(hash, network);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!paymentData || paymentData?.paymentChanges?.length === 0) {
+        refetch();
+      } else {
+        setIsPopulated(true);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [paymentData, refetch]);
+
+  /**
+   * ACTION: Handle close
+   **/
   const handleClose = () => {
     onClose();
   };
@@ -41,13 +66,18 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
           <div className="font-semibold custom-text-blue text-3xl pt-10">{"Success 🎉."}</div>
           <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
           {/* RECEIPT */}
-          <Link
-            href={"/transaction/payment/" + network + "/" + hash}
-            className="btn btn-primary w-full mt-3 mb-2"
-            onClick={onClose}
-          >
-            Go to transaction
-          </Link>
+          {!isPopulated && <span className="loading loading-ring loading-md"></span>}
+          {isPopulated && (
+            <>
+              <Link
+                href={"/transaction/payment/" + network + "/" + hash}
+                className="btn btn-primary w-full mt-3 mb-2"
+                onClick={onClose}
+              >
+                Go to transaction
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
