@@ -195,6 +195,3 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
     </div>
   );
 };
-function uploadProfileData(fileImg: string) {
-  throw new Error("Function not implemented.");
-}
