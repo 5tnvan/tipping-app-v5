@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
-import { ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
@@ -229,8 +229,13 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                   {isLoadingAuth && <IsLoading shape="rounded-md" width={12} height={8} />}
                   {!isLoadingAuth && !isSettings && (
                     <div className="flex flex-col items-end">
-                      <div className="text-xl font-semibold custom-text-blue">
-                        ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
+                      <div className="flex items-center text-xl font-semibold custom-text-blue">
+                        <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>                       
+                        <div className="tooltip tooltip-top z-20" data-tip="All time">
+                          <button className="ml-1">
+                            <QuestionMarkCircleIcon width={14} />
+                          </button>
+                        </div>
                       </div>
                       <div className="text-xl flex items-center">
                         {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ

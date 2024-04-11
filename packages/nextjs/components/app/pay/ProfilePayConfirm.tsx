@@ -145,6 +145,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
 
           {/* PAY AS */}
           <div className="mt-10">
+            {/* PAY AS ANONYMOUS */}
             {isAuth == "no" && (
               <>
                 <div className="flex flex-col">
@@ -201,7 +202,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                   </div>
                 </div>
                 <div className="w-full h-12 mt-2">
-                  <RainbowKitCustomConnectButton btn={"base"} />
+                  <RainbowKitCustomConnectButton btn="base" />
                 </div>
               </>
             )}

@@ -3,7 +3,6 @@
 // @refresh reset
 import { AddressInfoDropdown } from "./AddressInfoDropdown";
 import { AddressQRCodeModal } from "./AddressQRCodeModal";
-import { SwitchNetworkDropdown } from "./SwitchNetworkDropdown";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
@@ -18,7 +17,7 @@ type RainbowKitCustomConnectButtonProps = {
 /**
  * Custom Wagmi Connect Button (watch balance + custom design)
  */
-export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectButtonProps) => {
+export const RainbowKitCustomWalletButton = ({ btn }: RainbowKitCustomConnectButtonProps) => {
   //useAutoConnect();
   //const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
@@ -62,9 +61,6 @@ export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectBu
                       blockExplorerAddressLink={blockExplorerAddressLink}
                       btn={btn}
                     />
-                  </div>
-                  <div>
-                    <SwitchNetworkDropdown chainName={chain.name} btn={btn} />
                   </div>
 
                   <AddressQRCodeModal address={account.address as Address} modalId="qrcode-modal" />

@@ -79,7 +79,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
 
   return (
     <>
-      <div id="wildpay-fastpay" className="flex items-center pt-10 text-5xl">
+      <div id="wildpay-fastpay" className="flex items-center pt-4 text-5xl">
         {/* USD */}
         <span className="text-3xl">$</span>
         <div>
@@ -96,7 +96,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
       {dollarAmount > 0 && (
         <>
           {/* MESSAGE */}
-          <div className="flex flex-col items-center mt-2">
+          <div className="flex flex-col items-center">
             <Link className="link-primary block mt-2" onClick={() => addMessageClick()} href={""}>
               Leave a message
             </Link>
@@ -127,7 +127,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
       )}
 
       {/* PAY AS */}
-      <div className="mt-10">
+      <div className="mt-8">
         {!profile.wallet_id && (
           <>
             <div>You have no verified wallet, yet.</div>

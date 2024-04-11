@@ -38,36 +38,27 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {/* PRIVATE PAGE */}
-      {/* route: /test */}
-      {isPrivate && (
-        <AppContext.Provider value={{ profile }}>
-          <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
-            {children}
-          </main>
-        </AppContext.Provider>
-      )}
-      {/* ADMIN AREA */}
-      {/* route: /debug /blockexplorer */}
-      {(isDebug || isBlockExplorer) && (
-        <AppContext.Provider value={{ isAuth, isLoadingAuth, profile }}>
-          <IsAdminLayout>{children}</IsAdminLayout>
-        </AppContext.Provider>
-      )}
-      {/* LANDING PAGE */}
-      {/* route: wildpay.app */}
-      {isRoot && (
-        <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
-          <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
-            {children}
-          </main>
-        </AppContext.Provider>
-      )}
-      {/* THE APP */}
-      {!isRoot && !isDebug && !isBlockExplorer && (
-        <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
-          <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-            {/* <Header /> */}
+      <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
+        <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
+          {/* PRIVATE PAGE */}
+          {/* route: /test */}
+          {isPrivate && (
+            <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
+              {children}
+            </main>
+          )}
+          {/* ADMIN AREA */}
+          {/* route: /debug /blockexplorer */}
+          {(isDebug || isBlockExplorer) && <IsAdminLayout>{children}</IsAdminLayout>}
+          {/* LANDING PAGE */}
+          {/* route: wildpay.app */}
+          {isRoot && (
+            <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
+              {children}
+            </main>
+          )}
+          {/* THE APP */}
+          {!isRoot && !isDebug && !isBlockExplorer && (
             <div id="master" className="min-h-full bg-neutral-950 antialiased">
               <main id="main" className="flex justify-center min-h-screen h-full text-black">
                 <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-screen`}>
@@ -80,9 +71,9 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
                 </div>
               </main>
             </div>
-          </FollowersContext.Provider>
-        </AppContext.Provider>
-      )}
+          )}
+        </FollowersContext.Provider>
+      </AppContext.Provider>
     </>
   );
 };

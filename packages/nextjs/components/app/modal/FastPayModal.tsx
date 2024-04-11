@@ -88,7 +88,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     <ArrowLeftIcon />
                     Back
                   </button>
-                  <div className="flex flex-col items-center justify-center mt-5">
+                  <div className="flex flex-col items-center justify-center mt-3">
                     <Avatar profile={receiver} width={12} ring={false} />
                     <div className="font-semibold mt-2">@{receiver.username}</div>
                     {/* <div className="mt-2">{receiver.wallet_id}</div> */}

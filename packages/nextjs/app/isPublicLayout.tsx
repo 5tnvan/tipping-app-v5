@@ -3,7 +3,7 @@ import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
 import { AppContext, FollowersContext, PublicContext } from "./context";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
@@ -163,8 +163,13 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <>
                     <div className="flex flex-col items-end">
-                      <div className="text-xl font-semibold custom-text-blue">
+                      <div className="flex items-center text-xl font-semibold custom-text-blue">
                         ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
+                        <div className="tooltip tooltip-top z-20" data-tip="All time">
+                          <button className="ml-1">
+                            <QuestionMarkCircleIcon width={14} />
+                          </button>
+                        </div>
                       </div>
                       <div className="text-xl flex items-center">
                         {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ

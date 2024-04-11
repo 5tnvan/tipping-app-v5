@@ -51,11 +51,11 @@ export const AddressInfoDropdown = ({
 
   return (
     <>
-      <details ref={dropdownRef} className="dropdown dropdown-end leading-3">
+      <details ref={dropdownRef} className={`dropdown dropdown-end leading-3 ${btn == "small" ? "" : "w-full"}`}>
         <summary
           tabIndex={0}
           className={`btn btn-neutral pl-2 ${
-            btn == "small" ? "btn-sm" : "w-full flex justify-between"
+            btn == "small" ? "btn-sm" : "w-full flex justify-between mb-2"
           } pr-2 dropdown-toggle gap-0 !h-auto`}
         >
           <BlockieAvatar address={checkSumAddress} size={20} ensImage={ensAvatar} />

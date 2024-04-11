@@ -4,6 +4,7 @@ import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import Link from "next/link";
 
 export const metadata = getMetadata({
   title: "Profile",
@@ -32,7 +33,18 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
       )}
 
       {/* ISNOTAUTH CHILDREN */}
-      {username && <IsPublicLayout>{children}</IsPublicLayout>}
+      {username && (
+        <>
+          <IsPublicLayout>{children}</IsPublicLayout>
+          <Link
+            href="/login"
+            id="wildpay-app-menu"
+            className="flex justify-around absolute  bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40"
+          >
+            Login
+          </Link>
+        </>
+      )}
       {!username && (
         <div id="wildpay-is-not-auth" className="flex flex-col grow pr-6 pl-6">
           {children}
