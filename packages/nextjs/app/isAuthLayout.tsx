@@ -33,6 +33,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
   const isHome = pathname === "/home";
+  const isLogin = pathname === "/login";
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const isTransaction = pathname.includes("/transaction");
@@ -152,7 +153,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* ISAUTH PROFILE INTRO */}
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
-        {!username && !isHome && !isTransaction ? (
+        {!username && !isHome && !isTransaction && !isLogin ? (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">

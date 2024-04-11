@@ -4,7 +4,7 @@ import { IsLoading } from "../IsLoading";
 import { Avatar } from "../authentication/Avatar";
 import { ChevronRightIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/solid";
 import { useDebounce } from "~~/hooks/app/useDebounce";
-import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
+import { fetchPublicProfileMatchingWith } from "~~/utils/app/fetch/fetchUser";
 
 type Props = {
   isOpen: any;
@@ -13,7 +13,7 @@ type Props = {
 
 export const SearchModal = ({ isOpen, onClose }: Props) => {
   const [searchValue, setSearchValue] = useState("");
-  const [searchProfile, setSearchProfile] = useState<any>(null);
+  const [searchRes, setSearchRes] = useState<any>(null);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const debouncedSearchValue = useDebounce(searchValue);
 
@@ -23,8 +23,8 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
       console.log("debouncedSearchValue: ", debouncedSearchValue);
       setIsSearchLoading(true);
 
-      const result = await fetchPublicProfile(debouncedSearchValue);
-      setSearchProfile(result);
+      const result = await fetchPublicProfileMatchingWith(debouncedSearchValue.toLowerCase());
+      setSearchRes(result);
 
       setIsSearchLoading(false);
     };
@@ -32,13 +32,13 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
       fetchProfile();
     } else {
       //clear results
-      setSearchProfile(null);
+      setSearchRes(null);
     }
   }, [debouncedSearchValue]);
 
   const handleClose = () => {
     setSearchValue(""); // Clear search results
-    setSearchProfile(null); // Clear the search results
+    setSearchRes(null); // Clear the search results
     onClose();
   };
   const handleLink = () => {
@@ -83,21 +83,24 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
                 </div>
               </div>
             )}
-            {!isSearchLoading && searchProfile && (
+            {!isSearchLoading && searchRes && searchRes.length > 0 && (
               <>
-                <Link
-                  href={`/${searchProfile.username}`}
-                  className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
-                  onClick={handleLink}
-                >
-                  <div className="flex items-center">
-                    <Avatar profile={searchProfile} width={8} ring={false} />
-                    <div className="ml-2">@{searchProfile.username}</div>
-                  </div>
-                  <div>
-                    <ChevronRightIcon />
-                  </div>
-                </Link>
+                {searchRes.map((searchProfile: any) => (
+                  <Link
+                    key={searchProfile.username} // Add a unique key for each result
+                    href={`/${searchProfile.username}`}
+                    className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
+                    onClick={handleLink}
+                  >
+                    <div className="flex items-center">
+                      <Avatar profile={searchProfile} width={8} ring={false} />
+                      <div className="ml-2">@{searchProfile.username}</div>
+                    </div>
+                    <div>
+                      <ChevronRightIcon />
+                    </div>
+                  </Link>
+                ))}
               </>
             )}
           </div>
