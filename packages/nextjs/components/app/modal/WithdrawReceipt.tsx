@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { useFetchPayment, useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
+import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 
 type Props = {
   tx: any;
