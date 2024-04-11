@@ -118,7 +118,10 @@ const ProfileUsername: NextPage = () => {
         </div>
         <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
           <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
-            <div>Payments ({(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length})</div>
+            <div>
+              Payments ({(network === "ethereum" ? incomingEthTx : incomingBaseTx) == undefined && 0}
+              {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length})
+            </div>
             <details ref={dropdownRef} className="dropdown dropdown-end cursor-pointer">
               <summary className="flex text-neutral-600 hover:text-neutral-900">
                 <div className="mr-1">Network</div>
@@ -153,7 +156,8 @@ const ProfileUsername: NextPage = () => {
             </details>
           </div>
           <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
-            {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length == 0 && (
+            {((network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length === 0 ||
+              (network === "ethereum" ? incomingEthTx : incomingBaseTx) === undefined) && (
               <div className="flex h-full justify-center items-center">
                 <div className="btn btn-neutral">Make a first move 🥳</div>
               </div>

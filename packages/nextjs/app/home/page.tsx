@@ -75,6 +75,7 @@ const HomePage: NextPage = () => {
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
   //console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
+  console.log(incomingEthTx, incomingBaseTx);
 
   if (isAuth == "no") {
     return (
@@ -278,7 +279,7 @@ const HomePage: NextPage = () => {
                       </div>
                     </div>
                   )}
-                  {profile.wallet_id == null && (
+                  {!profile.wallet_id && (
                     <div className="flex h-full justify-center items-center">
                       <Link href="/settings" className="btn btn-neutral">
                         Verify your wallet to get paid 🥳
@@ -294,7 +295,7 @@ const HomePage: NextPage = () => {
                       <div className="btn btn-neutral">Start paying someone 🥳</div>
                     </div>
                   )}
-                  {profile.wallet_id == null && (
+                  {!profile.wallet_id && (
                     <div className="flex h-full justify-center items-center">
                       <Link href="/settings" className="btn btn-neutral">
                         Verify your wallet to start paying 🥳
