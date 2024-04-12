@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { useFetchPayment } from "~~/utils/app/fetch/fetchTransaction";
 
 type Props = {
   hash: string;
@@ -10,7 +9,6 @@ type Props = {
 };
 
 export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
-
   /**
    * ACTION: Get network
    **/
@@ -26,26 +24,21 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
   }, [targetNetwork]);
 
   /**
-   * ACTION: Refetch till Subgraph finishes indexing
+   * ACTION: Wait 3 secs for Subgraph to finish indexing
    **/
-  const [isPopulated, setIsPopulated] = useState(false);
-  const { paymentData, refetch } = useFetchPayment(hash, network);
+  const [isPopulated, setIsPopulated] = useState<boolean>();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!paymentData || paymentData?.paymentChanges?.length === 0) {
-        refetch();
-      } else {
-        setIsPopulated(true);
-      }
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [paymentData, refetch]);
+    setTimeout(async () => {
+      setIsPopulated(true);
+    }, 3000);
+  }, [hash]);
 
   /**
    * ACTION: Handle close
    **/
   const handleClose = () => {
+    setIsPopulated(false);
     onClose();
   };
 
@@ -54,30 +47,32 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
   }
 
   return (
-    <div className="flex flex-col text-black z-30 absolute w-full p-5 left-0 top-4">
-      {/* RECEIPT FRAME */}
-      <div className="modal-content grow box-shadow-01">
-        {/* RECEIPT CLOSE */}
-        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
-          ✕
-        </button>
-        {/* RECEIPT INFO */}
-        <div className="p-5 rounded-lg">
-          <div className="font-semibold custom-text-blue text-3xl pt-10">{"Success 🎉."}</div>
-          <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
-          {/* RECEIPT */}
-          {!isPopulated && <span className="loading loading-ring loading-md"></span>}
-          {isPopulated && (
-            <>
-              <Link
-                href={"/transaction/payment/" + network + "/" + hash}
-                className="btn btn-primary w-full mt-3 mb-2"
-                onClick={onClose}
-              >
-                Go to transaction
-              </Link>
-            </>
-          )}
+    <div className="wildui-modal-container w-full h-full top-0 left-0 fixed flex justify-center items-start z-100">
+      <div className="wildui-modal-child flex flex-col text-black z-30 mt-4">
+        {/* RECEIPT FRAME */}
+        <div className="modal-content grow box-shadow-01">
+          {/* RECEIPT CLOSE */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
+            ✕
+          </button>
+          {/* RECEIPT INFO */}
+          <div className="p-5 rounded-lg">
+            <div className="font-semibold custom-text-blue text-3xl pt-10">{"Success 🎉."}</div>
+            <div className=" custom-text-blue text-xl mb-5">{"Save this receipt."}</div>
+            {/* RECEIPT */}
+            {!isPopulated && <span className="loading loading-ring loading-md"></span>}
+            {isPopulated && (
+              <>
+                <Link
+                  href={"/transaction/payment/" + network + "/" + hash}
+                  className="btn btn-primary w-full mt-3 mb-2"
+                  onClick={handleClose}
+                >
+                  Go to transaction
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
