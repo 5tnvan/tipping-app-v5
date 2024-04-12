@@ -75,7 +75,6 @@ const HomePage: NextPage = () => {
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
   //console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
-  console.log(incomingEthTx, incomingBaseTx);
 
   if (isAuth == "no") {
     return (

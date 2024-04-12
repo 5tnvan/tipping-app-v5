@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 
 type Props = {
   tx: any;
@@ -25,26 +24,21 @@ export const WithdrawReceipt = ({ tx, isOpen, onClose }: Props) => {
   }, [targetNetwork]);
 
   /**
-   * ACTION: Refetch till Subgraph finishes indexing
+   * ACTION: Wait 3 secs for Subgraph to finish indexing
    **/
   const [isPopulated, setIsPopulated] = useState(false);
-  const { withdrawData, refetch } = useFetchWithdraw(tx, network);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!withdrawData || withdrawData?.withdrawChanges?.length === 0) {
-        refetch();
-      } else {
-        setIsPopulated(true);
-      }
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [withdrawData, refetch]);
+    setTimeout(async () => {
+      setIsPopulated(true);
+    }, 3000);
+  }, [tx]);
 
   /**
    * ACTION: Handle Close
    **/
   const handleClose = () => {
+    setIsPopulated(false);
     onClose();
   };
 

@@ -28,10 +28,34 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   /**
+   * ACTION: Check if transaction exists
+   **/
+  // const [txExist, setTxExist] = useState<boolean>();
+  // const [chainId, setChainId] = useState(0);
+  // useEffect(() => {
+  //   if (params.network == "ethereum") {
+  //     setChainId(11155111);
+  //   } else if (params.network == "base") {
+  //     setChainId(8453);
+  //   }
+  // }, [params.network]);
+  // const client = usePublicClient({ chainId: chainId });
+  // useEffect(() => {
+  //   if (params.txHash) {
+  //     const fetchTransaction = async () => {
+  //       const tx = await client.getTransaction({ hash: params.txHash as Hash });
+  //       console.log("tx?.blockHash.length", tx?.blockHash.length);
+  //       if (tx?.blockHash?.length > 0) setTxExist(true);
+  //     };
+
+  //     fetchTransaction();
+  //   }
+  // }, [client, params.txHash]);
+
+  /**
    * ACTION: Fetch transaction from graph
    **/
   const { paymentData, loading, error } = useFetchPayment(params.txHash, params.network);
-  console.log("paymentData", paymentData);
   useEffect(() => {
     if (paymentData && paymentData.paymentChanges.length > 0 && !loading) {
       const fetchData = async () => {
@@ -55,7 +79,9 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
         </button>
         {/* SPOTLIGHT */}
         {error && <div className="mt-5">Sorry, something went wrong. Please try again later.</div>}
-        {paymentData && paymentData.paymentChanges.length == 0 && <div className="mt-5">Please try again later.</div>}
+        {paymentData && paymentData.paymentChanges.length == 0 && (
+          <div className="mt-5">Transaction is populating. Please comeback again later.</div>
+        )}
         {paymentData && paymentData.paymentChanges.length > 0 && (
           <>
             <div className="w-full rounded-xxl bg-black/[0.96] relative ">

@@ -61,8 +61,6 @@ const ProfileView: NextPage = () => {
     }
   };
 
-  console.log(incomingEthTx, incomingBaseTx);
-
   if (isAuth == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28">
