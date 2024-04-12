@@ -1,14 +1,12 @@
 "use client";
 
-import { useContext } from "react";
 // @refresh reset
 import { AddressInfoDropdown } from "./AddressInfoDropdown";
 import { AddressQRCodeModal } from "./AddressQRCodeModal";
+import { SwitchNetworkDropdown } from "./SwitchNetworkDropdown";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
-import { CheckBadgeIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
 // import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import "~~/styles/app.css";
@@ -24,7 +22,6 @@ export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectBu
   //useAutoConnect();
   //const networkColor = useNetworkColor();
   const { targetNetwork } = useTargetNetwork();
-  const { profile } = useContext(AppContext);
 
   return (
     <ConnectButton.Custom>
@@ -57,28 +54,20 @@ export const RainbowKitCustomConnectButton = ({ btn }: RainbowKitCustomConnectBu
 
               return (
                 <>
-                  <AddressInfoDropdown
-                    address={account.address as Address}
-                    displayName={account.displayName}
-                    ensAvatar={account.ensAvatar}
-                    blockExplorerAddressLink={blockExplorerAddressLink}
-                    btn={btn}
-                  />
+                  <div className="mr-1">
+                    <AddressInfoDropdown
+                      address={account.address as Address}
+                      displayName={account.displayName}
+                      ensAvatar={account.ensAvatar}
+                      blockExplorerAddressLink={blockExplorerAddressLink}
+                      btn={btn}
+                    />
+                  </div>
+                  <div>
+                    <SwitchNetworkDropdown chainName={chain.name} btn={btn} />
+                  </div>
+
                   <AddressQRCodeModal address={account.address as Address} modalId="qrcode-modal" />
-                  {profile.wallet_id && profile.wallet_id !== account.address && (
-                    <>
-                      <div className="flex pl-1 text-red-600">
-                        <ExclamationCircleIcon width={20} />
-                      </div>
-                    </>
-                  )}
-                  {profile.wallet_id && profile.wallet_id == account.address && (
-                    <>
-                      <div className="flex pl-1 text-green-600">
-                        <CheckBadgeIcon width={20} />
-                      </div>
-                    </>
-                  )}
                 </>
               );
             })()}

@@ -55,7 +55,12 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
         {/* FAST PAY TO */}
         <div className="pt-12 pl-5 pr-5 pb-10">
           <div className="flex flex-col">
-            {!receiver && Array.isArray(followersData.following) && (
+            {followersData?.following?.length == 0 && (
+              <div className="flex h-full justify-center items-center">
+                <div className="btn btn-neutral">Start following someone 🥳</div>
+              </div>
+            )}
+            {!receiver && Array.isArray(followersData.following) && followersData?.following?.length > 0 && (
               <>
                 <div className="font-semibold">Pay to:</div>
                 {followersData.following.map((following: any) => (
@@ -83,7 +88,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     <ArrowLeftIcon />
                     Back
                   </button>
-                  <div className="flex flex-col items-center justify-center mt-5">
+                  <div className="flex flex-col items-center justify-center mt-3">
                     <Avatar profile={receiver} width={12} ring={false} />
                     <div className="font-semibold mt-2">@{receiver.username}</div>
                     {/* <div className="mt-2">{receiver.wallet_id}</div> */}

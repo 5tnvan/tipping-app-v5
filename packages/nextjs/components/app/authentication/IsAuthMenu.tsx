@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar } from "./Avatar";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { AccountingContext, AppContext, FollowersContext } from "~~/app/context";
+import { AppContext, FollowersContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
@@ -12,7 +12,6 @@ export const IsAuthMenu = () => {
 
   const { profile, refetchAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
-  const { refetchAccounting } = useContext(AccountingContext);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -28,8 +27,7 @@ export const IsAuthMenu = () => {
       setTimeout(async () => {
         await refetchAuth();
         await refetchFollowers();
-        await refetchAccounting();
-      }, 1000); // 3000 milliseconds = 3 seconds
+      }, 1000);
     } catch (error) {
       console.error("Logout error:", error);
       router.push("error");

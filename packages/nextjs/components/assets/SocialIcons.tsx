@@ -28,7 +28,7 @@ export const SocialIcons = ({ soc }: Props) => {
 
   return (
     <>
-      <div className="soc flex items-center gap-3 text-neutral-800">
+      <div className="soc flex items-center gap-2 md:gap-3 text-neutral-800">
         <button
           className={`hover:text-primary ${!leLink ? "disabled-button" : ""}`}
           aria-label="Lens Protocol"

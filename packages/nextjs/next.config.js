@@ -15,7 +15,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["daisyui.com", "media1.tenor.com"],
+    domains: ["daisyui.com", "media1.tenor.com", "poalybuqvwrnukxylhad.supabase.co"],
   },
 };
 

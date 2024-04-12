@@ -25,6 +25,7 @@
     "@uniswap/sdk-core": "^4.0.1",
     "@uniswap/v2-sdk": "^3.0.1",
     "blo": "^1.0.1",
+    "bufferutil": "^4.0.8",
     "clsx": "^2.1.0",
     "daisyui": "4.5.0",
     "framer-motion": "^11.0.14",
@@ -44,6 +45,7 @@
     "three": "^0.163.0",
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.13.0",
+    "utf-8-validate": "^6.0.3",
     "viem": "1.19.9",
     "wagmi": "1.4.12",
     "zustand": "^4.1.2"

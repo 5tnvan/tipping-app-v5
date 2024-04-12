@@ -6,41 +6,66 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
-import { AccountingContext, AppContext, WithdrawContext } from "~~/app/context";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { AppContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
 import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
 import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
-import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
+import { RainbowKitCustomNetworkIcon } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/checknetwork";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
+import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const Settings: NextPage = () => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
-  const [buttonText, setButtonText] = useState("");
-  const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
-  const { withdrawBalance } = useContext(AccountingContext);
-  const { setWithdrawSuccess } = useContext(WithdrawContext);
   const { address } = useAccount();
+  const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
+
+  /* WITHDRAW BALANCE */
+  const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
+  const [withdrawBalance, setWithdrawBalance] = useState<any>();
+  const balanceRes = useFetchBalance(wallet);
 
   useEffect(() => {
-    if (!profile.wallet_id && !address) {
-      setButtonText("Connect Wallet");
-    } else if (address && !profile.wallet_sign_hash) {
+    if (profile.wallet_id) {
+      setWallet(profile.wallet_id);
+      setWithdrawBalance(balanceRes);
+    }
+  }, [balanceRes, profile.wallet_id]);
+
+  /* LOAD BUTTON */
+  const [buttonText, setButtonText] = useState("");
+  useEffect(() => {
+    if (!profile.wallet_id) {
       setButtonText("Verify Wallet");
     } else {
       setButtonText("Withdraw");
     }
-  }, [address, profile.wallet_id, profile.wallet_sign_hash]);
+  }, [profile.wallet_id]);
 
   /**
-   * ACTION: Handle wallet verify
+   * ACTION: HANDLE WITHDRAW SUCCESS
+   **/
+  const [hashRes, setHashRes] = useState();
+  const handleWithdrawSuccess = (tx: any) => {
+    if (tx) {
+      setHashRes(tx);
+      closeWithdrawModal();
+      openWithdrawReceipt();
+      router.refresh();
+    } else {
+      closeWithdrawModal();
+    }
+  };
+
+  /**
+   * ACTION: HANDLE VERIFY WALLET MODAL
    **/
   const [isWalletModalOpen, setWalletModalOpen] = useState(false);
 
@@ -57,9 +82,9 @@ const Settings: NextPage = () => {
   };
 
   /**
-   * ACTION: Handle withdraw
+   * ACTION: HANDLE WITHDRAW MODAL
    **/
-  const [tx, setTx] = useState("");
+
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
 
   const handleWithdrawModal = () => {
@@ -74,23 +99,8 @@ const Settings: NextPage = () => {
     setWithdrawModalOpen(false);
   };
 
-  const handleWithdrawSuccess = (tx: any) => {
-    if (tx) {
-      closeWithdrawModal(); // close withdraw modal
-      setWithdrawSuccess(true); //trigger isAuthLayout
-      setTimeout(() => {
-        console.log("withdraw tx +  router.refresh", tx);
-        setTx(tx);
-        openWithdrawReceipt();
-        router.refresh();
-      }, 2000);
-    } else {
-      closeWithdrawModal();
-    }
-  };
-
   /**
-   * ACTION: Handle withdraw receipt
+   * ACTION: HANDLE WITHDRAW RECEIPT MODAL
    **/
   const [isWithdrawReceiptOpen, setWithdrawReceiptOpen] = useState(false);
 
@@ -122,7 +132,14 @@ const Settings: NextPage = () => {
         <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 ml-6 mr-6 z-10">
           {/* CTA BUTTON */}
           <div id="wildpay-cta" className="mb-5 z-1 relative">
-            <button className="btn-primary btn w-full text-base" onClick={handleModal}>
+            <button
+              className={`btn w-full text-base ${
+                (profile.wallet_id && !address) || (profile.wallet_id && address !== profile.wallet_id)
+                  ? "pointer-events-none text-gray-400"
+                  : "btn-primary"
+              }`}
+              onClick={handleModal}
+            >
               {isLoadingAuth ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
             </button>
           </div>
@@ -175,45 +192,50 @@ const Settings: NextPage = () => {
           {/* Wallet */}
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
-              <div className="opacity-70 flex items-center gap-2">
-                {profile?.wallet_id ? (
+              <div className="opacity-70 flex items-center gap-1">
+                {profile.wallet_id && (
                   <>
                     <Address address={profile?.wallet_id} />
-                    <CheckBadgeIcon width="20" />
+                    <div className="text-green-600">
+                      <CheckCircleIcon width="18" />
+                    </div>
                   </>
-                ) : (
-                  "No Wallet"
                 )}
-                {/* <Address address={profile?.wallet_id} /> */}
+                {!profile.wallet_id && "No Wallet"}
               </div>
               <button className="btn btn-accent" onClick={() => handleWalletModal()}>
-                {address && !profile?.wallet_sign_hash ? "Verify" : ""}
-                {profile?.wallet_sign_hash && "View"}
-                {!address && !profile?.wallet_sign_hash && "Connect"}
+                {profile.wallet_id && "View"}
+                {!profile.wallet_id && "Verify Wallet"}
               </button>
             </label>
           </div>
-          {/* Wallet Modal */}
-          <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal}></WalletModal>
 
           {/* My Balance */}
-          <div className="mb-3">My Balance</div>
+          <div className="flex items-center mb-3">
+            <div className="mr-1">My balance</div>
+          </div>
 
           {/* Balance */}
           <div className="mb-3">
             <label className="input input-bordered flex justify-between gap-2 pr-0">
               <div className="opacity-70 flex items-center gap-1">
-                <EthIcon width={16} height={16} />
-                {withdrawBalance == 0 || withdrawBalance > 0 ? (
+                {address && profile.wallet_id && address == profile.wallet_id && (
                   <>
+                    <RainbowKitCustomNetworkIcon />
                     <span className="font-medium">{Number(withdrawBalance).toFixed(4)}Ξ</span>
                     <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})</span>
                   </>
-                ) : (
-                  <>No balance</>
+                )}
+                {address && !profile.wallet_id && <>No balance</>}
+                {!address && profile.wallet_id && <>Connect to your wallet to view balance</>}
+                {address && profile.wallet_id && address !== profile.wallet_id && (
+                  <div className="text-red-600 flex">
+                    <ExclamationCircleIcon width={16} />
+                    <div className="ml-1">Connect with your verified wallet to view balance</div>
+                  </div>
                 )}
               </div>
-              {(withdrawBalance == 0 || withdrawBalance > 0) && (
+              {address && profile.wallet_id && address == profile.wallet_id && (
                 <>
                   <button className="btn btn-accent" onClick={handleWithdrawModal}>
                     Withdraw
@@ -223,11 +245,20 @@ const Settings: NextPage = () => {
             </label>
           </div>
 
+          {/* Verify Wallet Modal */}
+          <WalletModal isOpen={isWalletModalOpen} onClose={closeWalletModal}></WalletModal>
+
           {/* Withdraw Modal */}
           <WithdrawModal isOpen={isWithdrawModalOpen} onClose={handleWithdrawSuccess}></WithdrawModal>
 
           {/* Withdraw Receipt */}
-          <WithdrawReceipt tx={tx} isOpen={isWithdrawReceiptOpen} onClose={closeWithdrawReceipt}></WithdrawReceipt>
+          {hashRes && (
+            <WithdrawReceipt
+              tx={hashRes}
+              isOpen={isWithdrawReceiptOpen}
+              onClose={closeWithdrawReceipt}
+            ></WithdrawReceipt>
+          )}
         </div>
       </>
     );

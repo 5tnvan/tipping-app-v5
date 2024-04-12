@@ -6,6 +6,7 @@ import { TimeAgoUnix } from "../TimeAgo";
 import { Avatar } from "../authentication/Avatar";
 import { Spotlight } from "../ui/spotlight";
 import { formatEther } from "viem";
+import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -13,10 +14,11 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 type Props = {
   tx: any;
+  network: any;
   onClose: any;
 };
 
-const TransactionLatest = ({ tx, onClose }: Props) => {
+const Transaction = ({ tx, network, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
@@ -25,7 +27,7 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       if (tx) {
-        console.log("TransactionLatest: tx ", tx);
+        console.log("Transaction: tx ", tx);
         const senderProfileData = await fetchPublicProfileFromWalletId(tx.paymentChanges[0].sender);
         const receiverProfileData = await fetchPublicProfileFromWalletId(tx.paymentChanges[0].receiver);
         setSenderProfile(senderProfileData);
@@ -53,6 +55,9 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
                     {!senderProfile && !isLoading && "anon"}
                   </div>
                 </div>
+                <div className="text-neutral-400">
+                  <ChevronDoubleRightIcon width={16} />
+                </div>
                 <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
                   {receiverProfile && <Avatar profile={receiverProfile} width={8} ring={false} />}
                   <div className="font-semibold">
@@ -73,7 +78,7 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
                     ${convertEthToUsd(formatEther(tx.paymentChanges[0].value), nativeCurrencyPrice).toFixed(0)}
                   </div>
                   <div className="flex text-xl items-center">
-                    <EthIcon width={18} height={18} />
+                    <EthIcon width={18} height={18} fill="#3C3C3C" />
                     {Number(formatEther(tx.paymentChanges[0].value)).toFixed(4)}
                   </div>
                 </div>
@@ -84,7 +89,7 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
             </div>
           </div>
           <Link
-            href={"/transaction/" + tx.paymentChanges[0].transactionHash}
+            href={"/transaction/payment/" + network + "/" + tx.paymentChanges[0].transactionHash}
             className="btn btn-primary w-full mt-3 mb-2"
             onClick={onClose}
           >
@@ -96,4 +101,4 @@ const TransactionLatest = ({ tx, onClose }: Props) => {
   );
 };
 
-export default TransactionLatest;
+export default Transaction;

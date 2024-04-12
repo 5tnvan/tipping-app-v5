@@ -1,22 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AccountingContext, AppContext, WithdrawContext } from "./context";
+import { AppContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
-import { updateProfileAvatar } from "./profile/actions";
-import { ChevronRightIcon, HomeIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
+import { AvatarModal } from "~~/components/app/modal/AvatarModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
-import { EthIcon } from "~~/components/assets/EthIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
+import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -25,32 +26,34 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsAuthLayout = ({
-  children,
-  onFastPaySuccess,
-  onProfilePaySuccess,
-  onWithdrawSuccess,
-}: {
-  children: React.ReactNode;
-  onFastPaySuccess: () => void;
-  onProfilePaySuccess: () => void;
-  onWithdrawSuccess: () => void;
-}) => {
+const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
   const isHome = pathname === "/home";
+  const isLogin = pathname === "/login";
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const isTransaction = pathname.includes("/transaction");
   const { username } = useParams();
 
   //PARENTS CONTEXT:
-  const { isLoadingAuth, user, profile, refetchAuth } = useContext(AppContext);
-  const { incomingTxSum } = useContext(AccountingContext);
-  const { withdrawSuccess } = useContext(WithdrawContext);
+  const { isLoadingAuth, user, profile } = useContext(AppContext);
+
+  /* TRANSACTIONS VARIABLES */
+  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
+  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
+
+  /* FETCH TRANSACTIONS */
+  const incomingRes = useIncomingTransactions(profile.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
+
+  useEffect(() => {
+    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
+    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
+  }, [incomingRes, outgoingRes]);
 
   //SOCIAL MEDIA LINKS:
   let soc = {};
@@ -65,16 +68,6 @@ const IsAuthLayout = ({
       tt: { val: profile.tiktok, link: "https://tiktok.com/" + profile.tiktok },
     };
   }
-
-  /**
-   * ACTION: Listen to
-   **/
-  useEffect(() => {
-    if (withdrawSuccess) {
-      onWithdrawSuccess(); //trigger wildpaylayout
-      console.log("isauthLayout: trigger wildpaylayout");
-    }
-  }, [withdrawSuccess]);
 
   /**
    * ACTION: Open and close Pay Modal
@@ -97,25 +90,9 @@ const IsAuthLayout = ({
   const handleFastPaySuccess = (hash: any) => {
     closeFastPayModal(); //closes fast pay
     console.log("isAuthLayout: closesFastPayModal");
-    setTimeout(() => {
-      onFastPaySuccess(); // trigger parent wildpay layout
-      console.log("isAuthLayout: triggerWildpayLayout(hash) finished");
-      router.refresh();
-      console.log("isAuthLayout: router.refresh()");
-      setHashRes(hash); // set transaction hash
-      console.log("isAuthLayout: setHashRes(hash)", hash);
-      openPayReceiptModal(); //open receipt
-    }, 1000);
-  };
-
-  /**
-   * ACTION: Trigger parents and children on success
-   **/
-  const handleProfilePaySuccess = () => {
-    onProfilePaySuccess(); // trigger wildpayLayout
-    console.log("isAuthLayout: handleProfilePaySuccess()");
-    console.log("isAuthLayout: router.refresh()");
-    router.refresh();
+    setHashRes(hash); // set transaction hash
+    console.log("isAuthLayout: setHashRes(hash)", hash);
+    openPayReceiptModal(); //open receipt
   };
 
   /**
@@ -144,33 +121,17 @@ const IsAuthLayout = ({
     setSearchModalOpen(false);
   };
 
-  //AVATAR MODAL
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(1);
-  const gif: Record<number, string> = {
-    // Define gif type explicitly
-    1: "https://media1.tenor.com/m/_wA-bSNP3KAAAAAC/pixel-art-pixels.gif",
-    2: "https://media1.tenor.com/m/pSq-OwdqmHgAAAAC/heartbeat-static.gif",
-    3: "https://media1.tenor.com/m/qA1mRnYpyfwAAAAC/pixel-heart.gif",
+  /**
+   * ACTION: Open close avatar modal
+   **/
+  const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
+
+  const openAvatarModal = () => {
+    setAvatarModalOpen(true);
   };
 
-  const handleAvatarEdit = () => {
-    setIsModalOpen(true);
-  };
-
-  // Select image
-  const handleImageClick = (index: any) => {
-    setSelectedImage(index);
-  };
-
-  // Update avatar change to supabase
-  const handleAvatarSave = async () => {
-    if (selectedImage !== null) {
-      const selectedImageUrl = gif[selectedImage];
-      updateProfileAvatar(selectedImageUrl);
-      setIsModalOpen(false);
-      refetchAuth();
-    }
+  const closeAvatarModal = () => {
+    setAvatarModalOpen(false);
   };
 
   return (
@@ -187,46 +148,12 @@ const IsAuthLayout = ({
           <IsAuthMenu />
         )}
 
-        {/* ISAUTH AVATAR MODAL */}
-        <dialog id="my_modal_3" className="modal" open={isModalOpen}>
-          <div className="modal-box z-20 relative">
-            <form method="dialog">
-              {/* close */}
-              <button
-                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                onClick={() => setIsModalOpen(false)}
-              >
-                ✕
-              </button>
-              {/* choose avatar */}
-              <div className="mb-5 mt-5">Choose your avatar:</div>
-              {Object.entries(gif).map(([index, src]) => (
-                <div key={index} className="left avatar edit mr-5" onClick={() => handleImageClick(Number(index))}>
-                  <div
-                    className={`w-16 rounded-full edit mr-5 ring-primary ring-offset-base-100 ring-offset-2 ${
-                      selectedImage === Number(index) ? "ring" : ""
-                    }`}
-                  >
-                    <Image alt={`Image ${index}`} src={src} width={500} height={500} />
-                  </div>
-                </div>
-              ))}
-              {/* save */}
-              <div className="flex justify-center">
-                <button className="btn btn-neutral mt-3" onClick={() => handleAvatarSave()}>
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </dialog>
-
         {/* ISAUTH CUSTOM-BG */}
         <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
 
         {/* ISAUTH PROFILE INTRO */}
-        {username && <IsPublicLayout onSuccess={handleProfilePaySuccess}>{children}</IsPublicLayout>}
-        {!username && !isHome && !isTransaction ? (
+        {username && <IsPublicLayout>{children}</IsPublicLayout>}
+        {!username && !isHome && !isTransaction && !isLogin ? (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -245,7 +172,7 @@ const IsAuthLayout = ({
                           <div
                             id="wildpay-avatar-cta"
                             className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                            onClick={() => handleAvatarEdit()}
+                            onClick={openAvatarModal}
                           >
                             Edit
                             <ChevronRightIcon width={8} />
@@ -276,7 +203,7 @@ const IsAuthLayout = ({
                         )}
                         {isSettings && (
                           <>
-                            <div className="font-semibold">{user.email}</div>
+                            <div className="font-semibold mb-1">{user.email}</div>
                             <div className="flex">
                               <RainbowKitCustomConnectButton btn="small" />
                               <FaucetButton />
@@ -297,47 +224,35 @@ const IsAuthLayout = ({
                 </div>
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
                 {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
-                {/* ISAUTH PROFILE INTRO - ETH BALANCE @SETTINGS */}
                 <div
                   className={`text-4xl text-black flex justify-center items-center gap-2 ${isProfileEdit && "hidden"}`}
                 >
                   {isLoadingAuth && <IsLoading shape="rounded-md" width={12} height={8} />}
                   {!isLoadingAuth && !isSettings && (
                     <div className="flex flex-col items-end">
-                      <div className="text-xl font-semibold custom-text-blue">
-                        ${convertEthToUsd(incomingTxSum, nativeCurrencyPrice)}
+                      <div className="flex items-center text-xl font-semibold custom-text-blue">
+                        <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>                       
+                        <div className="tooltip tooltip-top z-20" data-tip="All time">
+                          <button className="ml-1">
+                            <QuestionMarkCircleIcon width={14} />
+                          </button>
+                        </div>
                       </div>
                       <div className="text-xl flex items-center">
-                        <EthIcon width={16} height={16} />
-                        {incomingTxSum}
+                        {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
                       </div>
                     </div>
-                  )}
-                  {!isLoadingAuth && isSettings && (
-                    <>
-                      {/* {profile.wallet_id && (
-                        <div className="flex flex-col items-end">
-                          <div className="text-xl font-semibold custom-text-blue">
-                            ${convertEthToUsd(Number(withdrawBalance), nativeCurrencyPrice)}
-                          </div>
-                          <div className="text-xl flex items-center">
-                            <EthIcon width={16} height={16} />
-                            {Number(withdrawBalance).toFixed(4)}
-                          </div>
-                        </div>
-                      )} */}
-                    </>
                   )}
                 </div>
               </div>
             </div>
             {/* ISAUTH PROFILE CHILDREN */}
-            {/* {isSettings && { children }}
-            {!isSettings && { children }} */}
             {children}
           </>
-        ) : (<></>)}
-        {/* ISAUTH HOME */}
+        ) : (
+          <></>
+        )}
+        {/* ISAUTH /HOME */}
         {(isHome || isTransaction) && <>{children}</>}
       </div>
 
@@ -346,12 +261,15 @@ const IsAuthLayout = ({
         <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
       )}
 
-      {/* WILDPAY PAY MODAL */}
+      {/* WILDPAY FASTPAY MODAL */}
       <FastPayModal
         isOpen={isFastPayModalOpen}
         onClose={closeFastPayModal}
         onSuccess={handleFastPaySuccess}
       ></FastPayModal>
+
+      {/* WILDPAY AVATAR MODAL */}
+      <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>

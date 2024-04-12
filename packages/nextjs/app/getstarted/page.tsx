@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { AppContext } from "../context";
 import { setUsernameCookie } from "../signup/actions";
 import type { NextPage } from "next";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { BaseIcon } from "~~/components/assets/BaseIcon";
+import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { isUsernameTaken } from "~~/hooks/supabase";
 import "~~/styles/app-reuse.css";
@@ -23,6 +26,19 @@ const GetStarted: NextPage = () => {
     "Get started-it's free",
   ]);
 
+  /* COPY BUTTON */
+  const [copied1, setCopied1] = useState(false);
+
+  const handleCopyToClipboard = (number: any) => {
+    navigator.clipboard.writeText("https://www.wildpay.app/" + username);
+    if (number == 1) {
+      setCopied1(true);
+      setTimeout(() => {
+        setCopied1(false);
+      }, 1500); // Reset the copied state after 2 seconds
+    }
+  };
+
   // perform a side effect as user types 'username'
   useEffect(() => {
     (async () => {
@@ -37,7 +53,7 @@ const GetStarted: NextPage = () => {
         warningText = "Type more";
         badgeClass = "badge-warning";
       } else {
-        const taken = await isUsernameTaken(username);
+        const taken = await isUsernameTaken(username.toLowerCase());
         warningText = taken ? "Taken" : "Available";
         badgeClass = taken ? "badge-error" : "badge-success";
         btnValue = taken ? "Claim" : "Claim";
@@ -63,7 +79,7 @@ const GetStarted: NextPage = () => {
             {/* GET STARTED ETH ANIMATION */}
             <div className="flex justify-center">
               <span className="pt-1">
-                <EthIcon width={"20px"} height={"20px"} />
+                <EthIcon width={"20px"} height={"20px"} fill="#3C3C3C" />
               </span>
               <div className="animation text-xl font-semibold">
                 <div className="first">
@@ -80,13 +96,42 @@ const GetStarted: NextPage = () => {
           </div>
 
           {/* GET STARTED CARDS */}
-          {/* <div className="scr mb-6">
-            <div className="scr-item custom-bg-image-01"></div>
-          </div> */}
           <div className="container mb-4">
             <div className="gradient">
               <div className="scr">
-                <div className="scr-item custom-bg-image-01"></div>
+                <div className="scr-item custom-bg-image-01 flex items-center relative overflow-hidden">
+                  <div className="absolute network flex">
+                    <div className="btn hover:bg-fuchsia-500 font-medium h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
+                      <EthIcon width={14} height={14} fill="#3C3C3C" />
+                      ethereum
+                    </div>
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2">
+                      <BaseIcon width={10} height={10} fill="#3C3C3C" />
+                      <span className="pl-1">base</span>
+                    </div>
+                  </div>
+                  <div className=" text-6xl font-black custom-difference-blend">{username}</div>
+                  <div
+                    className="absolute btn btn-accent px-3 url h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0"
+                    onClick={() => handleCopyToClipboard(1)}
+                  >
+                    <div className="flex items-center">
+                      {copied1 ? (
+                        <>
+                          <span className="mr-1">Copied</span>
+                          <span className="text-secondary">
+                            <CheckCircleIcon width={14} />
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="mr-1">wildpay.app/{username}</span>
+                          <CopyIcon />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +152,8 @@ const GetStarted: NextPage = () => {
                 className="grow tracking-wider ml-1 bg-white"
                 placeholder="yourname"
                 pattern="^[a-z][a-z0-9_]{2,15}$"
-                title="Only letters, numbers, and underscores."
+                title="Only lowercase letters, numbers, and underscores."
+                maxLength={15}
                 value={username}
                 onChange={e => setUsername(e.target.value)}
               />
