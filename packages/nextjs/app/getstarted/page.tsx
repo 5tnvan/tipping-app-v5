@@ -19,6 +19,7 @@ const GetStarted: NextPage = () => {
   const { isAuth } = useContext(AppContext);
 
   const [username, setUsername] = useState<string>("");
+  const [slash, setSlash] = useState<string>("");
   const [availability, setAvailability] = useState<[string, string, string, string]>([
     "",
     "",
@@ -49,15 +50,18 @@ const GetStarted: NextPage = () => {
 
       if (username.length === 0) {
         warningText = "";
+        setSlash("");
       } else if (username.length < 3) {
         warningText = "Type more";
         badgeClass = "badge-warning";
+        setSlash("/");
       } else {
         const taken = await isUsernameTaken(username.toLowerCase());
         warningText = taken ? "Taken" : "Available";
         badgeClass = taken ? "badge-error" : "badge-success";
         btnValue = taken ? "Claim" : "Claim";
         btnClass = taken ? "btn-neutral btn-disabled" : "btn-primary";
+        setSlash("/");
       }
 
       setAvailability([warningText, badgeClass, btnClass, btnValue]);
@@ -125,7 +129,7 @@ const GetStarted: NextPage = () => {
                         </>
                       ) : (
                         <>
-                          <span className="mr-1">wildpay.app/{username}</span>
+                          <span className="mr-1">wildpay.app{slash}{username}</span>
                           <CopyIcon />
                         </>
                       )}
@@ -142,7 +146,7 @@ const GetStarted: NextPage = () => {
               <Image alt="wildpay" src="/wildpay-logo.svg" width={20} height={20} className="mr-2" />
 
               <div id="wildpay-claim-domain" className="font-semibold tracking-wide">
-                wildpay.eth /{" "}
+                wildpay.app /{" "}
               </div>
               {/* GET STARTED USERNAME INPUT */}
               <input
