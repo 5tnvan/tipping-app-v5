@@ -63,7 +63,7 @@ const ProfileView: NextPage = () => {
 
   if (isAuth == "no") {
     return (
-      <div id="wildpay-is-not-auth" className="z-10 pt-28">
+      <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
         <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
         <Link href="/login" className="btn text-base mb-3 w-full">
           {"Go to login"}
