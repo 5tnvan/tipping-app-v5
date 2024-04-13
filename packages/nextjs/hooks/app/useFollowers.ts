@@ -20,7 +20,6 @@ export const usePrivateFollowers = () => {
 
     const profileData = await fetchProfile();
     const followersData = await fetchFollowers(profileData?.id);
-    // console.log("usePrivateFollowers: followersData ", followersData);
     setFollowersData(followersData);
 
     setIsLoading(false); // Set loading to false when fetch is complete
@@ -33,8 +32,6 @@ export const usePrivateFollowers = () => {
   useEffect(() => {
     initUser();
   }, [triggerRefetch]);
-
-  // console.log("usePrivateFollowers:", followersData);
 
   return { isLoading, followersData, refetch };
 };
@@ -54,9 +51,10 @@ export const usePublicFollowers = (username: any) => {
     setIsLoading(true); // Set loading to true when starting data fetch
 
     const profile = await fetchPublicProfile(username);
-    const followersData = await fetchFollowers(profile.id);
-    //console.log("usePublicFollowers: followersData ", followersData);
-    setFollowersData(followersData);
+    if (profile?.id != null) {
+      const followersData = await fetchFollowers(profile.id);
+      setFollowersData(followersData);
+    }
 
     setIsLoading(false); // Set loading to false when fetch is complete
   };

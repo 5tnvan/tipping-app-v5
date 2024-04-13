@@ -137,23 +137,25 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div id="wildpay-is-auth" className="bg-white grow max-h-screen">
-        {/* ISAUTH MENU DROPDOWN */}
-        {isLoadingAuth ? (
-          <>
-            <div className="z-10 wildui-menu absolute">
-              <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
-            </div>
-          </>
-        ) : (
-          <IsAuthMenu />
+        {/* ISAUTH USER DROPDOWN */}
+        {/* ISAUTH USER DROPDOWN: loading */}
+        {isLoadingAuth && (
+          <div className="z-10 wildui-menu absolute">
+            <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
+          </div>
         )}
+        {/* ISAUTH USER DROPDOWN: finished loading */}
+        {!isLoadingAuth && <IsAuthMenu />}
 
         {/* ISAUTH CUSTOM-BG */}
+        {/* ISAUTH CUSTOM-BG: /home, /transaction */}
         <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
 
-        {/* ISAUTH PROFILE INTRO */}
+        {/* ISAUTH */}
+        {/* ISAUTH: /username */}
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
-        {!username && !isHome && !isTransaction && !isLogin ? (
+        {/* ISAUTH: /profile/view, /profile/edit, /settings */}
+        {!username && !isHome && !isTransaction && !isLogin && (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -231,7 +233,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                   {!isLoadingAuth && !isSettings && (
                     <div className="flex flex-col items-end">
                       <div className="flex items-center text-xl font-semibold custom-text-blue">
-                        <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>                       
+                        <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
                         <div className="tooltip tooltip-top z-20" data-tip="All time">
                           <button className="ml-1">
                             <QuestionMarkCircleIcon width={14} />
@@ -249,10 +251,8 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             {/* ISAUTH PROFILE CHILDREN */}
             {children}
           </>
-        ) : (
-          <></>
         )}
-        {/* ISAUTH /HOME */}
+        {/* ISAUTH: /home, /transaction */}
         {(isHome || isTransaction) && <>{children}</>}
       </div>
 

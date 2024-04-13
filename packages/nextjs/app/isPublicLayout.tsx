@@ -44,8 +44,8 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
 
   /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(publicProfile.wallet_id);
-  const outgoingRes = useOutgoingTransactions(publicProfile.wallet_id);
+  const incomingRes = useIncomingTransactions(publicProfile?.wallet_id);
+  const outgoingRes = useOutgoingTransactions(publicProfile?.wallet_id);
 
   useEffect(() => {
     setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
@@ -74,11 +74,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     setFollowersModalOpen(false);
   };
 
-  //RENDER
-  if (!isLoadingPublic && !publicProfile?.id) {
-    return <div className="mt-20 text-black z-50 relative">User not found</div>;
-  }
-
   let soc;
   if (publicProfile?.id) {
     soc = {
@@ -91,13 +86,16 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     };
   }
 
+  //RENDER
+  if (!isLoadingPublic && publicProfile?.id == null) {
+    return <div className="mt-36 p-6 text-black z-50 relative">{"Sorry, user doesn't exist. Please try again later"}</div>;
+  }
+
   if (publicProfile?.id) {
     return (
       <>
         <div className={`bg-white grow`}>
           {isAuth == "no" && <IsNotAuthMenu />}
-
-          {/* ISPUBLIC CUSTOM-BG */}
           {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
           {/* ISPUBLIC AUTH TOP */}
