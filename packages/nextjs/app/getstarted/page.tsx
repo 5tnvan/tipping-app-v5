@@ -72,7 +72,7 @@ const GetStarted: NextPage = () => {
     return (
       <>
         {/* GET STARTED */}
-        <div id="wildpay-get-started" className="z-10 flex flex-col grow justify-center pb-10">
+        <div id="wildpay-get-started" className="z-10 flex flex-col grow justify-center pr-6 pl-6 first-letter:pb-10">
           {/* GET STARTED HERO */}
           <div className="font-light mb-3 flex justify-between">
             <div className="custom-text-blue font-semibold text-3xl">Dare to get paid?</div>
