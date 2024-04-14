@@ -28,6 +28,7 @@
     "bufferutil": "^4.0.8",
     "clsx": "^2.1.0",
     "daisyui": "4.5.0",
+    "face-api.js": "^0.22.2",
     "framer-motion": "^11.0.14",
     "graphql": "^16.8.1",
     "i": "^0.3.7",
@@ -39,6 +40,7 @@
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.0",
     "simplex-noise": "^4.0.1",
     "tailwind-merge": "^2.2.2",
@@ -46,6 +48,7 @@
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.13.0",
     "utf-8-validate": "^6.0.3",
+    "util": "^0.12.5",
     "viem": "1.19.9",
     "wagmi": "1.4.12",
     "zustand": "^4.1.2"
