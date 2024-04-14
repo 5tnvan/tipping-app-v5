@@ -54,6 +54,18 @@ export const fetchProfile = async () => {
 };
 
 /**
+ * FETCH: fetchProfiles()
+ * DB: supabase
+ * TABLE: "profiles"
+ **/
+
+export const fetchProfiles = async () => {
+  const supabase = createClient();
+  const { data: profileData } = await supabase.from("profiles").select("*").order("id", { ascending: false });
+  return profileData;
+};
+
+/**
  * FETCH: fetchPublicProfile(username)
  * DB: supabase
  * TABLE: "profiles"

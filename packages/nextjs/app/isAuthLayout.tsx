@@ -37,6 +37,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const isProfileEdit = pathname === "/profile/edit";
   const isSettings = pathname === "/settings";
   const isTransaction = pathname.includes("/transaction");
+  const isLeaderboard = pathname === "/leaderboard";
   const { username } = useParams();
 
   //PARENTS CONTEXT:
@@ -149,13 +150,15 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* ISAUTH CUSTOM-BG */}
         {/* ISAUTH CUSTOM-BG: /home, /transaction */}
-        <div className={`custom-top-cover absolute z-0 ${(isHome || isTransaction) && "h-100px"}`}></div>
+        <div
+          className={`custom-top-cover absolute z-0 ${(isHome || isTransaction || isLeaderboard) && "h-100px"}`}
+        ></div>
 
         {/* ISAUTH */}
         {/* ISAUTH: /username */}
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {/* ISAUTH: /profile/view, /profile/edit, /settings */}
-        {!username && !isHome && !isTransaction && !isLogin && (
+        {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && (
           <>
             <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -252,8 +255,8 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </>
         )}
-        {/* ISAUTH: /home, /transaction */}
-        {(isHome || isTransaction) && <>{children}</>}
+        {/* ISAUTH: /home, /transaction, /leaderboard */}
+        {(isHome || isTransaction || isLeaderboard) && <>{children}</>}
       </div>
 
       {/* PAY RECEIPT MODAL */}
