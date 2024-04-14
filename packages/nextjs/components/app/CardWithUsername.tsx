@@ -23,7 +23,7 @@ export const CardWithUsername = ({ username }: Props) => {
       {/* Scroll Snap */}
       <div className="scr">
         {/* Card 3 */}
-        <div className="scr-item custom-bg-image-01 flex items-center relative">
+        <div className="scr-item custom-bg-image-01 flex items-center relative shadow-xl">
           <div className="absolute network flex">
             <div className="btn hover:bg-fuchsia-500 font-medium h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
               <EthIcon width={14} height={14} fill="#3C3C3C" />
