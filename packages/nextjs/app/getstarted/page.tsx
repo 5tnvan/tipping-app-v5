@@ -18,6 +18,7 @@ const GetStarted: NextPage = () => {
   const router = useRouter();
   const { isAuth } = useContext(AppContext);
 
+  const [isProcessing, setIsProcessing] = useState<any>();
   const [username, setUsername] = useState<string>("");
   const [slash, setSlash] = useState<string>("");
   const [availability, setAvailability] = useState<[string, string, string, string]>([
@@ -129,7 +130,10 @@ const GetStarted: NextPage = () => {
                         </>
                       ) : (
                         <>
-                          <span className="mr-1">wildpay.app{slash}{username}</span>
+                          <span className="mr-1">
+                            wildpay.app{slash}
+                            {username}
+                          </span>
                           <CopyIcon />
                         </>
                       )}
@@ -171,29 +175,19 @@ const GetStarted: NextPage = () => {
             {/* GET STARTED USERNAME CONFIRM */}
             <button
               className={`btn text-base w-full ${availability[2]}`}
+              onClick={() => {
+                if (username.trim().match(/^[a-z][a-z0-9_]{2,15}$/)) {
+                  setIsProcessing(true);
+                }
+              }}
               formAction={setUsernameCookie}
               disabled={!username.trim()}
             >
               {availability[3]}
+              {isProcessing && <span className="loading loading-ring loading-md"></span>}
             </button>
           </form>
         </div>
-
-        {/* GET STARTED SOCIALS */}
-        {/* <div id="wildpay-socials" className="flex justify-center mb-5">
-          <div className="mr-2">
-            <YoutubeIcon handle="wildpay" />
-          </div>
-          <div className="mr-2">
-            <TwitterIcon handle="wildpay" />
-          </div>
-          <div className="mr-2">
-            <InstagramIcon handle="wildpay" />
-          </div>
-          <div className="">
-            <TiktokIcon handle="wildpay" />
-          </div>
-        </div> */}
       </>
     );
   } else {

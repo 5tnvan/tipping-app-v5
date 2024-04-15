@@ -103,7 +103,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           {/* FAST PAY CONFIRM */}
           <div>
             {receiver && receiver.wallet_id && (
-              <FastPayConfirm receiver={receiver.wallet_id} onSuccess={handlePaySuccess} />
+              <FastPayConfirm receiver={receiver.wallet_id} onSuccess={handlePaySuccess} onClose={handleClose} />
             )}
             {receiver && !receiver.wallet_id && (
               <>

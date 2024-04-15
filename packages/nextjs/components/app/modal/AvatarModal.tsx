@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AppContext } from "~~/app/context";
 import {
   checkFileExists,
@@ -27,6 +28,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
   //1. PIC UPLOAD
   const [fileImg, setFileImg] = useState("");
   const [error, setError] = useState<any>();
+  const [isProcessing, setIsProcessing] = useState<any>();
 
   const handleFileImg = (e: any) => {
     const selectedFile = e.target.files[0];
@@ -40,6 +42,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
 
   const handleFileSave = async () => {
     if (fileImg) {
+      setIsProcessing(true);
       const fileData = new FormData();
       fileData.append("file", fileImg);
       const fileExists = await checkFileExists(profile.id);
@@ -51,12 +54,11 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
         const data1 = await uploadProfileAvatar(fileData);
         const data2 = await getPublicURL(data1?.path);
         updateProfileAvatar(data2.publicUrl);
-        // delete old file from storage
-        console.log(fileExists?.data);
-        deleteProfileAvatars(fileExists?.data);
+        deleteProfileAvatars(fileExists?.data); // delete old file from storage
         onClose();
         refetchAuth();
         setChoosen("init");
+        setIsProcessing(false);
       }
     }
   };
@@ -112,7 +114,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
           <div className="m-5">
             {choosen == "init" && (
               <>
-                <div className="mb-5 mt-5">Choose your avatar:</div>
+                <div className="mb-5 mt-5">Choose:</div>
                 <div className="btn btn-accent w-full mb-2" onClick={() => handleChoosen("pic")}>
                   Upload profile picture
                 </div>
@@ -144,6 +146,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                     onClick={handleFileSave}
                   >
                     Upload
+                    {isProcessing && <span className="loading loading-ring loading-md"></span>}
                   </button>
                 </div>
               </>
@@ -181,7 +184,10 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                   <ArrowLeftIcon />
                   Back
                 </button>
-                <div className="mt-5">We are preparing Wild NFTs. Chat with our community to see updates.</div>
+                <div className="mt-5">
+                  We are preparing Wild NFTs. Join our <Link href="https://t.me/wildpayapp">community chat</Link>to
+                  receive updates.
+                </div>
                 <div className="flex justify-center">
                   <button className="btn btn-neutral w-full mt-3" onClick={() => setChoosen("init")}>
                     Go Back

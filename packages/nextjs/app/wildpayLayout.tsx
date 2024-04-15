@@ -6,7 +6,6 @@ import { AppContext, FollowersContext } from "./context";
 import IsAdminLayout from "./isAdminLayout";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
-//import { Header } from "~~/components/Header";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
