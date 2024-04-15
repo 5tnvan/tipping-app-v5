@@ -21,8 +21,8 @@ const AvatarCreator = () => {
 
     //canvas
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    canvas.style.left = img?.offsetLeft;
-    canvas.style.top = img?.offsetTop;
+    //canvas.style.left = img?.offsetLeft;
+    //canvas.style.top = img?.offsetTop;
     canvas.height = img?.height;
     canvas.width = img?.width;
 
