@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import FastPayConfirm from "../pay/FastPayConfirm";
 import { FollowersContext } from "~~/app/context";
@@ -57,7 +58,9 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           <div className="flex flex-col">
             {followersData?.following?.length == 0 && (
               <div className="flex h-full justify-center items-center">
-                <div className="btn btn-neutral">Start following someone 🥳</div>
+                <Link href="/leaderboard" className="btn btn-neutral" onClick={handleClose}>
+                  Start following someone 🥳
+                </Link>
               </div>
             )}
             {!receiver && Array.isArray(followersData.following) && followersData?.following?.length > 0 && (

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext } from "./context";
+import { AppContext, FollowersContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
@@ -42,6 +43,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //PARENTS CONTEXT:
   const { isLoadingAuth, user, profile } = useContext(AppContext);
+  const { followersData } = useContext(FollowersContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
@@ -160,7 +162,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {/* ISAUTH: /profile/view, /profile/edit, /settings */}
         {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && (
           <>
-            <div id="wildpay-top" className="profile mt-10 relative z-10 ml-6 mr-6">
+            <div id="wildpay-top" className="profile mt-8 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
                 <div className="flex items-center">
                   {/* ISAUTH PROFILE INTRO - AVATAR */}
@@ -202,7 +204,17 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                       <>
                         {!isSettings && (
                           <>
-                            <div className="font-semibold">@{profile.username}</div>
+                            <div className="flex flex-col mb-1">
+                              <Link href={"/" + profile.username} className="font-semibold mr-1 flex items-center">
+                                @{profile.username}
+                              </Link>
+                              <div className="mr-1 text-sm md:text-base">
+                                <span className="font-semibold text-primary">{followersData.followersCount}</span>{" "}
+                                followers{" "}
+                                <span className="font-semibold text-primary">{followersData.followingCount}</span>{" "}
+                                following
+                              </div>
+                            </div>
                             <SocialIcons soc={soc} />
                           </>
                         )}
@@ -237,7 +249,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="flex flex-col items-end">
                       <div className="flex items-center text-xl font-semibold custom-text-blue">
                         <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
-                        <div className="tooltip tooltip-top z-20" data-tip="All time">
+                        <div className="tooltip tooltip-top" data-tip="All time">
                           <button className="ml-1">
                             <QuestionMarkCircleIcon width={14} />
                           </button>

@@ -40,7 +40,14 @@ const ProfileUsername: NextPage = () => {
   }, [incomingRes, outgoingRes]);
 
   /* NETWORK DROPDOWN */
-  const [network, setNetwork] = useState("ethereum"); //default network: eth
+  const [network, setNetwork] = useState<string>(); //default network
+  useEffect(() => {
+    if (incomingEthTx?.paymentChanges?.length > incomingBaseTx?.paymentChanges?.length) {
+      setNetwork("ethereum");
+    } else {
+      setNetwork("base");
+    }
+  }, [incomingEthTx, incomingBaseTx]);
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute("open");
