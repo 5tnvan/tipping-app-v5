@@ -149,7 +149,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                     </>
                   ) : (
                     <>
-                      <div className="flex flex-col mb-1">
+                      <div className="flex flex-col mb-1 text-secondary">
                         <Link href={"/" + publicProfile.username} className="font-semibold mr-1 flex items-center">
                           @{publicProfile.username}
                         </Link>
