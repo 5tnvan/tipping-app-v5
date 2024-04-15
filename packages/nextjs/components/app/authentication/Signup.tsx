@@ -98,7 +98,7 @@ export const Signup = () => {
         {passwordError && <div className="custom-warning text-red-600 pb-2 pl-2">{passwordError}</div>}
 
         <button type="submit" className="btn btn-primary text-base w-full">
-          Sign Up
+          Register
         </button>
       </form>
     </>

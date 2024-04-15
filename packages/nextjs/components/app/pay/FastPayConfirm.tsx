@@ -15,9 +15,10 @@ import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 type Props = {
   receiver: any;
   onSuccess: any;
+  onClose: any;
 };
 
-const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
+const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const { address: connectedAddress } = useAccount();
   const { profile } = useContext(AppContext);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
@@ -132,7 +133,7 @@ const FastPayConfirm = ({ receiver, onSuccess }: Props) => {
           <>
             <div>You have no verified wallet, yet.</div>
             <div className="flex justify-center">
-              <Link href="/settings" className="btn btn-neutral w-full mt-3">
+              <Link href="/settings" className="btn btn-neutral w-full mt-3" onClick={onClose}>
                 Verify a Wallet
               </Link>
             </div>

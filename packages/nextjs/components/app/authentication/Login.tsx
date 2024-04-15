@@ -60,7 +60,7 @@ export const Login = () => {
         <div className="additional mt-5">
           <span>{"Don't have an account? "}</span>
           <Link href="/getstarted" className="link link-secondary">
-            Sign Up
+            Register
           </Link>
         </div>
       </form>
