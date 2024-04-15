@@ -41,6 +41,7 @@
 .ring-2px { border-width: 2px; border-color: #3D45E7; }
 .w-88px { width: 88px; }
 .rounded-xxl { border-radius: 1.5rem; }
+.notification-dot { top: 7px; border: 1px solid white; }
 
 /* Wild UI CSS */
 .wildui-transaction-scroll-home {
@@ -56,6 +57,9 @@
   height: calc(100vh - 11rem);
 }
 .wildui-leaderboard-scroll {
+  height: calc(100vh - 14rem);
+}
+.wildui-notification-scroll {
   height: calc(100vh - 14rem);
 }
 .wildui-menu { top: 20px; right: 20px; }

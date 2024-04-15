@@ -12,10 +12,13 @@ export const TimeAgo = ({ timestamp }: Props) => {
   const timeDifference = currentTimestamp - yourTimestamp;
   const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   const hoursAgo = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutesAgo = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
 
   return (
     <div>
-      {daysAgo} days and {hoursAgo} hours ago
+      {daysAgo > 0 && <>{daysAgo}d</>}
+      {daysAgo === 0 && hoursAgo > 0 && <>{hoursAgo}h</>}
+      {daysAgo === 0 && hoursAgo === 0 && <>{minutesAgo}m</>}
     </div>
   );
 };
