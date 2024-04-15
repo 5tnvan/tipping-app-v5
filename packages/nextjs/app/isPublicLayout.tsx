@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import React from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
 import { AppContext, FollowersContext, PublicContext } from "./context";
@@ -88,7 +89,9 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
 
   //RENDER
   if (!isLoadingPublic && publicProfile?.id == null) {
-    return <div className="mt-36 p-6 text-black z-50 relative">{"Sorry, user doesn't exist. Please try again later"}</div>;
+    return (
+      <div className="mt-36 p-6 text-black z-50 relative">{"Sorry, user doesn't exist. Please try again later"}</div>
+    );
   }
 
   if (publicProfile?.id) {
@@ -99,7 +102,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
           {/* ISPUBLIC AUTH TOP */}
-          <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10">
+          <div id="wildpay-top" className="profile mt-8 ml-6 mr-6 relative z-10">
             {/* ISPUBLIC PROFILE INTRO */}
             <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
@@ -146,8 +149,16 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                     </>
                   ) : (
                     <>
-                      <div className="flex">
-                        <div className="font-semibold mr-1 text-black">@{publicProfile.username}</div>
+                      <div className="flex flex-col mb-1">
+                        <Link href={"/" + publicProfile.username} className="font-semibold mr-1 flex items-center">
+                          @{publicProfile.username}
+                        </Link>
+                        <div className="mr-1 text-sm md:text-base">
+                          <span className="font-semibold text-primary">{followersPublicData.followersCount}</span>{" "}
+                          followers{" "}
+                          <span className="font-semibold text-primary">{followersPublicData.followingCount}</span>{" "}
+                          following
+                        </div>
                       </div>
                       <SocialIcons soc={soc} />
                     </>
@@ -163,7 +174,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="flex flex-col items-end">
                       <div className="flex items-center text-xl font-semibold custom-text-blue">
                         ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
-                        <div className="tooltip tooltip-top z-20" data-tip="All time">
+                        <div className="tooltip tooltip-top" data-tip="All time">
                           <button className="ml-1">
                             <QuestionMarkCircleIcon width={14} />
                           </button>
@@ -187,7 +198,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
               data={followersPublicData}
               refetch={refetchPublicFollowers}
             ></FollowersModal>
-
             {children}
           </PublicContext.Provider>
         </div>

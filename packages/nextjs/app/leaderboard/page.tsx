@@ -21,27 +21,33 @@ const LeaderboardPage: NextPage = () => {
   console.log(allProfiles);
 
   return (
-    <div className="wildui-leaderboard-scroll pt-10 pl-6 pr-6 overflow-scroll">
-      {allProfiles && (
-        <>
-          {allProfiles.map((searchProfile: any) => (
-            <Link
-              key={searchProfile.username} // Add a unique key for each result
-              href={`/${searchProfile.username}`}
-              className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
-            >
-              <div className="flex items-center">
-                <Avatar profile={searchProfile} width={8} ring={false} />
-                <div className="ml-2">@{searchProfile.username}</div>
-              </div>
-              <div>
-                <ChevronRightIcon />
-              </div>
-            </Link>
-          ))}
-        </>
-      )}
-    </div>
+    <>
+      <div className="flex justify-between items-center font-semibold mt-6 mb-3 pt-10 pl-6 pr-6">
+        <span className="text-primary text-4xl">All</span>
+        <span className="text-base mt-1">({allProfiles?.length})</span>
+      </div>
+      <div className="wildui-leaderboard-scroll pl-6 pr-6 pb-10 overflow-scroll z-0">
+        {allProfiles && (
+          <>
+            {allProfiles.map((searchProfile: any) => (
+              <Link
+                key={searchProfile.username} // Add a unique key for each result
+                href={`/${searchProfile.username}`}
+                className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
+              >
+                <div className="flex items-center">
+                  <Avatar profile={searchProfile} width={8} ring={false} />
+                  <div className="ml-2">@{searchProfile.username}</div>
+                </div>
+                <div>
+                  <ChevronRightIcon />
+                </div>
+              </Link>
+            ))}
+          </>
+        )}
+      </div>
+    </>
   );
 };
 export default LeaderboardPage;

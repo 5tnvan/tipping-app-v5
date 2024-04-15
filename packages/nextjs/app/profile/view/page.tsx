@@ -34,7 +34,16 @@ const ProfileView: NextPage = () => {
   }, [incomingRes, outgoingRes]);
 
   /* NETWORK DROPDOWN */
-  const [network, setNetwork] = useState("ethereum"); //default network: eth
+  const [network, setNetwork] = useState<string>(); //default network
+  useEffect(() => {
+    if (incomingEthTx?.paymentChanges?.length > incomingBaseTx?.paymentChanges?.length) {
+      setNetwork("ethereum");
+    } else {
+      setNetwork("base");
+    }
+  }, [incomingEthTx, incomingBaseTx]);
+
+  console.log(incomingEthTx, incomingBaseTx);
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute("open");
@@ -61,6 +70,7 @@ const ProfileView: NextPage = () => {
     }
   };
 
+  /* RENDER */
   if (isAuth == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
