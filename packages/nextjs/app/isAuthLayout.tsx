@@ -33,23 +33,23 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
-  const isHome = pathname === "/home";
+  const isHome = pathname === "/home"; //PRIVATE
   const isLogin = pathname === "/login";
-  const isProfileEdit = pathname === "/profile/edit";
-  const isSettings = pathname === "/settings";
+  const isProfileEdit = pathname === "/profile/edit"; //PRIVATE
+  const isSettings = pathname === "/settings"; //PRIVATE
   const isTransaction = pathname.includes("/transaction");
-  const isLeaderboard = pathname === "/leaderboard";
+  const isLeaderboard = pathname === "/leaderboard"; //PRIVATE
+  const isNotification = pathname === "/notifications"; //PRIVATE
   const { username } = useParams();
 
-  //PARENTS CONTEXT:
+  /* PARENTS CONTEXT */
   const { isLoadingAuth, user, profile } = useContext(AppContext);
   const { followersData } = useContext(FollowersContext);
 
-  /* TRANSACTIONS VARIABLES */
+  /* FETCH TRANSACTIONS */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
   const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
 
-  /* FETCH TRANSACTIONS */
   const incomingRes = useIncomingTransactions(profile.wallet_id);
   const outgoingRes = useOutgoingTransactions(profile.wallet_id);
 
@@ -58,7 +58,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
     setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
   }, [incomingRes, outgoingRes]);
 
-  //SOCIAL MEDIA LINKS:
+  /* SOCIAL MEDIA LINKS */
   let soc = {};
   if (!username) {
     // Set up social media links using profile data
@@ -73,7 +73,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   /**
-   * ACTION: Open and close Pay Modal
+   * ACTION: Open and close Fast Pay Modal
    **/
   const [isFastPayModalOpen, setFastPayModalOpen] = useState(false);
 
@@ -153,14 +153,16 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {/* ISAUTH CUSTOM-BG */}
         {/* ISAUTH CUSTOM-BG: /home, /transaction */}
         <div
-          className={`custom-top-cover absolute z-0 ${(isHome || isTransaction || isLeaderboard) && "h-100px"}`}
+          className={`custom-top-cover absolute z-0 ${
+            (isHome || isTransaction || isLeaderboard || isNotification) && "h-100px"
+          }`}
         ></div>
 
         {/* ISAUTH */}
         {/* ISAUTH: /username */}
         {username && <IsPublicLayout>{children}</IsPublicLayout>}
         {/* ISAUTH: /profile/view, /profile/edit, /settings */}
-        {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && (
+        {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && !isNotification && (
           <>
             <div id="wildpay-top" className="profile mt-8 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -268,7 +270,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           </>
         )}
         {/* ISAUTH: /home, /transaction, /leaderboard */}
-        {(isHome || isTransaction || isLeaderboard) && <>{children}</>}
+        {(isHome || isTransaction || isLeaderboard || isNotification) && <>{children}</>}
       </div>
 
       {/* PAY RECEIPT MODAL */}
