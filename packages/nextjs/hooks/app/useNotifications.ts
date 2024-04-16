@@ -43,7 +43,7 @@ export const useNotifications = () => {
     .channel("test")
     .on(
       "postgres_changes",
-      { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user?.user.id}` },
+      { event: "*", schema: "public", table: "notifications", filter: `user_id=eq.${user?.user?.id}` },
       handleChange,
     )
     .subscribe();

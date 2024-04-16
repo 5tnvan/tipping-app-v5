@@ -108,31 +108,35 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
               <div className="flex">
                 {/* ISAUTH PROFILE INTRO - AVATAR */}
                 <div className="left mr-5 flex flex-col items-center">
-                  {isLoadingAuth || isLoadingPublic || isLoadingPublicFollowers ? (
+                  {isLoadingAuth || isLoadingPublic ? (
                     <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
                   ) : (
                     <>
                       <Avatar profile={publicProfile} width={16} ring={false} />
-                      {!isLoadingPublicFollowers && !followersPublicData?.followed && (
-                        <div
-                          id="wildpay-avatar-cta"
-                          className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                          onClick={() => handleFollow()}
-                        >
-                          Follow
-                          <ArrowRightIcon />
-                        </div>
-                      )}
-                      {!isLoadingPublicFollowers && followersPublicData?.followed && (
-                        <div
-                          id="wildpay-avatar-cta"
-                          className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                          onClick={() => openFollowersModal()}
-                        >
-                          <span>Followed</span>
-                          <ChevronRightIcon width={8} />
-                        </div>
-                      )}
+
+                      <div
+                        id="wildpay-avatar-cta"
+                        className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
+                        onClick={
+                          !isLoadingPublicFollowers && !followersPublicData?.followed
+                            ? () => handleFollow()
+                            : () => openFollowersModal()
+                        }
+                      >
+                        {isLoadingPublicFollowers && <span className="loading loading-ring loading-xs"></span>}
+                        {!isLoadingPublicFollowers && !followersPublicData?.followed && (
+                          <>
+                            Follow
+                            <ArrowRightIcon />
+                          </>
+                        )}
+                        {!isLoadingPublicFollowers && followersPublicData?.followed && (
+                          <>
+                            <span>Followed</span>
+                            <ChevronRightIcon width={8} />
+                          </>
+                        )}
+                      </div>
                     </>
                   )}
                 </div>
