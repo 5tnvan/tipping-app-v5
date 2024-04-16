@@ -9,17 +9,18 @@ import { createClient } from "~~/utils/supabase/server";
  * RETURN: { data }
  **/
 
-export const fetchFollowersNotifications = async () => {
+export const fetchFollowersNotifications = async (user_id: any) => {
   const supabase = createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  const { data, error } = await supabase
-    .from("notifications")
-    .select("*")
-    .eq("user_id", userData?.user?.id)
-    .order("follower_created_at", { ascending: false });
-  if (error) {
+  try { 
+    const { data } = await supabase
+      .from("notifications")
+      .select("*")
+      .eq("user_id", user_id)
+      .order("follower_created_at", { ascending: false });
+    console.log("I am at fetch notifications", user_id, data?.length);
+    return data;
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
     return null;
   }
-  console.log("fetchFollowersNotifications", data);
-  return data;
 };

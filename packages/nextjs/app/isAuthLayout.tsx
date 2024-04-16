@@ -164,23 +164,25 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         {/* ISAUTH: /profile/view, /profile/edit, /settings */}
         {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && !isNotification && (
           <>
-            <div id="wildpay-top" className="profile mt-8 relative z-10 ml-6 mr-6">
+            <div id="wildpay-top" className="profile mt-10 md:mt-8 relative z-10 ml-6 mr-6">
               <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
                 <div className="flex items-center">
                   {/* ISAUTH PROFILE INTRO - AVATAR */}
                   {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
-                  <div className="left mr-5 flex flex-col items-center ">
+                  <div className="left flex flex-col items-center ">
                     {isLoadingAuth ? (
-                      <div className="avatar">
+                      <div className="avatar mr-5">
                         <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
                       </div>
                     ) : (
                       <>
-                        <Avatar profile={profile} width={16} ring={false} />
+                        <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
+                          <Avatar profile={profile} width={16} ring={false} />
+                        </div>
                         {isProfileEdit && (
                           <div
                             id="wildpay-avatar-cta"
-                            className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
+                            className="btn mr-5 text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
                             onClick={openAvatarModal}
                           >
                             Edit
@@ -227,14 +229,6 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                               <RainbowKitCustomConnectButton btn="small" />
                               <FaucetButton />
                             </div>
-                            {/* {profile?.wallet_id ? (
-                              <div className="flex">
-                                <Address address={profile?.wallet_id} />
-                                <CheckBadgeIcon width="20" />
-                              </div>
-                            ) : (
-                              <div>No verified wallet</div>
-                            )} */}
                           </>
                         )}
                       </>
@@ -297,7 +291,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40"
       >
         {/* WILDPAY MENU @HOME */}
-        <button className="flex flex-col items-center" onClick={() => router.push("/home")}>
+        <button className="flex flex-col items-center hover:text-neutral-300" onClick={() => router.push("/home")}>
           <HomeIcon width={18} />
           Home
         </button>
@@ -311,7 +305,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         </button>
 
         {/* WILDPAY MENU @SEARCH */}
-        <button className="flex flex-col items-center" onClick={openSearchModal}>
+        <button className="flex flex-col items-center hover:text-neutral-300" onClick={openSearchModal}>
           <MagnifyingGlassIcon width={18} />
           Search
         </button>

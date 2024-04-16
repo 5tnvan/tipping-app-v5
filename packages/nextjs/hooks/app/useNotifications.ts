@@ -12,32 +12,32 @@ export const useNotifications = () => {
   const [triggerRefetch, setTriggerRefetch] = useState(false);
   const supabase = createClient();
 
-  //toggle triggerRefetch to false/true
+  const init = async () => {
+    setIsLoading(true);
+    const userData = await fetchUser();
+    const notificationsData = await fetchFollowersNotifications(userData?.user?.id);
+    setNotifications(notificationsData);
+    const user = await fetchUser();
+    setUser(user);
+    setIsLoading(false);
+    console.log("i am inside init use notifications:", userData?.user?.id, notificationsData?.length);
+  };
+
   const refetch = () => {
-    setTriggerRefetch(prev => !prev);
+    console.log("i am inside refetch notifications");
+    setTriggerRefetch(prev => !prev); //toggle triggerRefetch to false/true
   };
 
   useEffect(() => {
-    const initNotification = async () => {
-      setIsLoading(true);
-      const notificationsData = await fetchFollowersNotifications();
-      setNotifications(notificationsData);
-      const user = await fetchUser();
-      setUser(user);
-      setIsLoading(false);
-    };
-
-    initNotification();
+    init();
   }, [triggerRefetch]);
 
   //LISTEN TO REALTIME CHANGES
-
   const handleChange = (payload: any) => {
+    console.log("i am inside handleChange");
     console.log("Change received!", payload);
     refetch();
   };
-
-  console.log("user.id", user?.user?.id);
 
   supabase
     .channel("test")

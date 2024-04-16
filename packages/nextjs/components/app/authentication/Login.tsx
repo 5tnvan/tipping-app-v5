@@ -1,13 +1,15 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
-import { AppContext, FollowersContext } from "~~/app/context";
+import { AppContext, FollowersContext, NotificationContext } from "~~/app/context";
 
 export const Login = () => {
+  const router = useRouter();
   const { refetchAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
-  const router = useRouter();
+  const { refetchNotifications } = useContext(NotificationContext);
+  const [isProcessing, setIsProcessing] = useState(false);
   const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
@@ -16,6 +18,7 @@ export const Login = () => {
       router.push("home");
       refetchAuth();
       refetchFollowers();
+      refetchNotifications();
     } catch (error) {
       console.error("Login error:", error);
       router.push("error");
@@ -53,8 +56,8 @@ export const Login = () => {
           <input type="password" name="password" placeholder="Password" className="bg-white text-black grow" />
         </label>
 
-        <button type="submit" className="btn btn-primary text-base w-full">
-          Login
+        <button type="submit" className="btn btn-primary text-base w-full" onClick={() => setIsProcessing(true)}>
+          Login {isProcessing && <span className="loading loading-ring loading-md"></span>}
         </button>
 
         <div className="additional mt-5">

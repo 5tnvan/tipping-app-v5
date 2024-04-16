@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import ChevronRightIcon from "@heroicons/react/24/solid/ChevronRightIcon";
 import { Avatar } from "~~/components/app/authentication/Avatar";
@@ -9,6 +10,7 @@ import { fetchProfiles } from "~~/utils/app/fetch/fetchUser";
 
 const LeaderboardPage: NextPage = () => {
   const [allProfiles, setAllProfiles] = useState<any>();
+  const router = useRouter();
   //fetch profile on search
   useEffect(() => {
     const fetch = async () => {
@@ -23,8 +25,13 @@ const LeaderboardPage: NextPage = () => {
   return (
     <>
       <div className="flex justify-between items-center font-semibold mt-6 mb-3 pt-10 pl-6 pr-6">
-        <span className="text-primary text-4xl">All</span>
-        <span className="text-base mt-1">({allProfiles?.length})</span>
+        <button className="btn btn-sm btn-primary" onClick={() => router.back()}>
+          Back
+        </button>
+        <div className="flex items-center">
+        <span className="text-base mt-1 mr-2">({allProfiles?.length})</span>
+          <span className="text-primary text-4xl">All</span>
+        </div>
       </div>
       <div className="wildui-leaderboard-scroll pl-6 pr-6 pb-10 overflow-scroll z-0">
         {allProfiles && (

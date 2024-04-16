@@ -33,9 +33,10 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   /* UI */
   const bgClass = isAuth === "yes" ? "bg-white" : isAuth === "no" ? "custom-gradient-02" : "bg-white";
 
-  console.log("wildLayout");
+  //console.log("wildLayout");
   //console.log("wildLayout useAuthentication profile: ", profile);
-  // console.log("wildLayout usePrivateFollowers", followersData);
+  console.log("wildLayout usePrivateFollowers", followersData);
+  console.log("wildLayout notifications", notifications);
 
   return (
     <>

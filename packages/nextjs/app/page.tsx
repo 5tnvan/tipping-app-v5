@@ -11,6 +11,7 @@ import { Tabs } from "~~/components/app/ui/tabs";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 import { TelegramIcon } from "~~/components/assets/TelegramIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
+import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
 
 const Home: NextPage = () => {
   const { isAuth } = useContext(AppContext);
@@ -385,8 +386,15 @@ const Home: NextPage = () => {
             </p>
           </aside>
           <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-            <TwitterIcon handle="/wildpay" />
-            <TelegramIcon handle="/wildpayapp" />
+            <Link href="https://x.com/wildpay">
+              <TwitterIcon width={18} height={18} />
+            </Link>
+            <Link href="https://t.me/wildpayapp">
+              <TelegramIcon width={18} height={18} />
+            </Link>
+            <Link href="https://www.youtube.com/@wildpay">
+              <YoutubeIcon width={18} height={18} />
+            </Link>
           </nav>
         </footer>
       </>

@@ -43,7 +43,7 @@ const ProfileView: NextPage = () => {
     }
   }, [incomingEthTx, incomingBaseTx]);
 
-  console.log(incomingEthTx, incomingBaseTx);
+  //console.log(incomingEthTx, incomingBaseTx);
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute("open");

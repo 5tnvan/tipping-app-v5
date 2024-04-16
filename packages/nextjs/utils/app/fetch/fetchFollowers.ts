@@ -65,5 +65,7 @@ export const fetchFollowers = async (profile_id: string) => {
     console.error("Error fetching followers data:", error);
   }
 
+  console.log("i am at fetch followers", profile_id, followersData.followersCount);
+
   return followersData;
 };

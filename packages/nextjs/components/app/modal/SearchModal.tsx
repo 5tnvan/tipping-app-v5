@@ -71,9 +71,9 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
             <MagnifyingGlassCircleIcon width={30} />
           </label>
           {/* SEARCH RESULTS */}
-          <div id="wildpay-search-results" className="mt-5">
+          <div id="wildpay-search-results" className="wildui-search-res-scroll mt-5 pb-10">
             {isSearchLoading && (
-              <div className="flex btn h-full items-center justify-between pt-2 pb-2 mt-2">
+              <div className="flex btn items-center justify-between pt-2 pb-2 mt-2">
                 <div className="flex items-center">
                   <div className="w-8 h-6 animate-pulse bg-slate-200 rounded-full mr-3"></div>
                   <IsLoading shape="rounded-md" width={20} height={6} />
@@ -89,7 +89,7 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
                   <Link
                     key={searchProfile.username} // Add a unique key for each result
                     href={`/${searchProfile.username}`}
-                    className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
+                    className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
                     onClick={handleLink}
                   >
                     <div className="flex items-center">
