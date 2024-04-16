@@ -14,7 +14,7 @@ export const IsAuthMenu = () => {
   const { refetchFollowers } = useContext(FollowersContext);
   const { notifications, refetchNotifications } = useContext(NotificationContext);
 
-  const unreadNotifications = notifications.filter((notification: any) => !notification.follower_read);
+  const unreadNotifications = notifications?.filter((notification: any) => !notification.follower_read);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -42,7 +42,7 @@ export const IsAuthMenu = () => {
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end z-20 wildui-menu absolute ">
         <summary className="btn btn-neutral relative">
-          {unreadNotifications.length > 0 && (
+          {unreadNotifications?.length > 0 && (
             <div className="notification-dot w-2.5 h-2.5 bg-red-600 rounded-full absolute z-20 top-7px"></div>
           )}
 
