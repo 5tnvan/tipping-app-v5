@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AppContext } from "~~/app/context";
+import { AppContext, FollowersContext } from "~~/app/context";
 import {
   checkFileExists,
   deleteProfileAvatars,
@@ -18,6 +18,7 @@ type Props = {
 
 export const AvatarModal = ({ isOpen, onClose }: Props) => {
   const { profile, refetchAuth } = useContext(AppContext);
+  const { refetchFollowers } = useContext(FollowersContext);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState<string>("init"); // "pic", "gif", "nft"
@@ -57,6 +58,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
         deleteProfileAvatars(fileExists?.data); // delete old file from storage
         onClose();
         refetchAuth();
+        refetchFollowers();
         setChoosen("init");
         setIsProcessing(false);
       }
@@ -87,6 +89,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
       updateProfileAvatar(selectedImageUrl);
       onClose();
       refetchAuth();
+      refetchFollowers();
       setChoosen("init");
     }
   };
@@ -185,7 +188,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                   Back
                 </button>
                 <div className="mt-5">
-                  We are preparing Wild NFTs. Join our <Link href="https://t.me/wildpayapp">community chat</Link>to
+                  We are preparing Wild NFTs. Join our <Link href="https://t.me/wildpayapp"> community chat</Link>to
                   receive updates.
                 </div>
                 <div className="flex justify-center">

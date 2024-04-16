@@ -86,7 +86,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.lens ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <LensIcon handle={undefined} />
+                  <LensIcon width={16} height={14} />
                   <span className="wildpay-soc-label">lens.xyz /</span>
                   <input type="text" className="bg-white" placeholder={profile.lens || ""} disabled />
                 </div>
@@ -96,7 +96,7 @@ const ProfileEdit: NextPage = () => {
               </label>
             ) : (
               <label className="input input-bordered flex items-center gap-2 pr-0">
-                <LensIcon handle={undefined} />
+                <LensIcon width={16} height={14} />
                 <input
                   type="text"
                   className="bg-white grow"
@@ -121,7 +121,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.farcaster ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <FarcasterIcon handle={undefined} />
+                  <FarcasterIcon width={14} height={14} />
                   <span className="wildpay-soc-label">warpcast.com /</span>
                   <input type="text" className="bg-white" placeholder={profile.farcaster || ""} disabled />
                 </div>
@@ -131,7 +131,7 @@ const ProfileEdit: NextPage = () => {
               </label>
             ) : (
               <label className="input input-bordered flex items-center gap-2 pr-0">
-                <FarcasterIcon handle={undefined} />
+                <FarcasterIcon width={14} height={14} />
                 <input
                   type="text"
                   className="bg-white grow"
@@ -156,7 +156,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.youtube ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <YoutubeIcon handle={undefined} />
+                  <YoutubeIcon width={14} height={14} />
                   <span className="wildpay-soc-label">youtube.com /</span>
                   <input type="text" className="bg-white" placeholder={profile.youtube || ""} disabled />
                 </div>
@@ -166,7 +166,7 @@ const ProfileEdit: NextPage = () => {
               </label>
             ) : (
               <label className="input input-bordered flex items-center gap-2 pr-0">
-                <YoutubeIcon handle={undefined} />
+                <YoutubeIcon width={14} height={14} />
                 <input
                   type="text"
                   className="bg-white grow"
@@ -191,7 +191,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.instagram ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <InstagramIcon handle={undefined} />
+                  <InstagramIcon width={14} height={14} />
                   <span className="wildpay-soc-label">instagram.com /</span>
                   <input type="text" className="bg-white" placeholder={profile.instagram || ""} disabled />
                 </div>
@@ -201,7 +201,7 @@ const ProfileEdit: NextPage = () => {
               </label>
             ) : (
               <label className="input input-bordered flex items-center gap-2 pr-0">
-                <InstagramIcon handle={undefined} />
+                <InstagramIcon width={14} height={14} />
                 <input
                   type="text"
                   className="grow bg-white"
@@ -226,7 +226,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.twitter ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <TwitterIcon handle={undefined} />
+                  <TwitterIcon width={14} height={14} />
                   <span className="wildpay-soc-label">twitter.com /</span>
                   <input type="text" className="bg-white" placeholder={profile.twitter || ""} disabled />
                 </div>
@@ -237,7 +237,7 @@ const ProfileEdit: NextPage = () => {
             ) : (
               <>
                 <label className="input input-bordered flex items-center gap-2 pr-0">
-                  <TwitterIcon handle={undefined} />
+                  <TwitterIcon width={14} height={14} />
                   <input
                     type="text"
                     className="grow bg-white"
@@ -263,7 +263,7 @@ const ProfileEdit: NextPage = () => {
             {socialMedia.tiktok ? (
               <label className="input input-bordered flex justify-between gap-2 pr-0">
                 <div className="opacity-70 flex items-center gap-2">
-                  <TiktokIcon handle={undefined} />
+                  <TiktokIcon width={14} height={14} />
                   <span className="wildpay-soc-label">tiktok.com /</span>
                   <input type="text" className="grow bg-white" placeholder={profile.tiktok || ""} disabled />
                 </div>
@@ -274,7 +274,7 @@ const ProfileEdit: NextPage = () => {
             ) : (
               <>
                 <label className="input input-bordered flex items-center gap-2 pr-0">
-                  <TiktokIcon handle={undefined} />
+                  <TiktokIcon width={14} height={14} />
                   <input
                     type="text"
                     className="grow bg-white"

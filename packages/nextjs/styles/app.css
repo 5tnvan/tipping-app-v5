@@ -62,6 +62,9 @@
 .wildui-notification-scroll {
   height: calc(100vh - 14rem);
 }
+/* .wildui-search-res-scroll {
+  height: calc(100vh - 11rem);
+} */
 .wildui-menu { top: 20px; right: 20px; }
 .wildui-modal-container { background-color: rgba(0, 0, 0, 0.5); z-index: 100;}
 .wildui-modal-child { width: 480px; }
@@ -212,7 +215,7 @@
 /* SM: Mobile */
 @media screen and (max-width: 480px) {
   #wildpay { min-width: 100vw; max-width: 100vw; }
-  #wildpay-top.mt-20 { margin-top: 40px}
+  /* #wildpay-top.mt-20 { margin-top: 40px} */
   #wildpay-claim-domain { letter-spacing: 0; text-wrap: nowrap; }
   #wildpay-claim #username { width: 55% }
   #wildpay-claim-avail { text-wrap: nowrap; }

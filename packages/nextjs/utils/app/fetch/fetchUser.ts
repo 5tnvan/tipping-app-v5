@@ -100,7 +100,7 @@ export const fetchPublicProfileFromId = async (id: string) => {
   const supabase = createClient();
   const { data: profileData } = await supabase.from("profiles").select("*").eq("id", id);
 
-  return profileData;
+  return profileData?.[0];
 };
 
 /**

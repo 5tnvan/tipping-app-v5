@@ -101,22 +101,22 @@ const HomePage: NextPage = () => {
             <div role="tablist" className="tabs tabs-bordered">
               <div
                 role="tab"
-                className={`tab p-0 mr-2 justify-between text-base ${showFollow == "following" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 mr-2 justify-between text-base ${showFollow == "following" && "tab-active"}`}
                 onClick={() => setShowFollow("following")}
               >
                 Following
-                <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold text-primary"}`}>
+                <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                   {!isLoadingFollowers && followersData?.followingCount}
                 </span>
               </div>
               <div
                 role="tab"
-                className={`tab p-0 justify-between text-base ${showFollow == "followers" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 justify-between text-base ${showFollow == "followers" && "tab-active"}`}
                 onClick={() => setShowFollow("followers")}
               >
                 Followers
-                <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold text-primary"}`}>
+                <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
                   {!isLoadingFollowers && followersData?.followersCount}
                 </span>
@@ -218,7 +218,7 @@ const HomePage: NextPage = () => {
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING */}
               <div
                 role="tab"
-                className={`tab mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
                 onClick={() => setShowTransactions("incoming")}
               >
                 {/* PAYMENTS TRANSACTIONS TAB : INCOMING SUM ($USD) */}
@@ -239,7 +239,7 @@ const HomePage: NextPage = () => {
               {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
               <div
                 role="tab"
-                className={`tab p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
                 onClick={() => setShowTransactions("outgoing")}
               >
                 {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM ($USD) */}
@@ -292,9 +292,9 @@ const HomePage: NextPage = () => {
               {showTransactions === "outgoing" && (
                 <>
                   {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
-                    <div className="flex h-full justify-center items-center">
+                    <Link href="/leaderboard" className="flex h-full justify-center items-center">
                       <div className="btn btn-neutral">Start paying someone 🥳</div>
-                    </div>
+                    </Link>
                   )}
                   {!profile.wallet_id && (
                     <div className="flex h-full justify-center items-center">

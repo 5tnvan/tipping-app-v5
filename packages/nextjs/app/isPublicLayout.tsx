@@ -102,7 +102,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
           {/* ISPUBLIC AUTH TOP */}
-          <div id="wildpay-top" className="profile mt-8 ml-6 mr-6 relative z-10">
+          <div id="wildpay-top" className="profile mt-10 md:mt-8 ml-6 mr-6 relative z-10">
             {/* ISPUBLIC PROFILE INTRO */}
             <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
               <div className="flex">
