@@ -334,7 +334,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
       >
         {/* WILDPAY MENU @HOME */}
         <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/home")}>
-          <div className="w-6 md:w-4">
+          <div className="w-5 md:w-4">
             <HomeIcon />
           </div>
           <div className="hidden md:block pl-1 pr-1">Home</div>
@@ -350,7 +350,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* WILDPAY MENU @FAST PAY */}
         <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openFastPayModal}>
-          <div className="rounded-full btn w-14 h-14 border bg-white flex justify-evenly items-center p-0">
+          <div className="rounded-full btn w-12 md:w-14 h-12 md:h-14 border border-primary bg-white flex justify-evenly items-center p-0">
             <WildPayLogo width="36" height="36" color="blue" />
           </div>
           <div className="hidden md:block font-semibold mt-1">Pay</div>
@@ -369,7 +369,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* WILDPAY MENU @SEARCH */}
         <button className="flex flex-col items-center hover:text-neutral-400" onClick={openSearchModal}>
-          <div className="w-6 md:w-4">
+          <div className="w-5 md:w-4">
             <MagnifyingGlassIcon />
           </div>
           <div className="hidden md:block">Search</div>

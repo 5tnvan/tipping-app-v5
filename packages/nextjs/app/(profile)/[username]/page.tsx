@@ -26,11 +26,9 @@ const ProfileUsername: NextPage = () => {
   /* USER VARIABLES */
   const { isLoadingPublic, publicProfile } = useContext(PublicContext);
 
-  /* TRANSACTIONS VARIABLES */
+  /* FETCH TRANSACTIONS */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
   const [incomingBaseTx, setIncomingBaseTx] = useState<any>();
-
-  /* FETCH TRANSACTIONS */
   const incomingRes = useIncomingTransactions(publicProfile.wallet_id);
   const outgoingRes = useOutgoingTransactions(publicProfile.wallet_id);
 

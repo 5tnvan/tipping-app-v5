@@ -25,26 +25,34 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   const handleClose = () => {
     setChoosen("init");
     setTab("preview");
+    setInput("Start typing...");
+    setError(false);
+    setIsProcessing(false);
     setCtaOption(0);
     onClose();
   };
 
-  //1. WILDBIO
+  //1. CREATE WILDBIO
   const [tab, setTab] = useState("preview");
   const [isProcessing, setIsProcessing] = useState(false);
   const [input, setInput] = useState("Start typing...");
   const [ctaOption, setCtaOption] = useState(0);
+  const [error, setError] = useState(false);
 
   const handleInputChange = (e: any) => {
     setInput(e.target.value);
   };
   const handlePost = async () => {
-    setIsProcessing(true);
-    const res = await postProfileBio(input, ctaOption);
-    if (res) {
-      setIsProcessing(false);
-      refetchAuth();
-      onClose();
+    if (input?.length === 0) {
+      setError(true);
+    } else {
+      setIsProcessing(true);
+      const res = await postProfileBio(input, ctaOption);
+      if (res) {
+        setIsProcessing(false);
+        refetchAuth();
+        onClose();
+      }
     }
   };
 
@@ -97,11 +105,15 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                 <div
                   role="tab"
                   className={`tab ${tab === "preview" ? "tab-active" : ""}`}
-                  onClick={() => setTab("preview")}
+                  onClick={() => (setTab("preview"), setError(false))}
                 >
                   Preview
                 </div>
-                <div role="tab" className={`tab ${tab === "edit" ? "tab-active" : ""}`} onClick={() => setTab("edit")}>
+                <div
+                  role="tab"
+                  className={`tab ${tab === "edit" ? "tab-active" : ""}`}
+                  onClick={() => (setTab("edit"), setError(false))}
+                >
                   Edit
                 </div>
               </div>
@@ -116,6 +128,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                       <TextGenerateEffect words={input} />
                       <div className="btn btn-accent w-full mt-5">{ctaOption == 0 ? "Pay now" : "Follow Me"}</div>
                     </BackgroundGradient>
+                    {error && <div className="mt-5 text-red-600">Your content is empty. Please try again.</div>}
                     <div className="btn btn-primary w-full mt-5" onClick={handlePost}>
                       Post{isProcessing && <span className="loading loading-ring loading-md"></span>}
                     </div>
@@ -125,14 +138,14 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
               {tab == "edit" && (
                 <>
                   <textarea
-                    className="textarea textarea-primary w-full rounded-3xl"
+                    className="textarea textarea-primary w-full rounded-3xl mb-1"
                     placeholder="Bio"
                     maxLength={130}
                     value={input}
                     onChange={handleInputChange}
                   ></textarea>
                   <select
-                    className="select select-primary w-full max-w-xs"
+                    className="select select-primary rounded-3xl w-full"
                     value={ctaOption}
                     onChange={e => setCtaOption(parseInt(e.target.value))}
                   >
