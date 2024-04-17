@@ -35,10 +35,56 @@
 :root {
   --dot-size: 1.75px; /* Adjust as needed */
 }
+
+
+
+/* ring */
+.avatar1{
+  /* background:linear-gradient(135deg, #184e68 0%,#57ca85 100%); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+}
+
+.moving-gradient {
+  background: linear-gradient(115deg, #4c43f8, #06d69d, #f06195, #1a27b3);
+  background-size: 800% 800%;
+  -webkit-animation: AnimationName 30s ease infinite;
+  -moz-animation: AnimationName 30s ease infinite;
+  -o-animation: AnimationName 30s ease infinite;
+  animation: AnimationName 30s ease infinite;
+}
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 17%}
+  50%{background-position:100% 84%}
+  100%{background-position:0% 17%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 17%}
+  50%{background-position:100% 84%}
+  100%{background-position:0% 17%}
+}
+@-o-keyframes AnimationName {
+  0%{background-position:0% 17%}
+  50%{background-position:100% 84%}
+  100%{background-position:0% 17%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 17%}
+  50%{background-position:100% 84%}
+  100%{background-position:0% 17%}
+}
+
 /* Adding Tailwind CSS */
 .w-inherit { width: inherit; }
 .h-inherit { height: inherit !important; }
 .ring-2px { border-width: 2px; border-color: #3D45E7; }
+.ring-4px { border-width: 4px; border-color: #3D45E7; }
+.ring-primary {
+  --tw-ring-opacity: 1;
+  background-image: linear-gradient(to right, #ff0000, #00ff00); /* Replace colors with your desired gradient */
+}
 .w-88px { width: 88px; }
 .rounded-xxl { border-radius: 1.5rem; }
 .notification-dot { top: 7px; border: 1px solid white; }
@@ -215,7 +261,7 @@
 /* SM: Mobile */
 @media screen and (max-width: 480px) {
   #wildpay { min-width: 100vw; max-width: 100vw; }
-  /* #wildpay-top.mt-20 { margin-top: 40px} */
+  #wildpay-app-menu-pay {top: -16px;}
   #wildpay-claim-domain { letter-spacing: 0; text-wrap: nowrap; }
   #wildpay-claim #username { width: 55% }
   #wildpay-claim-avail { text-wrap: nowrap; }

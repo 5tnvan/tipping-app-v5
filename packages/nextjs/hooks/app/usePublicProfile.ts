@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fetchBiosById } from "~~/utils/app/fetch/fetchBios";
 import { fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
 
 export const usePublicProfile = (username: any) => {
@@ -22,6 +23,7 @@ export const usePublicProfile = (username: any) => {
     farcaster: null,
     lens: null,
   });
+  const [bios, setBios] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -33,7 +35,8 @@ export const usePublicProfile = (username: any) => {
       setIsLoading(true); // Set loading to true when starting data fetch
 
       const profileData = await fetchPublicProfile(username);
-      // console.log("usePublicProfile: profileData ", profileData);
+      const biosData = await fetchBiosById(profileData.id);
+      setBios(biosData);
       setProfile(profileData);
 
       setIsLoading(false); // Set loading to false when fetch is complete
@@ -42,5 +45,5 @@ export const usePublicProfile = (username: any) => {
     initUser();
   }, [triggerRefetch, username]);
 
-  return { isLoading, publicProfile, refetch };
+  return { isLoading, publicProfile, bios, refetch };
 };

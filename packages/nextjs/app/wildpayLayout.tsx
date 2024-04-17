@@ -26,7 +26,7 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
   const isBlockExplorer = pathname.includes("/blockexplorer");
 
   /* CREATE CONTEXTS */
-  const { isLoading: isLoadingAuth, isAuth, user, profile, refetch: refetchAuth } = useAuthentication();
+  const { isLoading: isLoadingAuth, isAuth, user, profile, bios, refetch: refetchAuth } = useAuthentication();
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
   const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications();
 
@@ -35,12 +35,12 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
 
   //console.log("wildLayout");
   //console.log("wildLayout useAuthentication profile: ", profile);
-  console.log("wildLayout usePrivateFollowers", followersData);
-  console.log("wildLayout notifications", notifications);
+  //console.log("wildLayout usePrivateFollowers", followersData);
+  //console.log("wildLayout notifications", notifications);
 
   return (
     <>
-      <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, refetchAuth }}>
+      <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, bios, refetchAuth }}>
         <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
           <NotificationContext.Provider value={{ isLoadingNotifications, notifications, refetchNotifications }}>
             {/* PRIVATE PAGE */}

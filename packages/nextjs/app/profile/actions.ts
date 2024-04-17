@@ -97,3 +97,26 @@ export async function updateProfileAvatar(url: any) {
     }
   }
 }
+
+/* POST PROFILE BIO */
+export async function postProfileBio(content: any, cta: any) {
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  const { error } = await supabase.from("profile_bios").insert({ user_id: data?.user?.id, content: content, cta: cta });
+  if (error) {
+    console.log(error);
+  } else {
+    return true;
+  }
+}
+
+/* UPDATE PROFILE BIO */
+export async function incrementBioView(id: any) {
+  const supabase = createClient();
+  const { error } = await supabase.rpc("profile_bios_increment", { row_id: id });
+  if (error) {
+    console.log(error);
+  } else {
+    return true;
+  }
+}
