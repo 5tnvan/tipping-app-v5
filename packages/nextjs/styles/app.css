@@ -39,7 +39,6 @@
 
 
 /* ring */
-
 .moving-gradient {
   background: linear-gradient(115deg, #4c43f8, #06d69d, #f06195, #1a27b3);
   background-size: 800% 800%;
@@ -70,6 +69,7 @@
 }
 
 /* Adding Tailwind CSS */
+.w-14 {width: 3.5rem}
 .w-inherit { width: inherit; }
 .h-inherit { height: inherit !important; }
 .ring-2px { border-width: 2px; border-color: #3D45E7; }
