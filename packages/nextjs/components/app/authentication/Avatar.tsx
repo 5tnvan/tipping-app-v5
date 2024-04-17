@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 type Props = {
   profile: any;
@@ -14,19 +15,24 @@ export const Avatar = ({ profile, width, ring }: Props) => {
     textSize = "text-xl";
   }
 
-  const ringClass = ring ? "ring-primary ring-offset-base-100 ring-offset-2" : "ring-2px";
-
   return (
     <>
-      <div className="avatar">
-        {profile.avatar_url ? (
-          <div className={`w-${width} rounded-full ${ringClass}`}>
-            <img alt="avatar" src={profile.avatar_url} width="64" height="64" />
-          </div>
-        ) : (
-          <div id="wildpay-avatar" className={`w-${width} bg-slate-100 rounded-full ${ringClass}`}>
-            {/* Placeholder or default avatar */}
-            <div className={`${textSize} custom-text-blue`}>{profile.username.charAt(0).toUpperCase()}</div>
+      <div className={`avatar1 rounded-full ${ring ? `w-${width + 2} h-${width + 2} moving-gradient` : ""}`}>
+        {profile.avatar_url && (
+          <Image
+            className={`rounded-full w-${width} h-${width} border-2 border-slate-200`}
+            alt="img"
+            src={profile.avatar_url}
+            width={100}
+            height={100}
+          />
+        )}
+        {!profile.avatar_url && (
+          <div
+            id="wildpay-avatar"
+            className={`w-${width} h-${width} bg-slate-100 rounded-full border-2 border-slate-200`}
+          >
+            <div className={`${textSize} text-primary`}>{profile.username.charAt(0).toUpperCase()}</div>
           </div>
         )}
       </div>

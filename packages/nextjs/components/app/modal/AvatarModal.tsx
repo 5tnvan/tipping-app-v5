@@ -117,7 +117,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
           <div className="m-5">
             {choosen == "init" && (
               <>
-                <div className="mb-5 mt-5">Choose:</div>
+                <div className="mb-5 mt-5">Choose avatar upload:</div>
                 <div className="btn btn-accent w-full mb-2" onClick={() => handleChoosen("pic")}>
                   Upload profile picture
                 </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fetchBios } from "~~/utils/app/fetch/fetchBios";
 import { fetchProfile, fetchUser } from "~~/utils/app/fetch/fetchUser";
 
 export const useAuthentication = () => {
@@ -22,6 +23,7 @@ export const useAuthentication = () => {
     wallet_sign_hash: null,
     wallet_sign_timestamp: null,
   });
+  const [bios, setBios] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -31,14 +33,13 @@ export const useAuthentication = () => {
   const initUser = async () => {
     setIsLoading(true); // Set loading to true when starting data fetch
 
-    //fetch session
-    //const sessionData = await fetchSession();
-
     const userData = await fetchUser();
-    const profileData = await fetchProfile();
     if (userData?.user) {
+      const profileData = await fetchProfile();
+      const profileBiosData = await fetchBios();
       setUser(userData.user);
       setProfile(profileData);
+      setBios(profileBiosData);
       setIsAuth("yes");
     } else {
       setIsAuth("no");
@@ -51,7 +52,5 @@ export const useAuthentication = () => {
     initUser();
   }, [triggerRefetch]);
 
-  // console.log("useAuthentication: ", user);
-
-  return { isLoading, isAuth, user, profile, refetch };
+  return { isLoading, isAuth, user, profile, bios, refetch };
 };

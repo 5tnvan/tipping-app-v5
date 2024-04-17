@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
 import { AppContext, FollowersContext, PublicContext } from "./context";
+import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
+import { BioModal } from "~~/components/app/modal/BioModal";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
@@ -33,7 +35,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   /* USER, PUBLIC USER, FOLLOWERS, PUBLIC FOLLOWERS */
   const { isLoadingAuth, isAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
-  const { isLoading: isLoadingPublic, publicProfile, refetch: refetchPublic } = usePublicProfile(username);
+  const { isLoading: isLoadingPublic, publicProfile, bios, refetch: refetchPublic } = usePublicProfile(username);
   const {
     isLoading: isLoadingPublicFollowers,
     followersData: followersPublicData,
@@ -75,6 +77,19 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     setFollowersModalOpen(false);
   };
 
+  //BIO MODAL
+  const [isBioModalOpen, setBioModalOpen] = useState(false);
+
+  const openBioModal = () => {
+    refetchPublic();
+    incrementBioView(bios[0].id);
+    setBioModalOpen(true);
+  };
+
+  const closeBioModal = () => {
+    setBioModalOpen(false);
+  };
+
   let soc;
   if (publicProfile?.id) {
     soc = {
@@ -112,8 +127,12 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
                   ) : (
                     <>
-                      <Avatar profile={publicProfile} width={16} ring={false} />
-
+                      {bios?.length > 0 && (
+                        <div className="cursor-pointer" onClick={openBioModal}>
+                          <Avatar profile={publicProfile} width={14} ring={true} />
+                        </div>
+                      )}
+                      {bios?.length == 0 && <Avatar profile={publicProfile} width={14} ring={false} />}
                       <div
                         id="wildpay-avatar-cta"
                         className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
@@ -194,14 +213,20 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
           {/* ISPUBLIC CHILDREN */}
-          <PublicContext.Provider value={{ isLoadingPublic, publicProfile, refetchPublic }}>
-            {/* ISAUTH FOLLOWERS MODAL */}
+          <PublicContext.Provider value={{ isLoadingPublic, publicProfile, bios, refetchPublic }}>
+            {/* ISPUBLIC FOLLOWERS MODAL */}
             <FollowersModal
               isOpen={isFollowersModalOpen}
               onClose={closeFollowersModal}
               data={followersPublicData}
               refetch={refetchPublicFollowers}
             ></FollowersModal>
+            {/* ISPUBLIC FOLLOWERS MODAL */}
+            <BioModal
+              isOpen={isBioModalOpen}
+              onClose={closeBioModal}
+              data={{ profile: publicProfile, bios }}
+            ></BioModal>
             {children}
           </PublicContext.Provider>
         </div>

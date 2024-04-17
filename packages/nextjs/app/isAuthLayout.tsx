@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { AppContext, FollowersContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
+import { incrementBioView } from "./profile/actions";
+import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -10,6 +12,8 @@ import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
 import { AvatarModal } from "~~/components/app/modal/AvatarModal";
+import { BioModal } from "~~/components/app/modal/BioModal";
+import { CreateModal } from "~~/components/app/modal/CreateModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
@@ -43,7 +47,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
 
   /* PARENTS CONTEXT */
-  const { isLoadingAuth, user, profile } = useContext(AppContext);
+  const { isLoadingAuth, user, profile, bios, refetchAuth } = useContext(AppContext);
   const { followersData } = useContext(FollowersContext);
 
   /* FETCH TRANSACTIONS */
@@ -137,6 +141,34 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
     setAvatarModalOpen(false);
   };
 
+  /**
+   * ACTION: Open close create modal
+   **/
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+
+  const openCreateModal = () => {
+    setCreateModalOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setCreateModalOpen(false);
+  };
+
+  /**
+   * ACTION: Open close bio modal
+   **/
+  const [isBioModalOpen, setBioModalOpen] = useState(false);
+
+  const openBioModal = () => {
+    refetchAuth();
+    incrementBioView(bios[0].id);
+    setBioModalOpen(true);
+  };
+
+  const closeBioModal = () => {
+    setBioModalOpen(false);
+  };
+
   return (
     <>
       <div id="wildpay-is-auth" className="bg-white grow max-h-screen">
@@ -177,7 +209,12 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                     ) : (
                       <>
                         <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
-                          <Avatar profile={profile} width={16} ring={false} />
+                          {bios?.length > 0 && (
+                            <div className="cursor-pointer" onClick={openBioModal}>
+                              <Avatar profile={profile} width={14} ring={true} />
+                            </div>
+                          )}
+                          {bios?.length == 0 && <Avatar profile={profile} width={14} ring={false} />}
                         </div>
                         {isProfileEdit && (
                           <div
@@ -279,35 +316,63 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         onSuccess={handleFastPaySuccess}
       ></FastPayModal>
 
+      <BioModal isOpen={isBioModalOpen} onClose={closeBioModal} data={{ profile, bios }}></BioModal>
+
       {/* WILDPAY AVATAR MODAL */}
       <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
       {/* WILDPAY SEARCH MODAL */}
       <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
 
+      {/* WILDPAY CREATE MODAL */}
+      <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}></CreateModal>
+
       {/* WILDPAY APP BOTTOM MENU */}
       <div
         id="wildpay-app-menu"
-        className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40"
+        className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40 text-sm"
       >
         {/* WILDPAY MENU @HOME */}
-        <button className="flex flex-col items-center hover:text-neutral-300" onClick={() => router.push("/home")}>
-          <HomeIcon width={18} />
-          Home
+        <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/home")}>
+          <div className="w-6 md:w-4">
+            <HomeIcon />
+          </div>
+          <div className="hidden md:block pl-1 pr-1">Home</div>
+        </button>
+
+        {/* WILDPAY MENU @CREATE */}
+        <button className="flex flex-col items-center hover:text-neutral-400" onClick={openCreateModal}>
+          <div className="w-6 md:w-4">
+            <PlusCircleIcon />
+          </div>
+          <div className="hidden md:block pl-1 pr-1">Create</div>
         </button>
 
         {/* WILDPAY MENU @FAST PAY */}
         <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openFastPayModal}>
-          <div className="rounded-full btn w-14 h-14 border bg-white flex justify-center items-center p-0">
+          <div className="rounded-full btn w-14 h-14 border bg-white flex justify-evenly items-center p-0">
             <WildPayLogo width="36" height="36" color="blue" />
           </div>
-          <div className="font-semibold">Pay</div>
+          <div className="hidden md:block font-semibold mt-1">Pay</div>
+        </button>
+
+        {/* WILDPAY MENU @DISCOVER */}
+        <button
+          className="flex flex-col items-center hover:text-neutral-400"
+          onClick={() => router.push("/leaderboard")}
+        >
+          <div className="w-6 md:w-4">
+            <GlobeAsiaAustraliaIcon />
+          </div>
+          <div className="hidden md:block">Discover</div>
         </button>
 
         {/* WILDPAY MENU @SEARCH */}
-        <button className="flex flex-col items-center hover:text-neutral-300" onClick={openSearchModal}>
-          <MagnifyingGlassIcon width={18} />
-          Search
+        <button className="flex flex-col items-center hover:text-neutral-400" onClick={openSearchModal}>
+          <div className="w-6 md:w-4">
+            <MagnifyingGlassIcon />
+          </div>
+          <div className="hidden md:block">Search</div>
         </button>
       </div>
     </>
