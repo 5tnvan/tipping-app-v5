@@ -17,7 +17,7 @@ export const Avatar = ({ profile, width, ring }: Props) => {
 
   return (
     <>
-      <div className={`rounded-full ${ring ? `avatar1 w-${width + 2} h-${width + 2} moving-gradient` : ""}`}>
+      <div className={`flex items-center justify-center rounded-full ${ring ? `w-${width + 2} h-${width + 2} moving-gradient` : ""}`}>
         {profile.avatar_url && (
           <div className={`rounded-full w-${width} h-${width} border-2 border-slate-200`}>
             <Image className="rounded-full" alt="img" src={profile.avatar_url} width={100} height={100} />

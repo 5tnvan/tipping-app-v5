@@ -39,13 +39,6 @@
 
 
 /* ring */
-.avatar1{
-  /* background:linear-gradient(135deg, #184e68 0%,#57ca85 100%); */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: .2s;
-}
 
 .moving-gradient {
   background: linear-gradient(115deg, #4c43f8, #06d69d, #f06195, #1a27b3);
