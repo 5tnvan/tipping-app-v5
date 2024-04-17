@@ -54,7 +54,7 @@ const WalletConnectVerify = () => {
         )}
 
         {/* Steps */}
-        <ul className="steps steps-vertical lg:steps-vertical w-full">
+        <ul className="steps steps-vertical w-full">
           {/* 1.Link your wallet */}
           {!profile.wallet_id && (
             <li className={`step ${address ? "step-primary" : ""}`}>
@@ -125,9 +125,8 @@ const WalletConnectVerify = () => {
                   <>
                     <div className="font-medium">Signed hash:</div>
                     <div className="text-ellipsis overflow-hidden">{profile.wallet_sign_hash}</div>
-                    <div className="">
-                      {profile.wallet_sign_timestamp}
-                      <TimeAgo timestamp={profile.wallet_sign_timestamp} />
+                    <div className="flex gap-1">
+                      <TimeAgo timestamp={profile.wallet_sign_timestamp} /> ago
                     </div>
                   </>
                 }

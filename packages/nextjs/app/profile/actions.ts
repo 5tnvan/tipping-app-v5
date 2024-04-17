@@ -101,12 +101,16 @@ export async function updateProfileAvatar(url: any) {
 /* POST PROFILE BIO */
 export async function postProfileBio(content: any, cta: any) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-  const { error } = await supabase.from("profile_bios").insert({ user_id: data?.user?.id, content: content, cta: cta });
-  if (error) {
-    console.log(error);
-  } else {
-    return true;
+  if (content.length > 0) {
+    const { data } = await supabase.auth.getUser();
+    const { error } = await supabase
+      .from("profile_bios")
+      .insert({ user_id: data?.user?.id, content: content, cta: cta });
+    if (error) {
+      console.log(error);
+    } else {
+      return true;
+    }
   }
 }
 

@@ -24,7 +24,7 @@ export const WalletModal = ({ isOpen, onClose }: Props) => {
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={handleClose}>
             ✕
           </button>
-          <div className="p-10">
+          <div className="pl-6 pr-6 py-10">
             <WalletConnectVerify />
           </div>
         </div>
