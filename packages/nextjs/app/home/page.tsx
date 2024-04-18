@@ -162,7 +162,7 @@ const HomePage: NextPage = () => {
                       key={following.id}
                       className="flex flex-col items-center mr-4 font-medium"
                     >
-                      <Avatar profile={following} width={12} ring={false} />
+                      <Avatar profile={following} width={12} height={12} border={2} ring={13} />
                       {following.username}
                     </Link>
                   ))}
@@ -176,7 +176,7 @@ const HomePage: NextPage = () => {
                       key={followers.id}
                       className="flex flex-col items-center mr-4 font-medium"
                     >
-                      <Avatar profile={followers} width={12} ring={false} />
+                      <Avatar profile={followers} width={12} height={12} border={0} ring={12} />
                       {followers.username}
                     </Link>
                   ))}

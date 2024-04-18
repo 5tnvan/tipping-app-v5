@@ -20,11 +20,9 @@ export const useNotifications = () => {
     const user = await fetchUser();
     setUser(user);
     setIsLoading(false);
-    console.log("i am inside init use notifications:", userData?.user?.id, notificationsData?.length);
   };
 
   const refetch = () => {
-    console.log("i am inside refetch notifications");
     setTriggerRefetch(prev => !prev); //toggle triggerRefetch to false/true
   };
 
@@ -34,7 +32,6 @@ export const useNotifications = () => {
 
   //LISTEN TO REALTIME CHANGES
   const handleChange = (payload: any) => {
-    console.log("i am inside handleChange");
     console.log("Change received!", payload);
     refetch();
   };

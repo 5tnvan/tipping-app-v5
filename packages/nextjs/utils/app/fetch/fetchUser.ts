@@ -41,6 +41,37 @@ export const fetchUser = async () => {
  * TABLE: "profiles"
  **/
 
+export const fetchProfileWithBios = async () => {
+  const supabase = createClient();
+  const userData = await fetchUser();
+
+  if (userData) {
+    const { data: profileData } = await supabase.from("profiles").select(`
+    id, 
+    username, 
+    avatar_url,
+    youtube,
+    instagram,
+    twitter,
+    tiktok,
+    wallet_id,
+    wallet_sign_hash,
+    wallet_sign_timestamp,
+    farcaster,
+    lens,
+    profile_bios ( id )
+  `).eq("id", userData.user?.id);
+    return profileData?.[0] ?? null;
+  } else {
+    return null;
+  }
+};
+/**
+ * FETCH: fetchProfile()
+ * DB: supabase
+ * TABLE: "profiles"
+ **/
+
 export const fetchProfile = async () => {
   const supabase = createClient();
   const userData = await fetchUser();

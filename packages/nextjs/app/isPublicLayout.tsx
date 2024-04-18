@@ -57,7 +57,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
 
   //HANDLE FOLLOW
   const handleFollow = () => {
-    console.log("followersPublicData?.followed", followersPublicData?.followed);
     if (isAuth == "yes" && !followersPublicData?.followed) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
@@ -112,7 +111,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
       tt: { val: publicProfile.tiktok, link: "https://twitter.com/" + publicProfile.tiktok },
     };
   }
-  console.log("isauth", isAuth);
 
   //RENDER
   if (!isLoadingPublic && publicProfile?.id == null) {
@@ -139,10 +137,10 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                   <>
                     {bios?.length > 0 && (
                       <div className="cursor-pointer" onClick={openBioModal}>
-                        <Avatar profile={publicProfile} width={14} ring={true} />
+                        <Avatar profile={publicProfile} width={14} height={14} border={2} ring={16} />
                       </div>
                     )}
-                    {bios?.length == 0 && <Avatar profile={publicProfile} width={14} ring={false} />}
+                    {bios?.length == 0 && <Avatar profile={publicProfile} width={14} height={14} border={0} ring={14} />}
                     <div
                       id="wildpay-avatar-cta"
                       className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
