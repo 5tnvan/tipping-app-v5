@@ -61,7 +61,12 @@ export const fetchProfile = async () => {
 
 export const fetchProfiles = async () => {
   const supabase = createClient();
-  const { data: profileData } = await supabase.from("profiles").select("*").order("id", { ascending: false });
+  const { data: profileData } = await supabase.from("profiles").select(`
+  id,
+  username, 
+  avatar_url, 
+  profile_bios ( id )
+`).order("id", { ascending: false });
   return profileData;
 };
 

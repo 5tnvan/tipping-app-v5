@@ -76,6 +76,8 @@
 
 /* Adding Tailwind CSS */
 .w-14 {width: 3.5rem}
+.w-10 {width: 2.5rem}
+
 .w-inherit { width: inherit; }
 .h-inherit { height: inherit !important; }
 .ring-2px { border-width: 2px; border-color: #3D45E7; }

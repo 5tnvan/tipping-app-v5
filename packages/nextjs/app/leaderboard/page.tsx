@@ -29,22 +29,26 @@ const LeaderboardPage: NextPage = () => {
           Back
         </button>
         <div className="flex items-center">
-        <span className="text-base mt-1 mr-2">({allProfiles?.length})</span>
+          <span className="text-base mt-1 mr-2">({allProfiles?.length})</span>
           <span className="text-primary text-4xl">All</span>
         </div>
       </div>
       <div className="wildui-leaderboard-scroll pl-6 pr-6 pb-10 overflow-scroll z-0">
         {allProfiles && (
           <>
-            {allProfiles.map((searchProfile: any) => (
+            {allProfiles.map((profile: any) => (
               <Link
-                key={searchProfile.username} // Add a unique key for each result
-                href={`/${searchProfile.username}`}
-                className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
+                key={profile.username} // Add a unique key for each result
+                href={`/${profile.username}`}
+                className="result flex btn btn-accent h-max items-center justify-between pt-2 pb-2 mt-2"
               >
                 <div className="flex items-center">
-                  <Avatar profile={searchProfile} width={8} ring={false} />
-                  <div className="ml-2">@{searchProfile.username}</div>
+                  {profile.profile_bios?.length > 0 ? (
+                    <Avatar profile={profile} width={8} ring={true} />
+                  ) : (
+                    profile.profile_bios?.length == 0 && <Avatar profile={profile} width={8} ring={false} />
+                  )}
+                  <div className="ml-2">@{profile.username}</div>
                 </div>
                 <div>
                   <ChevronRightIcon />

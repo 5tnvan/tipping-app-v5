@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, ComponentsContext, FollowersContext, PublicContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -42,6 +42,8 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     refetch: refetchPublicFollowers,
   } = usePublicFollowers(username);
 
+  //const { openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal } = useContext(ComponentsContext);
+
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
   const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
@@ -57,6 +59,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
 
   //HANDLE FOLLOW
   const handleFollow = () => {
+    console.log("followersPublicData?.followed", followersPublicData?.followed);
     if (isAuth == "yes" && !followersPublicData?.followed) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
@@ -86,6 +89,16 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     setBioModalOpen(true);
   };
 
+  const handleBioCta = (openFastPayModal: () => void) => (num: any) => {
+    if (num === 0) {
+      closeBioModal();
+      openFastPayModal();
+    } else if (num === 1) {
+      handleFollow();
+      closeBioModal();
+    }
+  };
+
   const closeBioModal = () => {
     setBioModalOpen(false);
   };
@@ -101,8 +114,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
       tt: { val: publicProfile.tiktok, link: "https://twitter.com/" + publicProfile.tiktok },
     };
   }
-
-  console.log("publicProfile", publicProfile);
+  console.log("isauth", isAuth);
 
   //RENDER
   if (!isLoadingPublic && publicProfile?.id == null) {
@@ -224,7 +236,27 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
             refetch={refetchPublicFollowers}
           ></FollowersModal>
           {/* ISPUBLIC FOLLOWERS MODAL */}
-          <BioModal isOpen={isBioModalOpen} onClose={closeBioModal} data={{ profile: publicProfile, bios }}></BioModal>
+          {isAuth == "yes" && (
+            <ComponentsContext.Consumer>
+              {({ openFastPayModal }) => (
+                <BioModal
+                  isOpen={isBioModalOpen}
+                  onCta={handleBioCta(openFastPayModal)}
+                  onClose={closeBioModal}
+                  data={{ profile: publicProfile, bios }}
+                ></BioModal>
+              )}
+            </ComponentsContext.Consumer>
+          )}
+          {isAuth == "no" && (
+            <BioModal
+              isOpen={isBioModalOpen}
+              onCta={handleBioCta}
+              onClose={closeBioModal}
+              data={{ profile: publicProfile, bios }}
+            ></BioModal>
+          )}
+
           {children}
         </PublicContext.Provider>
       </div>
