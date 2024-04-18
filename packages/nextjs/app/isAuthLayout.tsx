@@ -165,6 +165,16 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
     setBioModalOpen(true);
   };
 
+  const handleBioCta = (openFastPayModal: () => void) => (num: any) => {
+    if (num === 0) {
+      closeBioModal();
+      openFastPayModal();
+    } else if (num === 1) {
+      closeBioModal();
+      router.push(`/${profile.username}`);
+    }
+  };
+
   const closeBioModal = () => {
     setBioModalOpen(false);
   };
@@ -321,7 +331,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         <BioModal
           isOpen={isBioModalOpen}
-          onCta={closeBioModal}
+          onCta={handleBioCta(openFastPayModal)}
           onClose={closeBioModal}
           data={{ profile, bios }}
         ></BioModal>
