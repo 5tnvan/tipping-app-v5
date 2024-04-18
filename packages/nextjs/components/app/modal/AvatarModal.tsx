@@ -10,6 +10,7 @@ import {
   uploadProfileAvatar,
 } from "~~/app/profile/actions";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 type Props = {
   isOpen: any;
@@ -28,16 +29,16 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
 
   //1. PIC UPLOAD
   const [fileImg, setFileImg] = useState("");
-  const [error, setError] = useState<any>();
+  const [errorClient, setErrorClient] = useState<any>();
   const [isProcessing, setIsProcessing] = useState<any>();
 
   const handleFileImg = (e: any) => {
     const selectedFile = e.target.files[0];
-    setError(null);
+    setErrorClient(null);
     if (selectedFile.size <= 1024 * 1024) {
       setFileImg(selectedFile);
     } else {
-      setError("File size exceeded 1MB. Please try again.");
+      setErrorClient("File size exceeds 1MB. Please try again.");
     }
   };
 
@@ -142,10 +143,15 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                   accept=".png, .jpg, .jpeg, .gif"
                   onChange={handleFileImg}
                 />
-                {error && <div className="text-red-600 mt-2">{error}</div>}
+                {errorClient && (
+                  <div role="alert" className="alert alert-error mt-3">
+                    <XCircleIcon width={20} />
+                    <span>{errorClient}</span>
+                  </div>
+                )}
                 <div className="flex justify-center">
                   <button
-                    className={`btn btn-secondary w-full mt-3 ${(error || !fileImg) && "btn-disabled"}`}
+                    className={`btn btn-secondary w-full mt-3 ${(errorClient || !fileImg) && "btn-disabled"}`}
                     onClick={handleFileSave}
                   >
                     Upload
@@ -164,7 +170,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                   {Object.entries(gif).map(([index, src]) => (
                     <div key={index} className="left avatar edit mr-5" onClick={() => handleImageClick(Number(index))}>
                       <div
-                        className={`w-16 rounded-full edit mr-5 ring-primary ring-offset-base-100 ring-offset-2 ${
+                        className={`w-16 rounded-full edit mr-5 ring-offset-base-100 ring-offset-2 ${
                           selectedImage === Number(index) ? "ring" : ""
                         }`}
                       >

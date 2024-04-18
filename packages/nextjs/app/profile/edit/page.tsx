@@ -22,7 +22,7 @@ import "~~/styles/app.css";
  **/
 
 const ProfileEdit: NextPage = () => {
-  const { isAuth, user, profile, refetchAuth } = useContext(AppContext);
+  const { isAuth, profile, refetchAuth } = useContext(AppContext);
 
   const [socialMedia, setSocialMedia] = useState({
     lens: true,
@@ -39,7 +39,6 @@ const ProfileEdit: NextPage = () => {
     tiktokInput: "",
   });
 
-  /* HANDLE SOCIAL LINKS UPDATE */
   const handleSwitch = (social: keyof typeof socialMedia) => {
     setSocialMedia(prevState => ({
       ...prevState,
@@ -49,12 +48,10 @@ const ProfileEdit: NextPage = () => {
 
   const handleSocialSave = async (social: keyof typeof socialMedia) => {
     const inputVal = socialMedia[`${social}Input` as keyof typeof socialMedia];
-    updateProfileSocial(user, social, inputVal);
+    updateProfileSocial(social, inputVal);
     handleSwitch(social);
     refetchAuth();
   };
-
-  console.log("isAuth: ", isAuth);
 
   /* RENDER HTML */
   if (isAuth == "no") {
@@ -72,12 +69,12 @@ const ProfileEdit: NextPage = () => {
     return (
       <>
         {/* CTA */}
-        <div id="wildpay-cta" className="mb-5 ml-6 mr-6 z-10 relative">
+        <div id="wildpay-cta" className="ml-6 mr-6 z-10 relative">
           <Link href="/profile/view">
             <button className="btn-primary btn w-full text-base">View Profile</button>
           </Link>
         </div>
-        <div id="wildpay-profile-edit" className="mt-5 mb-5 pl-6 pr-6 z-10">
+        <div id="wildpay-profile-edit" className="wildui-generic-scroll-a overflow-scroll p-6 z-10">
           {/* SOCIAL */}
           <div className="mb-3">Social links:</div>
 

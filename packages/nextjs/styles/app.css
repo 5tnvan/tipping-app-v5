@@ -83,6 +83,10 @@
 .notification-dot { top: 7px; border: 1px solid white; }
 
 /* Wild UI CSS */
+.wildui-generic-scroll-a {
+  /* background-color: #03A66A; */
+  height: calc(100vh - 17rem);
+}
 .wildui-transaction-scroll-home {
   height: calc(100vh - 28rem);
 }
