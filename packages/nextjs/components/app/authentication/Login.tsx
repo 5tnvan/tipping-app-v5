@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { AppContext, FollowersContext, NotificationContext } from "~~/app/context";
 
 export const Login = () => {
@@ -10,6 +11,7 @@ export const Login = () => {
   const { refetchFollowers } = useContext(FollowersContext);
   const { refetchNotifications } = useContext(NotificationContext);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<any>();
   const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
@@ -20,8 +22,15 @@ export const Login = () => {
       refetchFollowers();
       refetchNotifications();
     } catch (error) {
-      console.error("Login error:", error);
-      router.push("error");
+      console.error(error);
+      if (typeof error === "string") {
+        setError(error); // If error is a string, set it directly
+      } else if (error instanceof Error) {
+        setError(error.message); // If error is an instance of Error, set its message
+      } else {
+        setError("An unknown error occurred."); // Fallback message for unknown error types
+      }
+      setIsProcessing(false);
     }
   };
 
@@ -59,6 +68,13 @@ export const Login = () => {
         <button type="submit" className="btn btn-primary text-base w-full" onClick={() => setIsProcessing(true)}>
           Login {isProcessing && <span className="loading loading-ring loading-md"></span>}
         </button>
+
+        {error && (
+          <div role="alert" className="alert alert-error mt-3">
+            <XCircleIcon width={20} />
+            <span>{error}. Please try again.</span>
+          </div>
+        )}
 
         <div className="additional mt-5">
           <span>{"Don't have an account? "}</span>

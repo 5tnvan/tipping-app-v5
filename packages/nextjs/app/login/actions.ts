@@ -17,8 +17,7 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    console.log(error);
-    throw new Error("Login failed"); // Explicitly throw an error here
+    throw new Error(error.message); // Throw an error if authentication fails
   }
 
   console.log("login success");

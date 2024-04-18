@@ -3,26 +3,24 @@
 import { createClient } from "~~/utils/supabase/server";
 
 /* UPDATE USER SOCIAL LINKS */
-export async function updateProfileSocial(user: any, social: any, inputVal: any) {
+export async function updateProfileSocial(social: any, inputVal: any) {
   const supabase = createClient();
 
   //get user from supabase db
   const { data } = await supabase.auth.getUser();
-  console.log(JSON.stringify(data, null, 2));
 
-  //if user not found, redirect to login
-  if (!user.id) {
-    console.log("no user_id");
+  if (!data?.user?.id) {
     return null;
   } else {
     //otherwise fetch user profile using user ID
     const { error } = await supabase
       .from("profiles")
       .update({ [social]: inputVal })
-      .eq("id", user.id);
+      .eq("id", data.user.id);
 
     if (error) {
-      console.log(error);
+      console.log(error.hint);
+      console.log(error.message);
     }
   }
 }
@@ -62,7 +60,9 @@ export async function uploadProfileAvatar(file: any) {
         cacheControl: "3600",
         upsert: false,
       });
-    if (error) console.log("upload", error);
+    if (error) {
+      throw new Error(error.message);
+    }
     return paths;
   }
 }
