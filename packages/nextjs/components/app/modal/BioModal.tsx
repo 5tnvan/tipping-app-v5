@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { TimeAgo } from "../TimeAgo";
 import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
-import { usePublicFollowers } from "~~/hooks/app/useFollowers";
+import { AppContext, PublicFollowersContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -19,15 +18,13 @@ type Props = {
 
 export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
   const router = useRouter();
-  const { username } = useParams();
   const { isAuth } = useContext(AppContext);
-  const { followersData: followersPublicData } = usePublicFollowers(username);
+  const { followersPublicData } = useContext(PublicFollowersContext) || {};
 
   const handleClose = () => {
     onClose();
   };
 
-  console.log("isAuth", isAuth);
   if (!isOpen) {
     return null;
   }

@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, ComponentsContext, FollowersContext, PublicContext } from "./context";
+import { AppContext, ComponentsContext, FollowersContext, PublicContext, PublicFollowersContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -41,8 +41,6 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
     followersData: followersPublicData,
     refetch: refetchPublicFollowers,
   } = usePublicFollowers(username);
-
-  //const { openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal } = useContext(ComponentsContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
@@ -237,16 +235,18 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
           ></FollowersModal>
           {/* ISPUBLIC FOLLOWERS MODAL */}
           {isAuth == "yes" && (
-            <ComponentsContext.Consumer>
-              {({ openFastPayModal }) => (
-                <BioModal
-                  isOpen={isBioModalOpen}
-                  onCta={handleBioCta(openFastPayModal)}
-                  onClose={closeBioModal}
-                  data={{ profile: publicProfile, bios }}
-                ></BioModal>
-              )}
-            </ComponentsContext.Consumer>
+            <PublicFollowersContext.Provider value={{ followersPublicData }}>
+              <ComponentsContext.Consumer>
+                {({ openFastPayModal }) => (
+                  <BioModal
+                    isOpen={isBioModalOpen}
+                    onCta={handleBioCta(openFastPayModal)}
+                    onClose={closeBioModal}
+                    data={{ profile: publicProfile, bios }}
+                  ></BioModal>
+                )}
+              </ComponentsContext.Consumer>
+            </PublicFollowersContext.Provider>
           )}
           {isAuth == "no" && (
             <BioModal
