@@ -10,9 +10,7 @@ export const useAuthentication = () => {
   const [user, setUser] = useState<any>();
   const [profile, setProfile] = useState({
     id: null,
-    updated_at: null,
     username: null,
-    full_name: null,
     avatar_url: null,
     website: null,
     youtube: null,

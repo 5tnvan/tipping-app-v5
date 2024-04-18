@@ -22,7 +22,7 @@ export const Login = () => {
       refetchFollowers();
       refetchNotifications();
     } catch (error) {
-      setError(error);
+      setError("Login failed. Please try again.");
       setIsProcessing(false);
     }
   };
@@ -67,7 +67,7 @@ export const Login = () => {
             <div className="cursor-pointer">
               <XCircleIcon width={20} onClick={() => setError(null)} />
             </div>
-            <span>{error.message}</span>
+            <span>{error}</span>
           </div>
         )}
 
