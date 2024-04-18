@@ -46,37 +46,35 @@
 
 /* ring */
 .moving-gradient {
-  background: linear-gradient(115deg, #4c43f8, #06d69d, #f06195, #1a27b3);
+  background: linear-gradient(270deg, #cc66ff, #fd4318, #70ffd4, #f0a01c);
   background-size: 800% 800%;
-  -webkit-animation: AnimationName 30s ease infinite;
-  -moz-animation: AnimationName 30s ease infinite;
-  -o-animation: AnimationName 30s ease infinite;
-  animation: AnimationName 30s ease infinite;
+
+  -webkit-animation: moving-gradient 9s ease infinite;
+  -moz-animation: moving-gradient 9s ease infinite;
+  animation: moving-gradient 9s ease infinite;
 }
-@-webkit-keyframes AnimationName {
-  0%{background-position:0% 17%}
-  50%{background-position:100% 84%}
-  100%{background-position:0% 17%}
+
+@-webkit-keyframes moving-gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
-@-moz-keyframes AnimationName {
-  0%{background-position:0% 17%}
-  50%{background-position:100% 84%}
-  100%{background-position:0% 17%}
+@-moz-keyframes moving-gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
-@-o-keyframes AnimationName {
-  0%{background-position:0% 17%}
-  50%{background-position:100% 84%}
-  100%{background-position:0% 17%}
-}
-@keyframes AnimationName {
-  0%{background-position:0% 17%}
-  50%{background-position:100% 84%}
-  100%{background-position:0% 17%}
+@keyframes moving-gradient {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 /* Adding Tailwind CSS */
 .w-14 {width: 3.5rem}
+.w-13 {width: 3.25rem} .h-13 {height: 3.25rem}
 .w-10 {width: 2.5rem}
+.w-9 {width: 2.25rem} .h-9 {height: 2.25rem}
 
 .w-inherit { width: inherit; }
 .h-inherit { height: inherit !important; }

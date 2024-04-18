@@ -222,10 +222,12 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                           <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
                             {bios?.length > 0 && (
                               <div className="cursor-pointer" onClick={openBioModal}>
-                                <Avatar profile={profile} width={14} ring={true} />
+                                <Avatar profile={profile} width={14} height={14} border={2} ring={16} />
                               </div>
                             )}
-                            {bios?.length == 0 && <Avatar profile={profile} width={14} ring={false} />}
+                            {bios?.length == 0 && (
+                              <Avatar profile={profile} width={14} height={14} border={0} ring={14} />
+                            )}
                           </div>
                           {isProfileEdit && (
                             <div

@@ -23,11 +23,9 @@ export const usePrivateFollowers = () => {
     setFollowersData(followersData);
 
     setIsLoading(false); // Set loading to false when fetch is complete
-    console.log("i am inside init use followers: ", profileData?.id, followersData.followersCount);
   };
 
   const refetch = () => {
-    console.log("i am inside refetch notifications");
     setTriggerRefetch(prev => !prev);
   };
 
