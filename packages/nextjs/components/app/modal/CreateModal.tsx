@@ -39,8 +39,11 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   const [ctaOption, setCtaOption] = useState(0);
   const [error, setError] = useState(false);
 
+  const [remainingChars, setRemainingChars] = useState(130);
   const handleInputChange = (e: any) => {
     setInput(e.target.value);
+    const remaining = 130 - e.target.value.length;
+    setRemainingChars(remaining >= 0 ? remaining : 0);
   };
   const handlePost = async () => {
     if (input?.length === 0) {
@@ -137,22 +140,33 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
               )}
               {tab == "edit" && (
                 <>
-                  <textarea
-                    className="textarea textarea-primary w-full rounded-3xl mb-1"
-                    placeholder="Bio"
-                    maxLength={130}
-                    value={input}
-                    onChange={handleInputChange}
-                  ></textarea>
-                  <select
-                    className="select select-primary rounded-3xl w-full"
-                    value={ctaOption}
-                    onChange={e => setCtaOption(parseInt(e.target.value))}
-                  >
-                    <option disabled>Call to action?</option>
-                    <option value={0}>Pay now</option>
-                    <option value={1}>Follow me</option>
-                  </select>
+                  <label className="form-control">
+                    <div className="label">
+                      <span className="label-text">Your bio</span>
+                      <span className="label-text-alt">{remainingChars} left</span>
+                    </div>
+                    <textarea
+                      className="textarea textarea-primary w-full rounded-3xl mb-1"
+                      placeholder="Start typing..."
+                      maxLength={130}
+                      value={input}
+                      onChange={handleInputChange}
+                    ></textarea>
+                  </label>
+                  <label className="form-control">
+                    <div className="label">
+                      <span className="label-text">Call to action</span>
+                    </div>
+                    <select
+                      className="select select-primary rounded-3xl w-full"
+                      value={ctaOption}
+                      onChange={e => setCtaOption(parseInt(e.target.value))}
+                    >
+                      <option disabled>Call to action</option>
+                      <option value={0}>Pay now</option>
+                      <option value={1}>Follow me</option>
+                    </select>
+                  </label>
                   <div className="btn btn-primary w-full mt-2" onClick={() => setTab("preview")}>
                     Preview
                   </div>
