@@ -22,14 +22,7 @@ export const Login = () => {
       refetchFollowers();
       refetchNotifications();
     } catch (error) {
-      console.error(error);
-      if (typeof error === "string") {
-        setError(error); // If error is a string, set it directly
-      } else if (error instanceof Error) {
-        setError(error.message); // If error is an instance of Error, set its message
-      } else {
-        setError("An unknown error occurred."); // Fallback message for unknown error types
-      }
+      setError(error);
       setIsProcessing(false);
     }
   };
@@ -71,8 +64,10 @@ export const Login = () => {
 
         {error && (
           <div role="alert" className="alert alert-error mt-3">
-            <XCircleIcon width={20} />
-            <span>{error}. Please try again.</span>
+            <div className="cursor-pointer">
+              <XCircleIcon width={20} onClick={() => setError(null)} />
+            </div>
+            <span>{error.message}</span>
           </div>
         )}
 
