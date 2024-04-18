@@ -5,7 +5,7 @@ import { TimeAgo } from "../TimeAgo";
 import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "@heroicons/react/24/solid";
 import { AppContext } from "~~/app/context";
 import { usePublicFollowers } from "~~/hooks/app/useFollowers";
