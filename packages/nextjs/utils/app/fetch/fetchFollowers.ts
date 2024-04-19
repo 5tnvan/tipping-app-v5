@@ -33,8 +33,6 @@ export const fetchFollowers = async (profile_id: string) => {
       .select("follower_id")
       .eq("following_id", profile_id);
 
-      console.log("profileFollowersData", profileFollowersData);
-
     if (profileFollowersData) {
       // build array
       const profileIDs = profileFollowersData.map(item => item.follower_id);
@@ -78,8 +76,6 @@ export const fetchFollowers = async (profile_id: string) => {
   } catch (error) {
     console.error("Error fetching followers data:", error);
   }
-
-  console.log("i am at fetch followers", profile_id, followersData.followersCount);
 
   return followersData;
 };

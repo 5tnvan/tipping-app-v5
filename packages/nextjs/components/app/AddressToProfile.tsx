@@ -39,7 +39,7 @@ export const AddressToProfile = ({ address }: AddressProps) => {
     <>
       {profile ? (
         <div>
-          <Avatar profile={profile} width={12} ring={false} />
+          <Avatar profile={profile} width={12} ring={0} height={8} border={0} gradient={undefined} />
           <span>@{profile.username}</span>
         </div>
       ) : (

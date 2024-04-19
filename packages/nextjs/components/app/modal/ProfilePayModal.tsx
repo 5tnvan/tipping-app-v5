@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import ProfilePayConfirm from "../pay/ProfilePayConfirm";
 import { PublicContext } from "~~/app/context";
@@ -10,7 +11,7 @@ type Props = {
 };
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
-  const { publicProfile } = useContext(PublicContext);
+  const { publicProfile, bios } = useContext(PublicContext);
 
   /**
    * ACTION: Close modal
@@ -45,11 +46,15 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           <div className="p-6">
             {/* PAY TO */}
             {publicProfile.wallet_id && (
-              <div className="flex flex-col items-center justify-center mt-5">
-                <Avatar profile={publicProfile} width={12} ring={false} />
+              <Link href={`/${publicProfile.username}`} className="flex flex-col items-center justify-center mt-5">
+                {bios.length > 0 && (
+                  <Avatar profile={publicProfile} width={12} ring={13} height={12} border={2} gradient={"g-tropical"} />
+                )}
+                {bios.length == 0 && (
+                  <Avatar profile={publicProfile} width={12} ring={13} height={12} border={0} gradient={"g-white"} />
+                )}
                 <div className="font-semibold mt-2">@{publicProfile.username}</div>
-                {/* <div className="mt-2">{receiver.wallet_id}</div> */}
-              </div>
+              </Link>
             )}
             {!publicProfile.wallet_id && (
               <>
