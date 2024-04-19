@@ -20,7 +20,7 @@ const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
   const { isAuth, profile } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
-  const { openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal } = useContext(ComponentsContext);
+  const { openFastPayModal } = useContext(ComponentsContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
