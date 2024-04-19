@@ -89,11 +89,24 @@ export const SearchModal = ({ isOpen, onClose }: Props) => {
                   <Link
                     key={searchProfile.username} // Add a unique key for each result
                     href={`/${searchProfile.username}`}
-                    className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
+                    className="result flex btn btn-accent h-max bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
                     onClick={handleLink}
                   >
                     <div className="flex items-center">
-                      <Avatar profile={searchProfile} width={8} ring={false} />
+                      {searchProfile.profile_bios.length > 0 && (
+                        <Avatar
+                          profile={searchProfile}
+                          width={8}
+                          height={8}
+                          border={2}
+                          ring={9}
+                          gradient={"g-tropical"}
+                        />
+                      )}
+                      {searchProfile.profile_bios.length == 0 && (
+                        <Avatar profile={searchProfile} width={8} height={8} border={0} ring={9} gradient={"g-white"} />
+                      )}
+
                       <div className="ml-2">@{searchProfile.username}</div>
                     </div>
                     <div>

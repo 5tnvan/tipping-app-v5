@@ -88,7 +88,10 @@ export const fetchPublicProfile = async (username: string) => {
 
 export const fetchPublicProfileMatchingWith = async (username: string) => {
   const supabase = createClient();
-  const { data: profileData } = await supabase.from("profiles").select("*").like("username", `${username}%`);
+  const { data: profileData } = await supabase
+    .from("profiles")
+    .select("id, username, avatar_url, profile_bios(id)")
+    .like("username", `${username}%`);
   console.log("profileData", profileData);
   return profileData;
 };

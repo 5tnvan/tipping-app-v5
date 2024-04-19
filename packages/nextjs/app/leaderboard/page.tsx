@@ -40,13 +40,15 @@ const LeaderboardPage: NextPage = () => {
               <Link
                 key={profile.username} // Add a unique key for each result
                 href={`/${profile.username}`}
-                className="result flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-max items-center justify-between pt-2 pb-2 mt-2"
+                className="result flex btn btn-neutral h-max items-center justify-between pt-2 pb-2 mt-2"
               >
                 <div className="flex items-center">
                   {profile.profile_bios?.length > 0 ? (
-                    <Avatar profile={profile} width={8} height={8} border={0} ring={9} />
+                    <Avatar profile={profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />
                   ) : (
-                    profile.profile_bios?.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} />
+                    profile.profile_bios?.length == 0 && (
+                      <Avatar profile={profile} width={8} height={8} border={0} ring={9} gradient={"g-white"} />
+                    )
                   )}
                   <div className="ml-2">@{profile.username}</div>
                 </div>

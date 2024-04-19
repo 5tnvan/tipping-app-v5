@@ -73,7 +73,13 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     onClick={() => handlePicked(following)}
                   >
                     <div className="flex items-center">
-                      <Avatar profile={following} width={8} ring={false} />
+                      {following.profile_bios.length > 0 && (
+                        <Avatar profile={following} width={8} height={8} ring={9} border={2} gradient={"g-tropical"} />
+                      )}
+                      {following.profile_bios.length == 0 && (
+                        <Avatar profile={following} width={8} height={8} ring={9} border={0} gradient={"g-white"} />
+                      )}
+
                       <div className="ml-2 font-semibold pl-3">{following.username}</div>
                     </div>
                     <div>
@@ -91,11 +97,15 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     <ArrowLeftIcon />
                     Back
                   </button>
-                  <div className="flex flex-col items-center justify-center mt-3">
-                    <Avatar profile={receiver} width={12} ring={false} />
+                  <Link href={`/${receiver.username}`} className="flex flex-col items-center justify-center mt-3" onClick={handleClose}>
+                    {receiver.profile_bios.length > 0 && (
+                      <Avatar profile={receiver} width={12} height={12} border={2} ring={14} gradient={"g-tropical"} />
+                    )}
+                    {receiver.profile_bios.length == 0 && (
+                      <Avatar profile={receiver} width={12} height={12} border={2} ring={14} gradient={"w-tropical"} />
+                    )}
                     <div className="font-semibold mt-2">@{receiver.username}</div>
-                    {/* <div className="mt-2">{receiver.wallet_id}</div> */}
-                  </div>
+                  </Link>
                 </>
               )}
             </div>

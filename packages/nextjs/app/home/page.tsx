@@ -2,7 +2,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AppContext, FollowersContext } from "../context";
+import { AppContext, ComponentsContext, FollowersContext } from "../context";
 import { NextPage } from "next";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -17,9 +17,10 @@ import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const HomePage: NextPage = () => {
-  /* USER, FOLLOWERS VARIABLES */
+  /* PARENTS CONTEXT */
   const { isAuth, profile } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
+  const { openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal } = useContext(ComponentsContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
@@ -167,10 +168,10 @@ const HomePage: NextPage = () => {
                       className="flex flex-col items-center mr-4 font-medium"
                     >
                       {following.profile_bios.length > 0 && (
-                        <Avatar profile={following} width={12} height={12} border={2} ring={13} />
+                        <Avatar profile={following} width={12} height={12} border={2} ring={13} gradient={"g-tropical"} />
                       )}
                       {following.profile_bios.length == 0 && (
-                        <Avatar profile={following} width={12} height={12} border={0} ring={12} />
+                        <Avatar profile={following} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
                       )}
                       {following.username}
                     </Link>
@@ -186,10 +187,10 @@ const HomePage: NextPage = () => {
                       className="flex flex-col items-center mr-4 font-medium"
                     >
                       {followers.profile_bios.length > 0 && (
-                        <Avatar profile={followers} width={12} height={12} border={2} ring={13} />
+                        <Avatar profile={followers} width={12} height={12} border={2} ring={13} gradient={"g-tropical"} />
                       )}
                       {followers.profile_bios.length == 0 && (
-                        <Avatar profile={followers} width={12} height={12} border={0} ring={12} />
+                        <Avatar profile={followers} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
                       )}
                       {followers.username}
                     </Link>
@@ -310,9 +311,11 @@ const HomePage: NextPage = () => {
               {showTransactions === "outgoing" && (
                 <>
                   {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
-                    <Link href="/leaderboard" className="flex h-full justify-center items-center">
-                      <div className="btn btn-neutral">Start paying someone 🥳</div>
-                    </Link>
+                    <div className="flex h-full justify-center items-center">
+                      <div className="btn btn-neutral" onClick={openFastPayModal}>
+                        Start paying someone 🥳
+                      </div>
+                    </div>
                   )}
                   {!profile.wallet_id && (
                     <div className="flex h-full justify-center items-center">

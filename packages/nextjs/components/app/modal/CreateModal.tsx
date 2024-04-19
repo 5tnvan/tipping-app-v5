@@ -3,7 +3,7 @@ import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { BanknotesIcon, FireIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { AppContext } from "~~/app/context";
+import { AppContext, FollowersContext } from "~~/app/context";
 import { postProfileBio } from "~~/app/profile/actions";
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
 
 export const CreateModal = ({ isOpen, onClose }: Props) => {
   const { profile, refetchAuth } = useContext(AppContext);
+  const { refetchFollowers } = useContext(FollowersContext);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState("init");
@@ -54,6 +55,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
       if (res) {
         setIsProcessing(false);
         refetchAuth();
+        refetchFollowers();
         onClose();
       }
     }
@@ -125,7 +127,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                   <div>
                     <BackgroundGradient className="rounded-[22px] p-5 pt-10 bg-white dark:bg-zinc-900">
                       <div className="flex items-center">
-                        <Avatar profile={profile} width={8} ring={false} />
+                        <Avatar profile={profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />
                         <span className="ml-2 font-semibold">@{profile.username}</span>
                       </div>
                       <TextGenerateEffect words={input} />
