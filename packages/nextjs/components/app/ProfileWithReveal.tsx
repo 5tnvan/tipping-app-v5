@@ -59,7 +59,7 @@ export const ProfileWithReveal = ({ profile_id, notification_id }: ProfileProps)
         )}
         {isReveal && profile && (
           <div className="font-semibold flex items-center">
-            <Avatar profile={profile} width={6} ring={false} />
+            <Avatar profile={profile} width={6} ring={6} height={6} border={0} gradient={undefined} />
             <span className="ml-1">@{profile.username}</span>
           </div>
         )}

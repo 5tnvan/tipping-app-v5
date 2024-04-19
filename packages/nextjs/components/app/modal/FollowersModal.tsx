@@ -50,7 +50,7 @@ export const FollowersModal = ({
           </button>
           {/* FOLLOWERS INTO */}
           <div className="flex flex-col justify-center items-center mt-10">
-            <Avatar profile={publicProfile} width={16} ring={false} />
+            <Avatar profile={publicProfile} width={16} ring={16} height={16} border={0} gradient={undefined} />
             <div className="font-semibold mt-2">@{publicProfile.username}</div>
           </div>
           {/* FOLLOWERS STATS */}

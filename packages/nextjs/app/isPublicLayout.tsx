@@ -137,11 +137,25 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                   <>
                     {bios?.length > 0 && (
                       <div className="cursor-pointer" onClick={openBioModal}>
-                        <Avatar profile={publicProfile} width={14} height={14} border={2} ring={16} gradient={"g-tropical"} />
+                        <Avatar
+                          profile={publicProfile}
+                          width={14}
+                          height={14}
+                          border={2}
+                          ring={16}
+                          gradient={"g-tropical"}
+                        />
                       </div>
                     )}
                     {bios?.length == 0 && (
-                      <Avatar profile={publicProfile} width={14} height={14} border={0} ring={16} gradient={"g-white"} />
+                      <Avatar
+                        profile={publicProfile}
+                        width={14}
+                        height={14}
+                        border={0}
+                        ring={16}
+                        gradient={"g-white"}
+                      />
                     )}
                     <div
                       id="wildpay-avatar-cta"

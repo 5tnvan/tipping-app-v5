@@ -143,7 +143,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
           <>
             <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
-                <Avatar profile={profile} width="8" ring={false} />
+                <Avatar profile={profile} width={8} ring={8} height={8} border={0} gradient={undefined} />
                 <span className="ml-1 font-semibold">{profile.username}</span>
               </div>
               <div className="flex items-center">
@@ -163,7 +163,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
             <RainbowKitCustomSwitchNetworkButton btn="base" />
             <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
               <div className="flex items-center">
-                <Avatar profile={profile} width="8" ring={false} />
+                <Avatar profile={profile} width={8} ring={8} height={8} border={0} gradient={undefined} />
                 <span className="ml-2 font-semibold">{profile.username}</span>
               </div>
               <div className="flex items-center">
@@ -179,7 +179,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
           <>
             <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
-                <Avatar profile={profile} width="8" ring={false} />
+                <Avatar profile={profile} width="8" ring={false} height={undefined} border={undefined} gradient={undefined} />
                 <span className="ml-2 font-semibold">{profile.username}</span>
               </div>
               <div className="flex items-center">

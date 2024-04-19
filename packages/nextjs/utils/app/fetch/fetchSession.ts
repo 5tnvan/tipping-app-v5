@@ -21,7 +21,6 @@ export const fetchSession = async () => {
     console.log(error);
     return null;
   } else {
-    console.log("fetchSession(): " + JSON.stringify(data, null, 2));
     return data;
   }
 };

@@ -61,7 +61,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                 {/* SPOTLIGHT FROM TO */}
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                    {walletProfile && <Avatar profile={walletProfile} width={8} ring={false} />}
+                    {walletProfile && <Avatar profile={walletProfile} width={8} ring={8} height={8} border={0} gradient={undefined} />}
                     <div className="font-semibold">
                       {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                       {walletProfile && !isLoading && walletProfile.username}
