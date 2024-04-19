@@ -45,26 +45,26 @@
 
 
 /* ring */
-.moving-gradient {
-  background: linear-gradient(270deg, #cc66ff, #fd4318, #70ffd4, #f0a01c);
-  background-size: 800% 800%;
+.g-tropical {
+  background: linear-gradient(270deg, #25e411, #f56217);
+  background-size: 400% 400%;
 
-  -webkit-animation: moving-gradient 9s ease infinite;
-  -moz-animation: moving-gradient 9s ease infinite;
-  animation: moving-gradient 9s ease infinite;
+  -webkit-animation: moving-gradient-tropical 8s ease infinite;
+  -moz-animation: moving-gradient-tropical 8s ease infinite;
+  animation: moving-gradient-tropical 8s ease infinite;
 }
 
-@-webkit-keyframes moving-gradient {
+@-webkit-keyframes moving-gradient-tropical {
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
-@-moz-keyframes moving-gradient {
+@-moz-keyframes moving-gradient-tropical {
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
-@keyframes moving-gradient {
+@keyframes moving-gradient-tropical {
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}

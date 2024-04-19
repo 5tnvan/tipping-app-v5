@@ -43,8 +43,8 @@ export const IsAuthMenu = () => {
           {unreadNotifications?.length > 0 && (
             <div className="notification-dot w-2.5 h-2.5 bg-red-600 rounded-full absolute z-20 top-7px"></div>
           )}
-          {bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={9} />}
-          {bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} />}
+          {bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={9} gradient={"g-tropical"} />}
+          {bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} gradient={"g-white"} />}
           <ChevronDownIcon width={12} />
         </summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">

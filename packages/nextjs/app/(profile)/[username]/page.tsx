@@ -166,7 +166,7 @@ const ProfileUsername: NextPage = () => {
             {((network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length === 0 ||
               (network === "ethereum" ? incomingEthTx : incomingBaseTx) === undefined) && (
               <div className="flex h-full justify-center items-center">
-                <div className="btn btn-neutral">Make a first move 🥳</div>
+                <div className="btn btn-neutral" onClick={openProfilePayModal}>Make a first move 🥳</div>
               </div>
             )}
             <Transactions

@@ -43,7 +43,8 @@ export const fetchFollowers = async (profile_id: string) => {
       const { data: profilesData } = await supabase.from("profiles").select(`
       id,
       username, 
-      avatar_url, 
+      avatar_url,
+      wallet_id,
       profile_bios ( id )
     `).in("id", profileIDs);
 
@@ -65,7 +66,8 @@ export const fetchFollowers = async (profile_id: string) => {
       const { data: profilesData } = await supabase.from("profiles").select(`
       id,
       username, 
-      avatar_url, 
+      avatar_url,
+      wallet_id,
       profile_bios ( id )
     `).in("id", profileIDs);
 
