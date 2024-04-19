@@ -14,8 +14,6 @@ export default function NotificationPage() {
   const { isAuth } = useContext(AppContext);
   const { isLoadingNotifications, notifications } = useContext(NotificationContext);
 
-  //console.log("NotificationPage", notifications);
-
   if (isAuth == "no") {
     return (
       <>

@@ -19,7 +19,6 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   const [choosen, setChoosen] = useState("init");
   const handleChoosen = (string: string) => {
     setChoosen(string);
-    console.log(choosen);
   };
 
   //HANDLE CLOSE MODAL
