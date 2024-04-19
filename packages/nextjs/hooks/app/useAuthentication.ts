@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchBios } from "~~/utils/app/fetch/fetchBios";
-import { fetchProfile, fetchProfileWithBios, fetchUser } from "~~/utils/app/fetch/fetchUser";
+import { fetchProfile, fetchUser } from "~~/utils/app/fetch/fetchUser";
 
 export const useAuthentication = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,11 +23,8 @@ export const useAuthentication = () => {
     if (userData?.user) {
       const profileData = await fetchProfile();
       const profileBiosData = await fetchBios();
-      const profileWithBiosData = await fetchProfileWithBios();
-      console.log("profileData", profileData);
-      console.log("profileWithBiosData", profileWithBiosData);
       setUser(userData.user);
-      setProfile(profileWithBiosData);
+      setProfile(profileData);
       setBios(profileBiosData);
       setIsAuth("yes");
     } else {
@@ -36,8 +33,6 @@ export const useAuthentication = () => {
 
     setIsLoading(false); // Set loading to false when fetch is complete
   };
-
-  console.log("profile", profile);
 
   useEffect(() => {
     initUser();

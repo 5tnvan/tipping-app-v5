@@ -101,7 +101,9 @@ const HomePage: NextPage = () => {
             <div role="tablist" className="tabs tabs-bordered">
               <div
                 role="tab"
-                className={`tab hover:border-primary hover:text-primary p-0 mr-2 justify-between text-base ${showFollow == "following" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 mr-2 justify-between text-base ${
+                  showFollow == "following" && "tab-active"
+                }`}
                 onClick={() => setShowFollow("following")}
               >
                 Following
@@ -112,7 +114,9 @@ const HomePage: NextPage = () => {
               </div>
               <div
                 role="tab"
-                className={`tab hover:border-primary hover:text-primary p-0 justify-between text-base ${showFollow == "followers" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 justify-between text-base ${
+                  showFollow == "followers" && "tab-active"
+                }`}
                 onClick={() => setShowFollow("followers")}
               >
                 Followers
@@ -162,7 +166,12 @@ const HomePage: NextPage = () => {
                       key={following.id}
                       className="flex flex-col items-center mr-4 font-medium"
                     >
-                      <Avatar profile={following} width={12} height={12} border={2} ring={13} />
+                      {following.profile_bios.length > 0 && (
+                        <Avatar profile={following} width={12} height={12} border={2} ring={13} />
+                      )}
+                      {following.profile_bios.length == 0 && (
+                        <Avatar profile={following} width={12} height={12} border={0} ring={12} />
+                      )}
                       {following.username}
                     </Link>
                   ))}
@@ -176,7 +185,12 @@ const HomePage: NextPage = () => {
                       key={followers.id}
                       className="flex flex-col items-center mr-4 font-medium"
                     >
-                      <Avatar profile={followers} width={12} height={12} border={0} ring={12} />
+                      {followers.profile_bios.length > 0 && (
+                        <Avatar profile={followers} width={12} height={12} border={2} ring={13} />
+                      )}
+                      {followers.profile_bios.length == 0 && (
+                        <Avatar profile={followers} width={12} height={12} border={0} ring={12} />
+                      )}
                       {followers.username}
                     </Link>
                   ))}
@@ -218,7 +232,9 @@ const HomePage: NextPage = () => {
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING */}
               <div
                 role="tab"
-                className={`tab hover:border-primary hover:text-primary mr-2 p-0 pb-3 justify-between ${showTransactions == "incoming" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary mr-2 p-0 pb-3 justify-between ${
+                  showTransactions == "incoming" && "tab-active"
+                }`}
                 onClick={() => setShowTransactions("incoming")}
               >
                 {/* PAYMENTS TRANSACTIONS TAB : INCOMING SUM ($USD) */}
@@ -239,7 +255,9 @@ const HomePage: NextPage = () => {
               {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
               <div
                 role="tab"
-                className={`tab hover:border-primary hover:text-primary p-0 pb-3 justify-between ${showTransactions == "outgoing" && "tab-active"}`}
+                className={`tab hover:border-primary hover:text-primary p-0 pb-3 justify-between ${
+                  showTransactions == "outgoing" && "tab-active"
+                }`}
                 onClick={() => setShowTransactions("outgoing")}
               >
                 {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM ($USD) */}

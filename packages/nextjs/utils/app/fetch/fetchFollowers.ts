@@ -33,12 +33,19 @@ export const fetchFollowers = async (profile_id: string) => {
       .select("follower_id")
       .eq("following_id", profile_id);
 
+      console.log("profileFollowersData", profileFollowersData);
+
     if (profileFollowersData) {
-      // Extract profile IDs from the result
+      // build array
       const profileIDs = profileFollowersData.map(item => item.follower_id);
 
       // Fetch profile data for each ID
-      const { data: profilesData } = await supabase.from("profiles").select().in("id", profileIDs);
+      const { data: profilesData } = await supabase.from("profiles").select(`
+      id,
+      username, 
+      avatar_url, 
+      profile_bios ( id )
+    `).in("id", profileIDs);
 
       followersData.followers = profilesData || [];
       followersData.followersCount = profilesData?.length || 0;
@@ -55,7 +62,12 @@ export const fetchFollowers = async (profile_id: string) => {
       const profileIDs = profileFollowingData.map(item => item.following_id);
 
       // Fetch profile data for each ID
-      const { data: profilesData } = await supabase.from("profiles").select().in("id", profileIDs);
+      const { data: profilesData } = await supabase.from("profiles").select(`
+      id,
+      username, 
+      avatar_url, 
+      profile_bios ( id )
+    `).in("id", profileIDs);
 
       // Set 'following' to an array of profiles
       followersData.following = profilesData || [];
