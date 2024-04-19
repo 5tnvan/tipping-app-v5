@@ -10,18 +10,20 @@ import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 export const IsAuthMenu = () => {
   const router = useRouter();
 
-  const { profile, refetchAuth } = useContext(AppContext);
+  //PARENTS CONTEXT
+  const { profile, bios, refetchAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
   const { notifications, refetchNotifications } = useContext(NotificationContext);
 
-  const unreadNotifications = notifications?.filter((notification: any) => !notification.follower_read);
-
+  //DROPDOWN
   const dropdownRef = useRef<HTMLDetailsElement>(null);
+  const unreadNotifications = notifications?.filter((notification: any) => !notification.follower_read);
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute("open");
   };
   useOutsideClick(dropdownRef, closeDropdown);
 
+  //ACTION: handle logout
   const handleLogout = async () => {
     try {
       await logout();
@@ -34,8 +36,6 @@ export const IsAuthMenu = () => {
     }
   };
 
-  console.log("profile.profile_bios.length", profile.profile_bios.length);
-
   return (
     <>
       <details ref={dropdownRef} className="dropdown dropdown-end z-20 wildui-menu absolute ">
@@ -43,8 +43,8 @@ export const IsAuthMenu = () => {
           {unreadNotifications?.length > 0 && (
             <div className="notification-dot w-2.5 h-2.5 bg-red-600 rounded-full absolute z-20 top-7px"></div>
           )}
-          {profile.profile_bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={9} />}
-          {profile.profile_bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} />}
+          {bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={9} />}
+          {bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} />}
           <ChevronDownIcon width={12} />
         </summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">

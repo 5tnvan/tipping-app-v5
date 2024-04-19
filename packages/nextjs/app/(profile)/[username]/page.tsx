@@ -32,6 +32,8 @@ const ProfileUsername: NextPage = () => {
   const incomingRes = useIncomingTransactions(publicProfile.wallet_id);
   const outgoingRes = useOutgoingTransactions(publicProfile.wallet_id);
 
+  console.log("publicProfile", publicProfile);
+
   useEffect(() => {
     setIncomingEthTx(incomingRes.ethereumData);
     setIncomingBaseTx(incomingRes.baseData);

@@ -41,37 +41,6 @@ export const fetchUser = async () => {
  * TABLE: "profiles"
  **/
 
-export const fetchProfileWithBios = async () => {
-  const supabase = createClient();
-  const userData = await fetchUser();
-
-  if (userData) {
-    const { data: profileData } = await supabase.from("profiles").select(`
-    id, 
-    username, 
-    avatar_url,
-    youtube,
-    instagram,
-    twitter,
-    tiktok,
-    wallet_id,
-    wallet_sign_hash,
-    wallet_sign_timestamp,
-    farcaster,
-    lens,
-    profile_bios ( id )
-  `).eq("id", userData.user?.id);
-    return profileData?.[0] ?? null;
-  } else {
-    return null;
-  }
-};
-/**
- * FETCH: fetchProfile()
- * DB: supabase
- * TABLE: "profiles"
- **/
-
 export const fetchProfile = async () => {
   const supabase = createClient();
   const userData = await fetchUser();
@@ -92,12 +61,10 @@ export const fetchProfile = async () => {
 
 export const fetchProfiles = async () => {
   const supabase = createClient();
-  const { data: profileData } = await supabase.from("profiles").select(`
-  id,
-  username, 
-  avatar_url, 
-  profile_bios ( id )
-`).order("id", { ascending: false });
+  const { data: profileData } = await supabase
+    .from("profiles")
+    .select(`*, profile_bios ( id )`)
+    .order("id", { ascending: false });
   return profileData;
 };
 
@@ -109,8 +76,8 @@ export const fetchProfiles = async () => {
 
 export const fetchPublicProfile = async (username: string) => {
   const supabase = createClient();
-  const { data: profileData } = await supabase.from("profiles").select("*").eq("username", username);
-  return profileData?.[0];
+  const { data: profileData } = await supabase.from("profiles").select().eq("username", username);
+  return profileData?.[0] ?? null;
 };
 
 /**
