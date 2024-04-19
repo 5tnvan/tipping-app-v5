@@ -20,8 +20,6 @@ const LeaderboardPage: NextPage = () => {
     fetch();
   }, []);
 
-  console.log(allProfiles);
-
   return (
     <>
       <div className="flex justify-between items-center font-semibold mt-6 mb-3 pt-10 pl-6 pr-6">

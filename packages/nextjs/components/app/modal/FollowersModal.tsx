@@ -24,7 +24,6 @@ export const FollowersModal = ({
   };
 
   const handleUnfollow = async () => {
-    console.log(publicProfile.id);
     try {
       await deleteFollowing(publicProfile.id);
       handleClose();

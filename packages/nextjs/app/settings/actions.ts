@@ -18,7 +18,6 @@ export async function checkWalletExist(wallet_id: any) {
 
 /* UPDATE PROFILE */
 export async function updateProfileWallet(wallet_id: any, wallet_sign_hash: string, wallet_sign_timestamp: string) {
-  console.log("I'm updating profile with wallet sign hash");
   const supabase = createClient();
 
   //get user from supabase db
@@ -26,7 +25,6 @@ export async function updateProfileWallet(wallet_id: any, wallet_sign_hash: stri
 
   //if user not found
   if (error || !data?.user) {
-    console.log("user not found");
     return { user: data, error: error };
   } else {
     //otherwise update user profile using user ID
