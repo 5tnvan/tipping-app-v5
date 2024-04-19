@@ -126,7 +126,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
         {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
         {/* ISPUBLIC AUTH TOP */}
-        <div id="wildpay-top" className="profile mt-10 md:mt-8 ml-6 mr-6 relative z-10">
+        <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10">
           {/* ISPUBLIC PROFILE INTRO */}
           <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
             <div className="flex">
@@ -191,16 +191,16 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                       <IsLoading shape="rounded-md" width={28} height={6} />
                     </span>
                     <span>
-                      <IsLoading shape="rounded-md mb-2.5" width={28} height={8} />
+                      <IsLoading shape="rounded-md" width={28} height={8} />
                     </span>
                   </>
                 ) : (
                   <>
-                    <div className="flex flex-col mb-1 text-secondary">
+                    <div className="flex flex-col text-secondary">
                       <Link href={"/" + publicProfile.username} className="font-semibold mr-1 flex items-center">
                         @{publicProfile.username}
                       </Link>
-                      <div className="mr-1 text-sm md:text-base">
+                      <div className="mr-1 text-sm">
                         <span className="font-semibold text-primary">{followersPublicData.followersCount}</span>{" "}
                         followers{" "}
                         <span className="font-semibold text-primary">{followersPublicData.followingCount}</span>{" "}

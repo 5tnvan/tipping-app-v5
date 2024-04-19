@@ -20,7 +20,6 @@ const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
   const { isAuth, profile } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
-  const { openFastPayModal } = useContext(ComponentsContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
@@ -168,7 +167,14 @@ const HomePage: NextPage = () => {
                       className="flex flex-col items-center mr-4 font-medium"
                     >
                       {following.profile_bios.length > 0 && (
-                        <Avatar profile={following} width={12} height={12} border={2} ring={13} gradient={"g-tropical"} />
+                        <Avatar
+                          profile={following}
+                          width={12}
+                          height={12}
+                          border={2}
+                          ring={13}
+                          gradient={"g-tropical"}
+                        />
                       )}
                       {following.profile_bios.length == 0 && (
                         <Avatar profile={following} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
@@ -187,7 +193,14 @@ const HomePage: NextPage = () => {
                       className="flex flex-col items-center mr-4 font-medium"
                     >
                       {followers.profile_bios.length > 0 && (
-                        <Avatar profile={followers} width={12} height={12} border={2} ring={13} gradient={"g-tropical"} />
+                        <Avatar
+                          profile={followers}
+                          width={12}
+                          height={12}
+                          border={2}
+                          ring={13}
+                          gradient={"g-tropical"}
+                        />
                       )}
                       {followers.profile_bios.length == 0 && (
                         <Avatar profile={followers} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
@@ -312,9 +325,13 @@ const HomePage: NextPage = () => {
                 <>
                   {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
                     <div className="flex h-full justify-center items-center">
-                      <div className="btn btn-neutral" onClick={openFastPayModal}>
-                        Start paying someone 🥳
-                      </div>
+                      <ComponentsContext.Consumer>
+                        {({ openFastPayModal }) => (
+                          <div className="btn btn-neutral" onClick={openFastPayModal}>
+                            Start paying someone 🥳
+                          </div>
+                        )}
+                      </ComponentsContext.Consumer>
                     </div>
                   )}
                   {!profile.wallet_id && (

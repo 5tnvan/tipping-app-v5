@@ -60,8 +60,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
               <div className="mt-5 p-6" key={withdrawData.withdrawChanges[0].transactionHash}>
                 {/* SPOTLIGHT FROM TO */}
                 <div className="flex justify-between items-center mb-6">
-                  <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                    {walletProfile && <Avatar profile={walletProfile} width={8} ring={8} height={8} border={0} gradient={undefined} />}
+                  <div
+                    className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2"
+                    onClick={() => router.push("/" + walletProfile.username)}
+                  >
+                    {walletProfile && (
+                      <Avatar profile={walletProfile} width={8} ring={8} height={8} border={0} gradient={undefined} />
+                    )}
                     <div className="font-semibold">
                       {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                       {walletProfile && !isLoading && walletProfile.username}
@@ -107,13 +112,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                     <th>Network:</th>
                     <td className="text-ellipsis overflow-hidden md:max-w-96 max-w-24">
                       {params.network == "ethereum" && (
-                        <div className="btn font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                        <div className="btn btn-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
                           <EthIcon width={14} height={14} fill="#3C3C3C" />
                           ethereum
                         </div>
                       )}
                       {params.network == "base" && (
-                        <div className="btn font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                        <div className="btn btn-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
                           <BaseIcon width={10} height={10} fill="#3C3C3C" />
                           <div className="pl-1">base</div>
                         </div>
