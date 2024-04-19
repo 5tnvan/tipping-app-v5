@@ -62,7 +62,7 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
             <BackgroundGradient className="rounded-[22px] p-5 pt-10 bg-white dark:bg-zinc-900">
               <div className="flex justify-between">
                 <div className="flex items-center">
-                  <Avatar profile={data.profile} width={8} height={8} border={2} ring={10} gradient={undefined} />
+                  <Avatar profile={data.profile} width={8} height={8} border={2} ring={10} gradient={"g-tropical"} />
                   <Link href={`/${data.profile.username}`} className="ml-2 font-semibold text-primary mr-2">
                     @{data.profile.username}
                   </Link>

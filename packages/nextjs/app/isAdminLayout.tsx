@@ -15,7 +15,7 @@ const IsAdminLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   if (isAuth) {
-    if (profile.username == "micalabs") {
+    if (profile?.username == "micalabs") {
       return (
         <>
           <div className="bg-neutral-300 flex flex-col justify-center items-center">
