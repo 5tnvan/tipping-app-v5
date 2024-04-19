@@ -188,7 +188,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                   </div>
                   <div className="flex items-center">
                     <Address address={profile.wallet_id} />
-                    <span className="text-green-600">
+                    <span className="text-green-600 ml-1">
                       <CheckCircleIcon width={16} />
                     </span>
                   </div>
@@ -204,7 +204,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                   </div>
                   <div className="flex items-center">
                     <Address address={connectedAddress} />
-                    <span className="text-red-600">
+                    <span className="text-red-600 ml-1">
                       <CheckCircleIcon width={16} />
                     </span>
                   </div>
