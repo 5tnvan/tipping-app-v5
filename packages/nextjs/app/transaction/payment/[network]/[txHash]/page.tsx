@@ -90,7 +90,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                 {/* SPOTLIGHT FROM TO */}
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                    {senderProfile && <Avatar profile={senderProfile} width={8} ring={false} />}
+                    {senderProfile && <Avatar profile={senderProfile} width={8} ring={false} height={undefined} border={undefined} gradient={undefined} />}
                     <div className="font-semibold">
                       {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                       {senderProfile && !isLoading && senderProfile.username}
@@ -101,7 +101,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                     <ChevronDoubleRightIcon width={16} />
                   </div>
                   <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                    {receiverProfile && <Avatar profile={receiverProfile} width={8} ring={false} />}
+                    {receiverProfile && <Avatar profile={receiverProfile} width={8} ring={false} height={undefined} border={undefined} gradient={undefined} />}
                     <div className="font-semibold">
                       {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                       {receiverProfile && !isLoading && receiverProfile.username}

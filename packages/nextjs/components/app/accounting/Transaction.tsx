@@ -48,7 +48,9 @@ const Transaction = ({ tx, network, onClose }: Props) => {
             <div className="mt-5 p-6" key={tx.paymentChanges[0].transactionHash}>
               <div className="flex justify-between mb-6">
                 <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                  {senderProfile && <Avatar profile={senderProfile} width={8} ring={false} />}
+                  {senderProfile && (
+                    <Avatar profile={senderProfile} width={8} height={8} border={0} ring={8} gradient={"g-white"} />
+                  )}
                   <div className="font-semibold">
                     {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                     {senderProfile && !isLoading && senderProfile.username}
@@ -59,7 +61,9 @@ const Transaction = ({ tx, network, onClose }: Props) => {
                   <ChevronDoubleRightIcon width={16} />
                 </div>
                 <div className="flex items-center btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-10 min-h-10 p-0 pl-2 pr-2">
-                  {receiverProfile && <Avatar profile={receiverProfile} width={8} ring={false} />}
+                  {receiverProfile && (
+                    <Avatar profile={receiverProfile} width={8} height={8} border={0} ring={8} gradient={"g-white"} />
+                  )}
                   <div className="font-semibold">
                     {isLoading && <div className="animate-pulse w-8 h-2"></div>}
                     {receiverProfile && !isLoading && receiverProfile.username}
