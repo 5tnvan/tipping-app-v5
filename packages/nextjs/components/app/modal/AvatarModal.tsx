@@ -194,7 +194,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
                   Back
                 </button>
                 <div className="mt-5">
-                  We are preparing Wild NFTs. Join our <Link href="https://t.me/wildpayapp"> community chat</Link>to
+                  We are preparing Wild NFTs. Join our <Link href="https://t.me/wildpayapp"> community chat</Link> to
                   receive updates.
                 </div>
                 <div className="flex justify-center">
