@@ -183,6 +183,9 @@ const Settings: NextPage = () => {
                 </svg>
                 <input type="text" className="grow bg-white" placeholder="******" disabled />
               </div>
+              <Link href="/settings/resetpassword" className="btn btn-accent">
+                Reset
+              </Link>
             </label>
           </div>
 
@@ -227,7 +230,7 @@ const Settings: NextPage = () => {
                   </>
                 )}
                 {address && !profile.wallet_id && <>No balance</>}
-                {!address && profile.wallet_id && <>Connect to your wallet to view balance</>}
+                {!address && profile.wallet_id && <>Connect your wallet to view balance</>}
                 {address && profile.wallet_id && address !== profile.wallet_id && (
                   <div className="text-red-600 flex">
                     <ExclamationCircleIcon width={16} />

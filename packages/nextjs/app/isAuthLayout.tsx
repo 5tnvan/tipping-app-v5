@@ -40,7 +40,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const isHome = pathname === "/home"; //PRIVATE
   const isLogin = pathname === "/login";
   const isProfileEdit = pathname === "/profile/edit"; //PRIVATE
-  const isSettings = pathname === "/settings"; //PRIVATE
+  const isSettings = pathname.includes("/settings"); //PRIVATE
   const isTransaction = pathname.includes("/transaction");
   const isLeaderboard = pathname === "/leaderboard"; //PRIVATE
   const isNotification = pathname === "/notifications"; //PRIVATE
