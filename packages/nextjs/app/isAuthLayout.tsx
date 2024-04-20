@@ -44,6 +44,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const isTransaction = pathname.includes("/transaction");
   const isLeaderboard = pathname === "/leaderboard"; //PRIVATE
   const isNotification = pathname === "/notifications"; //PRIVATE
+  const isLevels = pathname === "/levels"; //PRIVATE
   const { username } = useParams();
 
   /* PARENTS CONTEXT */
@@ -197,7 +198,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           {/* ISAUTH CUSTOM-BG: /home, /transaction */}
           <div
             className={`custom-top-cover absolute z-0 ${
-              (isHome || isTransaction || isLeaderboard || isNotification) && "h-100px"
+              (isHome || isTransaction || isLeaderboard || isNotification || isLevels) && "h-100px"
             }`}
           ></div>
 
@@ -205,7 +206,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           {/* ISAUTH: /username */}
           {username && <IsPublicLayout>{children}</IsPublicLayout>}
           {/* ISAUTH: /profile/view, /profile/edit, /settings */}
-          {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && !isNotification && (
+          {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && !isNotification && !isLevels && (
             <>
               <div id="wildpay-top" className="profile mt-10 md:mt-8 relative z-10 ml-6 mr-6">
                 <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -330,7 +331,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
             </>
           )}
           {/* ISAUTH: /home, /transaction, /leaderboard */}
-          {(isHome || isTransaction || isLeaderboard || isNotification) && <>{children}</>}
+          {(isHome || isTransaction || isLeaderboard || isNotification || isLevels) && <>{children}</>}
         </div>
 
         {/* PAY RECEIPT MODAL */}

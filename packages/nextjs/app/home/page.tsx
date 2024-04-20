@@ -95,8 +95,27 @@ const HomePage: NextPage = () => {
         {/* CONTENT */}
         <div id="wildpay-home" className="z-10 max-h-screen pt-8 text-black">
           <div className="pl-6 pr-6">
+            <div className="stats shadow bg-accent text-accent-content mt-5 mb-5">
+              <div className="stat">
+                <div className="stat-figure text-primary"></div>
+                <div className="stat-title">Total Coins</div>
+                <div className="stat-value text-primary">12</div>
+                <div className="stat-desc">Earn Wild Coins</div>
+              </div>
+              <div className="stat">
+                <div className="stat-figure text-secondary">
+                  <div className="avatar online">
+                    <div className="w-16 rounded-full">
+                      <img src={profile.avatar_url} />
+                    </div>
+                  </div>
+                </div>
+                <div className="stat-title">Level 1</div>
+                <div className="stat-value">noob</div>
+                <Link href="/levels" className="stat-desc text-secondary">View all levels</Link>
+              </div>
+            </div>
             {/* FOLLOWS */}
-            <div className="font-semibold mt-6 mb-3 text-primary text-4xl">Follows</div>
             {/* FOLLOWERS TAB */}
             <div role="tablist" className="tabs tabs-bordered">
               <div
@@ -216,7 +235,7 @@ const HomePage: NextPage = () => {
           <div className="">
             {/* PAYMENTS */}
             <div className="flex pl-6 pr-6 mt-6 mb-3 items-center justify-between">
-              <div className="font-semibold text-primary text-4xl">Payments</div>
+              <div className="font-semibold text-primary text-xl">Payments</div>
               {/* PAYMENTS NETWORKS TAB */}
               <div className="flex">
                 {/* PAYMENTS NETWORKS TAB: ETHEREUM */}
