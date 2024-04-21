@@ -182,7 +182,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <ComponentsContext.Provider value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal }}>
+      <ComponentsContext.Provider value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}>
         <div id="wildpay-is-auth" className="bg-white grow max-h-screen">
           {/* ISAUTH USER DROPDOWN */}
           {/* ISAUTH USER DROPDOWN: loading */}

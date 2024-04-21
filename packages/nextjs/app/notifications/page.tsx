@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AppContext, NotificationContext } from "../context";
-import { ProfileWithReveal } from "~~/components/app/ProfileWithReveal";
+import { ProfileRevealNotification } from "~~/components/app/ProfileRevealNotification";
 import { TimeAgo } from "~~/components/app/TimeAgo";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -47,7 +47,7 @@ export default function NotificationPage() {
               className={`flex items-center justify-between ${!notification.follower_read ? "font-semibold" : ""}`}
             >
               <div className="flex items-center">
-                <ProfileWithReveal profile_id={notification.follower_id} notification_id={notification.id} />
+                <ProfileRevealNotification profile_id={notification.follower_id} notification_id={notification.id} />
                 started following you
               </div>
               <div className="flex gap-1 text-neutral-500">

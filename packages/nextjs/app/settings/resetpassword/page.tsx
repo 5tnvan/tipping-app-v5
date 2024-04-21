@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { useContext } from "react";
-import { forgotPassword, resetPassword } from "../../login/actions";
+import { useRouter } from "next/navigation";
+import { resetPassword } from "../../login/actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { AppContext } from "~~/app/context";
@@ -10,6 +11,7 @@ import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function ResetPasswordPage() {
+  const router = useRouter();
   const { isAuth } = useContext(AppContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [password, setPassword] = useState("");
@@ -49,7 +51,13 @@ export default function ResetPasswordPage() {
     return (
       <>
         <form onSubmit={handleResetPassword}>
-          <div id="wild-pay-is-not-auth-log-in" className="z-10 pt-28 pl-6 pr-6">
+          <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 ml-6 mr-6 z-10">
+            {/* CTA BUTTON */}
+            <div id="wildpay-cta" className="mb-20 z-1 relative">
+              <button className="btn w-full text-base btn-primary" onClick={() => router.back()}>
+                Back to Settings
+              </button>
+            </div>
             <div className="font-semibold text-3xl mb-5">{"Reset your password"}</div>
             {/* Input */}
             <label className="input input-bordered flex items-center gap-2 mb-3">
@@ -75,7 +83,7 @@ export default function ResetPasswordPage() {
               />
             </label>
             {passwordError && <div className="custom-warning text-red-600 pb-2 pl-2">{passwordError}</div>}
-            <button type="submit" className="btn btn-primary text-base w-full" onClick={() => setIsProcessing(true)}>
+            <button type="submit" className="btn btn-secondary text-base w-full" onClick={() => setIsProcessing(true)}>
               Confirm {isProcessing && <span className="loading loading-ring loading-md"></span>}
             </button>
 

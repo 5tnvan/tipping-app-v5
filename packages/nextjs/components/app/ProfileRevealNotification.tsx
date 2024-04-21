@@ -16,7 +16,7 @@ type ProfileProps = {
 /**
  * On click, reveal profile
  */
-export const ProfileWithReveal = ({ profile_id, notification_id }: ProfileProps) => {
+export const ProfileRevealNotification = ({ profile_id, notification_id }: ProfileProps) => {
   const router = useRouter();
   const [profile, setProfile] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +42,9 @@ export const ProfileWithReveal = ({ profile_id, notification_id }: ProfileProps)
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center text-sm">
       <div
-        className="btn btn-accent pl-3 pr-3 h-8 min-h-8 mr-3 bg-gradient-to-r from-cyan-600 via-lime-500"
+        className="btn btn-accent pl-3 pr-3 h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500"
         onClick={profile_id && !profile ? handleProfileReveal : handleLink}
       >
         {!isReveal && !isLoading && (
