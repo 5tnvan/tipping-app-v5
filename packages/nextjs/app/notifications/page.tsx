@@ -48,7 +48,7 @@ export default function NotificationPage() {
             >
               <div className="flex items-center">
                 <ProfileRevealNotification profile_id={notification.follower_id} notification_id={notification.id} />
-                started following you
+                <span className="ml-2">started following you</span>
               </div>
               <div className="flex gap-1 text-neutral-500">
                 <TimeAgo timestamp={notification.follower_created_at} />

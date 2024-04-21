@@ -39,10 +39,10 @@ export const InviteModal = ({ isOpen, onClose, data }: Props) => {
             ✕
           </button>
           <div className="pl-6 pr-6 pt-10 pb-5">
-            <div className="font-semibold custom-text-blue text-3xl">{"Success 🎉."}</div>
+            <div className="font-semibold custom-text-blue text-3xl">{"Your invite 🎉."}</div>
             <div className=" custom-text-blue text-xl mb-5">{"Share this invite code"}</div>
             <div
-              className="btn btn-accent flex justify-between items-center p-4 mb-2 url h-full min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0 w-full"
+              className="btn btn-accent flex flex-nowrap justify-between items-center p-4 mb-2 url h-full min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0 w-full"
               onClick={() => handleCopyToClipboard(data.id)}
             >
               {copied ? (

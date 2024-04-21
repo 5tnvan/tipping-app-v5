@@ -93,8 +93,11 @@
   /* background-color: #03A66A; */
   height: calc(100vh - 17rem);
 }
+.wildui-generic-scroll-b {
+  height: calc(100vh - 17rem);
+}
 .wildui-transaction-scroll-home {
-  height: calc(100vh - 28rem);
+  height: calc(100vh - 31rem);
 }
 .wildui-transaction-scroll-profile-view {
   height: calc(100vh - 37rem);

@@ -70,15 +70,19 @@ export const Login = () => {
             <span>{error}</span>
           </div>
         )}
-        <div className="flex gap-2 mt-5">
-          {`Don't have an account? `}
-          <Link href="/getstarted" className="link link-secondary">
-            Register
-          </Link>
-          <div>or</div>
-          <Link href="/login/forgotpassword" className="link link-secondary">
-            Forgot password
-          </Link>
+        <div className="flex flex-col items-center mt-5">
+          <div>
+            {`Don't have an account? `}
+            <Link href="/getstarted" className="link link-secondary">
+              Register
+            </Link>
+          </div>
+          <div>
+          {`Forgot Password `}
+            <Link href="/login/forgotpassword" className="link link-secondary">
+              Reset
+            </Link>
+          </div>
         </div>
       </form>
     </>
