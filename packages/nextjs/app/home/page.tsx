@@ -19,7 +19,7 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
-  const { isAuth, profile, bios } = useContext(AppContext);
+  const { isAuth, profile, bios, levels } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
 
   /* TRANSACTIONS VARIABLES */
@@ -72,11 +72,20 @@ const HomePage: NextPage = () => {
     }
   };
 
+  /* CURRENT LEVEL */
+  const [currentLevel, setCurrentLevel] = useState(0);
+  useEffect(() => {
+    if (levels.length > 0) setCurrentLevel(levels[levels.length - 1].level);
+  }, []);
+  console.log(currentLevel);
+
+
   //console.log("home: profile: ", profile);
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
   //console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
-  console.log(bios);
+  //console.log(bios);
+  console.log(levels);
 
   if (isAuth == "no") {
     return (
@@ -124,8 +133,17 @@ const HomePage: NextPage = () => {
                     </div>
                   </Link>
                 </div>
-                <Link href="/levels" className="stat-title">Level 1</Link>
-                <Link href="/levels" className="stat-value">noob</Link>
+                <Link href="/levels" className="stat-title">
+                  Level {currentLevel}
+                </Link>
+                <Link href="/levels" className="stat-value">
+                  {currentLevel == 0 && "noob"}
+                  {currentLevel == 1 && "creator"}
+                  {currentLevel == 2 && "builder"}
+                  {currentLevel == 3 && "architect"}
+                  {currentLevel == 4 && "visionairy"}
+                  {currentLevel == 5 && "god-mode"}
+                </Link>
                 <Link href="/levels" className="stat-desc text-secondary">
                   View all levels
                 </Link>
