@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { AppContext, ComponentsContext, FollowersContext } from "../context";
 import { NextPage } from "next";
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
 import Transactions from "~~/components/app/accounting/Transactions";
@@ -18,7 +19,7 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
-  const { isAuth, profile } = useContext(AppContext);
+  const { isAuth, profile, bios } = useContext(AppContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
 
   /* TRANSACTIONS VARIABLES */
@@ -75,6 +76,7 @@ const HomePage: NextPage = () => {
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
   //console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
+  console.log(bios);
 
   if (isAuth == "no") {
     return (
@@ -95,24 +97,38 @@ const HomePage: NextPage = () => {
         {/* CONTENT */}
         <div id="wildpay-home" className="z-10 max-h-screen pt-8 text-black">
           <div className="pl-6 pr-6">
-            <div className="stats shadow bg-accent text-accent-content mt-5 mb-5">
+            <div className="stats shadow bg-accent text-accent-content mt-5 mb-5 w-full">
               <div className="stat">
-                <div className="stat-figure text-primary"></div>
-                <div className="stat-title">Total Coins</div>
-                <div className="stat-value text-primary">12</div>
-                <div className="stat-desc">Earn Wild Coins</div>
+                <div className="flex">
+                  <div className="mr-1">Total Views</div>
+                  <div className="tooltip tooltip-right flex justify-center" data-tip="Views on your last content">
+                    <button className="">
+                      <QuestionMarkCircleIcon width={14} />
+                    </button>
+                  </div>
+                </div>
+                <div className="stat-value text-primary">{bios.length > 0 ? bios[0]?.views : "0"}</div>
+                <ComponentsContext.Consumer>
+                  {({ openCreateModal }) => (
+                    <div className="stat-desc cursor-pointer" onClick={openCreateModal}>
+                      Create content
+                    </div>
+                  )}
+                </ComponentsContext.Consumer>
               </div>
               <div className="stat">
                 <div className="stat-figure text-secondary">
-                  <div className="avatar online">
+                  <Link href="/profile/view" className="avatar online">
                     <div className="w-16 rounded-full">
                       <img src={profile.avatar_url} />
                     </div>
-                  </div>
+                  </Link>
                 </div>
-                <div className="stat-title">Level 1</div>
-                <div className="stat-value">noob</div>
-                <Link href="/levels" className="stat-desc text-secondary">View all levels</Link>
+                <Link href="/levels" className="stat-title">Level 1</Link>
+                <Link href="/levels" className="stat-value">noob</Link>
+                <Link href="/levels" className="stat-desc text-secondary">
+                  View all levels
+                </Link>
               </div>
             </div>
             {/* FOLLOWS */}
