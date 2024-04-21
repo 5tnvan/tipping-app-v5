@@ -215,7 +215,7 @@ const Settings: NextPage = () => {
 
           {/* My Balance */}
           <div className="flex items-center mb-3">
-            <div className="mr-1">My balance</div>
+            <div className="mr-1">My Balance</div>
           </div>
 
           {/* Balance */}
@@ -229,6 +229,7 @@ const Settings: NextPage = () => {
                     <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})</span>
                   </>
                 )}
+                {!address && !profile.wallet_id && <>No balance</>}
                 {address && !profile.wallet_id && <>No balance</>}
                 {!address && profile.wallet_id && <>Connect your wallet to view balance</>}
                 {address && profile.wallet_id && address !== profile.wallet_id && (
@@ -246,6 +247,18 @@ const Settings: NextPage = () => {
                 </>
               )}
             </label>
+          </div>
+
+          {/* My Invites */}
+          <div className="flex items-center mb-3">
+            <div className="mr-1">My Invites</div>
+          </div>
+
+          {/* Invites */}
+          <div className="mb-3">
+            <Link href="/settings/invites" className="btn btn-accent w-full">
+              View Invites
+            </Link>
           </div>
 
           {/* Verify Wallet Modal */}
