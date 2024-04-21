@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchBios } from "~~/utils/app/fetch/fetchBios";
+import { fetchLevels } from "~~/utils/app/fetch/fetchLevels";
 import { fetchProfile, fetchUser } from "~~/utils/app/fetch/fetchUser";
 
 export const useAuthentication = () => {
@@ -10,6 +11,7 @@ export const useAuthentication = () => {
   const [user, setUser] = useState<any>();
   const [profile, setProfile] = useState<any>();
   const [bios, setBios] = useState<any>();
+  const [levels, setLevels] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -23,9 +25,11 @@ export const useAuthentication = () => {
     if (userData?.user) {
       const profileData = await fetchProfile();
       const profileBiosData = await fetchBios();
+      const profileLevelsData = await fetchLevels();
       setUser(userData.user);
       setProfile(profileData);
       setBios(profileBiosData);
+      setLevels(profileLevelsData);
       setIsAuth("yes");
     } else {
       setIsAuth("no");
@@ -38,5 +42,5 @@ export const useAuthentication = () => {
     initUser();
   }, [triggerRefetch]);
 
-  return { isLoading, isAuth, user, profile, bios, refetch };
+  return { isLoading, isAuth, user, profile, bios, levels, refetch };
 };

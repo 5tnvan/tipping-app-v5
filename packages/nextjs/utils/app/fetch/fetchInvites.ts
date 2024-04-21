@@ -24,3 +24,23 @@ export const fetchInvites = async () => {
     return null;
   }
 };
+
+/**
+ * FETCH: fetchInviteByID()
+ * DB: supabase
+ * TABLE: "invites"
+ **/
+
+export const fetchInviteByID = async (id: any) => {
+  const supabase = createClient();
+
+  const { data: codeData, error } = await supabase.from("invites").select().eq("id", id);
+
+  if (error) {
+    throw new Error();
+  }
+
+  const { data: userData } = await supabase.from("profiles").select("id, username, avatar_url").eq("id", codeData[0].user_id);
+
+  return { code: codeData, user: userData };
+};

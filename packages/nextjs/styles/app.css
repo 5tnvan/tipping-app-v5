@@ -180,7 +180,7 @@
 }
 
 /* Card */
-.card.unlocked.image-full:before {
+.card.achieved.image-full:before {
   background-color: #F29F05;
 }
 .card.levelup.image-full:before {
