@@ -99,7 +99,13 @@ export default function InvitesPage() {
                     <td className="pl-0">
                       <ProfileRevealInvite profile_id={invite.claimed_by} />
                     </td>
-                    <td>{invite.type == 1 && "Creator Invite"}</td>
+                    <td>
+                      {invite.type == 1 && "Creator Invite"}
+                      {invite.type == 2 && "Builder Invite"}
+                      {invite.type == 3 && "Architect Invite"}
+                      {invite.type == 4 && "Visionary Invite"}
+                      {invite.type == 5 && "God-mode Invite"}
+                    </td>
                     <th className="pr-0 text-right">
                       <button
                         className="btn btn-accent btn-xs"

@@ -79,7 +79,6 @@ const HomePage: NextPage = () => {
   }, []);
   console.log(currentLevel);
 
-
   //console.log("home: profile: ", profile);
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
@@ -109,14 +108,14 @@ const HomePage: NextPage = () => {
             <div className="stats shadow bg-accent text-accent-content mt-5 mb-5 w-full">
               <div className="stat">
                 <div className="flex">
-                  <div className="mr-1">Total Views</div>
+                  <div className="mr-1 text-nowrap">Total Views</div>
                   <div className="tooltip tooltip-right flex justify-center" data-tip="Views on your last content">
                     <button className="">
                       <QuestionMarkCircleIcon width={14} />
                     </button>
                   </div>
                 </div>
-                <div className="stat-value text-primary">{bios.length > 0 ? bios[0]?.views : "0"}</div>
+                <div className="stat-value text-primary text-2xl">{bios.length > 0 ? bios[0]?.views : "0"}</div>
                 <ComponentsContext.Consumer>
                   {({ openCreateModal }) => (
                     <div className="stat-desc cursor-pointer" onClick={openCreateModal}>
@@ -128,7 +127,7 @@ const HomePage: NextPage = () => {
               <div className="stat">
                 <div className="stat-figure text-secondary">
                   <Link href="/profile/view" className="avatar online">
-                    <div className="w-16 rounded-full">
+                    <div className="w-14 rounded-full">
                       <img src={profile.avatar_url} />
                     </div>
                   </Link>
@@ -136,12 +135,12 @@ const HomePage: NextPage = () => {
                 <Link href="/levels" className="stat-title">
                   Level {currentLevel}
                 </Link>
-                <Link href="/levels" className="stat-value">
+                <Link href="/levels" className="stat-value text-2xl">
                   {currentLevel == 0 && "noob"}
                   {currentLevel == 1 && "creator"}
                   {currentLevel == 2 && "builder"}
                   {currentLevel == 3 && "architect"}
-                  {currentLevel == 4 && "visionairy"}
+                  {currentLevel == 4 && "visionary"}
                   {currentLevel == 5 && "god-mode"}
                 </Link>
                 <Link href="/levels" className="stat-desc text-secondary">
