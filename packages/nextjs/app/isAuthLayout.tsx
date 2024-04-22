@@ -208,7 +208,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
           {/* ISAUTH: /profile/view, /profile/edit, /settings */}
           {!username && !isHome && !isTransaction && !isLogin && !isLeaderboard && !isNotification && !isLevels && (
             <>
-              <div id="wildpay-top" className="profile mt-10 md:mt-8 relative z-10 ml-6 mr-6">
+              <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
                 <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
                   <div className="flex items-center">
                     {/* ISAUTH PROFILE INTRO - AVATAR */}
@@ -273,11 +273,11 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                         <>
                           {!isSettings && (
                             <>
-                              <div className="flex flex-col mb-1">
+                              <div className="flex flex-col">
                                 <Link href={"/" + profile.username} className="font-semibold mr-1 flex items-center">
                                   @{profile.username}
                                 </Link>
-                                <div className="mr-1 text-sm md:text-base">
+                                <div className="mr-1 text-sm">
                                   <span className="font-semibold text-primary">{followersData.followers.length}</span>{" "}
                                   followers{" "}
                                   <span className="font-semibold text-primary">{followersData.following.length}</span>{" "}
