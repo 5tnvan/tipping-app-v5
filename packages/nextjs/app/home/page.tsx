@@ -33,8 +33,8 @@ const HomePage: NextPage = () => {
   const [outgoingBaseTxSum, setOutgoingBaseTxSum] = useState(0);
 
   /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(profile.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
+  const incomingRes = useIncomingTransactions(profile?.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
 
   useEffect(() => {
     setIncomingEthTx(incomingRes.ethereumData);
@@ -75,7 +75,7 @@ const HomePage: NextPage = () => {
   /* CURRENT LEVEL */
   const [currentLevel, setCurrentLevel] = useState(0);
   useEffect(() => {
-    if (levels.length > 0) setCurrentLevel(levels[levels.length - 1].level);
+    if (levels?.length > 0) setCurrentLevel(levels[levels.length - 1].level);
   }, []);
 
   //console.log("home: profile: ", profile);
@@ -126,9 +126,7 @@ const HomePage: NextPage = () => {
               <div className="stat">
                 <div className="stat-figure text-secondary">
                   <Link href="/profile/view" className="avatar online">
-                    <div className="w-14 rounded-full">
-                      <img src={profile.avatar_url} />
-                    </div>
+                    <Avatar profile={profile} width={14} height={14} border={0} ring={14} gradient={"g-white"} />
                   </Link>
                 </div>
                 <Link href="/levels" className="stat-title">
