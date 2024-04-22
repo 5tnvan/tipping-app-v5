@@ -68,19 +68,33 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                 <div className="font-semibold">Pay to:</div>
                 {followersData.following.map((following: any) => (
                   <div
-                    key={following.wallet_id}
+                    key={following.following.wallet_id}
                     className="flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
-                    onClick={() => handlePicked(following)}
+                    onClick={() => handlePicked(following.following)}
                   >
                     <div className="flex items-center">
-                      {following.profile_bios.length > 0 && (
-                        <Avatar profile={following} width={8} height={8} ring={9} border={2} gradient={"g-tropical"} />
+                      {following.following.profile_bios.length > 0 && (
+                        <Avatar
+                          profile={following.following}
+                          width={8}
+                          height={8}
+                          ring={9}
+                          border={2}
+                          gradient={"g-tropical"}
+                        />
                       )}
-                      {following.profile_bios.length == 0 && (
-                        <Avatar profile={following} width={8} height={8} ring={9} border={0} gradient={"g-white"} />
+                      {following.following.profile_bios.length == 0 && (
+                        <Avatar
+                          profile={following.following}
+                          width={8}
+                          height={8}
+                          ring={9}
+                          border={0}
+                          gradient={"g-white"}
+                        />
                       )}
 
-                      <div className="ml-2 font-semibold pl-3">{following.username}</div>
+                      <div className="ml-2 font-semibold pl-3">{following.following.username}</div>
                     </div>
                     <div>
                       <ArrowRightIcon />
@@ -97,7 +111,11 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     <ArrowLeftIcon />
                     Back
                   </button>
-                  <Link href={`/${receiver.username}`} className="flex flex-col items-center justify-center mt-3" onClick={handleClose}>
+                  <Link
+                    href={`/${receiver.username}`}
+                    className="flex flex-col items-center justify-center mt-3"
+                    onClick={handleClose}
+                  >
                     {receiver.profile_bios.length > 0 && (
                       <Avatar profile={receiver} width={12} height={12} border={2} ring={14} gradient={"g-tropical"} />
                     )}
