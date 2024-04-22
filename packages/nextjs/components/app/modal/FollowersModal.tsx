@@ -55,11 +55,11 @@ export const FollowersModal = ({
           {/* FOLLOWERS STATS */}
           <div className="flex justify-around m-5">
             <div className="flex flex-col items-center">
-              <div className="font-semibold">{followersPublicData?.followersCount}</div>
+              <div className="font-semibold">{followersPublicData?.followers.length}</div>
               <div>Followers</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="font-semibold">{followersPublicData?.followingCount}</div>
+              <div className="font-semibold">{followersPublicData?.following.length}</div>
               <div>Following</div>
             </div>
           </div>

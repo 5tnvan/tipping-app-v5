@@ -278,9 +278,9 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
                                   @{profile.username}
                                 </Link>
                                 <div className="mr-1 text-sm md:text-base">
-                                  <span className="font-semibold text-primary">{followersData.followersCount}</span>{" "}
+                                  <span className="font-semibold text-primary">{followersData.followers.length}</span>{" "}
                                   followers{" "}
-                                  <span className="font-semibold text-primary">{followersData.followingCount}</span>{" "}
+                                  <span className="font-semibold text-primary">{followersData.following.length}</span>{" "}
                                   following
                                 </div>
                               </div>

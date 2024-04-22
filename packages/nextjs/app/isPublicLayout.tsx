@@ -201,9 +201,9 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                         @{publicProfile.username}
                       </Link>
                       <div className="mr-1 text-sm">
-                        <span className="font-semibold text-primary">{followersPublicData.followersCount}</span>{" "}
+                        <span className="font-semibold text-primary">{followersPublicData.followers.length}</span>{" "}
                         followers{" "}
-                        <span className="font-semibold text-primary">{followersPublicData.followingCount}</span>{" "}
+                        <span className="font-semibold text-primary">{followersPublicData.following.length}</span>{" "}
                         following
                       </div>
                     </div>

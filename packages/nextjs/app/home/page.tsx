@@ -77,14 +77,13 @@ const HomePage: NextPage = () => {
   useEffect(() => {
     if (levels.length > 0) setCurrentLevel(levels[levels.length - 1].level);
   }, []);
-  console.log(currentLevel);
 
   //console.log("home: profile: ", profile);
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
   //console.log("home: transactions: ", incomingEthTx, incomingBaseTx, outgoingEthTx, outgoingBaseTx);
   //console.log(bios);
-  console.log(levels);
+  console.log(followersData);
 
   if (isAuth == "no") {
     return (
@@ -161,7 +160,7 @@ const HomePage: NextPage = () => {
                 Following
                 <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
-                  {!isLoadingFollowers && followersData?.followingCount}
+                  {!isLoadingFollowers && followersData?.following.length}
                 </span>
               </div>
               <div
@@ -174,7 +173,7 @@ const HomePage: NextPage = () => {
                 Followers
                 <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold"}`}>
                   {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
-                  {!isLoadingFollowers && followersData?.followersCount}
+                  {!isLoadingFollowers && followersData?.followers.length}
                 </span>
               </div>
             </div>
@@ -211,42 +210,51 @@ const HomePage: NextPage = () => {
                 </div>
               )}
               {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
-                <div id="following" className="flex">
-                  {followersData?.following.map((following: any) => (
-                    <Link
-                      href={`/${following.username}`}
-                      key={following.id}
-                      className="flex flex-col items-center mr-4 font-medium"
-                    >
-                      {following.profile_bios.length > 0 && (
-                        <Avatar
-                          profile={following}
-                          width={12}
-                          height={12}
-                          border={2}
-                          ring={13}
-                          gradient={"g-tropical"}
-                        />
-                      )}
-                      {following.profile_bios.length == 0 && (
-                        <Avatar profile={following} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
-                      )}
-                      {following.username}
-                    </Link>
-                  ))}
-                </div>
+                <>
+                  <ul id="following" className="flex">
+                    {followersData?.following.map((following: any) => (
+                      <Link
+                        href={`/${following.following.username}`}
+                        key={following.following.id}
+                        className="flex flex-col items-center mr-4 font-medium"
+                      >
+                        {following.following.profile_bios.length > 0 && (
+                          <Avatar
+                            profile={following.following}
+                            width={12}
+                            height={12}
+                            border={2}
+                            ring={13}
+                            gradient={"g-tropical"}
+                          />
+                        )}
+                        {following.following.profile_bios.length == 0 && (
+                          <Avatar
+                            profile={following.following}
+                            width={12}
+                            height={12}
+                            border={0}
+                            ring={13}
+                            gradient={"g-white"}
+                          />
+                        )}
+                        {following.following.username}
+                      </Link>
+                    ))}
+                  </ul>
+                </>
               )}
               {!isLoadingFollowers && Array.isArray(followersData.followers) && showFollow == "followers" && (
                 <ul id="followers" className="flex">
-                  {followersData?.followers.map((followers: any) => (
+                  {followersData?.followers.map((follower: any) => (
                     <Link
-                      href={`/${followers.username}`}
-                      key={followers.id}
+                      href={`/${follower.follower.username}`}
+                      key={follower.follower.id}
                       className="flex flex-col items-center mr-4 font-medium"
                     >
-                      {followers.profile_bios.length > 0 && (
+                      {follower.follower.profile_bios.length > 0 && (
                         <Avatar
-                          profile={followers}
+                          profile={follower.follower}
                           width={12}
                           height={12}
                           border={2}
@@ -254,10 +262,17 @@ const HomePage: NextPage = () => {
                           gradient={"g-tropical"}
                         />
                       )}
-                      {followers.profile_bios.length == 0 && (
-                        <Avatar profile={followers} width={12} height={12} border={0} ring={13} gradient={"g-white"} />
+                      {follower.follower.profile_bios.length == 0 && (
+                        <Avatar
+                          profile={follower.follower}
+                          width={12}
+                          height={12}
+                          border={0}
+                          ring={13}
+                          gradient={"g-white"}
+                        />
                       )}
-                      {followers.username}
+                      {follower.follower.username}
                     </Link>
                   ))}
                 </ul>
