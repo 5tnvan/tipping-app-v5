@@ -4,7 +4,6 @@
 
 #canvas {position: absolute};
 
-
 /* #master background dot animation */
 #master {
   position: relative;
@@ -92,31 +91,34 @@
 /* Wild UI CSS */
 .wildui-generic-scroll-a {
   /* background-color: #03A66A; */
-  height: calc(100vh - 17rem);
+  height: calc(100dvh - 17rem);
 }
 .wildui-generic-scroll-b {
-  height: calc(100vh - 17rem);
+  height: calc(100dvh - 17rem);
+}
+.wildui-generic-scroll-c {
+  height: calc(100dvh - 14rem);
 }
 .wildui-transaction-scroll-home {
-  height: calc(100vh - 31rem);
+  height: calc(100dvh - 31rem);
 }
 .wildui-transaction-scroll-profile-view {
-  height: calc(100vh - 37rem);
+  height: calc(100dvh - 37rem);
 }
 .wildui-transaction-scroll-profile-username {
-  height: calc(100vh - 37rem);
+  height: calc(100dvh - 37rem);
 }
 .wildui-transaction-scroll-transaction {
-  height: calc(100vh - 11rem);
+  height: calc(100dvh - 11rem);
 }
 .wildui-leaderboard-scroll {
-  height: calc(100vh - 14rem);
+  height: calc(100dvh - 14rem);
 }
 .wildui-notification-scroll {
-  height: calc(100vh - 14rem);
+  height: calc(100dvh - 14rem);
 }
 /* .wildui-search-res-scroll {
-  height: calc(100vh - 11rem);
+  height: calc(100dvh - 11rem);
 } */
 .wildui-menu { top: 20px; right: 20px; }
 .wildui-modal-container { background-color: rgba(0, 0, 0, 0.5); z-index: 100;}
@@ -247,7 +249,7 @@
 .badge-error { background-color: #F25764!important; }
 
 .carousel {
-  height: calc(100vh - 5.5rem);
+  height: calc(100dvh - 5.5rem);
 }
 
 /*** MEDIA Q ***/
@@ -269,11 +271,11 @@
   .wildpay-soc-label {display: none;}
   .wildui-transaction-scroll-profile-view {
     /* background-color: #03A66A; */
-    height: calc(100vh - 35rem);
+    height: calc(100dvh - 35rem);
   }
   .wildui-transaction-scroll-profile-username {
     /* background-color: #03A66A; */
-    height: calc(100vh - 35rem);
+    height: calc(100dvh - 35rem);
   }
   .scr {
     width: 100%!important; /* Subtract twice the padding/margin on both sides */

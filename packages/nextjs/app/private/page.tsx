@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import AvatarCreator from "~~/components/app/avatar/page";
+//import AvatarCreator from "~~/components/app/avatar/page";
 
 const PrivatePage: NextPage = () => {
   // const { profile } = useContext(AppContext);
@@ -15,7 +15,7 @@ const PrivatePage: NextPage = () => {
   // }, [profile]);
   return (
     <div className="bg-white text-black">
-      <AvatarCreator />
+      {/* <AvatarCreator /> */}
     </div>
   );
 };

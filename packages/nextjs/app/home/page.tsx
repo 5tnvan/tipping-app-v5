@@ -102,7 +102,7 @@ const HomePage: NextPage = () => {
     return (
       <>
         {/* CONTENT */}
-        <div id="wildpay-home" className="z-10 max-h-screen pt-8 text-black">
+        <div id="wildpay-home" className="z-10 max-h-dvh pt-8 text-black">
           <div className="pl-6 pr-6">
             <div className="stats shadow bg-accent text-accent-content mt-5 mb-5 w-full">
               <div className="stat">
