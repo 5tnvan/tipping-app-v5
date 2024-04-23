@@ -58,36 +58,35 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-50" onClick={handleClose}>
             ✕
           </button>
-          <div>
-            <BackgroundGradient className="rounded-[22px] p-5 pt-10 bg-white dark:bg-zinc-900">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <Avatar profile={data.profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />
-                  <Link href={`/${data.profile.username}`} className="ml-2 font-semibold text-primary mr-2">
-                    @{data.profile.username}
-                  </Link>
-                  <span className="text-slate-500">
-                    <TimeAgo timestamp={data.bios[0]?.created_at} />
-                  </span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <EyeIcon width={14} />
-                  {data.bios[0]?.views}
-                </div>
+
+          <BackgroundGradient className="rounded-[22px] p-5 pt-10 bg-white dark:bg-zinc-900">
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <Avatar profile={data.profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />
+                <Link href={`/${data.profile.username}`} className="ml-2 font-semibold text-primary mr-2">
+                  @{data.profile.username}
+                </Link>
+                <span className="text-slate-500">
+                  <TimeAgo timestamp={data.bios[0]?.created_at} />
+                </span>
               </div>
-              <TextGenerateEffect words={data.bios[0]?.content} />
-              <div className="btn btn-primary w-full mt-5" onClick={handleCta}>
-                {data.bios[0]?.cta == 0 && "Pay now"}
-                {data.bios[0]?.cta == 1 && !followersPublicData?.followed && "Follow me"}
-                {data.bios[0]?.cta == 1 && followersPublicData?.followed && (
-                  <>
-                    Following
-                    <CheckCircleIcon width={18} />
-                  </>
-                )}
+              <div className="flex items-center gap-1">
+                <EyeIcon width={14} />
+                {data.bios[0]?.views}
               </div>
-            </BackgroundGradient>
-          </div>
+            </div>
+            <TextGenerateEffect words={data.bios[0]?.content} />
+            <div className="btn btn-primary w-full mt-5" onClick={handleCta}>
+              {data.bios[0]?.cta == 0 && "Pay now"}
+              {data.bios[0]?.cta == 1 && !followersPublicData?.followed && "Follow me"}
+              {data.bios[0]?.cta == 1 && followersPublicData?.followed && (
+                <>
+                  Following
+                  <CheckCircleIcon width={18} />
+                </>
+              )}
+            </div>
+          </BackgroundGradient>
         </div>
       </div>
     </div>

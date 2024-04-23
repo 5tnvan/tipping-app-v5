@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Image from "next/image";
 import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { BanknotesIcon, FireIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { BanknotesIcon, FireIcon, PlusCircleIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { AppContext, FollowersContext } from "~~/app/context";
 import { postProfileBio } from "~~/app/profile/actions";
 
@@ -12,8 +13,14 @@ type Props = {
 };
 
 export const CreateModal = ({ isOpen, onClose }: Props) => {
-  const { profile, refetchAuth } = useContext(AppContext);
+  const { profile, levels, refetchAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
+
+  /* CURRENT LEVEL */
+  const [currentLevel, setCurrentLevel] = useState(0);
+  useEffect(() => {
+    if (levels?.length > 0) setCurrentLevel(levels[levels.length - 1].level);
+  }, []);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState("init");
@@ -87,16 +94,26 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                     <div className="ml-1">Create a Wild Bio</div>
                   </div>
                 </div>
-                <div className="btn grid w-full h-20 rounded bg-secondary text-secondary-content place-content-center btn-disabled">
+                <div
+                  className={`btn bg-neutral grid w-full h-20 rounded text-neutral-content place-content-center ${
+                    currentLevel > 0 ? "" : "btn-disabled"
+                  }`}
+                  onClick={() => handleChoosen("wildnft")}
+                >
                   <div className="flex items-center">
                     <BanknotesIcon width={18} />
-                    <div className="ml-1">Create a Wild-NFT</div>
+                    <div className="ml-1 mr-1">Create a Wild-NFT</div>
                   </div>
                 </div>
-                <div className="btn grid w-full h-20 rounded bg-accent text-accent-content place-content-center btn-disabled">
+                <div
+                  className={`btn bg-neutral grid w-full h-20 rounded text-neutral-content place-content-center ${
+                    currentLevel > 0 ? "" : "btn-disabled"
+                  }`}
+                  onClick={() => handleChoosen("wildfire")}
+                >
                   <div className="flex items-center">
                     <FireIcon width={18} />
-                    <div className="ml-1">Create a Wildfire</div>
+                    <div className="ml-1 mr-1">Create a Wildfire</div>
                   </div>
                 </div>
               </div>
@@ -173,6 +190,45 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                   </div>
                 </>
               )}
+            </div>
+          )}
+          {choosen == "wildnft" && (
+            <div className="m-5 mt-10">
+              <div className="font-semibold custom-text-blue text-3xl">{"Congrats 🎉."}</div>
+              <div className=" custom-text-blue text-xl mb-5">Level {currentLevel}, you unlocked this feature.</div>
+              <div className="flex mb-2">
+                <span>
+                  Create <span className="font-semibold text-primary">your-own-NFT</span> to be traded.
+                </span>
+                <div className="tooltip tooltip-top flex justify-center ml-1" data-tip="Preparing. Comeback later.">
+                  <button className="">
+                    <QuestionMarkCircleIcon width={14} />
+                  </button>
+                </div>
+              </div>
+              <div className="btn btn-secondary w-full mt-4" onClick={() => handleChoosen("init")}>
+                Back
+              </div>
+            </div>
+          )}
+          {choosen == "wildfire" && (
+            <div className="m-5 mt-10">
+              <div className="font-semibold custom-text-blue text-3xl">{"Congrats 🎉."}</div>
+              <div className=" custom-text-blue text-xl mb-5">Level {currentLevel}, you unlocked this feature.</div>
+              <div className="flex mb-2">
+                <span>
+                  Create viral decentralized <span className="font-semibold text-primary">shorts.</span>
+                </span>
+                <div className="tooltip tooltip-top flex justify-center ml-1" data-tip="Preparing. Comeback later.">
+                  <button className="">
+                    <QuestionMarkCircleIcon width={14} />
+                  </button>
+                </div>
+              </div>
+              <Image src="/gif-shorts-01.gif" alt="shorts" width="500" height="500" />
+              <div className="btn btn-secondary w-full mt-4" onClick={() => handleChoosen("init")}>
+                Back
+              </div>
             </div>
           )}
         </div>

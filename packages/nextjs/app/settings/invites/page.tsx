@@ -121,6 +121,13 @@ export default function InvitesPage() {
                 ))}
               </tbody>
             </table>
+            {invites?.length == 0 && (
+              <div className="flex h-full justify-center items-center mt-2">
+                <div className="btn btn-neutral" onClick={openInviteGenerateModal}>
+                  Generate an invite 🥳
+                </div>
+              </div>
+            )}
           </div>
           {/* Invite Generate Modal */}
           <InviteModal isOpen={isInviteModalOpen} onClose={closeInviteModal} data={invite} />
