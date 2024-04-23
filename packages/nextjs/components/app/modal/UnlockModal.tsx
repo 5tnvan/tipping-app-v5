@@ -80,9 +80,6 @@ export const UnlockModal = ({ isOpen, onClose, levelToUnlock }: Props) => {
     return null;
   }
 
-  console.log("levelToUnlock", levelToUnlock);
-  console.log("invite", invite);
-
   return (
     <div className="wildui-modal-container w-full h-full top-0 left-0 fixed flex justify-center items-start z-100">
       <div className="wildui-modal-child flex flex-col text-black z-30 mt-4">

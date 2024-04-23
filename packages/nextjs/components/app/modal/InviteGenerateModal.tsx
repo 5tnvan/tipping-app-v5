@@ -42,8 +42,6 @@ export const InviteGenerateModal = ({ isOpen, onClose, data, refetch }: Props) =
     }
   };
 
-  console.log("invite", invite);
-
   /* COPY BUTTON */
   const [copied, setCopied] = useState(false);
   const handleCopyToClipboard = (code: any) => {

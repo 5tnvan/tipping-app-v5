@@ -78,6 +78,9 @@ const HomePage: NextPage = () => {
     if (levels?.length > 0) setCurrentLevel(levels[levels.length - 1].level);
   }, []);
 
+  // console.log("levels", levels);
+  // console.log("currentLevel", currentLevel);
+
   //console.log("home: profile: ", profile);
   //console.log("home: followersData: ", followersData);
   //console.log("home: transactions: ", incomingRes, outgoingRes);
