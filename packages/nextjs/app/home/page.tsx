@@ -184,7 +184,7 @@ const HomePage: NextPage = () => {
               )}
               {!isLoadingFollowers && showFollow == "following" && followersData?.following?.length == 0 && (
                 <div className="flex h-full justify-center items-center">
-                  <Link href="/leaderboard" className="btn btn-neutral">
+                  <Link href="/bios" className="btn btn-neutral">
                     Start following someone 🥳
                   </Link>
                 </div>
