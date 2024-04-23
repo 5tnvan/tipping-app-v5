@@ -20,7 +20,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   const [currentLevel, setCurrentLevel] = useState(0);
   useEffect(() => {
     if (levels?.length > 0) setCurrentLevel(levels[levels.length - 1].level);
-  }, []);
+  }, [levels]);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState("init");
@@ -70,6 +70,9 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   if (!isOpen) {
     return null;
   }
+
+  console.log("levels", levels);
+  console.log("currentLevel", currentLevel);
 
   return (
     <div className="wildui-modal-container w-full h-full top-0 left-0 fixed flex justify-center items-start z-100">
