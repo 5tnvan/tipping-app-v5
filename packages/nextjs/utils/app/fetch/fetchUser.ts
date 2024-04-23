@@ -122,3 +122,20 @@ export const fetchPublicProfileFromWalletId = async (wallet_id: string) => {
   if (error) console.log(error);
   return profileData?.[0] ?? null;
 };
+
+/**
+ * FETCH: fetchPublicProfileFromWalletId(wallet_id)
+ * DB: supabase
+ * TABLE: "profiles"
+ **/
+
+export const fetchAllBios = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, username, avatar_url, profile_bios (id, created_at, views, content, cta)")
+    .order("created_at", { referencedTable: 'profile_bios', ascending: true });
+  if (error) console.log(error);
+  return data;
+};

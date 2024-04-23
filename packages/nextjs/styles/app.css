@@ -4,6 +4,7 @@
 
 #canvas {position: absolute};
 
+
 /* #master background dot animation */
 #master {
   position: relative;
@@ -227,23 +228,10 @@
   90% { margin-top: 0; }
 }
 
-/* CARDS CAROUSELS: slides,scrolls */
-
-/* .slider { width: 300px; text-align: center; overflow: hidden; margin-top: 10px; margin-bottom: 10px; }
-.slides { font-size: 9px !important; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
-.slides::-webkit-scrollbar { width: 10px; height: 10px; }
-.slides::-webkit-scrollbar-thumb { background: black; border-radius: 20px; }
-.slides::-webkit-scrollbar-track { background: transparent; }
-.slides>div { scroll-snap-align: start; flex-shrink: 0; width: 300px; height: 200px; margin-right: 20px; margin-bottom: 3px; }
-.slides>div { border-radius: 10px; background: #eee; transform-origin: center center; transform: scale(1); transition: transform 0.5s; position: relative; display: flex; justify-content: center; align-items: center; font-size: 100px; } */
-
-/* .scr { display: inline-flex; width: 370px; height: 239.07px; scroll-snap-type: x mandatory; scroll-behavior: smooth; overflow-x: auto; } */
-#wildpay-is-not-auth .scr {
-  display: inline-flex;
-  width: 450px; 
-  height: 292.05px;
-}
-
+/* DAISYUI */
+/* DAISYUI */
+/* DAISYUI */
+#wildpay-is-not-auth .scr { display: inline-flex; width: 450px; height: 292.05px; }
 .scr { width: 370px; height: 239.07px; }
 .scr-item { box-sizing: content-box; display: flex; flex: none; scroll-snap-align: start; width: 100%; height: 100%; border-radius: 10px; font-size: 18px; }
 .scr-item .url { bottom: 7px; right: 7px; }
@@ -252,18 +240,17 @@
 .scr::-webkit-scrollbar-thumb { background: rgb(67, 67, 67); border-radius: 10px; }
 .scr::-webkit-scrollbar-track { background: transparent; }
 
-/* OTHER: socials, availability badge*/
-/* .fb .h-8 { width: 10px; } */
-/* .w-18px { width: 18px; }
-.w-14px { width: 14px; } */
 .badge { color: white; }
 .badge-info { background-color: #05C7F2!important; }
 .badge-success { background-color: #03A66A!important; }
 .badge-warning { background-color: #F29F05!important; }
 .badge-error { background-color: #F25764!important; }
 
-/* MEDIA Q */
+.carousel {
+  height: calc(100vh - 5.5rem);
+}
 
+/*** MEDIA Q ***/
 /* MD: Tablet */
 @media screen and (max-width: 640px) {
   
