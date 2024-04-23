@@ -59,7 +59,7 @@ const LevelsPage: NextPage = () => {
           <span className="text-primary text-4xl">Levels</span>
         </div>
       </div>
-      <div className="wildui-generic-scroll-a overflow-scroll pl-5 pr-5">
+      <div className="wildui-generic-scroll-c overflow-scroll pl-5 pr-5">
         {/* Level 0 - Noob */}
         <div className="card achieved w-full bg-neutral-500 shadow-xl image-full mb-5">
           <figure>

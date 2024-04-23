@@ -63,7 +63,7 @@ export const Login = () => {
         </button>
 
         {error && (
-          <div role="alert" className="alert alert-error mt-3">
+          <div role="alert" className="flex alert alert-error mt-3">
             <div className="cursor-pointer">
               <XCircleIcon width={20} onClick={() => setError(null)} />
             </div>

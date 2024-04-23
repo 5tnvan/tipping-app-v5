@@ -45,26 +45,22 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
           <NotificationContext.Provider value={{ isLoadingNotifications, notifications, refetchNotifications }}>
             {/* PRIVATE PAGE */}
             {/* route: /test */}
-            {isPrivate && (
-              <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
-                {children}
-              </main>
-            )}
+            {isPrivate && <>{children}</>}
             {/* ADMIN AREA */}
             {/* route: /debug /blockexplorer */}
             {(isDebug || isBlockExplorer) && <IsAdminLayout>{children}</IsAdminLayout>}
             {/* LANDING PAGE */}
             {/* route: wildpay.app */}
             {isRoot && (
-              <main id="main" className="flex flex-col min-h-screen h-full bg-black antialiased">
+              <main id="main" className="flex flex-col min-h-dvh h-full bg-black antialiased">
                 {children}
               </main>
             )}
             {/* THE APP */}
             {!isRoot && !isDebug && !isBlockExplorer && (
               <div id="master" className="min-h-full bg-neutral-950 antialiased">
-                <main id="main" className="flex justify-center min-h-screen h-full text-black">
-                  <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-screen`}>
+                <main id="main" className="flex justify-center min-h-dvh h-full text-black">
+                  <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-dvh`}>
                     <Link href="/" id="wildpay-logo" className="flex w-max items-center z-10 pl-6 pt-7">
                       <WildPayLogo color="blue" width="30" height="30" />
                       <h1 className="text-lg font-semibold custom-text-blue ml-2 mb-0 z-10">wildpay</h1>
