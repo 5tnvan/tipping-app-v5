@@ -1,5 +1,11 @@
 # Wildpay App
-Dare to be paid?
+Dare to get paid?
+
+<p align="center">
+    <a href="https://ibb.co/nc9cJZQ">
+        <img src="https://i.ibb.co/2txt4mc/Nm3-NZk-Nmniop34-Qm-large.png" alt="Nm3-NZk-Nmniop34-Qm-large" border="0">
+    </a>
+</p>
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Github</a> |
