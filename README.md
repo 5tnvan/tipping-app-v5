@@ -58,21 +58,25 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 Our Smart Contracts are verified on chain!
 
-Base: https://basescan.org/address/0x3579b02193028357acafe8323d2f62155078033a
+### Base: 
+- https://basescan.org/address/0x3579b02193028357acafe8323d2f62155078033a
 
-Ethereum: https://etherscan.io/address/0x3579b02193028357acafe8323d2f62155078033a
+### Ethereum:
+- https://etherscan.io/address/0x3579b02193028357acafe8323d2f62155078033a
 
 ## 🟢 Subgraph
 
 We index our Smart Contracts and query this data from our front-end app! 
 
-Ethereum: https://etherscan.io/address/0x3579b02193028357acafe8323d2f62155078033a
+### Base
+- https://github.com/5tnvan/tipping-app-v5/tree/main/packages/subgraph/wildpay-base-mainnet (Source Code)
+- https://thegraph.com/studio/subgraph/wildpay-base-mainnet/ (Subgraph code)
+- https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/version/latest (API Endpoint)
+### Ethereum
+- https://github.com/5tnvan/tipping-app-v5/tree/main/packages/subgraph/wildpay-base-mainnet (Source code)
+- https://thegraph.com/studio/subgraph/wildpay-eth-mainnet/ (Subgraph Studio)
+- https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/version/latest (API Endpoint)
 
-Base API: https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/version/latest 
-
-Ethereum: https://thegraph.com/studio/subgraph/wildpay-eth-mainnet/ 
-
-Ethereum API: https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/version/latest
 
 ## Got a question ❓
 Write to tran@micalabs.org
