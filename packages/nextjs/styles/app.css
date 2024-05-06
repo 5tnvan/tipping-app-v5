@@ -99,6 +99,9 @@
 .wildui-generic-scroll-c {
   height: calc(100dvh - 14rem);
 }
+.wildui-fastpay-scroll-a {
+  height: calc(100dvh - 8rem);
+}
 .wildui-transaction-scroll-home {
   height: calc(100dvh - 31rem);
 }

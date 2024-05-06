@@ -54,10 +54,10 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           ✕
         </button>
         {/* FAST PAY TO */}
-        <div className="pt-12 pl-5 pr-5 pb-10">
+        <div className="pt-12 pb-10">
           <div className="flex flex-col">
             {followersData?.following?.length == 0 && (
-              <div className="flex h-full justify-center items-center">
+              <div className="flex h-full justify-center items-center pl-5 pr-5">
                 <Link href="/leaderboard" className="btn btn-neutral" onClick={handleClose}>
                   Start following someone 🥳
                 </Link>
@@ -65,46 +65,48 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
             )}
             {!receiver && Array.isArray(followersData.following) && followersData?.following?.length > 0 && (
               <>
-                <div className="font-semibold">Pay to:</div>
-                {followersData.following.map((following: any) => (
-                  <div
-                    key={following.following.wallet_id}
-                    className="flex btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 h-full items-center justify-between pt-2 pb-2 mt-2"
-                    onClick={() => handlePicked(following.following)}
-                  >
-                    <div className="flex items-center">
-                      {following.following.profile_bios.length > 0 && (
-                        <Avatar
-                          profile={following.following}
-                          width={8}
-                          height={8}
-                          ring={9}
-                          border={2}
-                          gradient={"g-tropical"}
-                        />
-                      )}
-                      {following.following.profile_bios.length == 0 && (
-                        <Avatar
-                          profile={following.following}
-                          width={8}
-                          height={8}
-                          ring={9}
-                          border={0}
-                          gradient={"g-white"}
-                        />
-                      )}
+                <div className="font-semibold pl-5 pr-5">Pay to:</div>
+                <div className="wildui-fastpay-scroll-a overflow-scroll pl-5 pr-5 pb-5">
+                  {followersData.following.map((following: any) => (
+                    <div
+                      key={following.following.wallet_id}
+                      className="flex h-max btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
+                      onClick={() => handlePicked(following.following)}
+                    >
+                      <div className="flex items-center">
+                        {following.following.profile_bios.length > 0 && (
+                          <Avatar
+                            profile={following.following}
+                            width={8}
+                            height={8}
+                            ring={9}
+                            border={2}
+                            gradient={"g-tropical"}
+                          />
+                        )}
+                        {following.following.profile_bios.length == 0 && (
+                          <Avatar
+                            profile={following.following}
+                            width={8}
+                            height={8}
+                            ring={9}
+                            border={0}
+                            gradient={"g-white"}
+                          />
+                        )}
 
-                      <div className="ml-2 font-semibold pl-3">{following.following.username}</div>
+                        <div className="ml-2 font-semibold pl-3">{following.following.username}</div>
+                      </div>
+                      <div>
+                        <ArrowRightIcon />
+                      </div>
                     </div>
-                    <div>
-                      <ArrowRightIcon />
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </>
             )}
             {/* FAST PAY CHOSEN RECEIVER */}
-            <div className="">
+            <div className="pl-5 pr-5">
               {receiver && (
                 <>
                   <button className="font-semibold flex items-center" onClick={() => setReceiver(null)}>
@@ -129,7 +131,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
             </div>
           </div>
           {/* FAST PAY CONFIRM */}
-          <div>
+          <div className="pl-5 pr-5">
             {receiver && receiver.wallet_id && (
               <FastPayConfirm receiver={receiver.wallet_id} onSuccess={handlePaySuccess} onClose={handleClose} />
             )}
