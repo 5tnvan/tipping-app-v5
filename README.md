@@ -87,3 +87,5 @@ We index our Smart Contracts and query this data from our front-end app!
 ## Got a question ❓
 Write to tran@micalabs.org
 
+Ask for help on https://t.me/wildpayapp
+
