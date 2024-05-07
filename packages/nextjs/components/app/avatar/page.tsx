@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import * as faceapi from "face-api.js";
 import Dropzone from "react-dropzone";
 
@@ -31,7 +32,7 @@ const AvatarCreator = () => {
     faceapi.draw.drawDetections(canvas, faceAIdata);
 
     // Draw landmarks on canvas
-    faceAIdata.forEach((faceAIdata) => {
+    faceAIdata.forEach(faceAIdata => {
       const landmarks = faceAIdata.landmarks;
       faceapi.draw.drawFaceLandmarks(canvas, landmarks);
     });
@@ -48,7 +49,15 @@ const AvatarCreator = () => {
   return (
     <div>
       <canvas id="canvas"></canvas>
-      <img id="face" src={uploadedImage} />
+      <Image
+        id="face"
+        src={uploadedImage}
+        alt="dummy image"
+        priority={true}
+        width="1000"
+        height="1000"
+        className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
+      />
       <Dropzone onDrop={handleImageUpload}>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()}>
