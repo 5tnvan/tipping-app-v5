@@ -28,6 +28,7 @@ const Home: NextPage = () => {
             <Image
               src="/profile-mock-xl-min.png"
               alt="dummy image"
+              priority={true}
               width="1000"
               height="1000"
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
