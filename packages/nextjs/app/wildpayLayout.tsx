@@ -6,6 +6,7 @@ import { AppContext, FollowersContext, NotificationContext } from "./context";
 import IsAdminLayout from "./isAdminLayout";
 import IsAuthLayout from "./isAuthLayout";
 import IsNotAuthLayout from "./isNotAuthLayout";
+import { LineWave } from "react-loader-spinner";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { useAuthentication } from "~~/hooks/app/useAuthentication";
 import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
@@ -49,15 +50,42 @@ const WildPay = ({ children }: { children: React.ReactNode }) => {
             {/* ADMIN AREA */}
             {/* route: /debug /blockexplorer */}
             {(isDebug || isBlockExplorer) && <IsAdminLayout>{children}</IsAdminLayout>}
+            {/* LOADING UI */}
+            {/* route: /* */}
+            {isAuth == "init" && (
+              <main id="main" className="flex justify-center items-center min-h-dvh h-full bg-black antialiased">
+                <div className="flex flex-col items-center">
+                  <div className="flex flex-row gap-2 items-center">
+                    <WildPayLogo color="blue" width="40" height="40" />
+                    <h1 className="text-3xl font-semibold custom-text-blue z-10">wildpay</h1>
+                  </div>
+
+                  <div className="flex flex-row">
+                    <LineWave
+                      visible={true}
+                      height="100"
+                      width="100"
+                      color="#3D45E7"
+                      ariaLabel="line-wave-loading"
+                      wrapperStyle={{ "margin-left": "30px", "margin-top": "-40px" }}
+                      wrapperClass=""
+                      firstLineColor=""
+                      middleLineColor=""
+                      lastLineColor=""
+                    />
+                  </div>
+                </div>
+              </main>
+            )}
             {/* LANDING PAGE */}
             {/* route: wildpay.app */}
-            {isRoot && (
+            {isAuth != "init" && isRoot && (
               <main id="main" className="flex flex-col min-h-dvh h-full bg-black antialiased">
                 {children}
               </main>
             )}
             {/* THE APP */}
-            {!isRoot && !isDebug && !isBlockExplorer && (
+            {isAuth != "init" && !isRoot && !isDebug && !isBlockExplorer && (
               <div id="master" className="min-h-full bg-neutral-950 antialiased">
                 <main id="main" className="flex justify-center min-h-dvh h-full text-black">
                   <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-dvh`}>
