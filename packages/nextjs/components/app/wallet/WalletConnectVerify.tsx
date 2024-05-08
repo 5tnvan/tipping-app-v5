@@ -14,6 +14,7 @@ const WalletConnectVerify = () => {
 
   const { address } = useAccount();
   const { data: signMessageData, error, signMessage, variables } = useSignMessage();
+  const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<any>();
 
   useEffect(() => {
@@ -31,10 +32,12 @@ const WalletConnectVerify = () => {
         });
       }
       if (signMessageData) {
+        setIsProcessing(false);
         updateProfileWallet(address, signMessageData, new Date().toISOString());
         refetchAuth();
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, signMessageData, variables?.message]);
 
   return (
@@ -95,14 +98,16 @@ const WalletConnectVerify = () => {
                       {"It's free of charge."}
                     </div>
                   </li>
-                  <div
+                  <button
                     className="btn btn-primary w-full mt-5"
                     onClick={() => {
+                      setIsProcessing(true);
                       signMessage({ message: "Hi WildPay, this signature is to prove the ownership of my wallet!" });
                     }}
+                    disabled={!isProcessing && signMessageData != undefined}
                   >
-                    Sign a message
-                  </div>
+                    Sign a message {!error && isProcessing && <span className="loading loading-ring loading-md"></span>}
+                  </button>
                 </>
               )}
               {errorMessage && (
