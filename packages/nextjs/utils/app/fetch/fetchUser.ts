@@ -135,7 +135,7 @@ export const fetchAllBios = async () => {
   const { data, error } = await supabase
     .from("profiles")
     .select("id, username, avatar_url, profile_bios (id, created_at, views, content, cta)")
-    .order("created_at", { referencedTable: 'profile_bios', ascending: true });
+    .order("created_at", { referencedTable: "profile_bios", ascending: true });
   if (error) console.log(error);
   return data;
 };

@@ -45,14 +45,14 @@ export const useIncomingTransactions = (receiverAddress: any) => {
 
   const { data: ethereumData } = useQuery(gql(PAYMENTS_GRAPHQL), {
     variables: { receiverAddress },
-    pollInterval: 1000,
+    pollInterval: 10000,
     fetchPolicy: "network-only",
     client: apolloClientEthereum,
   });
 
   const { data: baseData } = useQuery(gql(PAYMENTS_GRAPHQL), {
     variables: { receiverAddress },
-    pollInterval: 1000,
+    pollInterval: 10000,
     fetchPolicy: "network-only",
     client: apolloClientBase,
   });
