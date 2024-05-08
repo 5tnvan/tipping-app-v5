@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { fetchBios } from "~~/utils/app/fetch/fetchBios";
 import { fetchLevels } from "~~/utils/app/fetch/fetchLevels";
-import { fetchProfile, fetchUser } from "~~/utils/app/fetch/fetchUser";
+import { fetchSuperProfile } from "~~/utils/app/fetch/fetchProfile";
+import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 
-export const useAuthentication = () => {
+export const useAuthUser = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState("init");
   const [user, setUser] = useState<any>();
@@ -18,12 +19,12 @@ export const useAuthentication = () => {
     setTriggerRefetch(prev => !prev);
   };
 
-  const initUser = async () => {
+  const init = async () => {
     setIsLoading(true); // Set loading to true when starting data fetch
 
     const userData = await fetchUser();
     if (userData?.user) {
-      const profileData = await fetchProfile();
+      const profileData = await fetchSuperProfile();
       const profileBiosData = await fetchBios();
       const profileLevelsData = await fetchLevels();
       setUser(userData.user);
@@ -39,7 +40,7 @@ export const useAuthentication = () => {
   };
 
   useEffect(() => {
-    initUser();
+    init();
   }, [triggerRefetch]);
 
   return { isLoading, isAuth, user, profile, bios, levels, refetch };
