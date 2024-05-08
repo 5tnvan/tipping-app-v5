@@ -3,10 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { AppContext, FollowersContext, NotificationContext } from "~~/app/context";
+import { AppContext, AuthContext, FollowersContext, NotificationContext } from "~~/app/context";
 
 export const Login = () => {
   const router = useRouter();
+  const { refetchSession } = useContext(AuthContext);
   const { refetchAuth } = useContext(AppContext);
   const { refetchFollowers } = useContext(FollowersContext);
   const { refetchNotifications } = useContext(NotificationContext);
@@ -18,6 +19,7 @@ export const Login = () => {
       const formData = new FormData(event.currentTarget);
       await login(formData);
       router.push("home");
+      refetchSession();
       refetchAuth();
       refetchFollowers();
       refetchNotifications();
