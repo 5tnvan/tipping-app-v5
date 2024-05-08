@@ -54,7 +54,7 @@ const WalletConnectVerify = () => {
         )}
 
         {/* Steps */}
-        <ul className="steps steps-vertical w-full">
+        <ul className="steps steps-vertical w-full overflow-hidden">
           {/* 1.Link your wallet */}
           {!profile.wallet_id && (
             <li className={`step ${address ? "step-primary" : ""}`}>
@@ -109,7 +109,7 @@ const WalletConnectVerify = () => {
                 <li className="step mt-4">
                   <div>Verify ownership</div>
                   <div className="min-w-max text-left text-red-600">
-                    This wallet address belongs to another account. <br/> Please try with another wallet.
+                    This wallet address belongs to another account. <br /> Please try with another wallet.
                   </div>
                 </li>
               )}
