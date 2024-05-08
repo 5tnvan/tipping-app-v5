@@ -51,10 +51,29 @@ export async function resetPassword(formData: FormData) {
 
   if (error) {
     console.log(error);
-    throw new Error();
+    throw new Error(error.message);
   }
 
   console.log("password reset success");
+}
+
+export async function confirmPassword(email: string, formData: FormData) {
+  const supabase = createClient();
+
+  const password = formData.get("password") as string;
+  console.log("password", password);
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error || !data?.user?.id) {
+    console.log(error);
+    return error?.message || "Your current password is not valid. For safety concerns, you need to re-log";
+  }
+
+  console.log("password confirm success");
 }
 
 /* LOGOUT */

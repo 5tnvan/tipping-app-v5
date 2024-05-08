@@ -3,16 +3,17 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { resetPassword } from "../../login/actions";
+import { confirmPassword } from "../../login/actions";
+import { resetProfileWallet } from "../actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { AppContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
-export default function ResetPasswordPage() {
+export default function ResetWalletPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AppContext);
+  const { isAuth, user, refetchAuth } = useContext(AppContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -23,36 +24,33 @@ export default function ResetPasswordPage() {
     setPassword(e.target.value);
   };
 
-  const handleResetPassword = async (event: any) => {
+  const handleResetWallet = async (event: any) => {
     event.preventDefault();
 
-    // Perform password validation
-    const isValidPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
-    setPasswordError(isValidPassword ? "" : "Password is too short or too weak.");
+    const formData = new FormData(event.currentTarget);
+    const error = await confirmPassword(user.email, formData);
 
-    // Check if both email and password are valid before submitting
-    if (!isValidPassword) {
-      setIsProcessing(false);
-      return;
-    }
-    try {
-      const formData = new FormData(event.currentTarget);
-      await resetPassword(formData);
+    if (!error) {
       setIsProcessing(false);
       setPasswordError("");
-      setSuccess("Success. You changed your password.");
-      setTimeout(router.back, 100);
-    } catch (error) {
+      await resetProfileWallet();
+      setSuccess("Success. You reset your wallet.");
+      setTimeout(() => {
+        refetchAuth();
+        router.back();
+      }, 100);
+    } else {
+      console.log(error);
       setIsProcessing(false);
       setError(error);
-      // setError("Reset failed. Please try again");
+      // setError("Authentication failed. Please try again");
     }
   };
 
   if (isAuth == "yes") {
     return (
       <>
-        <form onSubmit={handleResetPassword}>
+        <form onSubmit={handleResetWallet}>
           <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 ml-6 mr-6 z-10">
             {/* CTA BUTTON */}
             <div id="wildpay-cta" className="mb-20 z-1 relative">
@@ -60,7 +58,7 @@ export default function ResetPasswordPage() {
                 Back to Settings
               </button>
             </div>
-            <div className="font-semibold text-3xl mb-5">{"Reset your password"}</div>
+            <div className="font-semibold text-3xl mb-5">{"Confirm your password"}</div>
             {/* Input */}
             <label className="input input-bordered flex items-center gap-2 mb-3">
               <svg
@@ -78,14 +76,19 @@ export default function ResetPasswordPage() {
               <input
                 type="password"
                 name="password"
-                placeholder="New password"
+                placeholder="Current password"
                 value={password}
                 className="bg-white text-black grow"
                 onChange={handlePasswordChange}
               />
             </label>
             {passwordError && <div className="custom-warning text-red-600 pb-2 pl-2">{passwordError}</div>}
-            <button type="submit" className="btn btn-secondary text-base w-full" onClick={() => setIsProcessing(true)}>
+            <button
+              type="submit"
+              className="btn btn-secondary text-base w-full"
+              onClick={() => setIsProcessing(true)}
+              disabled={success != undefined}
+            >
               Confirm {isProcessing && <span className="loading loading-ring loading-md"></span>}
             </button>
 
