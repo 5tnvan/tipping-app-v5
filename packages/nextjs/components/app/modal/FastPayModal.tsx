@@ -69,7 +69,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                 <div className="wildui-fastpay-scroll-a overflow-scroll pl-5 pr-5 pb-5">
                   {followersData.following.map((following: any) => (
                     <div
-                      key={following.following.wallet_id}
+                      key={following.following.id}
                       className="flex h-max btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"
                       onClick={() => handlePicked(following.following)}
                     >
