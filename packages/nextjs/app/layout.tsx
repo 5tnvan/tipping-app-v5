@@ -1,4 +1,4 @@
-import WildPayApp from "./WildpayLayout";
+import WildPayApp from "./wildpayLayout";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
