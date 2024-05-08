@@ -9,7 +9,7 @@ import IsAdminLayout from "./isAdminLayout";
 import { LineWave } from "react-loader-spinner";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { useAuth } from "~~/hooks/app/useAuth";
-import { useAuthentication } from "~~/hooks/app/useAuthentication";
+import { useAuthUser } from "~~/hooks/app/useAuthUser";
 import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
 import { useNotifications } from "~~/hooks/app/useNotifications";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -31,7 +31,7 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
   const isBlockExplorer = pathname.includes("/blockexplorer");
 
   /* CREATE CONTEXTS */
-  const { isLoading: isLoadingAuth, isAuth, user, profile, bios, levels, refetch: refetchAuth } = useAuthentication();
+  const { isLoading: isLoadingAuth, isAuth, user, profile, bios, levels, refetch: refetchAuth } = useAuthUser();
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
   const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications();
   const { isAuthenticated, refetch: refetchSession } = useAuth();
@@ -41,7 +41,7 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
 
   /* CONSOLE LOG */
   //console.log("wildLayout");
-  //console.log("wildLayout useAuthentication profile: ", profile);
+  console.log("wildLayout useAuthentication profile: ", profile);
   //console.log("wildLayout usePrivateFollowers", followersData);
   //console.log("wildLayout notifications", notifications);
   console.log("isAuth", isAuth);

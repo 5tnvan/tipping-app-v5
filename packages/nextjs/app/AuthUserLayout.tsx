@@ -80,23 +80,13 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   /**
-   * ACTION: Open and close Fast Pay Modal
+   * HANDLE: Fastpay Modal
    **/
   const [isFastPayModalOpen, setFastPayModalOpen] = useState(false);
+  const openFastPayModal = () => setFastPayModalOpen(true);
+  const closeFastPayModal = () => setFastPayModalOpen(false);
 
-  const openFastPayModal = () => {
-    setFastPayModalOpen(true);
-  };
-
-  const closeFastPayModal = () => {
-    setFastPayModalOpen(false);
-  };
-
-  /**
-   * ACTION: Trigger parents and children on success
-   **/
   const [hashRes, setHashRes] = useState();
-
   const handleFastPaySuccess = (hash: any) => {
     closeFastPayModal(); //closes fast pay
     console.log("AuthUserLayout: closesFastPayModal");
@@ -106,59 +96,35 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   /**
-   * ACTION: Open close receipt modal
+   * HANDLE: Receipt Modal
    **/
   const [isPayReceiptModalOpen, setPayReceiptModalOpen] = useState(false);
-
-  const openPayReceiptModal = () => {
-    setPayReceiptModalOpen(true);
-  };
-
-  const closePayReceiptModal = () => {
-    setPayReceiptModalOpen(false);
-  };
+  const openPayReceiptModal = () => setPayReceiptModalOpen(true);
+  const closePayReceiptModal = () => setPayReceiptModalOpen(false);
 
   /**
-   * ACTION: Open close search modal
+   * HANDLE: Search Modal
    **/
   const [isSearchModalOpen, setSearchModalOpen] = useState(false);
-
-  const openSearchModal = () => {
-    setSearchModalOpen(true);
-  };
-
-  const closeSearchModal = () => {
-    setSearchModalOpen(false);
-  };
+  const openSearchModal = () => setSearchModalOpen(true);
+  const closeSearchModal = () => setSearchModalOpen(false);
 
   /**
-   * ACTION: Open close avatar modal
+   * HANDLE: Avatar Modal
    **/
   const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-
-  const openAvatarModal = () => {
-    setAvatarModalOpen(true);
-  };
-
-  const closeAvatarModal = () => {
-    setAvatarModalOpen(false);
-  };
+  const openAvatarModal = () => setAvatarModalOpen(true);
+  const closeAvatarModal = () => setAvatarModalOpen(false);
 
   /**
-   * ACTION: Open close create modal
+   * HANDLE: Create Modal
    **/
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
-
-  const openCreateModal = () => {
-    setCreateModalOpen(true);
-  };
-
-  const closeCreateModal = () => {
-    setCreateModalOpen(false);
-  };
+  const openCreateModal = () => setCreateModalOpen(true);
+  const closeCreateModal = () => setCreateModalOpen(false);
 
   /**
-   * ACTION: Open close bio modal
+   * HANDLE: Bio Modal
    **/
   const [isBioModalOpen, setBioModalOpen] = useState(false);
 
@@ -178,9 +144,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const closeBioModal = () => {
-    setBioModalOpen(false);
-  };
+  const closeBioModal = () => setBioModalOpen(false);
 
   return (
     <>
@@ -188,28 +152,28 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
         value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}
       >
         <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
-          {/* ISAUTH USER DROPDOWN */}
-          {/* ISAUTH USER DROPDOWN: loading */}
+          {/* AUTHUSER DROPDOWN*/}
+          {/* AUTHUSER DROPDOWN: loading */}
           {isAuthenticated != "yes" && (
             <div className="z-10 wildui-menu absolute">
               <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
             </div>
           )}
-          {/* ISAUTH USER DROPDOWN: finished loading */}
+          {/* AUTHUSER DROPDOWN: finished loading */}
           {isAuthenticated == "yes" && <IsAuthMenu />}
 
-          {/* ISAUTH CUSTOM-BG */}
-          {/* ISAUTH CUSTOM-BG: /home, /transaction */}
+          {/* AUTHUSER Thin Strip UI */}
+          {/* These pages have a 100px strip on top */}
           <div
             className={`custom-top-cover absolute z-0 ${
               (isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && "h-100px"
             }`}
           ></div>
 
-          {/* ISAUTH */}
-          {/* ISAUTH: /username */}
+          {/* AUTHUSER */}
+          {/* AUTHUSER: /username */}
           {username && <IsPublicLayout>{children}</IsPublicLayout>}
-          {/* ISAUTH: /profile/view, /profile/edit, /settings */}
+          {/* AUTHUSER: /profile/view, /profile/edit, /settings */}
           {!username &&
             !isHome &&
             !isTransaction &&
@@ -337,15 +301,14 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                   </div>
                 </div>
-                {/* ISAUTH PROFILE CHILDREN */}
                 {children}
               </>
             )}
-          {/* ISAUTH: /home, /transaction, /leaderboard */}
+          {/* AUTHUSER: /home, /transaction, /leaderboard */}
           {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
         </div>
 
-        {/* PAY RECEIPT MODAL */}
+        {/* WILDPAY RECEIPT MODAL */}
         {hashRes && (
           <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
         )}

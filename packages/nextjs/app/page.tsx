@@ -13,6 +13,10 @@ import { TelegramIcon } from "~~/components/assets/TelegramIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
 import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
 
+/**
+ * Index Page
+ * /index
+ **/
 const Home: NextPage = () => {
   const { isAuth } = useContext(AppContext);
 
