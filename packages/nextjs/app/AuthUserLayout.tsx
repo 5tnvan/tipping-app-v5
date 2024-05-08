@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext, ComponentsContext, FollowersContext } from "./context";
+import { AppContext, AuthContext, ComponentsContext, FollowersContext } from "./context";
 import IsPublicLayout from "./isPublicLayout";
 import { incrementBioView } from "./profile/actions";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
@@ -27,11 +27,11 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
-  title: "Profile",
-  description: "Profile",
+  title: "AuthUserLayout",
+  description: "AuthUserLayout",
 });
 
-const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
@@ -49,6 +49,7 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
 
   /* PARENTS CONTEXT */
+  const { isAuthenticated } = useContext(AuthContext);
   const { isLoadingAuth, user, profile, bios, refetchAuth } = useContext(AppContext);
   const { followersData } = useContext(FollowersContext);
 
@@ -98,9 +99,9 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   const handleFastPaySuccess = (hash: any) => {
     closeFastPayModal(); //closes fast pay
-    console.log("isAuthLayout: closesFastPayModal");
+    console.log("AuthUserLayout: closesFastPayModal");
     setHashRes(hash); // set transaction hash
-    console.log("isAuthLayout: setHashRes(hash)", hash);
+    console.log("AuthUserLayout: setHashRes(hash)", hash);
     openPayReceiptModal(); //open receipt
   };
 
@@ -189,13 +190,13 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
         <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
           {/* ISAUTH USER DROPDOWN */}
           {/* ISAUTH USER DROPDOWN: loading */}
-          {isLoadingAuth && (
+          {isAuthenticated != "yes" && (
             <div className="z-10 wildui-menu absolute">
               <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
             </div>
           )}
           {/* ISAUTH USER DROPDOWN: finished loading */}
-          {!isLoadingAuth && <IsAuthMenu />}
+          {isAuthenticated == "yes" && <IsAuthMenu />}
 
           {/* ISAUTH CUSTOM-BG */}
           {/* ISAUTH CUSTOM-BG: /home, /transaction */}
@@ -422,4 +423,4 @@ const IsAuthLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default IsAuthLayout;
+export default AuthUserLayout;

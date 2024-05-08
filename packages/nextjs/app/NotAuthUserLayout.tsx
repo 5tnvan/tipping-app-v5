@@ -7,11 +7,11 @@ import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
-  title: "Profile",
-  description: "Profile",
+  title: "NotAuthUserLayout",
+  description: "NotAuthUserLayout",
 });
 
-const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
+const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const isTransaction = pathname.includes("/transaction");
   const { username } = useParams();
@@ -63,4 +63,4 @@ const IsNotAuth = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default IsNotAuth;
+export default NotAuthUserLayout;
