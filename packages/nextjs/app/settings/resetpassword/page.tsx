@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { resetPassword } from "../../login/actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthUserContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");

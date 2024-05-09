@@ -5,6 +5,7 @@ import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<string>("init");
+  const [user, setUser] = useState<any>(null);
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -15,6 +16,7 @@ export const useAuth = () => {
     const res = await fetchUser();
     if (res && res?.user) {
       setIsAuthenticated("yes");
+      setUser(res.user);
     } else {
       setIsAuthenticated("no");
     }
@@ -24,5 +26,5 @@ export const useAuth = () => {
     init();
   }, [triggerRefetch]);
 
-  return { isAuthenticated, refetch };
+  return { isAuthenticated, user, refetch };
 };

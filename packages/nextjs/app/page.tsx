@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AppContext } from "./context";
+import { AuthContext } from "./context";
 import type { NextPage } from "next";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { Meteors } from "~~/components/app/ui/meteors";
@@ -18,7 +18,7 @@ import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
  * /index
  **/
 const Home: NextPage = () => {
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthContext);
 
   const launchAppLink = isAuth === "yes" ? "/home" : isAuth === "no" ? "/getstarted" : "/login";
 

@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { TimeAgo } from "../TimeAgo";
 import { recoverMessageAddress } from "viem";
 import { useAccount, useSignMessage } from "wagmi";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { checkWalletExist, updateProfileWallet } from "~~/app/settings/actions";
 import { CheckMarkIcon } from "~~/components/assets/CheckMarkIcon";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 
 const WalletConnectVerify = () => {
-  const { profile, refetchAuth } = useContext(AppContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
   //WALLET
 
   const { address } = useAccount();
@@ -34,7 +34,7 @@ const WalletConnectVerify = () => {
       if (signMessageData) {
         setIsProcessing(false);
         updateProfileWallet(address, signMessageData, new Date().toISOString());
-        refetchAuth();
+        refetchAuthUser();
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

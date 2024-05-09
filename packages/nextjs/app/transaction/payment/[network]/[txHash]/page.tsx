@@ -28,31 +28,6 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   /**
-   * ACTION: Check if transaction exists
-   **/
-  // const [txExist, setTxExist] = useState<boolean>();
-  // const [chainId, setChainId] = useState(0);
-  // useEffect(() => {
-  //   if (params.network == "ethereum") {
-  //     setChainId(11155111);
-  //   } else if (params.network == "base") {
-  //     setChainId(8453);
-  //   }
-  // }, [params.network]);
-  // const client = usePublicClient({ chainId: chainId });
-  // useEffect(() => {
-  //   if (params.txHash) {
-  //     const fetchTransaction = async () => {
-  //       const tx = await client.getTransaction({ hash: params.txHash as Hash });
-  //       console.log("tx?.blockHash.length", tx?.blockHash.length);
-  //       if (tx?.blockHash?.length > 0) setTxExist(true);
-  //     };
-
-  //     fetchTransaction();
-  //   }
-  // }, [client, params.txHash]);
-
-  /**
    * ACTION: Fetch transaction from graph
    **/
   const { paymentData, loading, error } = useFetchPayment(params.txHash, params.network);

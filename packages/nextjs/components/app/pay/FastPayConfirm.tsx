@@ -4,7 +4,7 @@ import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
@@ -20,7 +20,7 @@ type Props = {
 
 const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const { address: connectedAddress } = useAccount();
-  const { profile } = useContext(AppContext);
+  const { profile } = useContext(AuthUserContext);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);

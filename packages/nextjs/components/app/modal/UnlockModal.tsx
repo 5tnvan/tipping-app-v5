@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { unlockLevel } from "~~/app/levels/actions";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { fetchInviteByID } from "~~/utils/app/fetch/fetchInvites";
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const UnlockModal = ({ isOpen, onClose, levelToUnlock }: Props) => {
-  const { profile, refetchAuth } = useContext(AppContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const [inputBox, setInputBox] = useState(true);
   const [input, setInput] = useState<any>();
   const [checkButton, setCheckButton] = useState(true);
@@ -51,7 +51,7 @@ export const UnlockModal = ({ isOpen, onClose, levelToUnlock }: Props) => {
       setProcessing(true);
       const res = await unlockLevel(invite.code[0].id);
       setSuccess(res);
-      refetchAuth();
+      refetchAuthUser();
     } catch (error) {
       console.log(error);
     }

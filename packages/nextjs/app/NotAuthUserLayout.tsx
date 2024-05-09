@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import { AppContext } from "./context";
-import IsPublicLayout from "./isPublicLayout";
+import UserIntroLayout from "./UserIntroLayout";
+import { AuthContext } from "./context";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -15,17 +15,18 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const isTransaction = pathname.includes("/transaction");
   const { username } = useParams();
-  const { isLoadingAuth } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <>
-      {/* ISNOTAUTH MENU DROPDOWN */}
-      {isLoadingAuth && <div className="custom-is-not-auth-menu w-24 absolute btn btn-neutral z-20"></div>}
-      {!isLoadingAuth && <IsNotAuthMenu />}
-      {/* ISNOTAUTH: /username */}
+      {/* NOTAUTHUSER DROPDOWN */}
+      {isAuthenticated == "init" && <div className="custom-is-not-auth-menu w-24 absolute btn btn-neutral z-20"></div>}
+      {isAuthenticated == "no" && <IsNotAuthMenu />}
+
+      {/* NOTAUTHUSER: /[username] */}
       {username && (
         <>
-          <IsPublicLayout>{children}</IsPublicLayout>
+          <UserIntroLayout>{children}</UserIntroLayout>
           <Link
             href="/login"
             id="wildpay-app-menu"
@@ -35,7 +36,8 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
           </Link>
         </>
       )}
-      {/* ISNOTAUTH: /transaction */}
+
+      {/* NOTAUTHUSER: /transaction */}
       {isTransaction && (
         <>
           <div id="wildpay-is-not-auth" className="bg-white">
@@ -51,7 +53,8 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </>
       )}
-      {/* ISNOTAUTH: /getstarted, /login, /signup/verify */}
+
+      {/* NOTAUTHUSER: /getstarted, /login, /signup/verify */}
       {!username && !isTransaction && (
         <>
           <div id="wildpay-is-not-auth" className="flex flex-col grow">

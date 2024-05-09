@@ -3,7 +3,7 @@ import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const WithdrawModal = ({ isOpen, onClose }: Props) => {
-  const { profile } = useContext(AppContext);
+  const { profile } = useContext(AuthUserContext);
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const { address: connectedAddress } = useAccount();
   const [ethAmount, setEthAmount] = useState(0);

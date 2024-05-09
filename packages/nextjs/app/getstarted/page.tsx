@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { AppContext } from "../context";
+import { AuthUserContext } from "../context";
 import { setUsernameCookie } from "../signup/actions";
 import type { NextPage } from "next";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -16,7 +16,7 @@ import "~~/styles/app.css";
 
 const GetStarted: NextPage = () => {
   const router = useRouter();
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthUserContext);
 
   const [isProcessing, setIsProcessing] = useState<any>();
   const [username, setUsername] = useState<string>("");

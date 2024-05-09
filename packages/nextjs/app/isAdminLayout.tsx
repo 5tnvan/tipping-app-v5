@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { AppContext } from "./context";
+import { AuthUserContext } from "./context";
 import { FaucetButton } from "~~/components/scaffold-eth";
 import { RainbowKitCustomConnectButtonForAdmin } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/admin";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -11,7 +11,7 @@ export const metadata = getMetadata({
 });
 
 const IsAdminLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isAuth, profile } = useContext(AppContext);
+  const { isAuth, profile } = useContext(AuthUserContext);
   const router = useRouter();
 
   if (isAuth) {

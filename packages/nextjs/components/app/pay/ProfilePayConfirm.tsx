@@ -5,7 +5,7 @@ import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import CheckCircleIcon from "@heroicons/react/20/solid/CheckCircleIcon";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
-  const { isAuth, profile } = useContext(AppContext);
+  const { isAuth, profile } = useContext(AuthUserContext);
   const { address: connectedAddress } = useAccount();
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);

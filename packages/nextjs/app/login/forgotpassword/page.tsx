@@ -5,12 +5,12 @@ import { useContext } from "react";
 import { forgotPassword } from "../actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function ForgotPasswordPage() {
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthUserContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<any>();
   const [success, setSuccess] = useState<any>();

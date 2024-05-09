@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext, AuthContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
 import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
@@ -25,7 +25,8 @@ const Settings: NextPage = () => {
   const router = useRouter();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
   const { address } = useAccount();
-  const { isLoadingAuth, isAuth, user, profile } = useContext(AppContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
+  const { profile } = useContext(AuthUserContext);
 
   /* WITHDRAW BALANCE */
   const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
@@ -115,7 +116,7 @@ const Settings: NextPage = () => {
   const handleModal = !profile.wallet_id || !profile.wallet_sign_hash ? handleWalletModal : handleWithdrawModal;
 
   /* ROUTE */
-  if (isAuth == "no") {
+  if (isAuthenticated == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
         <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
@@ -126,7 +127,7 @@ const Settings: NextPage = () => {
     );
   }
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <div id="wildpay-is-auth-settings" className=" mt-5 mb-5 z-10">
         {/* CTA BUTTON */}
@@ -139,7 +140,7 @@ const Settings: NextPage = () => {
             }`}
             onClick={handleModal}
           >
-            {isLoadingAuth ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
+            {isAuthenticated != "yes" ? <IsLoading shape="rounded-md" width={28} height={6} /> : buttonText}
           </button>
         </div>
         <div className="wildui-generic-scroll-b p-6 overflow-scroll">

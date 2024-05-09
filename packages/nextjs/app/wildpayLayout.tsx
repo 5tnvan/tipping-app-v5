@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AuthUserLayout from "./AuthUserLayout";
 import NotAuthUserLayout from "./NotAuthUserLayout";
-import { AppContext, AuthContext, FollowersContext, NotificationContext } from "./context";
+import { AuthContext, AuthUserContext, FollowersContext, NotificationContext } from "./context";
 import IsAdminLayout from "./isAdminLayout";
 import { LineWave } from "react-loader-spinner";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
@@ -31,26 +31,22 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
   const isBlockExplorer = pathname.includes("/blockexplorer");
 
   /* CREATE CONTEXTS */
-  const { isLoading: isLoadingAuth, isAuth, user, profile, bios, levels, refetch: refetchAuth } = useAuthUser();
+  const { isAuthenticated, user, refetch: refetchAuth } = useAuth();
+  const { isAuth, profile, refetch: refetchAuthUser } = useAuthUser();
   const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
   const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications();
-  const { isAuthenticated, refetch: refetchSession } = useAuth();
 
   /* SWITCH UI */
   const bgClass = isAuth === "yes" ? "bg-white" : isAuth === "no" ? "custom-gradient-02" : "bg-white";
 
   /* CONSOLE LOG */
-  //console.log("wildLayout");
-  console.log("wildLayout useAuthentication profile: ", profile);
-  //console.log("wildLayout usePrivateFollowers", followersData);
-  //console.log("wildLayout notifications", notifications);
-  console.log("isAuth", isAuth);
-  console.log("isAuthenticated", isAuthenticated);
+  // console.log("isAuthenticated", isAuthenticated);
+  // console.log("wildLayout useAuthentication profile: ", profile);
 
   return (
     <>
-      <AuthContext.Provider value={{ isAuthenticated, refetchSession }}>
-        <AppContext.Provider value={{ isLoadingAuth, isAuth, user, profile, bios, levels, refetchAuth }}>
+      <AuthContext.Provider value={{ isAuthenticated, user, refetchAuth }}>
+        <AuthUserContext.Provider value={{ isAuth, profile, refetchAuthUser }}>
           <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
             <NotificationContext.Provider value={{ isLoadingNotifications, notifications, refetchNotifications }}>
               {/* PRIVATE PAGE */}
@@ -110,7 +106,7 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
               )}
             </NotificationContext.Provider>
           </FollowersContext.Provider>
-        </AppContext.Provider>
+        </AuthUserContext.Provider>
       </AuthContext.Provider>
     </>
   );

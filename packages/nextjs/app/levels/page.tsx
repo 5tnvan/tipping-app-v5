@@ -3,7 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { AppContext } from "../context";
+import { AuthUserContext, AuthContext } from "../context";
 import { NextPage } from "next";
 import { TimeAgo } from "~~/components/app/TimeAgo";
 import { UnlockModal } from "~~/components/app/modal/UnlockModal";
@@ -11,7 +11,8 @@ import { UnlockModal } from "~~/components/app/modal/UnlockModal";
 const LevelsPage: NextPage = () => {
   const router = useRouter();
   /* PARENTS CONTEXT */
-  const { user, levels } = useContext(AppContext);
+  const { user } = useContext(AuthContext);
+  const { profile } = useContext(AuthUserContext);
   const [levelToUnlock, setLevelToUnlock] = useState<any>();
   const [level1, setLevel1] = useState<any>();
   const [level2, setLevel2] = useState<any>();
@@ -22,14 +23,14 @@ const LevelsPage: NextPage = () => {
   //fetch profile on search
   useEffect(() => {
     const fetch = async () => {
-      setLevel1(levels.find((item: any) => item.level === 1));
-      setLevel2(levels.find((item: any) => item.level === 2));
-      setLevel3(levels.find((item: any) => item.level === 3));
-      setLevel4(levels.find((item: any) => item.level === 4));
-      setLevel5(levels.find((item: any) => item.level === 5));
+      setLevel1(profile.levels.find((item: any) => item.level === 1));
+      setLevel2(profile.levels.find((item: any) => item.level === 2));
+      setLevel3(profile.levels.find((item: any) => item.level === 3));
+      setLevel4(profile.levels.find((item: any) => item.level === 4));
+      setLevel5(profile.levels.find((item: any) => item.level === 5));
     };
     fetch();
-  }, [levels]);
+  }, [profile.levels]);
 
   /**
    * ACTION: Open close create modal

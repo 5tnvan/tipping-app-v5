@@ -16,7 +16,7 @@ export const fetchSuperProfile = async () => {
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("*, profile_bios(id, created_at, views), levels(id, level)")
+      .select("*, profile_bios(id, views, content, created_at, cta), levels(id, level, created_at)")
       .eq("id", user.user?.id);
     return profile?.[0] ?? null;
   } else {

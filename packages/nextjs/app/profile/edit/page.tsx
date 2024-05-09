@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import Link from "next/link";
 import { NextPage } from "next";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext, AuthContext } from "~~/app/context";
 import { updateProfileSocial } from "~~/app/profile/actions";
 import { FarcasterIcon } from "~~/components/assets/FarcasterIcon";
 import { InstagramIcon } from "~~/components/assets/InstagramIcon";
@@ -22,7 +22,8 @@ import "~~/styles/app.css";
  **/
 
 const ProfileEdit: NextPage = () => {
-  const { isAuth, profile, refetchAuth } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
 
   const [socialMedia, setSocialMedia] = useState({
     lens: true,
@@ -50,11 +51,11 @@ const ProfileEdit: NextPage = () => {
     const inputVal = socialMedia[`${social}Input` as keyof typeof socialMedia];
     updateProfileSocial(social, inputVal);
     handleSwitch(social);
-    refetchAuth();
+    refetchAuthUser();
   };
 
   /* RENDER HTML */
-  if (isAuth == "no") {
+  if (isAuthenticated == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
         <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
@@ -65,7 +66,7 @@ const ProfileEdit: NextPage = () => {
     );
   }
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         {/* CTA */}

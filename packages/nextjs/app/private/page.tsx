@@ -4,7 +4,7 @@ import { NextPage } from "next";
 //import AvatarCreator from "~~/components/app/avatar/page";
 
 const PrivatePage: NextPage = () => {
-  // const { profile } = useContext(AppContext);
+  // const { profile } = useContext(AuthUserContext);
   // const [res, setRes] = useState<any>();
   // useEffect(() => {
   //   async function fetchData() {

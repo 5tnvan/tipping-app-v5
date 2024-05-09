@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NextPage } from "next";
 import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext, AuthContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
@@ -18,7 +18,8 @@ import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransac
 
 const ProfileView: NextPage = () => {
   /* USER, FOLLOWERS VARIABLES */
-  const { isAuth, profile } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
+  const { profile } = useContext(AuthUserContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
@@ -71,7 +72,7 @@ const ProfileView: NextPage = () => {
   };
 
   /* RENDER */
-  if (isAuth == "no") {
+  if (isAuthenticated == "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
         <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
@@ -82,7 +83,7 @@ const ProfileView: NextPage = () => {
     );
   }
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         {/* CTA */}

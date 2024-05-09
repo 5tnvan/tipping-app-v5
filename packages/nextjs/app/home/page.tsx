@@ -2,7 +2,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AppContext, AuthContext, ComponentsContext, FollowersContext } from "../context";
+import { AuthUserContext, AuthContext, ComponentsContext, FollowersContext } from "../context";
 import { NextPage } from "next";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -16,6 +16,7 @@ import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransac
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
 
 /*
  * HOME PAGE
@@ -24,7 +25,7 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
-  const { profile } = useContext(AppContext);
+  const { profile } = useContext(AuthUserContext);
   const { isLoadingFollowers, followersData } = useContext(FollowersContext);
 
   /* TRANSACTIONS VARIABLES */
@@ -90,7 +91,7 @@ const HomePage: NextPage = () => {
       </>
     );
   }
-  if (isAuthenticated == "yes") {
+  if (isAuthenticated == "yes" && profile) {
     return (
       <div id="wildpay-home" className="z-10 max-h-dvh pt-8 text-black">
         <div className="pl-6 pr-6">
@@ -106,7 +107,7 @@ const HomePage: NextPage = () => {
                 </div>
               </div>
               <div className="stat-value text-primary text-2xl">
-                {profile.profile_bios.length > 0 ? profile.profile_bios[0]?.views : "0"}
+                {profile.profile_bios.length > 0 ? findLatestBio(profile.profile_bios)?.views : "0"}
               </div>
               <ComponentsContext.Consumer>
                 {({ openCreateModal }) => (
