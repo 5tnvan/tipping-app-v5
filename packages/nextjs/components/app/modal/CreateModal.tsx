@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { BanknotesIcon, FireIcon, PlusCircleIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
-import { AppContext, FollowersContext } from "~~/app/context";
+import { AuthUserContext, FollowersContext } from "~~/app/context";
 import { postProfileBio } from "~~/app/profile/actions";
 
 type Props = {
@@ -13,14 +13,8 @@ type Props = {
 };
 
 export const CreateModal = ({ isOpen, onClose }: Props) => {
-  const { profile, levels, refetchAuth } = useContext(AppContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const { refetchFollowers } = useContext(FollowersContext);
-
-  /* CURRENT LEVEL */
-  const [currentLevel, setCurrentLevel] = useState(0);
-  useEffect(() => {
-    if (levels?.length > 0) setCurrentLevel(levels[levels.length - 1].level);
-  }, [levels]);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState("init");
@@ -60,7 +54,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
       const res = await postProfileBio(input, ctaOption);
       if (res) {
         setIsProcessing(false);
-        refetchAuth();
+        refetchAuthUser();
         refetchFollowers();
         onClose();
       }
@@ -70,9 +64,6 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
   if (!isOpen) {
     return null;
   }
-
-  console.log("levels", levels);
-  console.log("currentLevel", currentLevel);
 
   return (
     <div className="wildui-modal-container w-full h-full top-0 left-0 fixed flex justify-center items-start z-100">
@@ -99,7 +90,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                 </div>
                 <div
                   className={`btn bg-neutral grid w-full h-20 rounded text-neutral-content place-content-center ${
-                    currentLevel > 0 ? "" : "btn-disabled"
+                    profile.levels.length > 0 ? "" : "btn-disabled"
                   }`}
                   onClick={() => handleChoosen("wildnft")}
                 >
@@ -110,7 +101,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                 </div>
                 <div
                   className={`btn bg-neutral grid w-full h-20 rounded text-neutral-content place-content-center ${
-                    currentLevel > 0 ? "" : "btn-disabled"
+                    profile.levels.length > 0 ? "" : "btn-disabled"
                   }`}
                   onClick={() => handleChoosen("wildfire")}
                 >
@@ -198,7 +189,9 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
           {choosen == "wildnft" && (
             <div className="m-5 mt-10">
               <div className="font-semibold custom-text-blue text-3xl">{"Congrats 🎉."}</div>
-              <div className=" custom-text-blue text-xl mb-5">Level {currentLevel}, you unlocked this feature.</div>
+              <div className=" custom-text-blue text-xl mb-5">
+                Level {profile.levels[0]?.level}, you unlocked this feature.
+              </div>
               <div className="flex mb-2">
                 <span>
                   Create <span className="font-semibold text-primary">your-own-NFT</span> to be traded.
@@ -217,7 +210,9 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
           {choosen == "wildfire" && (
             <div className="m-5 mt-10">
               <div className="font-semibold custom-text-blue text-3xl">{"Congrats 🎉."}</div>
-              <div className=" custom-text-blue text-xl mb-5">Level {currentLevel}, you unlocked this feature.</div>
+              <div className=" custom-text-blue text-xl mb-5">
+                Level {profile.levels[0]?.level}, you unlocked this feature.
+              </div>
               <div className="flex mb-2">
                 <span>
                   Create viral decentralized <span className="font-semibold text-primary">shorts.</span>

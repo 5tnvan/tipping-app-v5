@@ -7,7 +7,7 @@ import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "@heroicons/react/24/solid";
-import { AppContext, PublicFollowersContext } from "~~/app/context";
+import { AuthContext, PublicFollowersContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -18,7 +18,7 @@ type Props = {
 
 export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
   const router = useRouter();
-  const { isAuth } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const { followersPublicData } = useContext(PublicFollowersContext) || {};
 
   const handleClose = () => {
@@ -30,20 +30,20 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
   }
 
   const handleCta = () => {
-    if (isAuth == "no") {
-      if (data.bios[0]?.cta == 0) {
+    if (isAuthenticated == "no") {
+      if (data.latestBio?.cta == 0) {
         //pay now
         router.push("/login");
-      } else if (data.bios[0]?.cta == 1) {
+      } else if (data?.cta == 1) {
         //follow me
         router.push("/login");
       }
-    } else if (isAuth == "yes") {
-      if (data.bios[0]?.cta == 0) {
+    } else if (isAuthenticated == "yes") {
+      if (data.latestBio?.cta == 0) {
         onCta(0); //pay now
-      } else if (data.bios[0]?.cta == 1 && !followersPublicData?.followed) {
+      } else if (data.latestBio?.cta == 1 && !followersPublicData?.followed) {
         onCta(1); //follow me
-      } else if (data.bios[0]?.cta == 1 && followersPublicData?.followed) {
+      } else if (data.latestBio?.cta == 1 && followersPublicData?.followed) {
         onClose(); //following
       }
     }
@@ -67,19 +67,19 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
                   @{data.profile.username}
                 </Link>
                 <span className="text-slate-500">
-                  <TimeAgo timestamp={data.bios[0]?.created_at} />
+                  <TimeAgo timestamp={data?.created_at} />
                 </span>
               </div>
               <div className="flex items-center gap-1">
                 <EyeIcon width={14} />
-                {data.bios[0]?.views}
+                {data.latestBio?.views}
               </div>
             </div>
-            <TextGenerateEffect words={data.bios[0]?.content} />
+            <TextGenerateEffect words={data.latestBio?.content} />
             <div className="btn btn-primary w-full mt-5" onClick={handleCta}>
-              {data.bios[0]?.cta == 0 && "Pay now"}
-              {data.bios[0]?.cta == 1 && !followersPublicData?.followed && "Follow me"}
-              {data.bios[0]?.cta == 1 && followersPublicData?.followed && (
+              {data.latestBio?.cta == 0 && "Pay now"}
+              {data.latestBio?.cta == 1 && !followersPublicData?.followed && "Follow me"}
+              {data.latestBio?.cta == 1 && followersPublicData?.followed && (
                 <>
                   Following
                   <CheckCircleIcon width={18} />

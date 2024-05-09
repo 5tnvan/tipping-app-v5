@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AppContext, FollowersContext } from "~~/app/context";
+import { XCircleIcon } from "@heroicons/react/24/outline";
+import { AuthUserContext, FollowersContext } from "~~/app/context";
 import {
   checkFileExists,
   deleteProfileAvatars,
@@ -10,7 +11,6 @@ import {
   uploadProfileAvatar,
 } from "~~/app/profile/actions";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
-import { XCircleIcon } from "@heroicons/react/24/outline";
 
 type Props = {
   isOpen: any;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const AvatarModal = ({ isOpen, onClose }: Props) => {
-  const { profile, refetchAuth } = useContext(AppContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const { refetchFollowers } = useContext(FollowersContext);
 
   //SWITCH 3 LINKS
@@ -58,7 +58,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
         updateProfileAvatar(data2.publicUrl);
         deleteProfileAvatars(fileExists?.data); // delete old file from storage
         onClose();
-        refetchAuth();
+        refetchAuthUser();
         refetchFollowers();
         setChoosen("init");
         setIsProcessing(false);
@@ -89,7 +89,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
       const selectedImageUrl = gif[selectedImage];
       updateProfileAvatar(selectedImageUrl);
       onClose();
-      refetchAuth();
+      refetchAuthUser();
       refetchFollowers();
       setChoosen("init");
     }

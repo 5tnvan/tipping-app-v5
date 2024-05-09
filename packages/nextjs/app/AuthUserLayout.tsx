@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { AppContext, AuthContext, ComponentsContext, FollowersContext } from "./context";
-import IsPublicLayout from "./isPublicLayout";
+import UserIntroLayout from "./UserIntroLayout";
+import { AuthUserContext, AuthContext, ComponentsContext, FollowersContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
@@ -24,6 +24,7 @@ import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransac
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -49,8 +50,8 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
 
   /* PARENTS CONTEXT */
-  const { isAuthenticated } = useContext(AuthContext);
-  const { isLoadingAuth, user, profile, bios, refetchAuth } = useContext(AppContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
+  const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const { followersData } = useContext(FollowersContext);
 
   /* FETCH TRANSACTIONS */
@@ -129,8 +130,8 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const [isBioModalOpen, setBioModalOpen] = useState(false);
 
   const openBioModal = () => {
-    refetchAuth();
-    incrementBioView(bios[0].id);
+    refetchAuthUser(); //refetch profile to get the latest view count
+    incrementBioView(findLatestBio(profile.profile_bios)?.id);
     setBioModalOpen(true);
   };
 
@@ -146,244 +147,256 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
 
   const closeBioModal = () => setBioModalOpen(false);
 
-  return (
-    <>
-      <ComponentsContext.Provider
-        value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}
-      >
-        <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
-          {/* AUTHUSER DROPDOWN*/}
-          {/* AUTHUSER DROPDOWN: loading */}
-          {isAuthenticated != "yes" && (
-            <div className="z-10 wildui-menu absolute">
-              <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
-            </div>
-          )}
-          {/* AUTHUSER DROPDOWN: finished loading */}
-          {isAuthenticated == "yes" && <IsAuthMenu />}
+  if (profile)
+    return (
+      <>
+        <ComponentsContext.Provider
+          value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}
+        >
+          <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
+            {/* AUTHUSER DROPDOWN*/}
+            {/* AUTHUSER DROPDOWN: loading */}
+            {isAuthenticated != "yes" && (
+              <div className="z-10 wildui-menu absolute">
+                <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
+              </div>
+            )}
+            {/* AUTHUSER DROPDOWN: finished loading */}
+            {isAuthenticated == "yes" && <IsAuthMenu />}
 
-          {/* AUTHUSER Thin Strip UI */}
-          {/* These pages have a 100px strip on top */}
-          <div
-            className={`custom-top-cover absolute z-0 ${
-              (isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && "h-100px"
-            }`}
-          ></div>
+            {/* AUTHUSER Thin Strip UI */}
+            {/* These pages have a 100px strip on top */}
+            <div
+              className={`custom-top-cover absolute z-0 ${
+                (isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && "h-100px"
+              }`}
+            ></div>
 
-          {/* AUTHUSER */}
-          {/* AUTHUSER: /username */}
-          {username && <IsPublicLayout>{children}</IsPublicLayout>}
-          {/* AUTHUSER: /profile/view, /profile/edit, /settings */}
-          {!username &&
-            !isHome &&
-            !isTransaction &&
-            !isLogin &&
-            !isLeaderboard &&
-            !isNotification &&
-            !isLevels &&
-            !isBios && (
-              <>
-                <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
-                  <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
-                    <div className="flex items-center">
-                      {/* ISAUTH PROFILE INTRO - AVATAR */}
-                      {/* ISAUTH PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
-                      <div className="left flex flex-col items-center ">
-                        {isLoadingAuth ? (
-                          <div className="avatar mr-5">
-                            <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
-                          </div>
-                        ) : (
-                          <>
-                            <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
-                              {bios?.length > 0 && (
-                                <div className="cursor-pointer" onClick={openBioModal}>
+            {/* AUTHUSER */}
+            {/* AUTHUSER: /username */}
+            {username && <UserIntroLayout>{children}</UserIntroLayout>}
+            {/* AUTHUSER: /profile/view, /profile/edit, /settings */}
+            {!username &&
+              !isHome &&
+              !isTransaction &&
+              !isLogin &&
+              !isLeaderboard &&
+              !isNotification &&
+              !isLevels &&
+              !isBios && (
+                <>
+                  <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
+                    <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
+                      <div className="flex items-center">
+                        {/* AUTHUSER PROFILE INTRO - AVATAR */}
+                        {/* AUTHUSER PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
+                        <div className="left flex flex-col items-center ">
+                          {isAuthenticated != "yes" ? (
+                            <div className="avatar mr-5">
+                              <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
+                            </div>
+                          ) : (
+                            <>
+                              <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
+                                {profile.profile_bios.length > 0 && (
+                                  <div className="cursor-pointer" onClick={openBioModal}>
+                                    <Avatar
+                                      profile={profile}
+                                      width={14}
+                                      height={14}
+                                      border={2}
+                                      ring={16}
+                                      gradient={"g-tropical"}
+                                    />
+                                  </div>
+                                )}
+                                {profile.profile_bios.length == 0 && (
                                   <Avatar
                                     profile={profile}
                                     width={14}
                                     height={14}
-                                    border={2}
+                                    border={0}
                                     ring={16}
-                                    gradient={"g-tropical"}
+                                    gradient={"g-white"}
                                   />
-                                </div>
-                              )}
-                              {bios?.length == 0 && (
-                                <Avatar
-                                  profile={profile}
-                                  width={14}
-                                  height={14}
-                                  border={0}
-                                  ring={16}
-                                  gradient={"g-white"}
-                                />
-                              )}
-                            </div>
-                            {isProfileEdit && (
-                              <div
-                                id="wildpay-avatar-cta"
-                                className="btn mr-5 text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                                onClick={openAvatarModal}
-                              >
-                                Edit
-                                <ChevronRightIcon width={8} />
+                                )}
                               </div>
-                            )}
-                          </>
-                        )}
-                      </div>
-                      {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
-                      {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
-                      <div className="right info flex text-black justify-center flex-col">
-                        {isLoadingAuth ? (
-                          <>
-                            <span className="mb-1">
-                              <IsLoading shape="rounded-md" width={28} height={6} />
-                            </span>
-                            <span>
-                              <IsLoading shape="rounded-md" width={28} height={8} />
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            {!isSettings && (
-                              <>
-                                <div className="flex flex-col">
-                                  <Link href={"/" + profile.username} className="font-semibold mr-1 flex items-center">
-                                    @{profile.username}
-                                  </Link>
-                                  <div className="mr-1 text-sm">
-                                    <span className="font-semibold text-primary">{followersData.followers.length}</span>{" "}
-                                    followers{" "}
-                                    <span className="font-semibold text-primary">{followersData.following.length}</span>{" "}
-                                    following
+                              {isProfileEdit && (
+                                <div
+                                  id="wildpay-avatar-cta"
+                                  className="btn mr-5 text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
+                                  onClick={openAvatarModal}
+                                >
+                                  Edit
+                                  <ChevronRightIcon width={8} />
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL */}
+                        {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
+                        <div className="right info flex text-black justify-center flex-col">
+                          {isAuthenticated != "yes" ? (
+                            <>
+                              <span className="mb-1">
+                                <IsLoading shape="rounded-md" width={28} height={6} />
+                              </span>
+                              <span>
+                                <IsLoading shape="rounded-md" width={28} height={8} />
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              {!isSettings && (
+                                <>
+                                  <div className="flex flex-col">
+                                    <Link
+                                      href={"/" + profile.username}
+                                      className="font-semibold mr-1 flex items-center"
+                                    >
+                                      @{profile.username}
+                                    </Link>
+                                    <div className="mr-1 text-sm">
+                                      <span className="font-semibold text-primary">
+                                        {followersData.followers.length}
+                                      </span>{" "}
+                                      followers{" "}
+                                      <span className="font-semibold text-primary">
+                                        {followersData.following.length}
+                                      </span>{" "}
+                                      following
+                                    </div>
                                   </div>
-                                </div>
-                                <SocialIcons soc={soc} />
-                              </>
-                            )}
-                            {isSettings && (
-                              <>
-                                <div className="font-semibold mb-1">{user.email}</div>
-                                <div className="flex">
-                                  <RainbowKitCustomConnectButton btn="small" />
-                                  <FaucetButton />
-                                </div>
-                              </>
-                            )}
-                          </>
-                        )}
+                                  <SocialIcons soc={soc} />
+                                </>
+                              )}
+                              {isSettings && (
+                                <>
+                                  <div className="font-semibold mb-1">{user.email}</div>
+                                  <div className="flex">
+                                    <RainbowKitCustomConnectButton btn="small" />
+                                    <FaucetButton />
+                                  </div>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
-                    {/* ISAUTH PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
-                    <div
-                      className={`text-4xl text-black flex justify-center items-center gap-2 ${
-                        isProfileEdit && "hidden"
-                      }`}
-                    >
-                      {isLoadingAuth && <IsLoading shape="rounded-md" width={12} height={8} />}
-                      {!isLoadingAuth && !isSettings && (
-                        <div className="flex flex-col items-end">
-                          <div className="flex items-center text-xl font-semibold custom-text-blue">
-                            <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
-                            <div className="tooltip tooltip-top" data-tip="All time">
-                              <button className="ml-1">
-                                <QuestionMarkCircleIcon width={14} />
-                              </button>
+                      {/* AUTHUSER PROFILE INTRO - ETH BALANCE */}
+                      {/* AUTHUSER PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
+                      <div
+                        className={`text-4xl text-black flex justify-center items-center gap-2 ${
+                          isProfileEdit && "hidden"
+                        }`}
+                      >
+                        {isAuthenticated != "yes" && <IsLoading shape="rounded-md" width={12} height={8} />}
+                        {isAuthenticated == "yes" && !isSettings && (
+                          <div className="flex flex-col items-end">
+                            <div className="flex items-center text-xl font-semibold custom-text-blue">
+                              <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
+                              <div className="tooltip tooltip-top" data-tip="All time">
+                                <button className="ml-1">
+                                  <QuestionMarkCircleIcon width={14} />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="text-xl flex items-center">
+                              {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
                             </div>
                           </div>
-                          <div className="text-xl flex items-center">
-                            {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
-                          </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                {children}
-              </>
-            )}
-          {/* AUTHUSER: /home, /transaction, /leaderboard */}
-          {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
-        </div>
+                  {children}
+                </>
+              )}
+            {/* AUTHUSER: /home, /transaction, /leaderboard */}
+            {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
+          </div>
 
-        {/* WILDPAY RECEIPT MODAL */}
-        {hashRes && (
-          <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
-        )}
+          {/* WILDPAY RECEIPT MODAL */}
+          {hashRes && (
+            <ReceiptModal hash={hashRes} isOpen={isPayReceiptModalOpen} onClose={closePayReceiptModal}></ReceiptModal>
+          )}
 
-        {/* WILDPAY FASTPAY MODAL */}
-        <FastPayModal
-          isOpen={isFastPayModalOpen}
-          onClose={closeFastPayModal}
-          onSuccess={handleFastPaySuccess}
-        ></FastPayModal>
+          {/* WILDPAY FASTPAY MODAL */}
+          <FastPayModal
+            isOpen={isFastPayModalOpen}
+            onClose={closeFastPayModal}
+            onSuccess={handleFastPaySuccess}
+          ></FastPayModal>
 
-        <BioModal
-          isOpen={isBioModalOpen}
-          onCta={handleBioCta(openFastPayModal)}
-          onClose={closeBioModal}
-          data={{ profile, bios }}
-        ></BioModal>
+          <BioModal
+            isOpen={isBioModalOpen}
+            onCta={handleBioCta(openFastPayModal)}
+            onClose={closeBioModal}
+            data={{ profile: profile, latestBio: findLatestBio(profile.profile_bios) }}
+          ></BioModal>
 
-        {/* WILDPAY AVATAR MODAL */}
-        <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
+          {/* WILDPAY AVATAR MODAL */}
+          <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
-        {/* WILDPAY SEARCH MODAL */}
-        <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
+          {/* WILDPAY SEARCH MODAL */}
+          <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>
 
-        {/* WILDPAY CREATE MODAL */}
-        <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}></CreateModal>
+          {/* WILDPAY CREATE MODAL */}
+          <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}></CreateModal>
 
-        {/* WILDPAY APP BOTTOM MENU */}
-        <div
-          id="wildpay-app-menu"
-          className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40 text-sm"
-        >
-          {/* WILDPAY MENU @HOME */}
-          <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/home")}>
-            <div className="w-5 md:w-4">
-              <HomeIcon />
-            </div>
-            <div className="hidden md:block pl-1 pr-1">Home</div>
-          </button>
+          {/* WILDPAY APP BOTTOM MENU */}
+          <div
+            id="wildpay-app-menu"
+            className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40 text-sm"
+          >
+            {/* WILDPAY MENU @HOME */}
+            <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/home")}>
+              <div className="w-5 md:w-4">
+                <HomeIcon />
+              </div>
+              <div className="hidden md:block pl-1 pr-1">Home</div>
+            </button>
 
-          {/* WILDPAY MENU @CREATE */}
-          <button className="flex flex-col items-center hover:text-neutral-400" onClick={openCreateModal}>
-            <div className="w-6 md:w-4">
-              <PlusCircleIcon />
-            </div>
-            <div className="hidden md:block pl-1 pr-1">Create</div>
-          </button>
+            {/* WILDPAY MENU @CREATE */}
+            <button className="flex flex-col items-center hover:text-neutral-400" onClick={openCreateModal}>
+              <div className="w-6 md:w-4">
+                <PlusCircleIcon />
+              </div>
+              <div className="hidden md:block pl-1 pr-1">Create</div>
+            </button>
 
-          {/* WILDPAY MENU @FAST PAY */}
-          <button id="wildpay-app-menu-pay" className="relative flex flex-col items-center" onClick={openFastPayModal}>
-            <div className="rounded-full btn w-12 md:w-14 h-12 md:h-14 border border-primary bg-white flex justify-evenly items-center p-0">
-              <WildPayLogo width="36" height="36" color="blue" />
-            </div>
-            <div className="hidden md:block font-semibold mt-1">Pay</div>
-          </button>
+            {/* WILDPAY MENU @FAST PAY */}
+            <button
+              id="wildpay-app-menu-pay"
+              className="relative flex flex-col items-center"
+              onClick={openFastPayModal}
+            >
+              <div className="rounded-full btn w-12 md:w-14 h-12 md:h-14 border border-primary bg-white flex justify-evenly items-center p-0">
+                <WildPayLogo width="36" height="36" color="blue" />
+              </div>
+              <div className="hidden md:block font-semibold mt-1">Pay</div>
+            </button>
 
-          {/* WILDPAY MENU @DISCOVER */}
-          <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/bios")}>
-            <div className="w-6 md:w-4">
-              <GlobeAsiaAustraliaIcon />
-            </div>
-            <div className="hidden md:block">Discover</div>
-          </button>
+            {/* WILDPAY MENU @DISCOVER */}
+            <button className="flex flex-col items-center hover:text-neutral-400" onClick={() => router.push("/bios")}>
+              <div className="w-6 md:w-4">
+                <GlobeAsiaAustraliaIcon />
+              </div>
+              <div className="hidden md:block">Discover</div>
+            </button>
 
-          {/* WILDPAY MENU @SEARCH */}
-          <button className="flex flex-col items-center hover:text-neutral-400" onClick={openSearchModal}>
-            <div className="w-5 md:w-4">
-              <MagnifyingGlassIcon />
-            </div>
-            <div className="hidden md:block">Search</div>
-          </button>
-        </div>
-      </ComponentsContext.Provider>
-    </>
-  );
+            {/* WILDPAY MENU @SEARCH */}
+            <button className="flex flex-col items-center hover:text-neutral-400" onClick={openSearchModal}>
+              <div className="w-5 md:w-4">
+                <MagnifyingGlassIcon />
+              </div>
+              <div className="hidden md:block">Search</div>
+            </button>
+          </div>
+        </ComponentsContext.Provider>
+      </>
+    );
 };
 
 export default AuthUserLayout;

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { EnvelopeOpenIcon } from "@heroicons/react/24/outline";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import { ProfileRevealInvite } from "~~/components/app/ProfileRevealInvite";
 import { InviteGenerateModal } from "~~/components/app/modal/InviteGenerateModal";
 import { InviteModal } from "~~/components/app/modal/InviteModal";
@@ -14,7 +14,7 @@ import { fetchInvites } from "~~/utils/app/fetch/fetchInvites";
 
 export default function InvitesPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthUserContext);
   const [invite, setInvite] = useState<any>();
   const [invites, setInvites] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);

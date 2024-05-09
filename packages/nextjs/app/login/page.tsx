@@ -3,12 +3,12 @@
 import React from "react";
 import { useContext } from "react";
 import { Login } from "../../components/app/authentication/Login";
-import { AppContext } from "~~/app/context";
+import { AuthUserContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 export default function LoginPage() {
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthUserContext);
 
   if (isAuth == "no") {
     return (

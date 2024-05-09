@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AppContext, ComponentsContext, FollowersContext, PublicContext, PublicFollowersContext } from "./context";
+import { AuthContext, ComponentsContext, FollowersContext, PublicContext, PublicFollowersContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -27,13 +27,13 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
+const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { username } = useParams();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   /* USER, PUBLIC USER, FOLLOWERS, PUBLIC FOLLOWERS */
-  const { isLoadingAuth, isAuth } = useContext(AppContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const { refetchFollowers } = useContext(FollowersContext);
   const { isLoading: isLoadingPublic, publicProfile, bios, refetch: refetchPublic } = usePublicProfile(username);
   const {
@@ -57,11 +57,11 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
 
   //HANDLE FOLLOW
   const handleFollow = () => {
-    if (isAuth == "yes" && !followersPublicData?.followed) {
+    if (isAuthenticated == "yes" && !followersPublicData?.followed) {
       insertFollowing(publicProfile.id);
       refetchPublicFollowers();
       refetchFollowers();
-    } else if (isAuth == "no") {
+    } else if (isAuthenticated == "no") {
       router.push("/login");
     }
   };
@@ -122,15 +122,15 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <div className={`bg-white grow`}>
-        {isAuth == "no" && <IsNotAuthMenu />}
-        {isAuth == "no" && <div className="custom-top-cover absolute z-0"></div>}
+        {isAuthenticated == "no" && <IsNotAuthMenu />}
+        {isAuthenticated == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
         {/* ISPUBLIC AUTH TOP */}
         <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10">
           {/* ISPUBLIC PROFILE INTRO */}
           <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
             <div className="flex">
-              {/* ISAUTH PROFILE INTRO - AVATAR */}
+              {/* AUTHUSER PROFILE INTRO - AVATAR */}
               <div className="left mr-5 flex flex-col items-center">
                 {isLoadingPublic && <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>}
                 {!isLoadingPublic && (
@@ -183,7 +183,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                   </>
                 )}
               </div>
-              {/* ISAUTH PROFILE INTRO - HANDLE&SOCIAL */}
+              {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL */}
               <div className="right info flex justify-center flex-col">
                 {isLoadingPublic ? (
                   <>
@@ -212,9 +212,9 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
                 )}
               </div>
             </div>
-            {/* ISAUTH PROFILE INTRO - ETH BALANCE */}
+            {/* AUTHUSER PROFILE INTRO - ETH BALANCE */}
             <div className="text-4xl text-black flex justify-center items-center gap-2">
-              {isLoadingAuth || isLoadingPublic ? (
+              {isAuthenticated != "yes" || isLoadingPublic ? (
                 <IsLoading shape="rounded-md" width={12} height={8} />
               ) : (
                 <>
@@ -248,7 +248,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
             refetch={refetchPublicFollowers}
           ></FollowersModal>
           {/* ISPUBLIC FOLLOWERS MODAL */}
-          {isAuth == "yes" && (
+          {isAuthenticated == "yes" && (
             <PublicFollowersContext.Provider value={{ followersPublicData }}>
               <ComponentsContext.Consumer>
                 {({ openFastPayModal }) => (
@@ -262,7 +262,7 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
               </ComponentsContext.Consumer>
             </PublicFollowersContext.Provider>
           )}
-          {isAuth == "no" && (
+          {isAuthenticated == "no" && (
             <BioModal
               isOpen={isBioModalOpen}
               onCta={handleBioCta}
@@ -278,4 +278,4 @@ const IsPublicLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default IsPublicLayout;
+export default UserIntroLayout;

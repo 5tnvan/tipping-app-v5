@@ -3,7 +3,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppContext } from "../context";
+import { AuthUserContext } from "../context";
 import { incrementBioView } from "../profile/actions";
 import { NextPage } from "next";
 import { EyeIcon } from "@heroicons/react/24/solid";
@@ -13,7 +13,7 @@ import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { fetchAllBios } from "~~/utils/app/fetch/fetchUser";
 
 const BiosPage: NextPage = () => {
-  const { refetchAuth } = useContext(AppContext);
+  const { refetchAuthUser } = useContext(AuthUserContext);
   const [bios, setBios] = useState<any>();
   const router = useRouter();
   const carouselRef = useRef<HTMLDivElement>(null); // Ref for the carousel container
@@ -74,7 +74,7 @@ const BiosPage: NextPage = () => {
               <div
                 className="absolute left-6 top-6 z-50 cursor-pointer"
                 onClick={() => {
-                  refetchAuth();
+                  refetchAuthUser();
                   router.back();
                 }}
               >

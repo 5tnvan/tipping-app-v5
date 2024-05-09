@@ -3,12 +3,12 @@
 import { useContext } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
-import { AppContext } from "~~/app/context";
+import { AuthContext } from "~~/app/context";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
 
 const GetStartedSuccess: NextPage = () => {
-  const { isAuth } = useContext(AppContext);
+  const { isAuth } = useContext(AuthContext);
 
   if (isAuth == "no") {
     return (
