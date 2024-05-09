@@ -1,30 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import Link from "next/link";
+import { useContext, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import AuthUserIntroLayout from "./AuthUserIntroLayout";
 import UserIntroLayout from "./UserIntroLayout";
-import { AuthContext, AuthUserContext, AuthUserFollowsContext, ModalsContext } from "./context";
-import { incrementBioView } from "./profile/actions";
+import { AuthContext, AuthUserContext, ModalsContext } from "./context";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { IsLoading } from "~~/components/app/IsLoading";
+import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
-import { Avatar } from "~~/components/app/authentication/Avatar";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
-import { AvatarModal } from "~~/components/app/modal/AvatarModal";
-import { BioModal } from "~~/components/app/modal/BioModal";
 import { CreateModal } from "~~/components/app/modal/CreateModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
-import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
-import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
-import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
-import { calculateSum } from "~~/utils/app/functions/calculateSum";
-import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -34,51 +20,21 @@ export const metadata = getMetadata({
 
 const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
-  const isHome = pathname === "/home"; //PRIVATE
+  const isHome = pathname === "/home"; //for auth user only
   const isLogin = pathname === "/login";
-  const isProfileEdit = pathname === "/profile/edit"; //PRIVATE
-  const isSettings = pathname.includes("/settings"); //PRIVATE
   const isTransaction = pathname.includes("/transaction");
-  const isLeaderboard = pathname === "/leaderboard"; //PRIVATE
-  const isNotification = pathname === "/notifications"; //PRIVATE
-  const isLevels = pathname === "/levels"; //PRIVATE
-  const isBios = pathname === "/bios"; //PRIVATE
+  const isLeaderboard = pathname === "/leaderboard";
+  const isNotification = pathname === "/notifications"; //for auth user only
+  const isLevels = pathname === "/levels"; //for auth user only
+  const isBios = pathname === "/bios";
   const { username } = useParams();
 
-  /* PARENTS CONTEXT */
-  const { isAuthenticated, user } = useContext(AuthContext);
-  const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { followers, following } = useContext(AuthUserFollowsContext);
-
-  /* FETCH TRANSACTIONS */
-  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
-  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
-
-  const incomingRes = useIncomingTransactions(profile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
-
-  useEffect(() => {
-    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
-    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
-  }, [incomingRes, outgoingRes]);
-
-  /* SOCIAL MEDIA LINKS */
-  let soc = {};
-  if (!username) {
-    // Set up social media links using profile data
-    soc = {
-      le: { val: profile?.lens, link: "https://lens.xyz/" + profile?.lens },
-      fc: { val: profile?.farcaster, link: "https://warpcast.com/" + profile?.farcaster },
-      yt: { val: profile?.youtube, link: "https://youtube.com/" + profile?.youtube },
-      ig: { val: profile?.instagram, link: "https://instagram.com/" + profile?.instagram },
-      tw: { val: profile?.twitter, link: "https://x.com/" + profile?.twitter },
-      tt: { val: profile?.tiktok, link: "https://tiktok.com/" + profile?.tiktok },
-    };
-  }
+  /* CONSUME CONTEXT */
+  const { isAuthenticated } = useContext(AuthContext);
+  const { profile } = useContext(AuthUserContext);
 
   /**
    * HANDLE: Fastpay Modal
@@ -111,41 +67,11 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const closeSearchModal = () => setSearchModalOpen(false);
 
   /**
-   * HANDLE: Avatar Modal
-   **/
-  const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
-  const openAvatarModal = () => setAvatarModalOpen(true);
-  const closeAvatarModal = () => setAvatarModalOpen(false);
-
-  /**
    * HANDLE: Create Modal
    **/
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const openCreateModal = () => setCreateModalOpen(true);
   const closeCreateModal = () => setCreateModalOpen(false);
-
-  /**
-   * HANDLE: Bio Modal
-   **/
-  const [isBioModalOpen, setBioModalOpen] = useState(false);
-
-  const openBioModal = () => {
-    refetchAuthUser(); //refetch profile to get the latest view count
-    incrementBioView(findLatestBio(profile.profile_bios)?.id);
-    setBioModalOpen(true);
-  };
-
-  const handleBioCta = (openFastPayModal: () => void) => (num: any) => {
-    if (num === 0) {
-      closeBioModal();
-      openFastPayModal();
-    } else if (num === 1) {
-      closeBioModal();
-      router.push(`/${profile.username}`);
-    }
-  };
-
-  const closeBioModal = () => setBioModalOpen(false);
 
   if (profile)
     return (
@@ -185,11 +111,10 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
               !isLevels &&
               !isBios && (
                 <>
-                  <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
+                  <AuthUserIntroLayout>{children}</AuthUserIntroLayout>
+                  {/* <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
                     <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
                       <div className="flex items-center">
-                        {/* AUTHUSER PROFILE INTRO - AVATAR */}
-                        {/* AUTHUSER PROFILE INTRO - @AVATAR (@PROFILE/VIEW @PROFILE/EDIT) */}
                         <div className="left flex flex-col items-center ">
                           {isAuthenticated != "yes" ? (
                             <div className="avatar mr-5">
@@ -234,8 +159,6 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                             </>
                           )}
                         </div>
-                        {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL */}
-                        {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL (@PROFILE/VIEW || @SETTINGS) */}
                         <div className="right info flex text-black justify-center flex-col">
                           {isAuthenticated != "yes" ? (
                             <>
@@ -278,8 +201,6 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                           )}
                         </div>
                       </div>
-                      {/* AUTHUSER PROFILE INTRO - ETH BALANCE */}
-                      {/* AUTHUSER PROFILE INTRO - ETH BALANCE @PROFILE/VIEW || PROFILE/EDIT */}
                       <div
                         className={`text-4xl text-black flex justify-center items-center gap-2 ${
                           isProfileEdit && "hidden"
@@ -304,7 +225,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                       </div>
                     </div>
                   </div>
-                  {children}
+                  {children} */}
                 </>
               )}
             {/* AUTHUSER: /home, /transaction, /leaderboard */}
@@ -322,16 +243,6 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
             onClose={closeFastPayModal}
             onSuccess={handleFastPaySuccess}
           ></FastPayModal>
-
-          <BioModal
-            isOpen={isBioModalOpen}
-            onCta={handleBioCta(openFastPayModal)}
-            onClose={closeBioModal}
-            data={{ profile: profile, latestBio: findLatestBio(profile.profile_bios) }}
-          ></BioModal>
-
-          {/* WILDPAY AVATAR MODAL */}
-          <AvatarModal isOpen={isAvatarModalOpen} onClose={closeAvatarModal}></AvatarModal>
 
           {/* WILDPAY SEARCH MODAL */}
           <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal}></SearchModal>

@@ -3,11 +3,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext, AuthContext, AuthUserFollowsContext, AuthUserNotificationContext } from "~~/app/context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, AuthUserNotificationContext } from "~~/app/context";
 
 export const Login = () => {
   const router = useRouter();
-  const { refetchSession } = useContext(AuthContext);
+  const { refetchAuth } = useContext(AuthContext);
   const { refetchAuthUser } = useContext(AuthUserContext);
   const { refetchFollows } = useContext(AuthUserFollowsContext);
   const { refetchNotifications } = useContext(AuthUserNotificationContext);
@@ -19,7 +19,7 @@ export const Login = () => {
       const formData = new FormData(event.currentTarget);
       await login(formData);
       router.push("home");
-      refetchSession();
+      refetchAuth();
       refetchAuthUser();
       refetchFollows();
       refetchNotifications();
@@ -80,7 +80,7 @@ export const Login = () => {
             </Link>
           </div>
           <div>
-          {`Forgot Password `}
+            {`Forgot Password `}
             <Link href="/login/forgotpassword" className="link link-secondary">
               Reset
             </Link>

@@ -11,7 +11,7 @@ export const IsAuthMenu = () => {
   const router = useRouter();
 
   //PARENTS CONTEXT
-  const { refetchSession } = useContext(AuthContext);
+  const { refetchAuth } = useContext(AuthContext);
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const { refetchFollows } = useContext(AuthUserFollowsContext);
   const { notifications, refetchNotifications } = useContext(AuthUserNotificationContext);
@@ -28,8 +28,8 @@ export const IsAuthMenu = () => {
   const handleLogout = async () => {
     try {
       await logout();
+      await refetchAuth();
       await refetchAuthUser();
-      await refetchSession();
       await refetchFollows();
       await refetchNotifications();
     } catch (error) {
@@ -45,8 +45,8 @@ export const IsAuthMenu = () => {
           {unreadNotifications?.length > 0 && (
             <div className="notification-dot w-2.5 h-2.5 bg-red-600 rounded-full absolute z-20 top-7px"></div>
           )}
-          {profile.profile_bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />}
-          {profile.profile_bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} gradient={"g-white"} />}
+          {profile?.profile_bios.length > 0 && <Avatar profile={profile} width={8} height={8} border={2} ring={9} gradient={"g-tropical"} />}
+          {profile?.profile_bios.length == 0 && <Avatar profile={profile} width={8} height={8} border={0} ring={8} gradient={"g-white"} />}
           <ChevronDownIcon width={12} />
         </summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
