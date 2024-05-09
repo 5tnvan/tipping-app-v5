@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import AuthUserIntroLayout from "./AuthUserIntroLayout";
 import UserIntroLayout from "./UserIntroLayout";
-import { AuthContext, AuthUserContext, ModalsContext } from "./context";
+import { AuthContext, AuthUserContext, AuthUserPaymentContext, ModalsContext } from "./context";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
@@ -11,6 +11,8 @@ import { CreateModal } from "~~/components/app/modal/CreateModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { SearchModal } from "~~/components/app/modal/SearchModal";
+import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
+import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -24,8 +26,9 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
   const isHome = pathname === "/home"; //for auth user only
-  const isLogin = pathname === "/login";
   const isTransaction = pathname.includes("/transaction");
+  const isProfile = pathname.includes("/profile");
+  const isSettings = pathname.includes("/settings");
   const isLeaderboard = pathname === "/leaderboard";
   const isNotification = pathname === "/notifications"; //for auth user only
   const isLevels = pathname === "/levels"; //for auth user only
@@ -35,6 +38,13 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
+
+  /* FETCH TRANSACTIONS */
+  const incomingRes = useIncomingTransactions(profile?.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
+
+  console.log("incomingRes", incomingRes);
+  console.log("outgoingRes", outgoingRes);
 
   /**
    * HANDLE: Fastpay Modal
@@ -80,156 +90,44 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
           value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}
         >
           <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
-            {/* AUTHUSER DROPDOWN*/}
-            {/* AUTHUSER DROPDOWN: loading */}
+            {/*
+             * AUTHUSER DROPDOWN
+             * The dropdown menu on right top corner
+             */}
             {isAuthenticated != "yes" && (
               <div className="z-10 wildui-menu absolute">
                 <div tabIndex={0} role="button" className="btn animate-pulse w-20"></div>
               </div>
             )}
-            {/* AUTHUSER DROPDOWN: finished loading */}
             {isAuthenticated == "yes" && <IsAuthMenu />}
 
-            {/* AUTHUSER Thin Strip UI */}
-            {/* These pages have a 100px strip on top */}
+            {/*
+             * AUTHUSER UI
+             * 100px Thin strip on top for these pages
+             */}
             <div
               className={`custom-top-cover absolute z-0 ${
                 (isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && "h-100px"
               }`}
             ></div>
 
-            {/* AUTHUSER */}
-            {/* AUTHUSER: /username */}
+            {/*
+             * AUTHUSER USER
+             * User with payment context
+             * /[username]: checkout profile of a user via their @handle
+             */}
             {username && <UserIntroLayout>{children}</UserIntroLayout>}
-            {/* AUTHUSER: /profile/view, /profile/edit, /settings */}
-            {!username &&
-              !isHome &&
-              !isTransaction &&
-              !isLogin &&
-              !isLeaderboard &&
-              !isNotification &&
-              !isLevels &&
-              !isBios && (
-                <>
-                  <AuthUserIntroLayout>{children}</AuthUserIntroLayout>
-                  {/* <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10 ">
-                    <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
-                      <div className="flex items-center">
-                        <div className="left flex flex-col items-center ">
-                          {isAuthenticated != "yes" ? (
-                            <div className="avatar mr-5">
-                              <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>
-                            </div>
-                          ) : (
-                            <>
-                              <div className={isSettings ? "mr-5 hidden md:block" : "mr-5"}>
-                                {profile.profile_bios.length > 0 && (
-                                  <div className="cursor-pointer" onClick={openBioModal}>
-                                    <Avatar
-                                      profile={profile}
-                                      width={14}
-                                      height={14}
-                                      border={2}
-                                      ring={16}
-                                      gradient={"g-tropical"}
-                                    />
-                                  </div>
-                                )}
-                                {profile.profile_bios.length == 0 && (
-                                  <Avatar
-                                    profile={profile}
-                                    width={14}
-                                    height={14}
-                                    border={0}
-                                    ring={16}
-                                    gradient={"g-white"}
-                                  />
-                                )}
-                              </div>
-                              {isProfileEdit && (
-                                <div
-                                  id="wildpay-avatar-cta"
-                                  className="btn mr-5 text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                                  onClick={openAvatarModal}
-                                >
-                                  Edit
-                                  <ChevronRightIcon width={8} />
-                                </div>
-                              )}
-                            </>
-                          )}
-                        </div>
-                        <div className="right info flex text-black justify-center flex-col">
-                          {isAuthenticated != "yes" ? (
-                            <>
-                              <span className="mb-1">
-                                <IsLoading shape="rounded-md" width={28} height={6} />
-                              </span>
-                              <span>
-                                <IsLoading shape="rounded-md" width={28} height={8} />
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              {!isSettings && (
-                                <>
-                                  <div className="flex flex-col">
-                                    <Link
-                                      href={"/" + profile.username}
-                                      className="font-semibold mr-1 flex items-center"
-                                    >
-                                      @{profile.username}
-                                    </Link>
-                                    <div className="mr-1 text-sm">
-                                      <span className="font-semibold text-primary">{followers?.length}</span> followers{" "}
-                                      <span className="font-semibold text-primary">{following?.length}</span> following
-                                    </div>
-                                  </div>
-                                  <SocialIcons soc={soc} />
-                                </>
-                              )}
-                              {isSettings && (
-                                <>
-                                  <div className="font-semibold mb-1">{user.email}</div>
-                                  <div className="flex">
-                                    <RainbowKitCustomConnectButton btn="small" />
-                                    <FaucetButton />
-                                  </div>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        className={`text-4xl text-black flex justify-center items-center gap-2 ${
-                          isProfileEdit && "hidden"
-                        }`}
-                      >
-                        {isAuthenticated != "yes" && <IsLoading shape="rounded-md" width={12} height={8} />}
-                        {isAuthenticated == "yes" && !isSettings && (
-                          <div className="flex flex-col items-end">
-                            <div className="flex items-center text-xl font-semibold custom-text-blue">
-                              <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
-                              <div className="tooltip tooltip-top" data-tip="All time">
-                                <button className="ml-1">
-                                  <QuestionMarkCircleIcon width={14} />
-                                </button>
-                              </div>
-                            </div>
-                            <div className="text-xl flex items-center">
-                              {(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {children} */}
-                </>
-              )}
-            {/* AUTHUSER: /home, /transaction, /leaderboard */}
-            {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
+
+            {/*
+             * AUTHUSER AUTHENTICATED USER
+             * Authenticated user with payment context
+             * /profile: checkout profile of authenticated user
+             * /settings: checkout settings of authenticated user
+             */}
+            <AuthUserPaymentContext.Provider value={{ incomingRes, outgoingRes }}>
+              {!username && (isProfile || isSettings) && <AuthUserIntroLayout>{children}</AuthUserIntroLayout>}
+              {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
+            </AuthUserPaymentContext.Provider>
           </div>
 
           {/* WILDPAY RECEIPT MODAL */}

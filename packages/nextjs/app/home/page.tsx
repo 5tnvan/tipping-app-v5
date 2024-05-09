@@ -1,8 +1,14 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { AuthContext, AuthUserContext, AuthUserFollowsContext, ModalsContext } from "../context";
+import {
+  AuthContext,
+  AuthUserContext,
+  AuthUserFollowsContext,
+  AuthUserPaymentContext,
+  ModalsContext,
+} from "../context";
 import { NextPage } from "next";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -12,8 +18,6 @@ import { Avatar } from "~~/components/app/authentication/Avatar";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useGlobalState } from "~~/services/store/store";
-import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
-import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
@@ -23,35 +27,11 @@ import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
  * /home
  */
 const HomePage: NextPage = () => {
-  /* PARENTS CONTEXT */
+  /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
   const { isLoadingFollows, followers, following } = useContext(AuthUserFollowsContext);
-
-  /* TRANSACTIONS VARIABLES */
-  const [incomingEthTx, setIncomingEthTx] = useState<any>();
-  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
-  const [incomingBaseTx, setIncomingBaseTx] = useState<any>();
-  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
-  const [outgoingEthTx, setOutgoingEthTx] = useState<any>();
-  const [outgoingEthTxSum, setOutgoingEthTxSum] = useState(0);
-  const [outgoingBaseTx, setOutgoingBaseTx] = useState<any>();
-  const [outgoingBaseTxSum, setOutgoingBaseTxSum] = useState(0);
-
-  /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(profile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
-
-  useEffect(() => {
-    setIncomingEthTx(incomingRes.ethereumData);
-    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
-    setIncomingBaseTx(incomingRes.baseData);
-    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
-    setOutgoingEthTx(outgoingRes.ethereumData);
-    setOutgoingEthTxSum(calculateSum(outgoingRes.ethereumData));
-    setOutgoingBaseTx(outgoingRes.baseData);
-    setOutgoingBaseTxSum(calculateSum(outgoingRes.baseData));
-  }, [incomingRes, outgoingRes]);
+  const { incomingRes, outgoingRes } = useContext(AuthUserPaymentContext);
 
   /* TABS */
   const [showFollow, setShowFollow] = useState("following"); //default tab: following
@@ -317,14 +297,14 @@ const HomePage: NextPage = () => {
                 Incoming
                 <span className={`text-primary ${showTransactions == "incoming" && "font-semibold"}`}>
                   {" $"}
-                  {network == "ethereum" && convertEthToUsd(incomingEthTxSum, price)}
-                  {network == "base" && convertEthToUsd(incomingBaseTxSum, price)}
+                  {network == "ethereum" && convertEthToUsd(calculateSum(incomingRes?.ethereumData), price)}
+                  {network == "base" && convertEthToUsd(calculateSum(incomingRes?.baseData), price)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING LENGTH (NUM) */}
               <span className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold"}`}>
-                {network == "ethereum" && incomingEthTx?.paymentChanges?.length}
-                {network == "base" && incomingBaseTx?.paymentChanges?.length}
+                {network == "ethereum" && incomingRes?.ethereumData?.paymentChanges.length}
+                {network == "base" && incomingRes?.baseData?.paymentChanges.length}
               </span>
             </div>
             {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
@@ -340,14 +320,14 @@ const HomePage: NextPage = () => {
                 Outgoing
                 <span className={`text-primary ${showTransactions == "outgoing" && "font-semibold"}`}>
                   {" $"}
-                  {network == "ethereum" && convertEthToUsd(outgoingEthTxSum, price)}
-                  {network == "base" && convertEthToUsd(outgoingBaseTxSum, price)}
+                  {network == "ethereum" && convertEthToUsd(calculateSum(outgoingRes?.ethereumData), price)}
+                  {network == "base" && convertEthToUsd(calculateSum(outgoingRes?.baseData), price)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM LENGTH (NUM) */}
               <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>
-                {network == "ethereum" && outgoingEthTx?.paymentChanges?.length}
-                {network == "base" && outgoingBaseTx?.paymentChanges?.length}
+                {network == "ethereum" && outgoingRes?.ethereumData?.paymentChanges.length}
+                {network == "base" && outgoingRes?.baseData?.paymentChanges.length}
               </span>
             </div>
           </div>
@@ -355,7 +335,8 @@ const HomePage: NextPage = () => {
           <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6 pb-8">
             {showTransactions === "incoming" && (
               <>
-                {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length === 0 && (
+                {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges.length ===
+                  0 && (
                   <div className="flex h-full justify-center items-center">
                     <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
                       {copied2 ? (
@@ -384,7 +365,8 @@ const HomePage: NextPage = () => {
             )}
             {showTransactions === "outgoing" && (
               <>
-                {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
+                {(network === "ethereum" ? outgoingRes?.ethereumData : outgoingRes?.baseData)?.paymentChanges.length ===
+                  0 && (
                   <div className="flex h-full justify-center items-center">
                     <ModalsContext.Consumer>
                       {({ openFastPayModal }) => (
@@ -406,14 +388,14 @@ const HomePage: NextPage = () => {
             )}
             {showTransactions === "incoming" && (
               <Transactions
-                tx={network === "ethereum" ? incomingEthTx : incomingBaseTx}
+                tx={network === "ethereum" ? incomingRes?.ethereumData : incomingRes?.baseData}
                 hide="to"
                 network={network === "ethereum" ? "ethereum" : "base"}
               />
             )}
             {showTransactions === "outgoing" && (
               <Transactions
-                tx={network === "ethereum" ? outgoingEthTx : outgoingBaseTx}
+                tx={network === "ethereum" ? outgoingRes?.ethereumData : outgoingRes?.baseData}
                 hide="from"
                 network={network === "ethereum" ? "ethereum" : "base"}
               />

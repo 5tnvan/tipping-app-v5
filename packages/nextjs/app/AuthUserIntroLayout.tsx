@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AuthContext, AuthUserContext, AuthUserFollowsContext, ModalsContext } from "./context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, AuthUserPaymentContext, ModalsContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -11,8 +11,6 @@ import { BioModal } from "~~/components/app/modal/BioModal";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
-import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
-import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
@@ -36,18 +34,7 @@ const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
   const { followers, following } = useContext(AuthUserFollowsContext);
-
-  /* FETCH TRANSACTIONS */
-  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
-  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
-
-  const incomingRes = useIncomingTransactions(profile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
-
-  useEffect(() => {
-    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
-    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
-  }, [incomingRes, outgoingRes]);
+  const { incomingRes, outgoingRes } = useContext(AuthUserPaymentContext);
 
   /* SOCIAL MEDIA LINKS */
   let soc = {};
@@ -177,21 +164,28 @@ const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             {isAuthenticated == "yes" && !isSettings && (
               <div className="flex flex-col items-end">
                 <div className="flex items-center text-xl font-semibold custom-text-blue">
-                  <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, price)}</div>
+                  <div>
+                    $
+                    {convertEthToUsd(
+                      calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
+                      price,
+                    )}
+                  </div>
                   <div className="tooltip tooltip-top" data-tip="All time">
                     <button className="ml-1">
                       <QuestionMarkCircleIcon width={14} />
                     </button>
                   </div>
                 </div>
-                <div className="text-xl flex items-center">{(incomingEthTxSum + incomingBaseTxSum).toFixed(4)}Ξ</div>
+                <div className="text-xl flex items-center">
+                  {(calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData)).toFixed(4)}Ξ
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {children}
+      <AuthUserPaymentContext.Provider value={{ incomingRes, outgoingRes }}>{children}</AuthUserPaymentContext.Provider>
 
       {/* WILDPAY FASTPAY MODAL */}
       <ModalsContext.Consumer>

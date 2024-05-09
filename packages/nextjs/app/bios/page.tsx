@@ -54,8 +54,6 @@ const BiosPage: NextPage = () => {
       carouselRef.current.querySelectorAll(".carousel-item").forEach(item => {
         observer.observe(item); // Observe each carousel item
       });
-      console.log("carouselRef", carouselRef);
-      console.log("carouselRef.current", carouselRef.current);
     }
 
     return () => {

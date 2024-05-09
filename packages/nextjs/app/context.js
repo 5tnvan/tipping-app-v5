@@ -6,6 +6,7 @@ const AuthContext = createContext();
 const AuthUserContext = createContext();
 const AuthUserFollowsContext = createContext();
 const AuthUserNotificationContext = createContext();
+const AuthUserPaymentContext = createContext();
 const UserContext = createContext();
 const UserFollowsContext = createContext();
 const ModalsContext = createContext();
@@ -15,6 +16,7 @@ export {
   AuthUserContext,
   AuthUserFollowsContext,
   AuthUserNotificationContext,
+  AuthUserPaymentContext,
   UserContext,
   UserFollowsContext,
   ModalsContext,
