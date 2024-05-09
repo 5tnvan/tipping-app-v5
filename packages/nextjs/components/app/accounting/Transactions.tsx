@@ -9,7 +9,7 @@ import { ArrowDownLeftIcon } from "@heroicons/react/24/outline";
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useGlobalState } from "~~/services/store/store";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const Transactions = ({ tx, hide, network }: Props) => {
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
   return (
     <>
       {tx?.paymentChanges?.map((paymentChange: any) => (
@@ -54,7 +54,7 @@ const Transactions = ({ tx, hide, network }: Props) => {
             {/* right - usd/eth */}
             <div className="flex flex-col items-end">
               <div className="text-primary font-semibold">
-                ${convertEthToUsd(formatEther(paymentChange?.value), nativeCurrencyPrice)}
+                ${convertEthToUsd(formatEther(paymentChange?.value), price)}
               </div>
               <div className="flex items-center font-medium">
                 {Number(formatEther(paymentChange?.value)).toFixed(4)}Ξ

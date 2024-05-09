@@ -8,8 +8,8 @@ import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useGlobalState } from "~~/services/store/store";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
 type Props = {
@@ -26,7 +26,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   /**
    * ACTION: Add message
@@ -48,7 +48,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
    **/
   const handleInput = (e: any) => {
     const dollarAmount = Number(e.target.value);
-    const ethAmount = convertUsdToEth(dollarAmount, nativeCurrencyPrice);
+    const ethAmount = convertUsdToEth(dollarAmount, price);
     setDollarAmount(dollarAmount);
     setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
     //setEthAmount(ethAmount);
@@ -179,7 +179,14 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
           <>
             <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
               <div className="flex items-center">
-                <Avatar profile={profile} width="8" ring={false} height={undefined} border={undefined} gradient={undefined} />
+                <Avatar
+                  profile={profile}
+                  width="8"
+                  ring={false}
+                  height={undefined}
+                  border={undefined}
+                  gradient={undefined}
+                />
                 <span className="ml-2 font-semibold">{profile.username}</span>
               </div>
               <div className="flex items-center">

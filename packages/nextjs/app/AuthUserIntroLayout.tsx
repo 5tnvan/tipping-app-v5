@@ -10,7 +10,7 @@ import { AvatarModal } from "~~/components/app/modal/AvatarModal";
 import { BioModal } from "~~/components/app/modal/BioModal";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useGlobalState } from "~~/services/store/store";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
@@ -25,7 +25,7 @@ export const metadata = getMetadata({
 
 const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
@@ -177,7 +177,7 @@ const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             {isAuthenticated == "yes" && !isSettings && (
               <div className="flex flex-col items-end">
                 <div className="flex items-center text-xl font-semibold custom-text-blue">
-                  <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}</div>
+                  <div>${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, price)}</div>
                   <div className="tooltip tooltip-top" data-tip="All time">
                     <button className="ml-1">
                       <QuestionMarkCircleIcon width={14} />

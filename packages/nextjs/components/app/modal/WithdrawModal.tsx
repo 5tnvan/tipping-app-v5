@@ -7,10 +7,10 @@ import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { useGlobalState } from "~~/services/store/store";
 
 type Props = {
   isOpen: any;
@@ -19,7 +19,7 @@ type Props = {
 
 export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { profile } = useContext(AuthUserContext);
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
   const { address: connectedAddress } = useAccount();
   const [ethAmount, setEthAmount] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
@@ -49,7 +49,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
    **/
   const handleInput = (e: any) => {
     const ethAmount = Number(e.target.value);
-    const dollarAmount = convertEthToUsd(ethAmount, nativeCurrencyPrice);
+    const dollarAmount = convertEthToUsd(ethAmount, price);
     setEthAmount(ethAmount);
     setDollarAmount(dollarAmount);
 
@@ -125,7 +125,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                 <div className="flex items-center">
                   <div className="flex items-center text-xl mr-2 font-medium">{Number(withdrawBalance)}Ξ</div>
                   <div className="text-xl text-neutral-700">
-                    (${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})
+                    (${convertEthToUsd(withdrawBalance, price).toFixed(2)})
                   </div>
                 </div>
                 {/* WITHDRAW AMOUNT */}

@@ -7,14 +7,14 @@ import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AuthUserContext, AuthContext } from "~~/app/context";
+import { AuthContext, AuthUserContext } from "~~/app/context";
 import { IsLoading } from "~~/components/app/IsLoading";
 import { WalletModal } from "~~/components/app/modal/WalletModal";
 import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
 import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomNetworkIcon } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/checknetwork";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useGlobalState } from "~~/services/store/store";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
@@ -23,7 +23,7 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
 const Settings: NextPage = () => {
   const router = useRouter();
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
   const { address } = useAccount();
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
@@ -234,7 +234,7 @@ const Settings: NextPage = () => {
                   <>
                     <RainbowKitCustomNetworkIcon />
                     <span className="font-medium">{Number(withdrawBalance).toFixed(4)}Ξ</span>
-                    <span className="">(${convertEthToUsd(withdrawBalance, nativeCurrencyPrice).toFixed(2)})</span>
+                    <span className="">(${convertEthToUsd(withdrawBalance, price).toFixed(2)})</span>
                   </>
                 )}
                 {!address && !profile.wallet_id && <>No balance</>}

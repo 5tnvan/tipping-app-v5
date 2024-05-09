@@ -15,13 +15,13 @@ import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
 import { useFollowersByUsername } from "~~/hooks/app/useFollowers";
 import { useProfileByUsername } from "~~/hooks/app/useProfileByUsername";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
+import { useGlobalState } from "~~/services/store/store";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
+import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
   title: "Profile",
@@ -31,7 +31,7 @@ export const metadata = getMetadata({
 const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { username } = useParams();
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
@@ -204,7 +204,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                 <>
                   <div className="flex flex-col items-end">
                     <div className="flex items-center text-xl font-semibold custom-text-blue">
-                      ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, nativeCurrencyPrice)}
+                      ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, price)}
                       <div className="tooltip tooltip-top" data-tip="All time">
                         <button className="ml-1">
                           <QuestionMarkCircleIcon width={14} />
