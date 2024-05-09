@@ -2,8 +2,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { AuthUserContext } from "../context";
+import { AuthContext } from "../context";
 import { setUsernameCookie } from "../signup/actions";
 import type { NextPage } from "next";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -11,12 +10,9 @@ import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { isUsernameTaken } from "~~/hooks/supabase";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 const GetStarted: NextPage = () => {
-  const router = useRouter();
-  const { isAuth } = useContext(AuthUserContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
   const [isProcessing, setIsProcessing] = useState<any>();
   const [username, setUsername] = useState<string>("");
@@ -69,11 +65,7 @@ const GetStarted: NextPage = () => {
     })();
   }, [username]);
 
-  if (isAuth == "yes") {
-    router.push("/home");
-  }
-
-  if (isAuth == "no") {
+  if (isAuthenticated == "no") {
     return (
       <>
         {/* GET STARTED */}

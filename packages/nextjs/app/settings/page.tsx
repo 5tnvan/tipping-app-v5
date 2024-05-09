@@ -15,9 +15,6 @@ import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomNetworkIcon } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/checknetwork";
 import { useGlobalState } from "~~/services/store/store";
-import "~~/styles/app-profile.css";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 

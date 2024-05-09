@@ -3,7 +3,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import "~~/styles/app.css";
 
 /**
  * Returns network icon of currently connected network

@@ -5,7 +5,7 @@ import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 import CheckCircleIcon from "@heroicons/react/20/solid/CheckCircleIcon";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { AuthUserContext } from "~~/app/context";
+import { AuthContext, AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
@@ -19,7 +19,8 @@ type Props = {
 };
 
 const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
-  const { isAuth, profile } = useContext(AuthUserContext);
+  const { isAuthenticated } = useContext(AuthContext);
+  const { profile } = useContext(AuthUserContext);
   const { address: connectedAddress } = useAccount();
   const [payAmount, setPayAmount] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
@@ -147,7 +148,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
           {/* PAY AS */}
           <div className="mt-10">
             {/* PAY AS ANONYMOUS */}
-            {isAuth == "no" && (
+            {isAuthenticated == "no" && (
               <>
                 <div className="flex flex-col">
                   {!rainbowKit && (
@@ -178,7 +179,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 </div>
               </>
             )}
-            {isAuth == "yes" && !profile.wallet_id && (
+            {isAuthenticated == "yes" && !profile.wallet_id && (
               <>
                 <div>You have no verified wallet, yet.</div>
                 <div className="flex justify-center">
@@ -188,7 +189,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 </div>
               </>
             )}
-            {isAuth == "yes" && profile.wallet_id && !connectedAddress && (
+            {isAuthenticated == "yes" && profile.wallet_id && !connectedAddress && (
               <>
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
@@ -207,52 +208,61 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
                 </div>
               </>
             )}
-            {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
-              <>
-                <RainbowKitCustomSwitchNetworkButton btn="base" />
-                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
-                  <div className="flex items-center">
-                    <Avatar profile={profile} width={8} ring={9} height={8} border={0} gradient={undefined} />
-                    <span className="ml-2 font-semibold">{profile.username}</span>
+            {isAuthenticated == "yes" &&
+              profile.wallet_id &&
+              connectedAddress &&
+              profile.wallet_id == connectedAddress && (
+                <>
+                  <RainbowKitCustomSwitchNetworkButton btn="base" />
+                  <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2 mb-2">
+                    <div className="flex items-center">
+                      <Avatar profile={profile} width={8} ring={9} height={8} border={0} gradient={undefined} />
+                      <span className="ml-2 font-semibold">{profile.username}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Address address={connectedAddress} />
+                      <span className="text-green-600 ml-1">
+                        <CheckCircleIcon width={16} />
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <Address address={connectedAddress} />
-                    <span className="text-green-600 ml-1">
-                      <CheckCircleIcon width={16} />
-                    </span>
+                </>
+              )}
+            {isAuthenticated == "yes" &&
+              profile.wallet_id &&
+              connectedAddress &&
+              profile.wallet_id !== connectedAddress && (
+                <>
+                  <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
+                    <div className="flex items-center">
+                      <Avatar profile={profile} width={8} ring={8} height={8} border={0} gradient={undefined} />
+                      <span className="ml-2 font-semibold">{profile.username}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Address address={connectedAddress} />
+                      <span className="text-red-600 ml-1">
+                        <ExclamationCircleIcon width={16} />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
-            {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id !== connectedAddress && (
-              <>
-                <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
-                  <div className="flex items-center">
-                    <Avatar profile={profile} width={8} ring={8} height={8} border={0} gradient={undefined} />
-                    <span className="ml-2 font-semibold">{profile.username}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Address address={connectedAddress} />
-                    <span className="text-red-600 ml-1">
-                      <ExclamationCircleIcon width={16} />
-                    </span>
-                  </div>
-                </div>
-                <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
-              </>
-            )}
+                  <div className="text-center text-red-600 mt-2">{`Your connected address doesn't match your verified address.`}</div>
+                </>
+              )}
           </div>
-          {isAuth == "yes" && profile.wallet_id && connectedAddress && profile.wallet_id == connectedAddress && (
-            <div className="flex justify-center">
-              <button
-                className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
-                onClick={() => pay()}
-              >
-                Confirm
-                {isMining && <span className="loading loading-ring loading-md"></span>}
-              </button>
-            </div>
-          )}
+          {isAuthenticated == "yes" &&
+            profile.wallet_id &&
+            connectedAddress &&
+            profile.wallet_id == connectedAddress && (
+              <div className="flex justify-center">
+                <button
+                  className="btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3"
+                  onClick={() => pay()}
+                >
+                  Confirm
+                  {isMining && <span className="loading loading-ring loading-md"></span>}
+                </button>
+              </div>
+            )}
         </>
       )}
     </>

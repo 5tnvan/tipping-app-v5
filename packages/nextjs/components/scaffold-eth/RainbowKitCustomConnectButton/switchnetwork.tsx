@@ -4,7 +4,6 @@ import { SwitchNetworkDropdown } from "./SwitchNetworkDropdown";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import "~~/styles/app.css";
 
 type RainbowKitCustomConnectButtonProps = {
   btn: string;

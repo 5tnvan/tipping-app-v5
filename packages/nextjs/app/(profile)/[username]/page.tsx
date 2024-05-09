@@ -11,10 +11,6 @@ import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
-import "~~/styles/app-profile.css";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
-
 /**
  * ROUTE: /[username]
  * DESCRIPTION: Public Profile

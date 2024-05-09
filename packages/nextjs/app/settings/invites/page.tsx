@@ -8,8 +8,6 @@ import { AuthContext } from "~~/app/context";
 import { ProfileRevealInvite } from "~~/components/app/ProfileRevealInvite";
 import { InviteGenerateModal } from "~~/components/app/modal/InviteGenerateModal";
 import { InviteModal } from "~~/components/app/modal/InviteModal";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 import { fetchInvites } from "~~/utils/app/fetch/fetchInvites";
 
 export default function InvitesPage() {
@@ -55,8 +53,6 @@ export default function InvitesPage() {
   const closeInviteGenerateModal = () => {
     setInviteGenerateModalOpen(false);
   };
-
-  console.log("invites: ", invites);
 
   if (isAuthenticated == "yes") {
     return (

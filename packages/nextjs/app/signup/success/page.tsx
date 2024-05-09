@@ -4,24 +4,11 @@ import { useContext } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { AuthContext } from "~~/app/context";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 const GetStartedSuccess: NextPage = () => {
-  const { isAuth } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
-  if (isAuth == "no") {
-    return (
-      <>
-        <div className="flex flex-col justify-center items-center h-full font-medium">
-          <p>Sorry, something went wrong. Please try again later.</p>
-          <Link href="/login" className="btn btn-secondary w-full mt-2">Go to Login</Link>
-        </div>
-      </>
-    );
-  }
-
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         {/* CONTENT */}

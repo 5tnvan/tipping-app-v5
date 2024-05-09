@@ -10,11 +10,7 @@ import { fetchUser } from "~~/utils/app/fetch/fetchUser";
  **/
 export const useProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState("init");
-  const [user, setUser] = useState<any>();
   const [profile, setProfile] = useState<any>();
-  // const [bios, setBios] = useState<any>();
-  // const [levels, setLevels] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -27,13 +23,8 @@ export const useProfile = () => {
     const userData = await fetchUser();
     if (userData?.user) {
       const profileData = await fetchSuperProfile();
-      setUser(userData.user);
       setProfile(profileData);
-      setIsAuth("yes");
-    } else {
-      setIsAuth("no");
     }
-
     setIsLoading(false); // Set loading to false when fetch is complete
   };
 
@@ -41,5 +32,5 @@ export const useProfile = () => {
     init();
   }, [triggerRefetch]);
 
-  return { isLoading, isAuth, user, profile, refetch };
+  return { isLoading, profile, refetch };
 };

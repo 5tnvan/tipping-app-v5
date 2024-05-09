@@ -12,8 +12,6 @@ import { useAuth } from "~~/hooks/app/useAuth";
 import { useFollowers } from "~~/hooks/app/useFollowers";
 import { useNotifications } from "~~/hooks/app/useNotifications";
 import { useProfile } from "~~/hooks/app/useProfile";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -34,19 +32,17 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
 
   /* PROVIDE CONTEXTS */
   const { isAuthenticated, user, refetch: refetchAuth } = useAuth(); //<AuthContext>
-  const { isAuth, profile, refetch: refetchAuthUser } = useProfile(); //<AuthUserContext>
+  const { profile, refetch: refetchAuthUser } = useProfile(); //<AuthUserContext>
   const { isLoading: isLoadingFollows, followers, following, refetch: refetchFollows } = useFollowers(); //<AuthUserFollowsContext>
   const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications(); //<AuthUserNotificationContext>
 
   /* SWITCH UI */
-  const bgClass = isAuth === "yes" ? "bg-white" : isAuth === "no" ? "custom-gradient-02" : "bg-white";
-
-  console.log(isAuthenticated);
+  const bgClass = isAuthenticated === "yes" ? "bg-white" : isAuthenticated === "no" ? "custom-gradient-02" : "bg-white";
 
   return (
     <>
       <AuthContext.Provider value={{ isAuthenticated, user, refetchAuth }}>
-        <AuthUserContext.Provider value={{ isAuth, profile, refetchAuthUser }}>
+        <AuthUserContext.Provider value={{ profile, refetchAuthUser }}>
           {/*
            * LOADING UI
            * Loading indicator when authentication is init

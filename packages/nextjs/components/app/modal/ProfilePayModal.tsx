@@ -47,10 +47,10 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
             {/* PAY TO */}
             {profile.wallet_id && (
               <Link href={`/${profile.username}`} className="flex flex-col items-center justify-center mt-5">
-                {profile.bios.length > 0 && (
+                {profile.profile_bios.length > 0 && (
                   <Avatar profile={profile} width={12} ring={13} height={12} border={2} gradient={"g-tropical"} />
                 )}
-                {profile.bios.length == 0 && (
+                {profile.profile_bios.length == 0 && (
                   <Avatar profile={profile} width={12} ring={13} height={12} border={0} gradient={"g-white"} />
                 )}
                 <div className="font-semibold mt-2">@{profile.username}</div>

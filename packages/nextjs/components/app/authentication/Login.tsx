@@ -18,11 +18,11 @@ export const Login = () => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
       await login(formData);
-      router.push("home");
       refetchAuth();
       refetchAuthUser();
       refetchFollows();
       refetchNotifications();
+      router.push("home");
     } catch (error) {
       setError("Login failed. Please try again.");
       setIsProcessing(false);

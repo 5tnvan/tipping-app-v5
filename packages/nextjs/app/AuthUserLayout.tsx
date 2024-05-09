@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import AuthUserIntroLayout from "./AuthUserIntroLayout";
 import UserIntroLayout from "./UserIntroLayout";
@@ -23,28 +23,41 @@ export const metadata = getMetadata({
 const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
-  //CHECK /PATH/{PARAMS}
-  const pathname = usePathname();
-  const isHome = pathname === "/home"; //for auth user only
-  const isTransaction = pathname.includes("/transaction");
-  const isProfile = pathname.includes("/profile");
-  const isSettings = pathname.includes("/settings");
-  const isLeaderboard = pathname === "/leaderboard";
-  const isNotification = pathname === "/notifications"; //for auth user only
-  const isLevels = pathname === "/levels"; //for auth user only
-  const isBios = pathname === "/bios";
-  const { username } = useParams();
-
   /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
 
-  /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(profile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
+  /* PROVIDE CONTEXT */
+  const incomingRes = useIncomingTransactions(profile?.wallet_id); //<AuthUserPaymentContext>
+  const outgoingRes = useOutgoingTransactions(profile?.wallet_id); //<AuthUserPaymentContext>
 
-  console.log("incomingRes", incomingRes);
-  console.log("outgoingRes", outgoingRes);
+  /* CHECK ROUTES */
+  const { username } = useParams();
+  const pathname = usePathname();
+  const isHome = pathname === "/home";
+  const isProfile = pathname.includes("/profile");
+  const isSettings = pathname.includes("/settings");
+  const isLevels = pathname === "/levels";
+  const isNotification = pathname === "/notifications";
+  const isTransaction = pathname.includes("/transaction");
+  const isLeaderboard = pathname === "/leaderboard";
+  const isBios = pathname === "/bios";
+
+  /*
+   * REDIRECT
+   * If user is authenticated and visits these pages, redirect to index
+   */
+  const isGetStarted = pathname.includes("/getstarted");
+  //const isLogin = pathname.includes("/login");
+  const isSignUpNew = pathname == "/signup/new";
+  const isSignUpVerify = pathname == "/signup/verify";
+
+  useEffect(() => {
+    // Check if user is authenticated and visiting certain pages
+    if (isAuthenticated === "yes" && (isGetStarted || isSignUpNew || isSignUpVerify)) {
+      router.push("/");
+    }
+  }, [isAuthenticated, isGetStarted, isSignUpNew, isSignUpVerify, router]);
 
   /**
    * HANDLE: Fastpay Modal
@@ -148,7 +161,10 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
           {/* WILDPAY CREATE MODAL */}
           <CreateModal isOpen={isCreateModalOpen} onClose={closeCreateModal}></CreateModal>
 
-          {/* WILDPAY APP BOTTOM MENU */}
+          {/*
+           * WILDPAY BOTTOM NAVIGATION
+           * Bottom nav with 5 tabs
+           */}
           <div
             id="wildpay-app-menu"
             className="flex justify-around absolute bottom-0 text-white items-center custom-bg-blue w-full h-14 z-40 text-sm"
