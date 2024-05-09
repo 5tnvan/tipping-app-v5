@@ -11,7 +11,7 @@ import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useGlobalState } from "~~/services/store/store";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
@@ -57,7 +57,7 @@ const HomePage: NextPage = () => {
   const [showFollow, setShowFollow] = useState("following"); //default tab: following
   const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming
   const [network, setNetwork] = useState("ethereum"); //default network: eth
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   /* COPY BUTTONS */
   const [copied1, setCopied1] = useState(false);
@@ -317,8 +317,8 @@ const HomePage: NextPage = () => {
                 Incoming
                 <span className={`text-primary ${showTransactions == "incoming" && "font-semibold"}`}>
                   {" $"}
-                  {network == "ethereum" && convertEthToUsd(incomingEthTxSum, nativeCurrencyPrice)}
-                  {network == "base" && convertEthToUsd(incomingBaseTxSum, nativeCurrencyPrice)}
+                  {network == "ethereum" && convertEthToUsd(incomingEthTxSum, price)}
+                  {network == "base" && convertEthToUsd(incomingBaseTxSum, price)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING LENGTH (NUM) */}
@@ -340,8 +340,8 @@ const HomePage: NextPage = () => {
                 Outgoing
                 <span className={`text-primary ${showTransactions == "outgoing" && "font-semibold"}`}>
                   {" $"}
-                  {network == "ethereum" && convertEthToUsd(outgoingEthTxSum, nativeCurrencyPrice)}
-                  {network == "base" && convertEthToUsd(outgoingBaseTxSum, nativeCurrencyPrice)}
+                  {network == "ethereum" && convertEthToUsd(outgoingEthTxSum, price)}
+                  {network == "base" && convertEthToUsd(outgoingBaseTxSum, price)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM LENGTH (NUM) */}

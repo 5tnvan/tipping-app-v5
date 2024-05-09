@@ -10,7 +10,7 @@ import { Spotlight } from "~~/components/app/ui/spotlight";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
+import { useGlobalState } from "~~/services/store/store";
 import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -23,7 +23,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [dateUnix, setDateUnix] = useState<any>();
   const [walletProfile, setWalletProfile] = useState<any | undefined>(undefined);
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   /**
    * ACTION: Fetch transaction from graph
@@ -81,10 +81,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   </div>
                   <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                     <div className="text-3xl">
-                      $
-                      {convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), nativeCurrencyPrice).toFixed(
-                        2,
-                      )}
+                      ${convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), price).toFixed(2)}
                     </div>
                     <div className="flex text-xl items-center">
                       {Number(formatEther(withdrawData.withdrawChanges[0].value)).toFixed(4)}Ξ

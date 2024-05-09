@@ -8,9 +8,9 @@ import { Spotlight } from "../ui/spotlight";
 import { formatEther } from "viem";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { useGlobalState } from "~~/services/store/store";
 
 type Props = {
   tx: any;
@@ -22,7 +22,7 @@ const Transaction = ({ tx, network, onClose }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +79,7 @@ const Transaction = ({ tx, network, onClose }: Props) => {
                 </div>
                 <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                   <div className="text-3xl">
-                    ${convertEthToUsd(formatEther(tx.paymentChanges[0].value), nativeCurrencyPrice).toFixed(0)}
+                    ${convertEthToUsd(formatEther(tx.paymentChanges[0].value), price).toFixed(0)}
                   </div>
                   <div className="flex text-xl items-center">
                     <EthIcon width={18} height={18} fill="#3C3C3C" />

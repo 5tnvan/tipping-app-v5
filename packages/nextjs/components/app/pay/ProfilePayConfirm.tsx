@@ -9,8 +9,8 @@ import { AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
-import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth/useNativeCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useGlobalState } from "~~/services/store/store";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
 type Props = {
@@ -58,17 +58,18 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   //const [ethAmount, setEthAmount] = useState(0);
   const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
-  const nativeCurrencyPrice = useNativeCurrencyPrice();
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
 
   useEffect(() => {
-    if (nativeCurrencyPrice > 0) {
+    //!refactor: why price > 0
+    if (price > 0) {
       //setDollarAmount(Number(payAmount));
       setDollarAmountWithFee(payAmount + (payAmount * 3) / 100);
-      const ethAmount = convertUsdToEth(Number(payAmount), nativeCurrencyPrice);
+      const ethAmount = convertUsdToEth(Number(payAmount), price);
       //setEthAmount(ethAmount);
       setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
     }
-  }, [nativeCurrencyPrice, payAmount]);
+  }, [price, payAmount]);
 
   /**
    * ACTION: Pay and trigger parents to refresh
