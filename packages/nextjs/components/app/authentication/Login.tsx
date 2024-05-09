@@ -3,14 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext, AuthContext, FollowersContext, NotificationContext } from "~~/app/context";
+import { AuthUserContext, AuthContext, AuthUserFollowsContext, AuthUserNotificationContext } from "~~/app/context";
 
 export const Login = () => {
   const router = useRouter();
   const { refetchSession } = useContext(AuthContext);
   const { refetchAuthUser } = useContext(AuthUserContext);
-  const { refetchFollowers } = useContext(FollowersContext);
-  const { refetchNotifications } = useContext(NotificationContext);
+  const { refetchFollows } = useContext(AuthUserFollowsContext);
+  const { refetchNotifications } = useContext(AuthUserNotificationContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<any>();
   const handleLogin = async (event: any) => {
@@ -21,7 +21,7 @@ export const Login = () => {
       router.push("home");
       refetchSession();
       refetchAuthUser();
-      refetchFollowers();
+      refetchFollows();
       refetchNotifications();
     } catch (error) {
       setError("Login failed. Please try again.");

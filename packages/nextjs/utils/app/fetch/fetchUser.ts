@@ -3,29 +3,10 @@
 import { createClient } from "~~/utils/supabase/server";
 
 /**
- * FETCH: fetchSession()
- * DB: supabase
- * TABLE: none
- * RETURN: { data }
- **/
-
-export const fetchSession = async () => {
-  const supabase = createClient();
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error) {
-    console.log(error);
-    return null;
-  } else {
-    return data;
-  }
-};
-
-/**
  * FETCH: fetchUser()
  * DB: supabase
  * TABLE: "auth.user"
- * RETURN: { data }
+ * RETURN: { userData }
  **/
 
 export const fetchUser = async () => {
@@ -66,18 +47,6 @@ export const fetchProfiles = async () => {
     .select(`*, profile_bios ( id )`)
     .order("id", { ascending: false });
   return profileData;
-};
-
-/**
- * FETCH: fetchPublicProfile(username)
- * DB: supabase
- * TABLE: "profiles"
- **/
-
-export const fetchPublicProfile = async (username: string) => {
-  const supabase = createClient();
-  const { data: profileData } = await supabase.from("profiles").select().eq("username", username);
-  return profileData?.[0] ?? null;
 };
 
 /**

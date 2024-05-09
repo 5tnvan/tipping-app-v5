@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import UserIntroLayout from "./UserIntroLayout";
-import { AuthUserContext, AuthContext, ComponentsContext, FollowersContext } from "./context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, ModalsContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon, HomeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
@@ -52,7 +52,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   /* PARENTS CONTEXT */
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { followersData } = useContext(FollowersContext);
+  const { followers, following } = useContext(AuthUserFollowsContext);
 
   /* FETCH TRANSACTIONS */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
@@ -150,7 +150,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   if (profile)
     return (
       <>
-        <ComponentsContext.Provider
+        <ModalsContext.Provider
           value={{ openFastPayModal, closeFastPayModal, openSearchModal, closeSearchModal, openCreateModal }}
         >
           <div id="wildpay-is-auth" className="bg-white grow max-h-dvh">
@@ -258,14 +258,8 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                                       @{profile.username}
                                     </Link>
                                     <div className="mr-1 text-sm">
-                                      <span className="font-semibold text-primary">
-                                        {followersData.followers.length}
-                                      </span>{" "}
-                                      followers{" "}
-                                      <span className="font-semibold text-primary">
-                                        {followersData.following.length}
-                                      </span>{" "}
-                                      following
+                                      <span className="font-semibold text-primary">{followers?.length}</span> followers{" "}
+                                      <span className="font-semibold text-primary">{following?.length}</span> following
                                     </div>
                                   </div>
                                   <SocialIcons soc={soc} />
@@ -394,7 +388,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
               <div className="hidden md:block">Search</div>
             </button>
           </div>
-        </ComponentsContext.Provider>
+        </ModalsContext.Provider>
       </>
     );
 };

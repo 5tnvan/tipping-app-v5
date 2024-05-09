@@ -7,7 +7,7 @@ import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "@heroicons/react/24/solid";
-import { AuthContext, PublicFollowersContext } from "~~/app/context";
+import { AuthContext, UserFollowsContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -19,7 +19,7 @@ type Props = {
 export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
   const router = useRouter();
   const { isAuthenticated } = useContext(AuthContext);
-  const { followersPublicData } = useContext(PublicFollowersContext) || {};
+  const { followed } = useContext(UserFollowsContext) || {};
 
   const handleClose = () => {
     onClose();
@@ -41,9 +41,9 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
     } else if (isAuthenticated == "yes") {
       if (data.latestBio?.cta == 0) {
         onCta(0); //pay now
-      } else if (data.latestBio?.cta == 1 && !followersPublicData?.followed) {
+      } else if (data.latestBio?.cta == 1 && !followed) {
         onCta(1); //follow me
-      } else if (data.latestBio?.cta == 1 && followersPublicData?.followed) {
+      } else if (data.latestBio?.cta == 1 && followed) {
         onClose(); //following
       }
     }
@@ -78,8 +78,8 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
             <TextGenerateEffect words={data.latestBio?.content} />
             <div className="btn btn-primary w-full mt-5" onClick={handleCta}>
               {data.latestBio?.cta == 0 && "Pay now"}
-              {data.latestBio?.cta == 1 && !followersPublicData?.followed && "Follow me"}
-              {data.latestBio?.cta == 1 && followersPublicData?.followed && (
+              {data.latestBio?.cta == 1 && !followed && "Follow me"}
+              {data.latestBio?.cta == 1 && followed && (
                 <>
                   Following
                   <CheckCircleIcon width={18} />

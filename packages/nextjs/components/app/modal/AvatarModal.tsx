@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext, FollowersContext } from "~~/app/context";
+import { AuthUserContext, AuthUserFollowsContext } from "~~/app/context";
 import {
   checkFileExists,
   deleteProfileAvatars,
@@ -19,7 +19,7 @@ type Props = {
 
 export const AvatarModal = ({ isOpen, onClose }: Props) => {
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { refetchFollowers } = useContext(FollowersContext);
+  const { refetchFollows } = useContext(AuthUserFollowsContext);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState<string>("init"); // "pic", "gif", "nft"
@@ -59,7 +59,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
         deleteProfileAvatars(fileExists?.data); // delete old file from storage
         onClose();
         refetchAuthUser();
-        refetchFollowers();
+        refetchFollows();
         setChoosen("init");
         setIsProcessing(false);
       }
@@ -90,7 +90,7 @@ export const AvatarModal = ({ isOpen, onClose }: Props) => {
       updateProfileAvatar(selectedImageUrl);
       onClose();
       refetchAuthUser();
-      refetchFollowers();
+      refetchFollows();
       setChoosen("init");
     }
   };

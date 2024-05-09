@@ -4,8 +4,6 @@ import * as faceapi from "face-api.js";
 import Dropzone from "react-dropzone";
 
 const AvatarCreator = () => {
-  console.log(faceapi);
-
   const runFaceDetection = async (imageUrl: string) => {
     //models
     await Promise.all([
@@ -18,7 +16,6 @@ const AvatarCreator = () => {
     //face
     const img = await faceapi.fetchImage(imageUrl);
     let faceAIdata = await faceapi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors().withAgeAndGender();
-    console.log(faceAIdata);
 
     //canvas
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;

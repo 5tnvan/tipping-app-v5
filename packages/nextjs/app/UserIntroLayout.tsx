@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AuthContext, ComponentsContext, FollowersContext, PublicContext, PublicFollowersContext } from "./context";
+import { AuthContext, AuthUserFollowsContext, ModalsContext, UserContext, UserFollowsContext } from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -13,8 +13,8 @@ import { BioModal } from "~~/components/app/modal/BioModal";
 import { FollowersModal } from "~~/components/app/modal/FollowersModal";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 import { SocialIcons } from "~~/components/assets/SocialIcons";
-import { usePublicFollowers } from "~~/hooks/app/useFollowers";
-import { usePublicProfile } from "~~/hooks/app/usePublicProfile";
+import { useFollowersByUsername } from "~~/hooks/app/useFollowers";
+import { useProfileByUsername } from "~~/hooks/app/useProfileByUsername";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
@@ -32,23 +32,22 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const { username } = useParams();
   const nativeCurrencyPrice = useNativeCurrencyPrice();
 
-  /* USER, PUBLIC USER, FOLLOWERS, PUBLIC FOLLOWERS */
+  /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
-  const { refetchFollowers } = useContext(FollowersContext);
-  const { isLoading: isLoadingPublic, publicProfile, bios, refetch: refetchPublic } = usePublicProfile(username);
-  const {
-    isLoading: isLoadingPublicFollowers,
-    followersData: followersPublicData,
-    refetch: refetchPublicFollowers,
-  } = usePublicFollowers(username);
+  const { refetchFollows: refetchAuthUserFollows } = useContext(AuthUserFollowsContext);
+
+  /* PROVIDE CONTEXT */
+  const { isLoading: isLoadingUser, profile, refetch: refetchUser } = useProfileByUsername(username); //<UserContext>
+  // eslint-disable-next-line prettier/prettier
+  const { isLoading: isLoadingFollows, followed, followers, following, refetch: refetchFollows } = useFollowersByUsername(username);//<UserFollowsContext>
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
   const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
 
   /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(publicProfile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(publicProfile?.wallet_id);
+  const incomingRes = useIncomingTransactions(profile?.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
 
   useEffect(() => {
     setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
@@ -57,10 +56,10 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
 
   //HANDLE FOLLOW
   const handleFollow = () => {
-    if (isAuthenticated == "yes" && !followersPublicData?.followed) {
-      insertFollowing(publicProfile.id);
-      refetchPublicFollowers();
-      refetchFollowers();
+    if (isAuthenticated == "yes" && !followed) {
+      insertFollowing(profile.id);
+      refetchFollows();
+      refetchAuthUserFollows();
     } else if (isAuthenticated == "no") {
       router.push("/login");
     }
@@ -81,8 +80,12 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const [isBioModalOpen, setBioModalOpen] = useState(false);
 
   const openBioModal = () => {
-    refetchPublic();
-    incrementBioView(bios[0].id);
+    refetchUser();
+    //!refactor!
+    if (profile?.profile_bios) {
+      const firstBio = profile.profile_bios[0] as { id: string };
+      incrementBioView(firstBio.id);
+    }
     setBioModalOpen(true);
   };
 
@@ -101,19 +104,19 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   let soc;
-  if (publicProfile?.id) {
+  if (profile?.id) {
     soc = {
-      le: { val: publicProfile.lens, link: "https://lens.xyz/" + publicProfile.lens },
-      fc: { val: publicProfile.farcaster, link: "https://warpcast.com/" + publicProfile.farcaster },
-      yt: { val: publicProfile.youtube, link: "https://youtube.com/" + publicProfile.youtube },
-      ig: { val: publicProfile.instagram, link: "https://instagram.com/" + publicProfile.instagram },
-      tw: { val: publicProfile.twitter, link: "https://x.com/" + publicProfile.twitter },
-      tt: { val: publicProfile.tiktok, link: "https://twitter.com/" + publicProfile.tiktok },
+      le: { val: profile.lens, link: "https://lens.xyz/" + profile.lens },
+      fc: { val: profile.farcaster, link: "https://warpcast.com/" + profile.farcaster },
+      yt: { val: profile.youtube, link: "https://youtube.com/" + profile.youtube },
+      ig: { val: profile.instagram, link: "https://instagram.com/" + profile.instagram },
+      tw: { val: profile.twitter, link: "https://x.com/" + profile.twitter },
+      tt: { val: profile.tiktok, link: "https://twitter.com/" + profile.tiktok },
     };
   }
 
   //RENDER
-  if (!isLoadingPublic && publicProfile?.id == null) {
+  if (!isLoadingUser && profile?.id == null) {
     return (
       <div className="mt-36 p-6 text-black z-50 relative">{"Sorry, user doesn't exist. Please try again later"}</div>
     );
@@ -132,48 +135,30 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex">
               {/* AUTHUSER PROFILE INTRO - AVATAR */}
               <div className="left mr-5 flex flex-col items-center">
-                {isLoadingPublic && <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>}
-                {!isLoadingPublic && (
+                {isLoadingUser && <div className="w-16 h-16 animate-pulse rounded-full bg-slate-200"></div>}
+                {!isLoadingUser && (
                   <>
-                    {bios?.length > 0 && (
+                    {profile?.profile_bios?.length > 0 && (
                       <div className="cursor-pointer" onClick={openBioModal}>
-                        <Avatar
-                          profile={publicProfile}
-                          width={14}
-                          height={14}
-                          border={2}
-                          ring={16}
-                          gradient={"g-tropical"}
-                        />
+                        <Avatar profile={profile} width={14} height={14} border={2} ring={16} gradient={"g-tropical"} />
                       </div>
                     )}
-                    {bios?.length == 0 && (
-                      <Avatar
-                        profile={publicProfile}
-                        width={14}
-                        height={14}
-                        border={0}
-                        ring={16}
-                        gradient={"g-white"}
-                      />
+                    {profile?.profile_bios?.length == 0 && (
+                      <Avatar profile={profile} width={14} height={14} border={0} ring={16} gradient={"g-white"} />
                     )}
                     <div
                       id="wildpay-avatar-cta"
                       className="btn text-xs h-6 min-h-6 pl-2 pr-2 bg-white text-black z-10 w-max gap-0 absolute top-12"
-                      onClick={
-                        !isLoadingPublicFollowers && !followersPublicData?.followed
-                          ? () => handleFollow()
-                          : () => openFollowersModal()
-                      }
+                      onClick={!isLoadingFollows && !followed ? () => handleFollow() : () => openFollowersModal()}
                     >
-                      {isLoadingPublicFollowers && <span className="loading loading-ring loading-xs"></span>}
-                      {!isLoadingPublicFollowers && !followersPublicData?.followed && (
+                      {isLoadingFollows && <span className="loading loading-ring loading-xs"></span>}
+                      {!isLoadingFollows && !followed && (
                         <>
                           Follow
                           <ArrowRightIcon />
                         </>
                       )}
-                      {!isLoadingPublicFollowers && followersPublicData?.followed && (
+                      {!isLoadingFollows && followed && (
                         <>
                           <span>Followed</span>
                           <ChevronRightIcon width={8} />
@@ -185,7 +170,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
               </div>
               {/* AUTHUSER PROFILE INTRO - HANDLE&SOCIAL */}
               <div className="right info flex justify-center flex-col">
-                {isLoadingPublic ? (
+                {isLoadingUser ? (
                   <>
                     <span className="mb-1">
                       <IsLoading shape="rounded-md" width={28} height={6} />
@@ -197,14 +182,12 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <>
                     <div className="flex flex-col text-secondary">
-                      <Link href={"/" + publicProfile.username} className="font-semibold mr-1 flex items-center">
-                        @{publicProfile.username}
+                      <Link href={"/" + profile.username} className="font-semibold mr-1 flex items-center">
+                        @{profile.username}
                       </Link>
                       <div className="mr-1 text-sm">
-                        <span className="font-semibold text-primary">{followersPublicData.followers.length}</span>{" "}
-                        followers{" "}
-                        <span className="font-semibold text-primary">{followersPublicData.following.length}</span>{" "}
-                        following
+                        <span className="font-semibold text-primary">{followers?.length}</span> followers{" "}
+                        <span className="font-semibold text-primary">{following?.length}</span> following
                       </div>
                     </div>
                     <SocialIcons soc={soc} />
@@ -214,7 +197,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
             {/* AUTHUSER PROFILE INTRO - ETH BALANCE */}
             <div className="text-4xl text-black flex justify-center items-center gap-2">
-              {isAuthenticated != "yes" || isLoadingPublic ? (
+              {isAuthenticated != "yes" || isLoadingUser ? (
                 <IsLoading shape="rounded-md" width={12} height={8} />
               ) : (
                 <>
@@ -239,40 +222,38 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
         {/* ISPUBLIC CHILDREN */}
-        <PublicContext.Provider value={{ isLoadingPublic, publicProfile, bios, refetchPublic }}>
-          {/* ISPUBLIC FOLLOWERS MODAL */}
+        <UserContext.Provider value={{ isLoadingUser, profile, refetchUser }}>
           <FollowersModal
             isOpen={isFollowersModalOpen}
             onClose={closeFollowersModal}
-            data={followersPublicData}
-            refetch={refetchPublicFollowers}
+            data={{ followed, followers, following }}
+            refetch={refetchFollows}
           ></FollowersModal>
-          {/* ISPUBLIC FOLLOWERS MODAL */}
           {isAuthenticated == "yes" && (
-            <PublicFollowersContext.Provider value={{ followersPublicData }}>
-              <ComponentsContext.Consumer>
+            <UserFollowsContext.Provider value={{ followed, followers, following }}>
+              <ModalsContext.Consumer>
                 {({ openFastPayModal }) => (
                   <BioModal
                     isOpen={isBioModalOpen}
                     onCta={handleBioCta(openFastPayModal)}
                     onClose={closeBioModal}
-                    data={{ profile: publicProfile, bios }}
+                    data={{ profile: profile, bios: profile.profile_bios }}
                   ></BioModal>
                 )}
-              </ComponentsContext.Consumer>
-            </PublicFollowersContext.Provider>
+              </ModalsContext.Consumer>
+            </UserFollowsContext.Provider>
           )}
           {isAuthenticated == "no" && (
             <BioModal
               isOpen={isBioModalOpen}
               onCta={handleBioCta}
               onClose={closeBioModal}
-              data={{ profile: publicProfile, bios }}
+              data={{ profile: profile, bios: profile.profile_bios }}
             ></BioModal>
           )}
 
           {children}
-        </PublicContext.Provider>
+        </UserContext.Provider>
       </div>
     </>
   );

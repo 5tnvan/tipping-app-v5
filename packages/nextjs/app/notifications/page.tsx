@@ -3,7 +3,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AuthUserContext, NotificationContext } from "../context";
+import { AuthUserContext, AuthUserNotificationContext } from "../context";
 import { ProfileRevealNotification } from "~~/components/app/ProfileRevealNotification";
 import { TimeAgo } from "~~/components/app/TimeAgo";
 import "~~/styles/app-reuse.css";
@@ -12,7 +12,7 @@ import "~~/styles/app.css";
 export default function NotificationPage() {
   const router = useRouter();
   const { isAuth } = useContext(AuthUserContext);
-  const { isLoadingNotifications, notifications } = useContext(NotificationContext);
+  const { isLoadingNotifications, notifications } = useContext(AuthUserNotificationContext);
 
   if (isAuth == "no") {
     return (

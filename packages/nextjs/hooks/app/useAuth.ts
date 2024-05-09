@@ -3,6 +3,10 @@
 import { useEffect, useState } from "react";
 import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 
+/**
+ * USEAUTH HOOK
+ * Use this to check if user is authenticated, with basic user's data
+ **/
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<string>("init");
   const [user, setUser] = useState<any>(null);

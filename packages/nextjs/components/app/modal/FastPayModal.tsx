@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import FastPayConfirm from "../pay/FastPayConfirm";
-import { FollowersContext } from "~~/app/context";
+import { AuthUserFollowsContext } from "~~/app/context";
 import { ArrowLeftIcon } from "~~/components/assets/ArrowLeftIcon";
 import { ArrowRightIcon } from "~~/components/assets/ArrowRightIcon";
 
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
-  const { followersData } = useContext(FollowersContext);
+  const { following } = useContext(AuthUserFollowsContext);
   const [receiver, setReceiver] = useState<any>();
 
   /**
@@ -56,18 +56,18 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
         {/* FAST PAY TO */}
         <div className="pt-12 pb-10">
           <div className="flex flex-col">
-            {followersData?.following?.length == 0 && (
+            {following?.length == 0 && (
               <div className="flex h-full justify-center items-center pl-5 pr-5">
                 <Link href="/leaderboard" className="btn btn-neutral" onClick={handleClose}>
                   Start following someone 🥳
                 </Link>
               </div>
             )}
-            {!receiver && Array.isArray(followersData.following) && followersData?.following?.length > 0 && (
+            {!receiver && Array.isArray(following) && following?.length > 0 && (
               <>
                 <div className="font-semibold pl-5 pr-5">Pay to:</div>
                 <div className="wildui-fastpay-scroll-a overflow-scroll pl-5 pr-5 pb-5">
-                  {followersData.following.map((following: any) => (
+                  {following?.map((following: any) => (
                     <div
                       key={following.following.id}
                       className="flex h-max btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 items-center justify-between pt-2 pb-2 mt-2"

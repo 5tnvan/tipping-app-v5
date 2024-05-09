@@ -2,7 +2,7 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AuthUserContext, AuthContext, ComponentsContext, FollowersContext } from "../context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, ModalsContext } from "../context";
 import { NextPage } from "next";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -26,7 +26,7 @@ const HomePage: NextPage = () => {
   /* PARENTS CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
-  const { isLoadingFollowers, followersData } = useContext(FollowersContext);
+  const { isLoadingFollows, followers, following } = useContext(AuthUserFollowsContext);
 
   /* TRANSACTIONS VARIABLES */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
@@ -91,7 +91,7 @@ const HomePage: NextPage = () => {
       </>
     );
   }
-  if (isAuthenticated == "yes" && profile) {
+  if (isAuthenticated == "yes") {
     return (
       <div id="wildpay-home" className="z-10 max-h-dvh pt-8 text-black">
         <div className="pl-6 pr-6">
@@ -107,32 +107,34 @@ const HomePage: NextPage = () => {
                 </div>
               </div>
               <div className="stat-value text-primary text-2xl">
-                {profile.profile_bios.length > 0 ? findLatestBio(profile.profile_bios)?.views : "0"}
+                {profile?.profile_bios.length > 0 ? findLatestBio(profile?.profile_bios)?.views : "0"}
               </div>
-              <ComponentsContext.Consumer>
+              <ModalsContext.Consumer>
                 {({ openCreateModal }) => (
                   <div className="stat-desc cursor-pointer" onClick={openCreateModal}>
                     Create content
                   </div>
                 )}
-              </ComponentsContext.Consumer>
+              </ModalsContext.Consumer>
             </div>
             <div className="stat">
               <div className="stat-figure text-secondary">
                 <Link href="/profile/view" className="avatar online">
-                  <Avatar profile={profile} width={14} height={14} border={0} ring={14} gradient={"g-white"} />
+                  {profile && (
+                    <Avatar profile={profile} width={14} height={14} border={0} ring={14} gradient={"g-white"} />
+                  )}
                 </Link>
               </div>
               <Link href="/levels" className="stat-title">
-                Level {profile.levels.length > 0 ? profile.levels[0].level : "0"}
+                Level {profile?.levels.length > 0 ? profile?.levels[0].level : "0"}
               </Link>
               <Link href="/levels" className="stat-value text-2xl">
-                {profile.levels.length == 0 && "noob"}
-                {profile.levels[0]?.level == 1 && "creator"}
-                {profile.levels[0]?.level == 2 && "builder"}
-                {profile.levels[0]?.level == 3 && "architect"}
-                {profile.levels[0]?.level == 4 && "visionary"}
-                {profile.levels[0]?.level == 5 && "god-mode"}
+                {profile?.levels.length == 0 && "noob"}
+                {profile?.levels[0]?.level == 1 && "creator"}
+                {profile?.levels[0]?.level == 2 && "builder"}
+                {profile?.levels[0]?.level == 3 && "architect"}
+                {profile?.levels[0]?.level == 4 && "visionary"}
+                {profile?.levels[0]?.level == 5 && "god-mode"}
               </Link>
               <Link href="/levels" className="stat-desc text-secondary">
                 View all levels
@@ -151,8 +153,8 @@ const HomePage: NextPage = () => {
             >
               Following
               <span className={`flex ml-2 text-base ${showFollow == "following" && "font-semibold"}`}>
-                {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
-                {!isLoadingFollowers && followersData?.following.length}
+                {isLoadingFollows && <IsLoading shape="rounded-md" width="4" height="4" />}
+                {!isLoadingFollows && following?.length}
               </span>
             </div>
             <div
@@ -164,32 +166,32 @@ const HomePage: NextPage = () => {
             >
               Followers
               <span className={`flex ml-2 text-base ${showFollow == "followers" && "font-semibold"}`}>
-                {isLoadingFollowers && <IsLoading shape="rounded-md" width="4" height="4" />}
-                {!isLoadingFollowers && followersData?.followers.length}
+                {isLoadingFollows && <IsLoading shape="rounded-md" width="4" height="4" />}
+                {!isLoadingFollows && followers?.length}
               </span>
             </div>
           </div>
           {/* FOLLOWERS DATA */}
           <div className="pt-2 w-88 overflow-y-auto pb-2">
-            {isLoadingFollowers && (
+            {isLoadingFollows && (
               <div className="">
                 <div className="w-12 h-12 animate-pulse bg-slate-200 rounded-full"></div>
               </div>
             )}
-            {!isLoadingFollowers && showFollow == "following" && followersData?.following?.length == 0 && (
+            {!isLoadingFollows && showFollow == "following" && following?.length == 0 && (
               <div className="flex h-full justify-center items-center">
                 <Link href="/bios" className="btn btn-neutral">
                   Start following someone 🥳
                 </Link>
               </div>
             )}
-            {!isLoadingFollowers && showFollow == "followers" && followersData?.followers?.length == 0 && (
+            {!isLoadingFollows && showFollow == "followers" && followers?.length == 0 && (
               <div className="flex h-full justify-center items-center">
                 <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(1)}>
                   {copied1 ? (
                     <>
                       <span className="">
-                        Copied <span className="text-primary">{"@" + profile.username}</span>
+                        Copied <span className="text-primary">{"@" + profile?.username}</span>
                       </span>
                       <span className="text-primary">
                         <CheckCircleIcon width={14} />
@@ -201,10 +203,10 @@ const HomePage: NextPage = () => {
                 </div>
               </div>
             )}
-            {!isLoadingFollowers && Array.isArray(followersData.following) && showFollow == "following" && (
+            {!isLoadingFollows && Array.isArray(following) && showFollow == "following" && (
               <>
                 <ul id="following" className="flex">
-                  {followersData?.following.map((following: any) => (
+                  {following?.map((following: any) => (
                     <Link
                       href={`/${following.following.username}`}
                       key={following.following.id}
@@ -236,9 +238,9 @@ const HomePage: NextPage = () => {
                 </ul>
               </>
             )}
-            {!isLoadingFollowers && Array.isArray(followersData.followers) && showFollow == "followers" && (
+            {!isLoadingFollows && Array.isArray(followers) && showFollow == "followers" && (
               <ul id="followers" className="flex">
-                {followersData?.followers.map((follower: any) => (
+                {followers?.map((follower: any) => (
                   <Link
                     href={`/${follower.follower.username}`}
                     key={follower.follower.id}
@@ -384,13 +386,13 @@ const HomePage: NextPage = () => {
               <>
                 {(network === "ethereum" ? outgoingEthTx : outgoingBaseTx)?.paymentChanges?.length === 0 && (
                   <div className="flex h-full justify-center items-center">
-                    <ComponentsContext.Consumer>
+                    <ModalsContext.Consumer>
                       {({ openFastPayModal }) => (
                         <div className="btn btn-neutral" onClick={openFastPayModal}>
                           Start paying someone 🥳
                         </div>
                       )}
-                    </ComponentsContext.Consumer>
+                    </ModalsContext.Consumer>
                   </div>
                 )}
                 {!profile.wallet_id && (

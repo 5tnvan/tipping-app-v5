@@ -4,7 +4,7 @@ import { Avatar } from "../authentication/Avatar";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
 import { BanknotesIcon, FireIcon, PlusCircleIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext, FollowersContext } from "~~/app/context";
+import { AuthUserContext, AuthUserFollowsContext } from "~~/app/context";
 import { postProfileBio } from "~~/app/profile/actions";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 
 export const CreateModal = ({ isOpen, onClose }: Props) => {
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { refetchFollowers } = useContext(FollowersContext);
+  const { refetchFollows } = useContext(AuthUserFollowsContext);
 
   //SWITCH 3 LINKS
   const [choosen, setChoosen] = useState("init");
@@ -55,7 +55,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
       if (res) {
         setIsProcessing(false);
         refetchAuthUser();
-        refetchFollowers();
+        refetchFollows();
         onClose();
       }
     }
