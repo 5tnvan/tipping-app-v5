@@ -21,6 +21,7 @@ import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransac
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
 
 export const metadata = getMetadata({
   title: "Profile",
@@ -128,7 +129,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
         {isAuthenticated == "no" && <IsNotAuthMenu />}
         {isAuthenticated == "no" && <div className="custom-top-cover absolute z-0"></div>}
 
-        {/* ISPUBLIC AUTH TOP */}
+        {/* TOP */}
         <div id="wildpay-top" className="profile mt-10 ml-6 mr-6 relative z-10">
           {/* ISPUBLIC PROFILE INTRO */}
           <div id="wildpay-user-intro" className="intro flex justify-between text-black mb-4">
@@ -221,7 +222,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </div>
-        {/* ISPUBLIC CHILDREN */}
+        {/* CONTEXT AND CHILDREN */}
         <UserContext.Provider value={{ isLoadingUser, profile, refetchUser }}>
           <FollowersModal
             isOpen={isFollowersModalOpen}
@@ -237,7 +238,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                     isOpen={isBioModalOpen}
                     onCta={handleBioCta(openFastPayModal)}
                     onClose={closeBioModal}
-                    data={{ profile: profile, bios: profile.profile_bios }}
+                    data={{ profile: profile, latestBio: findLatestBio(profile.profile_bios) }}
                   ></BioModal>
                 )}
               </ModalsContext.Consumer>
@@ -248,7 +249,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
               isOpen={isBioModalOpen}
               onCta={handleBioCta}
               onClose={closeBioModal}
-              data={{ profile: profile, bios: profile.profile_bios }}
+              data={{ profile: profile, latestBio: findLatestBio(profile.profile_bios) }}
             ></BioModal>
           )}
 
