@@ -42,6 +42,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const isTransaction = pathname.includes("/transaction");
   const isLeaderboard = pathname === "/leaderboard";
   const isBios = pathname === "/bios";
+  const isSignUpSuccess = pathname == "/signup/success";
 
   /*
    * REDIRECT
@@ -55,7 +56,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Check if user is authenticated and visiting certain pages
     if (isAuthenticated === "yes" && (isGetStarted || isSignUpNew || isSignUpVerify)) {
-      router.push("/");
+      window.location.href = "/";
     }
   }, [isAuthenticated, isGetStarted, isSignUpNew, isSignUpVerify, router]);
 
@@ -138,7 +139,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
              * /settings: checkout settings of authenticated user
              */}
             <AuthUserPaymentContext.Provider value={{ incomingRes, outgoingRes }}>
-              {!username && (isProfile || isSettings) && <AuthUserIntroLayout>{children}</AuthUserIntroLayout>}
+              {(isProfile || isSettings || isSignUpSuccess) && <AuthUserIntroLayout>{children}</AuthUserIntroLayout>}
               {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && <>{children}</>}
             </AuthUserPaymentContext.Provider>
           </div>
