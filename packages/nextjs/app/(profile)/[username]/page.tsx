@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { NextPage } from "next";
 import ChevronDownIcon from "@heroicons/react/24/solid/ChevronDownIcon";
-import { PublicContext } from "~~/app/context";
+import { UserContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
@@ -24,13 +24,13 @@ import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransac
 
 const ProfileUsername: NextPage = () => {
   /* USER VARIABLES */
-  const { isLoadingPublic, publicProfile } = useContext(PublicContext);
+  const { isLoadingUser, profile } = useContext(UserContext);
 
   /* FETCH TRANSACTIONS */
   const [incomingEthTx, setIncomingEthTx] = useState<any>();
   const [incomingBaseTx, setIncomingBaseTx] = useState<any>();
-  const incomingRes = useIncomingTransactions(publicProfile.wallet_id);
-  const outgoingRes = useOutgoingTransactions(publicProfile.wallet_id);
+  const incomingRes = useIncomingTransactions(profile.wallet_id);
+  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
 
   useEffect(() => {
     setIncomingEthTx(incomingRes.ethereumData);
@@ -89,7 +89,7 @@ const ProfileUsername: NextPage = () => {
   };
 
   //rendering jsx
-  if (!isLoadingPublic && !publicProfile?.id) {
+  if (!isLoadingUser && !profile?.id) {
     console.log("user not found");
     return <div className="mt-50">User not found</div>;
   }
@@ -119,7 +119,7 @@ const ProfileUsername: NextPage = () => {
       <div className="flex flex-col items-center profile z-10">
         {/* Scroll Snap */}
         <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
-          <CardWithUsername username={publicProfile.username} />
+          <CardWithUsername username={profile.username} />
         </div>
         <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
           <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
@@ -164,7 +164,9 @@ const ProfileUsername: NextPage = () => {
             {((network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length === 0 ||
               (network === "ethereum" ? incomingEthTx : incomingBaseTx) === undefined) && (
               <div className="flex h-full justify-center items-center">
-                <div className="btn btn-neutral" onClick={openProfilePayModal}>Make a first move 🥳</div>
+                <div className="btn btn-neutral" onClick={openProfilePayModal}>
+                  Make a first move 🥳
+                </div>
               </div>
             )}
             <Transactions

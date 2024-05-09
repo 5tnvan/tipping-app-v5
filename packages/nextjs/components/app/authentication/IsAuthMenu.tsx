@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar } from "./Avatar";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { AuthContext, AuthUserContext, FollowersContext, NotificationContext } from "~~/app/context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, AuthUserNotificationContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
@@ -13,8 +13,8 @@ export const IsAuthMenu = () => {
   //PARENTS CONTEXT
   const { refetchSession } = useContext(AuthContext);
   const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { refetchFollowers } = useContext(FollowersContext);
-  const { notifications, refetchNotifications } = useContext(NotificationContext);
+  const { refetchFollows } = useContext(AuthUserFollowsContext);
+  const { notifications, refetchNotifications } = useContext(AuthUserNotificationContext);
 
   //DROPDOWN
   const dropdownRef = useRef<HTMLDetailsElement>(null);
@@ -30,7 +30,7 @@ export const IsAuthMenu = () => {
       await logout();
       await refetchAuthUser();
       await refetchSession();
-      await refetchFollowers();
+      await refetchFollows();
       await refetchNotifications();
     } catch (error) {
       console.error("Logout error:", error);

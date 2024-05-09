@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Avatar } from "../authentication/Avatar";
 import { deleteFollowing } from "~~/app/(profile)/[username]/actions";
-import { FollowersContext, PublicContext } from "~~/app/context";
+import { AuthUserFollowsContext, UserContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -10,14 +10,9 @@ type Props = {
   refetch: any;
 };
 
-export const FollowersModal = ({
-  isOpen,
-  onClose,
-  data: followersPublicData,
-  refetch: refetchPublicFollowers,
-}: Props) => {
-  const { publicProfile } = useContext(PublicContext);
-  const { refetchFollowers } = useContext(FollowersContext);
+export const FollowersModal = ({ isOpen, onClose, data, refetch: refetchFollows }: Props) => {
+  const { profile } = useContext(UserContext);
+  const { refetchFollow: refetchAuthUserFollows } = useContext(AuthUserFollowsContext);
 
   const handleClose = () => {
     onClose();
@@ -25,10 +20,10 @@ export const FollowersModal = ({
 
   const handleUnfollow = async () => {
     try {
-      await deleteFollowing(publicProfile.id);
+      await deleteFollowing(profile.id);
       handleClose();
-      refetchPublicFollowers();
-      refetchFollowers();
+      refetchFollows();
+      refetchAuthUserFollows();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -49,28 +44,28 @@ export const FollowersModal = ({
           </button>
           {/* FOLLOWERS INTO */}
           <div className="flex flex-col justify-center items-center mt-10">
-            <Avatar profile={publicProfile} width={16} ring={16} height={16} border={0} gradient={undefined} />
-            <div className="font-semibold mt-2">@{publicProfile.username}</div>
+            <Avatar profile={profile} width={16} ring={16} height={16} border={0} gradient={undefined} />
+            <div className="font-semibold mt-2">@{profile.username}</div>
           </div>
           {/* FOLLOWERS STATS */}
           <div className="flex justify-around m-5">
             <div className="flex flex-col items-center">
-              <div className="font-semibold">{followersPublicData?.followers.length}</div>
+              <div className="font-semibold">{data?.followers.length}</div>
               <div>Followers</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="font-semibold">{followersPublicData?.following.length}</div>
+              <div className="font-semibold">{data?.following.length}</div>
               <div>Following</div>
             </div>
           </div>
           {/* FOLLOWERS CTA */}
           <div className="m-5">
-            {followersPublicData?.followed && (
+            {data?.followed && (
               <div className="btn btn-light w-full" onClick={handleUnfollow}>
                 Unfollow
               </div>
             )}
-            {!followersPublicData?.followed && <div className="btn btn-light w-full">Follow</div>}
+            {!data?.followed && <div className="btn btn-light w-full">Follow</div>}
           </div>
         </div>
       </div>

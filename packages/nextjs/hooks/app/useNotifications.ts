@@ -5,6 +5,10 @@ import { fetchFollowersNotifications } from "~~/utils/app/fetch/fetchNotificatio
 import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 import { createClient } from "~~/utils/supabase/client";
 
+/**
+ * USENOTIFICATION HOOK
+ * Use this to get notification data of currently authenticated user
+ **/
 export const useNotifications = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>();

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import ProfilePayConfirm from "../pay/ProfilePayConfirm";
-import { PublicContext } from "~~/app/context";
+import { UserContext } from "~~/app/context";
 
 type Props = {
   isOpen: any;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
-  const { publicProfile, bios } = useContext(PublicContext);
+  const { profile } = useContext(UserContext);
 
   /**
    * ACTION: Close modal
@@ -45,29 +45,27 @@ export const ProfilePayModal = ({ isOpen, onClose, onSuccess }: Props) => {
           {/* PAY CONTENT */}
           <div className="p-6">
             {/* PAY TO */}
-            {publicProfile.wallet_id && (
-              <Link href={`/${publicProfile.username}`} className="flex flex-col items-center justify-center mt-5">
-                {bios.length > 0 && (
-                  <Avatar profile={publicProfile} width={12} ring={13} height={12} border={2} gradient={"g-tropical"} />
+            {profile.wallet_id && (
+              <Link href={`/${profile.username}`} className="flex flex-col items-center justify-center mt-5">
+                {profile.bios.length > 0 && (
+                  <Avatar profile={profile} width={12} ring={13} height={12} border={2} gradient={"g-tropical"} />
                 )}
-                {bios.length == 0 && (
-                  <Avatar profile={publicProfile} width={12} ring={13} height={12} border={0} gradient={"g-white"} />
+                {profile.bios.length == 0 && (
+                  <Avatar profile={profile} width={12} ring={13} height={12} border={0} gradient={"g-white"} />
                 )}
-                <div className="font-semibold mt-2">@{publicProfile.username}</div>
+                <div className="font-semibold mt-2">@{profile.username}</div>
               </Link>
             )}
-            {!publicProfile.wallet_id && (
+            {!profile.wallet_id && (
               <>
-                <div>User @{publicProfile.username} has no verified wallet, yet.</div>
+                <div>User @{profile.username} has no verified wallet, yet.</div>
                 <div className="btn btn-neutral w-full" onClick={handleClose}>
                   Go back
                 </div>
               </>
             )}
             {/* PAY CONFIRM */}
-            {publicProfile.wallet_id && (
-              <ProfilePayConfirm receiver={publicProfile.wallet_id} onSuccess={handlePaySuccess} />
-            )}
+            {profile.wallet_id && <ProfilePayConfirm receiver={profile.wallet_id} onSuccess={handlePaySuccess} />}
           </div>
         </div>
       </div>

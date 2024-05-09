@@ -47,6 +47,7 @@ export const AddressInfoDropdown = ({
     dropdownRef.current?.removeAttribute("open");
   };
   useOutsideClick(dropdownRef, closeDropdown);
+
   const { profile } = useContext(AuthUserContext);
 
   return (
@@ -62,14 +63,14 @@ export const AddressInfoDropdown = ({
           <span className="ml-2">
             {isENS(displayName) ? displayName : checkSumAddress?.slice(0, 6) + "..." + checkSumAddress?.slice(-4)}
           </span>
-          {profile.wallet_id && profile.wallet_id !== address && (
+          {profile?.wallet_id && profile?.wallet_id !== address && (
             <>
               <div className="flex pl-1 text-red-600">
                 <ExclamationCircleIcon width={18} />
               </div>
             </>
           )}
-          {profile.wallet_id && profile.wallet_id == address && (
+          {profile?.wallet_id && profile?.wallet_id == address && (
             <>
               <div className="flex pl-1 text-green-600">
                 <CheckCircleIcon width={18} />

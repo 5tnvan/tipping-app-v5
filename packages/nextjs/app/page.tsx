@@ -13,14 +13,15 @@ import { TelegramIcon } from "~~/components/assets/TelegramIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
 import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
 
-/**
- * Index Page
- * /index
- **/
-const Home: NextPage = () => {
-  const { isAuth } = useContext(AuthContext);
+/*
+ * LANDING PAGE
+ * Index page for all users
+ */
 
-  const launchAppLink = isAuth === "yes" ? "/home" : isAuth === "no" ? "/getstarted" : "/login";
+const Home: NextPage = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const launchAppLink = isAuthenticated === "yes" ? "/home" : isAuthenticated === "no" ? "/getstarted" : "/login";
 
   const tabs = [
     {
@@ -170,7 +171,7 @@ const Home: NextPage = () => {
     },
   ];
 
-  if (isAuth == "no" || isAuth == "yes") {
+  if (isAuthenticated == "no" || isAuthenticated == "yes") {
     return (
       <>
         <WavyBackground className="w-screen h-full flex flex-col pr-10 pl-10">

@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchBios } from "~~/utils/app/fetch/fetchBios";
-import { fetchLevels } from "~~/utils/app/fetch/fetchLevels";
 import { fetchSuperProfile } from "~~/utils/app/fetch/fetchProfile";
 import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 
-export const useAuthUser = () => {
+/**
+ * USEPROFILE HOOK
+ * Use this to get currently authenticated user's profile
+ **/
+export const useProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState("init");
   const [user, setUser] = useState<any>();
   const [profile, setProfile] = useState<any>();
-  const [bios, setBios] = useState<any>();
-  const [levels, setLevels] = useState<any>();
+  // const [bios, setBios] = useState<any>();
+  // const [levels, setLevels] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
   const refetch = () => {
@@ -25,12 +27,8 @@ export const useAuthUser = () => {
     const userData = await fetchUser();
     if (userData?.user) {
       const profileData = await fetchSuperProfile();
-      const profileBiosData = await fetchBios();
-      const profileLevelsData = await fetchLevels();
       setUser(userData.user);
       setProfile(profileData);
-      setBios(profileBiosData);
-      setLevels(profileLevelsData);
       setIsAuth("yes");
     } else {
       setIsAuth("no");
@@ -43,5 +41,5 @@ export const useAuthUser = () => {
     init();
   }, [triggerRefetch]);
 
-  return { isLoading, isAuth, user, profile, bios, levels, refetch };
+  return { isLoading, isAuth, user, profile, refetch };
 };

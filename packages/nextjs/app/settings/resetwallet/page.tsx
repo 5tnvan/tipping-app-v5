@@ -7,13 +7,12 @@ import { confirmPassword } from "../../login/actions";
 import { resetProfileWallet } from "../actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext } from "~~/app/context";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
+import { AuthContext, AuthUserContext } from "~~/app/context";
 
 export default function ResetWalletPage() {
   const router = useRouter();
-  const { isAuth, user, refetchAuthUser } = useContext(AuthUserContext);
+  const { isAuthenticated, user } = useContext(AuthContext);
+  const { refetchAuthUser } = useContext(AuthUserContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -47,7 +46,7 @@ export default function ResetWalletPage() {
     }
   };
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         <form onSubmit={handleResetWallet}>

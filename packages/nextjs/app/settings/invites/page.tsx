@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { EnvelopeOpenIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext } from "~~/app/context";
+import { AuthContext } from "~~/app/context";
 import { ProfileRevealInvite } from "~~/components/app/ProfileRevealInvite";
 import { InviteGenerateModal } from "~~/components/app/modal/InviteGenerateModal";
 import { InviteModal } from "~~/components/app/modal/InviteModal";
@@ -14,7 +14,7 @@ import { fetchInvites } from "~~/utils/app/fetch/fetchInvites";
 
 export default function InvitesPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AuthUserContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const [invite, setInvite] = useState<any>();
   const [invites, setInvites] = useState<any>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
@@ -58,7 +58,7 @@ export default function InvitesPage() {
 
   console.log("invites: ", invites);
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         <div id="wildpay-is-auth-settings" className="profile mt-5 mb-5 ml-6 mr-6 z-10">

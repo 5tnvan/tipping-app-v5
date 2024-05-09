@@ -1,26 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchFollowersWithRange } from "~~/utils/app/fetch/fetchFollowers";
-import { fetchProfile, fetchPublicProfile } from "~~/utils/app/fetch/fetchUser";
+import { fetchFollowsFromId } from "~~/utils/app/fetch/fetchFollows";
+import { fetchProfileFromUsername } from "~~/utils/app/fetch/fetchProfile";
+import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 
-export const usePrivateFollowers = () => {
+/**
+ * USEFOLLOWERS HOOK
+ * Use this to get follow data of currently authenticated user
+ **/
+export const useFollowers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [followersData, setFollowersData] = useState({
     followed: false,
     followers: [] as any[],
     following: [] as any[],
   });
+  const [followers, setFollowers] = useState<any[]>();
+  const [following, setFollowing] = useState<any[]>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
-  const initUser = async () => {
-    setIsLoading(true); // Set loading to true when starting data fetch
+  const init = async () => {
+    setIsLoading(true);
 
-    const profileData = await fetchProfile();
-    const followersData = await fetchFollowersWithRange(profileData?.id);
-    setFollowersData(followersData);
+    const user = await fetchUser();
+    if (user?.user?.id) {
+      const followersData = await fetchFollowsFromId(user.user?.id);
+      setFollowersData(followersData);
+      setFollowers(followersData.followers);
+      setFollowing(followersData.following);
+    }
 
-    setIsLoading(false); // Set loading to false when fetch is complete
+    setIsLoading(false);
   };
 
   const refetch = () => {
@@ -28,28 +39,38 @@ export const usePrivateFollowers = () => {
   };
 
   useEffect(() => {
-    initUser();
+    init();
   }, [triggerRefetch]);
 
-  return { isLoading, followersData, refetch };
+  return { isLoading, followersData, followers, following, refetch };
 };
 
-export const usePublicFollowers = (username: any) => {
+/**
+ * USEFOLLOWERS HOOK
+ * Use this to get follow data of (username)
+ **/
+export const useFollowersByUsername = (username: any) => {
   const [isLoading, setIsLoading] = useState(true);
   const [followersData, setFollowersData] = useState({
     followed: false,
     followers: [] as any[],
     following: [] as any[],
   });
+  const [followed, setFollowed] = useState<boolean>();
+  const [followers, setFollowers] = useState<any[]>();
+  const [following, setFollowing] = useState<any[]>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
 
-  const initUser = async () => {
+  const init = async () => {
     setIsLoading(true); // Set loading to true when starting data fetch
 
-    const profile = await fetchPublicProfile(username);
+    const profile = await fetchProfileFromUsername(username);
     if (profile?.id != null) {
-      const followersData = await fetchFollowersWithRange(profile.id);
+      const followersData = await fetchFollowsFromId(profile.id);
       setFollowersData(followersData);
+      setFollowed(followersData.followed);
+      setFollowers(followersData.followers);
+      setFollowing(followersData.following);
     }
 
     setIsLoading(false); // Set loading to false when fetch is complete
@@ -60,8 +81,8 @@ export const usePublicFollowers = (username: any) => {
   };
 
   useEffect(() => {
-    initUser();
+    init();
   }, [username, triggerRefetch]);
 
-  return { isLoading, followersData, refetch };
+  return { isLoading, followersData, followed, followers, following, refetch };
 };

@@ -4,14 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AuthUserLayout from "./AuthUserLayout";
 import NotAuthUserLayout from "./NotAuthUserLayout";
-import { AuthContext, AuthUserContext, FollowersContext, NotificationContext } from "./context";
+import { AuthContext, AuthUserContext, AuthUserFollowsContext, AuthUserNotificationContext } from "./context";
 import IsAdminLayout from "./isAdminLayout";
 import { LineWave } from "react-loader-spinner";
 import { WildPayLogo } from "~~/components/app/WildpayLogo";
 import { useAuth } from "~~/hooks/app/useAuth";
-import { useAuthUser } from "~~/hooks/app/useAuthUser";
-import { usePrivateFollowers } from "~~/hooks/app/useFollowers";
+import { useFollowers } from "~~/hooks/app/useFollowers";
 import { useNotifications } from "~~/hooks/app/useNotifications";
+import { useProfile } from "~~/hooks/app/useProfile";
+import "~~/styles/app-reuse.css";
+import "~~/styles/app.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
@@ -30,67 +32,75 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
   const isPrivate = pathname === "/private";
   const isBlockExplorer = pathname.includes("/blockexplorer");
 
-  /* CREATE CONTEXTS */
-  const { isAuthenticated, user, refetch: refetchAuth } = useAuth();
-  const { isAuth, profile, refetch: refetchAuthUser } = useAuthUser();
-  const { isLoading: isLoadingFollowers, followersData, refetch: refetchFollowers } = usePrivateFollowers();
-  const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications();
+  /* PROVIDE CONTEXTS */
+  const { isAuthenticated, user, refetch: refetchAuth } = useAuth(); //<AuthContext>
+  const { isAuth, profile, refetch: refetchAuthUser } = useProfile(); //<AuthUserContext>
+  const { isLoading: isLoadingFollows, followers, following, refetch: refetchFollows } = useFollowers(); //<AuthUserFollowsContext>
+  const { isLoading: isLoadingNotifications, notifications, refetch: refetchNotifications } = useNotifications(); //<AuthUserNotificationContext>
 
   /* SWITCH UI */
   const bgClass = isAuth === "yes" ? "bg-white" : isAuth === "no" ? "custom-gradient-02" : "bg-white";
 
-  /* CONSOLE LOG */
-  // console.log("isAuthenticated", isAuthenticated);
-  // console.log("wildLayout useAuthentication profile: ", profile);
+  console.log(isAuthenticated);
 
   return (
     <>
       <AuthContext.Provider value={{ isAuthenticated, user, refetchAuth }}>
         <AuthUserContext.Provider value={{ isAuth, profile, refetchAuthUser }}>
-          <FollowersContext.Provider value={{ isLoadingFollowers, followersData, refetchFollowers }}>
-            <NotificationContext.Provider value={{ isLoadingNotifications, notifications, refetchNotifications }}>
-              {/* PRIVATE PAGE */}
-              {/* route: /private */}
-              {isPrivate && <>{children}</>}
-              {/* ADMIN AREA */}
-              {/* route: /debug /blockexplorer */}
-              {(isDebug || isBlockExplorer) && <IsAdminLayout>{children}</IsAdminLayout>}
-              {/* LOADING UI */}
-              {/* route: /* */}
-              {isAuthenticated == "init" && (
-                <main id="main" className="flex justify-center items-center min-h-dvh h-full bg-black antialiased">
-                  <div className="flex flex-col items-center">
-                    <div className="flex flex-row gap-2 items-center">
-                      <WildPayLogo color="blue" width="40" height="40" />
-                      <h1 className="text-3xl font-semibold custom-text-blue z-10">wildpay</h1>
-                    </div>
+          {/*
+           * LOADING UI
+           * Loading indicator when authentication is init
+           */}
+          {isAuthenticated == "init" && (
+            <main id="main" className="flex justify-center items-center min-h-dvh h-full bg-black antialiased">
+              <div className="flex flex-col items-center">
+                <div className="flex flex-row gap-2 items-center">
+                  <WildPayLogo color="blue" width="40" height="40" />
+                  <h1 className="text-3xl font-semibold custom-text-blue z-10">wildpay</h1>
+                </div>
 
-                    <div className="flex flex-row">
-                      <LineWave
-                        visible={true}
-                        height="100"
-                        width="100"
-                        color="#3D45E7"
-                        ariaLabel="line-wave-loading"
-                        wrapperStyle={{ "margin-left": "30px", "margin-top": "-40px" }}
-                        wrapperClass=""
-                        firstLineColor=""
-                        middleLineColor=""
-                        lastLineColor=""
-                      />
-                    </div>
-                  </div>
-                </main>
-              )}
-              {/* LANDING PAGE */}
-              {/* route: wildpay.app */}
-              {isAuthenticated != "init" && isRoot && (
-                <main id="main" className="flex flex-col min-h-dvh h-full bg-black antialiased">
-                  {children}
-                </main>
-              )}
-              {/* THE APP */}
-              {isAuthenticated != "init" && !isRoot && !isDebug && !isBlockExplorer && (
+                <div className="flex flex-row">
+                  <LineWave
+                    visible={true}
+                    height="100"
+                    width="100"
+                    color="#3D45E7"
+                    ariaLabel="line-wave-loading"
+                    wrapperStyle={{ marginLeft: "30px", marginTop: "-40px" }}
+                    wrapperClass=""
+                    firstLineColor=""
+                    middleLineColor=""
+                    lastLineColor=""
+                  />
+                </div>
+              </div>
+            </main>
+          )}
+
+          {/*
+           * LANDING PAGE
+           * Index page for all users
+           */}
+          {isAuthenticated != "init" && isRoot && (
+            <main id="main" className="flex flex-col min-h-dvh h-full bg-black antialiased">
+              {children}
+            </main>
+          )}
+
+          {/*
+           * THE APP AREA
+           * All pages of the app
+           * /home: user's dashboard
+           * /bios: discover others with infinite swipe
+           * /levels: level up using invitation codes
+           * /profile: view user's profile
+           * /settings: view user's settings
+           */}
+          <AuthUserFollowsContext.Provider value={{ isLoadingFollows, followers, following, refetchFollows }}>
+            <AuthUserNotificationContext.Provider
+              value={{ isLoadingNotifications, notifications, refetchNotifications }}
+            >
+              {isAuthenticated != "init" && !isRoot && !isDebug && !isBlockExplorer && !isPrivate && (
                 <div id="master" className="min-h-full bg-neutral-950 antialiased">
                   <main id="main" className="flex justify-center min-h-dvh h-full text-black">
                     <div id="wildpay" className={`flex flex-col ${bgClass} relative z-10 max-h-dvh`}>
@@ -104,8 +114,21 @@ const WildPayApp = ({ children }: { children: React.ReactNode }) => {
                   </main>
                 </div>
               )}
-            </NotificationContext.Provider>
-          </FollowersContext.Provider>
+            </AuthUserNotificationContext.Provider>
+          </AuthUserFollowsContext.Provider>
+
+          {/*
+           * ADMIN AREA
+           * /debug: debugging SC
+           * /blockexplorer: view local transactions
+           */}
+          {(isDebug || isBlockExplorer) && <IsAdminLayout>{children}</IsAdminLayout>}
+
+          {/*
+           * EXPERIMENT PAGE
+           * /private: clean page without any layout for experimentations
+           */}
+          {isPrivate && <>{children}</>}
         </AuthUserContext.Provider>
       </AuthContext.Provider>
     </>
