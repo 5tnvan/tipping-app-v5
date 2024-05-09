@@ -7,9 +7,7 @@ import { SwitchNetworkDropdown } from "./SwitchNetworkDropdown";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Address } from "viem";
-// import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import "~~/styles/app.css";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
 type RainbowKitCustomConnectButtonProps = {

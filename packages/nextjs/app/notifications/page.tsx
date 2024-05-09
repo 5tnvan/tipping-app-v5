@@ -1,34 +1,17 @@
 "use client";
 
 import React, { useContext } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AuthUserContext, AuthUserNotificationContext } from "../context";
+import { AuthContext, AuthUserNotificationContext } from "../context";
 import { ProfileRevealNotification } from "~~/components/app/ProfileRevealNotification";
 import { TimeAgo } from "~~/components/app/TimeAgo";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 export default function NotificationPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AuthUserContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const { isLoadingNotifications, notifications } = useContext(AuthUserNotificationContext);
 
-  if (isAuth == "no") {
-    return (
-      <>
-        {/* CONTENT */}
-        <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
-          <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
-          <Link href="/login" className="btn text-base mb-3 w-full">
-            {"Go to login"}
-          </Link>
-        </div>
-      </>
-    );
-  }
-
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         <div className="flex justify-between items-center font-semibold mt-6 mb-3 pt-10 pl-6 pr-6">

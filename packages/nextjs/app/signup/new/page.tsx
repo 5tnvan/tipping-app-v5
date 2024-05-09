@@ -3,8 +3,6 @@ import { Signup } from "~~/components/app/authentication/Signup";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 export default function SignupNewPage() {
   const cookieStore = cookies();

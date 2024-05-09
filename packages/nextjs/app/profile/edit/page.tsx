@@ -12,9 +12,6 @@ import { LensIcon } from "~~/components/assets/LensIcon";
 import { TiktokIcon } from "~~/components/assets/TiktokIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
 import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
-import "~~/styles/app-profile.css";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 /**
  * ROUTE: /profile/edit

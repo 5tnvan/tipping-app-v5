@@ -58,19 +58,6 @@ const HomePage: NextPage = () => {
     }
   };
 
-  if (isAuthenticated == "no") {
-    return (
-      <>
-        {/* CONTENT */}
-        <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
-          <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
-          <Link href="/login" className="btn text-base mb-3 w-full">
-            {"Go to login"}
-          </Link>
-        </div>
-      </>
-    );
-  }
   if (isAuthenticated == "yes") {
     return (
       <div id="wildpay-home" className="z-10 max-h-dvh pt-8 text-black">

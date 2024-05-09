@@ -10,7 +10,6 @@ import { Address } from "viem";
 import { useAutoConnect } from "~~/hooks/scaffold-eth/useAutoConnect";
 import { useNetworkColor } from "~~/hooks/scaffold-eth/useNetworkColor";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import "~~/styles/app.css";
 import { getBlockExplorerAddressLink } from "~~/utils/scaffold-eth";
 
 type RainbowKitCustomConnectButtonProps = {

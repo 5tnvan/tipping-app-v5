@@ -6,13 +6,11 @@ import { useRouter } from "next/navigation";
 import { resetPassword } from "../../login/actions";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthUserContext } from "~~/app/context";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
+import { AuthContext } from "~~/app/context";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
-  const { isAuth } = useContext(AuthUserContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -49,7 +47,7 @@ export default function ResetPasswordPage() {
     }
   };
 
-  if (isAuth == "yes") {
+  if (isAuthenticated == "yes") {
     return (
       <>
         <form onSubmit={handleResetPassword}>

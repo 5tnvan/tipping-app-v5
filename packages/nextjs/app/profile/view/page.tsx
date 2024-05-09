@@ -10,9 +10,6 @@ import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
-import "~~/styles/app-profile.css";
-import "~~/styles/app-reuse.css";
-import "~~/styles/app.css";
 
 const ProfileView: NextPage = () => {
   /* CONSUME CONTEXT */

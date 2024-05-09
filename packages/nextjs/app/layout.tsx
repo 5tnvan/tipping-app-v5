@@ -3,7 +3,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
-import "~~/styles/app-color-switch.css";
 import "~~/styles/app.css";
 import "~~/styles/globals.css";
 
