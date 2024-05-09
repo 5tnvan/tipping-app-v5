@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NextPage } from "next";
 import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import { AuthUserContext, AuthContext } from "~~/app/context";
+import { AuthContext, AuthUserContext, AuthUserPaymentContext } from "~~/app/context";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
@@ -13,38 +13,26 @@ import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 import "~~/styles/app-profile.css";
 import "~~/styles/app-reuse.css";
 import "~~/styles/app.css";
-import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
-import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 
 const ProfileView: NextPage = () => {
-  /* USER, FOLLOWERS VARIABLES */
+  /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
+  const { incomingRes } = useContext(AuthUserPaymentContext);
 
-  /* TRANSACTIONS VARIABLES */
-  const [incomingEthTx, setIncomingEthTx] = useState<any>();
-  const [incomingBaseTx, setIncomingBaseTx] = useState<any>();
-
-  /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(profile.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile.wallet_id);
-
-  useEffect(() => {
-    setIncomingEthTx(incomingRes.ethereumData);
-    setIncomingBaseTx(incomingRes.baseData);
-  }, [incomingRes, outgoingRes]);
-
-  /* NETWORK DROPDOWN */
+  /*
+   * NETWORK DROPDOWN
+   * show on default whichever network has more transactions
+   */
   const [network, setNetwork] = useState<string>(); //default network
   useEffect(() => {
-    if (incomingEthTx?.paymentChanges?.length > incomingBaseTx?.paymentChanges?.length) {
+    if (incomingRes.ethereumData?.paymentChanges?.length > incomingRes.baseData?.paymentChanges?.length) {
       setNetwork("ethereum");
     } else {
       setNetwork("base");
     }
-  }, [incomingEthTx, incomingBaseTx]);
+  }, [incomingRes.ethereumData, incomingRes.baseData]);
 
-  //console.log(incomingEthTx, incomingBaseTx);
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
     dropdownRef.current?.removeAttribute("open");
@@ -137,8 +125,8 @@ const ProfileView: NextPage = () => {
           <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
             <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
               <div>
-                Payments ({(network === "ethereum" ? incomingEthTx : incomingBaseTx) == undefined && 0}
-                {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length})
+                Payments ({(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) == undefined && 0}
+                {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length})
               </div>
               <details ref={dropdownRef} className="dropdown dropdown-end cursor-pointer">
                 <summary className="flex text-neutral-900 hover:text-neutral-700">
@@ -174,14 +162,15 @@ const ProfileView: NextPage = () => {
               </details>
             </div>
             <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
-              {(network === "ethereum" ? incomingEthTx : incomingBaseTx) == undefined && (
+              {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) == undefined && (
                 <div className="flex h-full justify-center items-center">
                   <Link href="/settings" className="btn btn-neutral">
                     Verify your wallet to get paid 🥳
                   </Link>
                 </div>
               )}
-              {(network === "ethereum" ? incomingEthTx : incomingBaseTx)?.paymentChanges?.length == 0 && (
+              {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length ==
+                0 && (
                 <div className="flex h-full justify-center items-center">
                   <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
                     {copied2 ? (
@@ -200,7 +189,7 @@ const ProfileView: NextPage = () => {
                 </div>
               )}
               <Transactions
-                tx={network === "ethereum" ? incomingEthTx : incomingBaseTx}
+                tx={network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData}
                 hide="to"
                 network={network === "ethereum" ? "ethereum" : "base"}
               />
