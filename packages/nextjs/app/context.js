@@ -9,6 +9,7 @@ const AuthUserNotificationContext = createContext();
 const AuthUserPaymentContext = createContext();
 const UserContext = createContext();
 const UserFollowsContext = createContext();
+const UserPaymentContext = createContext();
 const ModalsContext = createContext();
 
 export {
@@ -19,5 +20,6 @@ export {
   AuthUserPaymentContext,
   UserContext,
   UserFollowsContext,
+  UserPaymentContext,
   ModalsContext,
 };

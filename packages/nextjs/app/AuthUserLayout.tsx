@@ -112,14 +112,14 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
             ></div>
 
             {/*
-             * AUTHUSER USER
+             * USER TOP INTRO
              * User with payment context
              * /[username]: checkout profile of a user via their @handle
              */}
             {username && <UserIntroLayout>{children}</UserIntroLayout>}
 
             {/*
-             * AUTHUSER AUTHENTICATED USER
+             * AUTHENTICATED USER TOP INTRO
              * Authenticated user with payment context
              * /profile: checkout profile of authenticated user
              * /settings: checkout settings of authenticated user
