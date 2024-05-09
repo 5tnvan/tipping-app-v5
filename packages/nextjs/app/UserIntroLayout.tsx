@@ -1,9 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { insertFollowing } from "./(profile)/[username]/actions";
-import { AuthContext, AuthUserFollowsContext, ModalsContext, UserContext, UserFollowsContext } from "./context";
+import {
+  AuthContext,
+  AuthUserFollowsContext,
+  ModalsContext,
+  UserContext,
+  UserFollowsContext,
+  UserPaymentContext,
+} from "./context";
 import { incrementBioView } from "./profile/actions";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { IsLoading } from "~~/components/app/IsLoading";
@@ -40,20 +47,9 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   /* PROVIDE CONTEXT */
   const { isLoading: isLoadingUser, profile, refetch: refetchUser } = useProfileByUsername(username); //<UserContext>
   // eslint-disable-next-line prettier/prettier
-  const { isLoading: isLoadingFollows, followed, followers, following, refetch: refetchFollows } = useFollowersByUsername(username);//<UserFollowsContext>
-
-  /* TRANSACTIONS VARIABLES */
-  const [incomingEthTxSum, setIncomingEthTxSum] = useState(0);
-  const [incomingBaseTxSum, setIncomingBaseTxSum] = useState(0);
-
-  /* FETCH TRANSACTIONS */
-  const incomingRes = useIncomingTransactions(profile?.wallet_id);
-  const outgoingRes = useOutgoingTransactions(profile?.wallet_id);
-
-  useEffect(() => {
-    setIncomingEthTxSum(calculateSum(incomingRes.ethereumData));
-    setIncomingBaseTxSum(calculateSum(incomingRes.baseData));
-  }, [incomingRes, outgoingRes]);
+  const { isLoading: isLoadingFollows, followed, followers, following, refetch: refetchFollows } = useFollowersByUsername(username); //<UserFollowsContext>
+  const incomingRes = useIncomingTransactions(profile?.wallet_id); //<UsersPaymentContext>
+  const outgoingRes = useOutgoingTransactions(profile?.wallet_id); //<UserPaymentContext>
 
   //HANDLE FOLLOW
   const handleFollow = () => {
@@ -204,7 +200,11 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                 <>
                   <div className="flex flex-col items-end">
                     <div className="flex items-center text-xl font-semibold custom-text-blue">
-                      ${convertEthToUsd(incomingEthTxSum + incomingBaseTxSum, price)}
+                      $
+                      {convertEthToUsd(
+                        calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
+                        price,
+                      )}
                       <div className="tooltip tooltip-top" data-tip="All time">
                         <button className="ml-1">
                           <QuestionMarkCircleIcon width={14} />
@@ -212,9 +212,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                       </div>
                     </div>
                     <div className="text-xl flex items-center">
-                      {incomingEthTxSum + incomingBaseTxSum === 0
-                        ? (incomingEthTxSum + incomingBaseTxSum).toFixed(2) + "Ξ"
-                        : (incomingEthTxSum + incomingBaseTxSum).toFixed(4) + "Ξ"}
+                    {(calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData)).toFixed(4)}Ξ
                     </div>
                   </div>
                 </>
@@ -252,8 +250,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
               data={{ profile: profile, latestBio: findLatestBio(profile.profile_bios) }}
             ></BioModal>
           )}
-
-          {children}
+          <UserPaymentContext.Provider value={{ incomingRes, outgoingRes }}>{children}</UserPaymentContext.Provider>
         </UserContext.Provider>
       </div>
     </>
