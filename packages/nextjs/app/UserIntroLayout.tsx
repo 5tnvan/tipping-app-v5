@@ -194,7 +194,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
             {/* AUTHUSER PROFILE INTRO - ETH BALANCE */}
             <div className="text-4xl text-black flex justify-center items-center gap-2">
-              {isAuthenticated != "yes" || isLoadingUser ? (
+              {isLoadingUser ? (
                 <IsLoading shape="rounded-md" width={12} height={8} />
               ) : (
                 <>
