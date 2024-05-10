@@ -99,7 +99,7 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
        * /signup/new
        * /signup/verify
        */}
-      {(isGetStarted || isLogin || isSignUpNew || isSignUpVerify || isLeaderboard || isBios ) && (
+      {(isGetStarted || isLogin || isSignUpNew || isSignUpVerify || isLeaderboard || isBios) && (
         <div id="wildpay-is-not-auth" className="flex flex-col grow">
           {children}
         </div>
