@@ -11,13 +11,12 @@ import { createClient } from "~~/utils/supabase/server";
 
 export const fetchFollowersNotifications = async (user_id: any) => {
   const supabase = createClient();
-  try { 
+  try {
     const { data } = await supabase
       .from("notifications")
       .select("*")
       .eq("user_id", user_id)
       .order("follower_created_at", { ascending: false });
-    console.log("I am at fetch notifications", user_id, data?.length);
     return data;
   } catch (error) {
     console.error("Error fetching notifications:", error);

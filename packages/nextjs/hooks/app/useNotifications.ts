@@ -6,7 +6,7 @@ import { fetchUser } from "~~/utils/app/fetch/fetchUser";
 import { createClient } from "~~/utils/supabase/client";
 
 /**
- * USENOTIFICATION HOOK
+ *  HOOK
  * Use this to get notification data of currently authenticated user
  **/
 export const useNotifications = () => {
@@ -18,11 +18,12 @@ export const useNotifications = () => {
 
   const init = async () => {
     setIsLoading(true);
-    const userData = await fetchUser();
-    const notificationsData = await fetchFollowersNotifications(userData?.user?.id);
-    setNotifications(notificationsData);
     const user = await fetchUser();
-    setUser(user);
+    if (user.user?.id) {
+      setUser(user);
+      const notificationsData = await fetchFollowersNotifications(user?.user?.id);
+      setNotifications(notificationsData);
+    }
     setIsLoading(false);
   };
 

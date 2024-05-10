@@ -11,11 +11,6 @@ import { fetchUser } from "~~/utils/app/fetch/fetchUser";
  **/
 export const useFollowers = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [followersData, setFollowersData] = useState({
-    followed: false,
-    followers: [] as any[],
-    following: [] as any[],
-  });
   const [followers, setFollowers] = useState<any[]>();
   const [following, setFollowing] = useState<any[]>();
   const [triggerRefetch, setTriggerRefetch] = useState(false);
@@ -26,7 +21,6 @@ export const useFollowers = () => {
     const user = await fetchUser();
     if (user?.user?.id) {
       const followersData = await fetchFollowsFromId(user.user?.id);
-      setFollowersData(followersData);
       setFollowers(followersData.followers);
       setFollowing(followersData.following);
     }
@@ -42,7 +36,7 @@ export const useFollowers = () => {
     init();
   }, [triggerRefetch]);
 
-  return { isLoading, followersData, followers, following, refetch };
+  return { isLoading, followers, following, refetch };
 };
 
 /**
