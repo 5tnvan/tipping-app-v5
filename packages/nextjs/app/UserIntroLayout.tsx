@@ -212,7 +212,7 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                       </div>
                     </div>
                     <div className="text-xl flex items-center">
-                    {(calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData)).toFixed(4)}Ξ
+                      {(calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData)).toFixed(4)}Ξ
                     </div>
                   </div>
                 </>
