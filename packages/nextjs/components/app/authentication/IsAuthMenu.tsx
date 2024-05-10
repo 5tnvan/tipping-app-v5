@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Avatar } from "./Avatar";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { AuthContext, AuthUserContext, AuthUserFollowsContext, AuthUserNotificationContext } from "~~/app/context";
+import { AuthContext, AuthUserContext, AuthUserNotificationContext } from "~~/app/context";
 import { logout } from "~~/app/login/actions";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
@@ -12,9 +12,8 @@ export const IsAuthMenu = () => {
 
   //PARENTS CONTEXT
   const { refetchAuth } = useContext(AuthContext);
-  const { profile, refetchAuthUser } = useContext(AuthUserContext);
-  const { refetchFollows } = useContext(AuthUserFollowsContext);
-  const { notifications, refetchNotifications } = useContext(AuthUserNotificationContext);
+  const { profile } = useContext(AuthUserContext);
+  const { notifications } = useContext(AuthUserNotificationContext);
 
   //DROPDOWN
   const dropdownRef = useRef<HTMLDetailsElement>(null);
@@ -29,9 +28,9 @@ export const IsAuthMenu = () => {
     try {
       await logout();
       await refetchAuth();
-      await refetchAuthUser();
-      await refetchFollows();
-      await refetchNotifications();
+      // await refetchAuthUser();
+      // await refetchFollows();
+      // await refetchNotifications();
     } catch (error) {
       console.error("Logout error:", error);
       router.push("error");

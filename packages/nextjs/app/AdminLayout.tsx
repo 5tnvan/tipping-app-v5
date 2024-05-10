@@ -10,7 +10,7 @@ export const metadata = getMetadata({
   description: "Admin",
 });
 
-const IsAdminLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, user } = useContext(AuthContext);
   const router = useRouter();
 
@@ -36,4 +36,4 @@ const IsAdminLayout = ({ children }: { children: React.ReactNode }) => {
   }
 };
 
-export default IsAdminLayout;
+export default AdminLayout;
