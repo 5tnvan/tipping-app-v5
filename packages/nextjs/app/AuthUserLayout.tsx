@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import AdminLayout from "./AdminLayout";
 import AuthUserIntroLayout from "./AuthUserIntroLayout";
-import UserIntroLayout from "./UserIntroLayout_protected";
+import UserIntroLayoutProtected from "./UserIntroLayout_protected";
 import {
   AuthContext,
   AuthUserContext,
@@ -25,7 +25,6 @@ import { useProfile } from "~~/hooks/app/useProfile";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import UserIntroLayoutProtected from "./UserIntroLayout_protected";
 
 export const metadata = getMetadata({
   title: "AuthUserLayout",
