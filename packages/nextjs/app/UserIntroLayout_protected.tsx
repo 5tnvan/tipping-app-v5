@@ -35,7 +35,7 @@ export const metadata = getMetadata({
   description: "Profile",
 });
 
-const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
+const UserIntroLayoutProtected = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { username } = useParams();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
@@ -257,4 +257,4 @@ const UserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default UserIntroLayout;
+export default UserIntroLayoutProtected;

@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import UserIntroLayout from "./UserIntroLayout";
+import UserIntroLayoutPublic from "./UserIntroLayout_public";
 import { AuthContext } from "./context";
 import { IsNotAuthMenu } from "~~/components/app/authentication/IsNotAuthMenu";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
@@ -44,8 +44,8 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const isNotification = pathname === "/notifications";
 
   useEffect(() => {
-    if (isAuthenticated === "no" && (isProfile || isSettings || isLevels || isNotification)) {
-      router.push("/");
+    if (isAuthenticated === "no" && (isHome || isProfile || isSettings || isLevels || isNotification)) {
+      router.push("/login");
     }
   }, [isAuthenticated, isHome, isProfile, isSettings, isLevels, isNotification, router]);
 
@@ -64,7 +64,7 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
        */}
       {username && (
         <>
-          <UserIntroLayout>{children}</UserIntroLayout>
+          <UserIntroLayoutPublic>{children}</UserIntroLayoutPublic>
           <Link
             href="/login"
             id="wildpay-app-menu"

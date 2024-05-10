@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import AdminLayout from "./AdminLayout";
 import AuthUserIntroLayout from "./AuthUserIntroLayout";
-import UserIntroLayout from "./UserIntroLayout";
+import UserIntroLayout from "./UserIntroLayout_protected";
 import {
   AuthContext,
   AuthUserContext,
@@ -25,6 +25,7 @@ import { useProfile } from "~~/hooks/app/useProfile";
 import { useIncomingTransactions } from "~~/utils/app/fetch/fetchIncomingTransactions";
 import { useOutgoingTransactions } from "~~/utils/app/fetch/fetchOutgoingTransactions";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import UserIntroLayoutProtected from "./UserIntroLayout_protected";
 
 export const metadata = getMetadata({
   title: "AuthUserLayout",
@@ -64,15 +65,15 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
    * If user is authenticated and visits these pages, redirect to index
    */
   const isGetStarted = pathname.includes("/getstarted");
-  //const isLogin = pathname.includes("/login");
+  const isLogin = pathname.includes("/login");
   const isSignUpNew = pathname == "/signup/new";
   const isSignUpVerify = pathname == "/signup/verify";
 
   useEffect(() => {
-    if (isAuthenticated === "yes" && (isGetStarted || isSignUpNew || isSignUpVerify)) {
-      window.location.href = "/";
+    if (isAuthenticated === "yes" && (isLogin || isGetStarted || isSignUpNew || isSignUpVerify)) {
+      router.push("/home");
     }
-  }, [isAuthenticated, isGetStarted, isSignUpNew, isSignUpVerify, router]);
+  }, [isAuthenticated, isLogin, isGetStarted, isSignUpNew, isSignUpVerify, router]);
 
   /**
    * HANDLE: Fastpay Modal
@@ -146,7 +147,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                  * User with payment context
                  * /[username]: checkout profile of a user via their @handle
                  */}
-                {username && <UserIntroLayout>{children}</UserIntroLayout>}
+                {username && <UserIntroLayoutProtected>{children}</UserIntroLayoutProtected>}
 
                 {/*
                  * USER TOP INTRO
