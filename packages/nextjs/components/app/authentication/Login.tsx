@@ -1,22 +1,17 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { login } from "../../../app/login/actions";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import { AuthContext } from "~~/app/context";
 
 export const Login = () => {
-  const router = useRouter();
-  const { refetchAuth } = useContext(AuthContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<any>();
   const handleLogin = async (event: any) => {
     try {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
-      await login(formData);
-      refetchAuth();
-      router.push("home");
+      await login(formData); // Wait for login process to finish
+      window.location.href = "/home"; // Navigate to /home
     } catch (error) {
       setError("Login failed. Please try again.");
       setIsProcessing(false);
