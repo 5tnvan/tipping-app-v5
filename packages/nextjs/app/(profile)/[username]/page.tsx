@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { NextPage } from "next";
 import ChevronDownIcon from "@heroicons/react/24/solid/ChevronDownIcon";
-import { UserContext, UserPaymentContext } from "~~/app/context";
+import { AuthContext, UserContext, UserPaymentContext } from "~~/app/context";
 import { CardWithUsername } from "~~/components/app/CardWithUsername";
 import Transactions from "~~/components/app/accounting/Transactions";
 import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
@@ -11,13 +12,16 @@ import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
+
 /**
  * ROUTE: /[username]
  * DESCRIPTION: Public Profile
  **/
 
 const ProfileUsername: NextPage = () => {
+  const router = useRouter();
   /* CONSUME CONTEXT */
+  const { isAuthenticated } = useContext(AuthContext);
   const { isLoadingUser, profile } = useContext(UserContext);
   const { incomingRes } = useContext(UserPaymentContext);
 
@@ -69,7 +73,8 @@ const ProfileUsername: NextPage = () => {
   const [isProfilePayModalOpen, setProfilePayModalOpen] = useState(false);
 
   const openProfilePayModal = () => {
-    setProfilePayModalOpen(true);
+    if (isAuthenticated == "yes") setProfilePayModalOpen(true);
+    else router.push("/login");
   };
 
   const closeProfilePayModal = () => {
@@ -149,7 +154,8 @@ const ProfileUsername: NextPage = () => {
             </details>
           </div>
           <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
-            {((network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length === 0 ||
+            {((network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length ===
+              0 ||
               (network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) === undefined) && (
               <div className="flex h-full justify-center items-center">
                 <div className="btn btn-neutral" onClick={openProfilePayModal}>
