@@ -1,31 +1,22 @@
-# Wildpay App
-Dare to get paid?
-
-<p align="center">
-    <a href="https://ibb.co/nc9cJZQ">
-        <img src="https://i.ibb.co/2txt4mc/Nm3-NZk-Nmniop34-Qm-large.png" alt="Nm3-NZk-Nmniop34-Qm-large" border="0">
-    </a>
-</p>
+# Wildfire App
+Got 3 Seconds?
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Github</a> |
-  Production: <a href="https://www.wildpay.app">www.wildpay.app</a> |
-  Testnet: <a href="https://www.wildpay.app">Testnet App</a> |
+  Wildfire <a href="https://www.3seconds.me">www.3seconds.me</a> |
+  Wildpay <a href="https://www.wildpay.app">www.wildpay.app</a>
 </h4>
 
->A first social payment dApp, enabling anyone to easily onboard into the cryptocurrency ecosystem. Create a profile, verify a wallet, and you are ready to receive payments from friends, family, and followers. Let kick-ass Web3 content creation tools help you go viral and be discovered along the way.
+>Wildire is a Web3 Creator Economy App, based on 3 principles:
 
-🧪 On a payment layer, it's designed as a Smart Contract, enabling users to:
-- ✅ **Verify a Wallet**
-- ✅ **Pay and receive ETH on Ethereum and Base**
-- ✅ **Withdraw at anytime**
+🔥 **Got 3 seconds?**
+Become a Web3 Creator by posting a 3-second video each day.
 
-🧪 On a social layer, it enables a user to:
-- ✅ **Claim a unique handle** [Example](https://wildpay.app/micalabs)
-- ✅ **Level-up as a Web3 Creator**
-- ✅ **Create Wild Bios, Wild NFTs & Wildfires**
-- ✅ **Be discovered via viral algorithms**
-- ✅ **Keep 100% of their earnings**
+🔥 **Extremely. Short. Content.** 
+No more doom scrolling—stay informed about the world, 24/7, in just 3 seconds.
+
+🔥 **Web3 pays 100%**
+Creators get paid instantly in ETH, and retain all their revenue.
 
 ## ⚙️ Set-up
 
@@ -60,8 +51,9 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
-## 🟢 Smart Contracts
+## ⚙️ Smart Contracts
 
+Wildfire is integrated with Wildpay.
 Our Smart Contracts are verified on chain!
 
 ### Base: 
@@ -70,7 +62,7 @@ Our Smart Contracts are verified on chain!
 ### Ethereum:
 - https://etherscan.io/address/0x3579b02193028357acafe8323d2f62155078033a
 
-## 🟢 Subgraph
+## ⚙️ Subgraph
 
 We index our Smart Contracts and query this data from our front-end app! 
 
