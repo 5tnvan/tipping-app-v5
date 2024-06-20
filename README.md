@@ -8,7 +8,7 @@ Dare to get paid?
 </p>
 
 <h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Github</a> |
+  <a href="https://github.com/5tnvan/tipping-app-v5/">Github</a> |
   Production: <a href="https://www.wildpay.app">www.wildpay.app</a> |
   Testnet: <a href="https://www.wildpay.app">Testnet App</a> |
 </h4>
