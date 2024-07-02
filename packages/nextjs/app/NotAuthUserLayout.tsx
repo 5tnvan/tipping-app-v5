@@ -32,6 +32,7 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const isTransaction = pathname.includes("/transaction");
   const isLeaderboard = pathname === "/leaderboard";
   const isBios = pathname === "/bios";
+  const isError = pathname === "/error";
 
   /*
    * REDIRECT
@@ -99,7 +100,7 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
        * /signup/new
        * /signup/verify
        */}
-      {(isGetStarted || isLogin || isSignUpNew || isSignUpVerify || isLeaderboard || isBios) && (
+      {(isGetStarted || isLogin || isSignUpNew || isSignUpVerify || isLeaderboard || isBios || isError) && (
         <div id="wildpay-is-not-auth" className="flex flex-col grow">
           {children}
         </div>

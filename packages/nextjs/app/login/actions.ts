@@ -89,3 +89,20 @@ export async function logout() {
     redirect("/");
   }
 }
+
+export async function signInWithGoogle() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `http://localhost:3000/auth/callback?next=/home`,
+    },
+  });
+
+  if (error) {
+    console.log(error);
+    redirect("/error");
+  }
+
+  redirect(data.url);
+}

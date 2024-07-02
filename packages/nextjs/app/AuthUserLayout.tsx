@@ -55,6 +55,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const isTransaction = pathname.includes("/transaction");
   const isLeaderboard = pathname === "/leaderboard";
   const isBios = pathname === "/bios";
+  const isError = pathname === "/error";
   const isSignUpSuccess = pathname == "/signup/success";
   const isDebug = pathname === "/debug";
   const isBlockExplorer = pathname.includes("/blockexplorer");
@@ -158,7 +159,7 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                   {(isProfile || isSettings || isSignUpSuccess) && (
                     <AuthUserIntroLayout>{children}</AuthUserIntroLayout>
                   )}
-                  {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios) && (
+                  {(isHome || isTransaction || isLeaderboard || isNotification || isLevels || isBios || isError) && (
                     <>{children}</>
                   )}
                 </AuthUserPaymentContext.Provider>
