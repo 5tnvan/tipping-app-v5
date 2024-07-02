@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Link from "next/link";
 import { login } from "../../../app/login/actions";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
@@ -61,20 +60,6 @@ export const Login = () => {
             <span>{error}</span>
           </div>
         )}
-        <div className="flex flex-col items-center mt-5">
-          <div>
-            {`Don't have an account? `}
-            <Link href="/getstarted" className="link link-secondary">
-              Register
-            </Link>
-          </div>
-          <div>
-            {`Forgot Password `}
-            <Link href="/login/forgotpassword" className="link link-secondary">
-              Reset
-            </Link>
-          </div>
-        </div>
       </form>
     </>
   );
