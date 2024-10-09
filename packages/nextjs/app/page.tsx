@@ -176,6 +176,7 @@ const Home: NextPage = () => {
       <>
         <WavyBackground className="w-screen h-full flex flex-col pr-10 pl-10">
           {/* Navigation */}
+          {/* Navigation */}
           <div className="flex justify-between items-start mt-10">
             <div className="flex items-center">
               <WildPayLogo color="white" width="30" height="30" />
