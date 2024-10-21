@@ -15,7 +15,27 @@
       "address": "0xBE918cFACCA771508A2cDeF6E8751729acf943E3"
     },
     "WildpayEthContract": {
-      "address": "0x46D2DAF077aA27D5a36973deD157E340fe13AA8c"
+      "address": "0xb02685a993D9347bd3Ca116AEc9371a4c0cE8Cf4"
+    }
+  },
+  "base": {
+    "WildpayEthContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A"
+    }
+  },
+  "baseSepolia": {
+    "WildpayEthContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A"
+    }
+  },
+  "fuseTestnet": {
+    "WildpayEthContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A"
+    }
+  },
+  "mainnet": {
+    "WildpayEthContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A"
     }
   }
 }

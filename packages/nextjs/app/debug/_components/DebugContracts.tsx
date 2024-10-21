@@ -18,6 +18,8 @@ export function DebugContracts() {
     { initializeWithValue: false },
   );
 
+  console.log("selectedContract", selectedContract);
+
   useEffect(() => {
     if (!contractNames.includes(selectedContract)) {
       setSelectedContract(contractNames[0]);

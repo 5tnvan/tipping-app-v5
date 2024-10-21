@@ -15,7 +15,7 @@ import "hardhat-deploy-ethers";
 const providerApiKey = process.env.ALCHEMY_API_KEY || "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 // If not set, it uses the hardhat account 0 private key.
 const deployerPrivateKey =
-  process.env.DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+  process.env.DEPLOYER_PRIVATE_KEY ?? "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 // Wildpay BaseScan API Key
@@ -128,8 +128,16 @@ const config: HardhatUserConfig = {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
     },
+    fuse: {
+      url: "https://rpc.fuse.io/",
+      accounts: [deployerPrivateKey],
+    },
+    fuseTestnet: {
+      url: "https://rpc.fusespark.io",
+      accounts: [deployerPrivateKey],
+    },
   },
-  // configuration for harhdat-verify plugin
+  // configuration for hardhat-verify plugin
   // etherscan: {
   //   apiKey: `${etherscanApiKey}`,
   // },
@@ -138,6 +146,8 @@ const config: HardhatUserConfig = {
     apiKey: {
       base: `${basescanApiKey}`,
       baseSepolia: `${basescanApiKey}`,
+      fuse: `${basescanApiKey}`,
+      fuseTestnet: `empty`,
     },
     customChains: [
       {
@@ -154,6 +164,22 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: `https://api-sepolia.basescan.org/api`,
           browserURL: "https://sepolia.basescan.org/",
+        },
+      },
+      {
+        network: "fuse",
+        chainId: 122,
+        urls: {
+          apiURL: `https://api.fuse.io/api`,
+          browserURL: "https://explorer.fuse.io/",
+        },
+      },
+      {
+        network: "fuseTestnet",
+        chainId: 123,
+        urls: {
+          apiURL: `https://explorer.fusespark.io/api`,
+          browserURL: "https://explorer.fusespark.io/",
         },
       },
     ],

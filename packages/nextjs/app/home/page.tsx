@@ -17,6 +17,7 @@ import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { useGlobalState } from "~~/services/store/store";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -266,6 +267,16 @@ const HomePage: NextPage = () => {
               >
                 <BaseIcon width={10} height={10} fill={`${network === "base" ? "#ffffff" : "#3C3C3C"}`} />
                 <span className="pl-1">base</span>
+              </div>
+              {/* PAYMENTS NETWORKS TAB: FUSE */}
+              <div
+                className={`btn font-medium h-6 min-h-6 gap-0 px-2 ${
+                  network === "fuse" && "bg-primary text-neutral hover:bg-blue-800 border-0"
+                }`}
+                onClick={() => setNetwork("fuse")}
+              >
+                <FuseIcon width={10} height={10} fill={`${network === "base" ? "#ffffff" : "#3C3C3C"}`} />
+                <span className="pl-1">fuse</span>
               </div>
             </div>
           </div>
