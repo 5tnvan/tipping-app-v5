@@ -10,6 +10,7 @@ import { Spotlight } from "~~/components/app/ui/spotlight";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth";
+import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -24,6 +25,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [dateUnix, setDateUnix] = useState<any>();
   const [walletProfile, setWalletProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useFuseCurrencyPrice();
 
   /**
    * ACTION: Fetch transaction from graph
@@ -81,10 +83,17 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   </div>
                   <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                     <div className="text-3xl">
-                      ${convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), price).toFixed(2)}
+                      $
+                      {params.network == "ethereum" &&
+                        convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), price).toFixed(2)}
+                      {params.network == "base" &&
+                        convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), price).toFixed(2)}
+                      {params.network == "fuse" &&
+                        convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), fusePrice).toFixed(2)}
                     </div>
                     <div className="flex text-xl items-center">
-                      {Number(formatEther(withdrawData.withdrawChanges[0].value)).toFixed(4)}Ξ
+                      {Number(formatEther(withdrawData.withdrawChanges[0].value)).toFixed(4)}
+                      {`${params.network == "fuse" ? " FUSE" : " ETH"}`}
                     </div>
                   </div>
                 </div>
@@ -118,6 +127,12 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                         <div className="btn btn-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
                           <BaseIcon width={10} height={10} fill="#3C3C3C" />
                           <div className="pl-1">base</div>
+                        </div>
+                      )}
+                      {params.network == "fuse" && (
+                        <div className="btn btn-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                          <BaseIcon width={10} height={10} fill="#3C3C3C" />
+                          <div className="pl-1">fuse</div>
                         </div>
                       )}
                     </td>

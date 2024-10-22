@@ -14,6 +14,8 @@ import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
 import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomNetworkIcon } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/checknetwork";
+import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -21,14 +23,17 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 const Settings: NextPage = () => {
   const router = useRouter();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useFuseCurrencyPrice();
   const { address } = useAccount();
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
+  const { targetNetwork } = useTargetNetwork();
 
   /* WITHDRAW BALANCE */
   const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
   const [withdrawBalance, setWithdrawBalance] = useState<any>();
   const balanceRes = useFetchBalance(wallet);
+  const [network, setNetwork] = useState("");
 
   useEffect(() => {
     if (profile.wallet_id) {
@@ -36,6 +41,16 @@ const Settings: NextPage = () => {
       setWithdrawBalance(balanceRes);
     }
   }, [balanceRes, profile.wallet_id]);
+
+  useEffect(() => {
+    if (targetNetwork.id == 84532 || targetNetwork.id == 8453) {
+      setNetwork("base");
+    } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
+      setNetwork("ethereum");
+    } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
+      setNetwork("fuse");
+    }
+  }, [targetNetwork]);
 
   /* LOAD BUTTON */
   const [buttonText, setButtonText] = useState("");
@@ -230,8 +245,14 @@ const Settings: NextPage = () => {
                 {address && profile.wallet_id && address == profile.wallet_id && (
                   <>
                     <RainbowKitCustomNetworkIcon />
-                    <span className="font-medium">{Number(withdrawBalance).toFixed(4)}Ξ</span>
-                    <span className="">(${convertEthToUsd(withdrawBalance, price).toFixed(2)})</span>
+                    <span className="font-medium">
+                      {`${Number(withdrawBalance).toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}
+                    </span>
+                    <span className="">
+                      (${network == "ethereum" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
+                      {network == "base" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
+                      {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)})
+                    </span>
                   </>
                 )}
                 {!address && !profile.wallet_id && <>No balance</>}

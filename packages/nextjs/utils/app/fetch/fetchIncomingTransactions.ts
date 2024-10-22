@@ -16,6 +16,12 @@ const apolloClientBase = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+//https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest
+const apolloClientFuse = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest",
+  cache: new InMemoryCache(),
+});
+
 /**
  * FETCH: fetchIncomingTransactions()
  * DB: subpgraph
@@ -57,5 +63,12 @@ export const useIncomingTransactions = (receiverAddress: any) => {
     client: apolloClientBase,
   });
 
-  return { ethereumData, baseData };
+  const { data: fuseData } = useQuery(gql(PAYMENTS_GRAPHQL), {
+    variables: { receiverAddress },
+    pollInterval: 10000,
+    fetchPolicy: "network-only",
+    client: apolloClientFuse,
+  });
+
+  return { ethereumData, baseData, fuseData };
 };

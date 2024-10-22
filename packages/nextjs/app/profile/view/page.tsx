@@ -10,6 +10,7 @@ import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 
 const ProfileView: NextPage = () => {
   /* CONSUME CONTEXT */
@@ -21,14 +22,16 @@ const ProfileView: NextPage = () => {
    * NETWORK DROPDOWN
    * show on default whichever network has more transactions
    */
-  const [network, setNetwork] = useState<string>(); //default network
+  const [network, setNetwork] = useState<string>("ethereum"); // default to ethereum
   useEffect(() => {
     if (incomingRes.ethereumData?.paymentChanges?.length > incomingRes.baseData?.paymentChanges?.length) {
       setNetwork("ethereum");
-    } else {
+    } else if (incomingRes.baseData?.paymentChanges?.length > incomingRes.fuseData?.paymentChanges?.length) {
       setNetwork("base");
+    } else {
+      setNetwork("fuse");
     }
-  }, [incomingRes.ethereumData, incomingRes.baseData]);
+  }, [incomingRes.ethereumData, incomingRes.baseData, incomingRes.fuseData]);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -42,22 +45,22 @@ const ProfileView: NextPage = () => {
 
   const handleCopyToClipboard = (number: any) => {
     navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
-    if (number == 1) {
+    if (number === 1) {
       setCopied1(true);
       setTimeout(() => {
         setCopied1(false);
-      }, 1500); // Reset the copied state after 2 seconds
+      }, 1500);
     }
-    if (number == 2) {
+    if (number === 2) {
       setCopied2(true);
       setTimeout(() => {
         setCopied2(false);
-      }, 1500); // Reset the copied state after 2 seconds
+      }, 1500);
     }
   };
 
   /* RENDER */
-  if (isAuthenticated == "no") {
+  if (isAuthenticated === "no") {
     return (
       <div id="wildpay-is-not-auth" className="z-10 pt-28 pl-6 pr-6">
         <div className="font-semibold text-3xl mb-5">{"You are not logged in."}</div>
@@ -68,7 +71,7 @@ const ProfileView: NextPage = () => {
     );
   }
 
-  if (isAuthenticated == "yes") {
+  if (isAuthenticated === "yes") {
     return (
       <>
         {/* CTA */}
@@ -122,8 +125,21 @@ const ProfileView: NextPage = () => {
           <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
             <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
               <div>
-                Payments ({(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) == undefined && 0}
-                {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length})
+                Payments (
+                {(network === "ethereum"
+                  ? incomingRes.ethereumData
+                  : network === "base"
+                  ? incomingRes.baseData
+                  : incomingRes.fuseData) == undefined && 0}
+                {
+                  (network === "ethereum"
+                    ? incomingRes.ethereumData
+                    : network === "base"
+                    ? incomingRes.baseData
+                    : incomingRes.fuseData
+                  )?.paymentChanges?.length
+                }
+                )
               </div>
               <details ref={dropdownRef} className="dropdown dropdown-end cursor-pointer">
                 <summary className="flex text-neutral-900 hover:text-neutral-700">
@@ -155,19 +171,39 @@ const ProfileView: NextPage = () => {
                       Base
                     </div>
                   </li>
+                  <li>
+                    <div
+                      className={`${network == "fuse" && "bg-neutral-200"}`}
+                      onClick={() => {
+                        setNetwork("fuse");
+                        closeDropdown();
+                      }}
+                    >
+                      <FuseIcon />
+                      Fuse
+                    </div>
+                  </li>
                 </ul>
               </details>
             </div>
             <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
-              {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) == undefined && (
+              {(network === "ethereum"
+                ? incomingRes.ethereumData
+                : network === "base"
+                ? incomingRes.baseData
+                : incomingRes.fuseData) == undefined && (
                 <div className="flex h-full justify-center items-center">
                   <Link href="/settings" className="btn btn-neutral">
                     Verify your wallet to get paid 🥳
                   </Link>
                 </div>
               )}
-              {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length ==
-                0 && (
+              {(network === "ethereum"
+                ? incomingRes.ethereumData
+                : network === "base"
+                ? incomingRes.baseData
+                : incomingRes.fuseData
+              )?.paymentChanges?.length == 0 && (
                 <div className="flex h-full justify-center items-center">
                   <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
                     {copied2 ? (
@@ -186,9 +222,15 @@ const ProfileView: NextPage = () => {
                 </div>
               )}
               <Transactions
-                tx={network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData}
+                tx={
+                  network === "ethereum"
+                    ? incomingRes.ethereumData
+                    : network === "base"
+                    ? incomingRes.baseData
+                    : incomingRes.fuseData
+                }
                 hide="to"
-                network={network === "ethereum" ? "ethereum" : "base"}
+                network={network}
               />
             </div>
           </div>

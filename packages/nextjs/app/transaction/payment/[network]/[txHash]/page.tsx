@@ -10,7 +10,9 @@ import { Avatar } from "~~/components/app/authentication/Avatar";
 import { Spotlight } from "~~/components/app/ui/spotlight";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { Address } from "~~/components/scaffold-eth";
+import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchPayment } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -26,11 +28,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useFuseCurrencyPrice();
 
   /**
    * ACTION: Fetch transaction from graph
    **/
   const { paymentData, loading, error } = useFetchPayment(params.txHash, params.network);
+  console.log("paymentData", params.txHash, params.network, paymentData);
   useEffect(() => {
     if (paymentData && paymentData.paymentChanges.length > 0 && !loading) {
       const fetchData = async () => {
@@ -117,10 +121,21 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   </div>
                   <div className="w-2/4 flex flex-col items-end mb-6 text-neutral font-semibold">
                     <div className="text-3xl">
-                      ${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), price).toFixed(2)}
+                      {params.network == "eth" && (
+                        <>${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), price).toFixed(2)}</>
+                      )}
+                      {params.network == "base" && (
+                        <>${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), price).toFixed(2)}</>
+                      )}
+                      {params.network == "fuse" && (
+                        <>${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), fusePrice).toFixed(2)}</>
+                      )}
                     </div>
                     <div className="flex text-xl items-center">
-                      {Number(formatEther(paymentData.paymentChanges[0].value)).toFixed(4)}Ξ
+                      {Number(formatEther(paymentData.paymentChanges[0].value)).toFixed(4)}
+                      {params.network == "eth" && <> Ξ</>}
+                      {params.network == "base" && <> Ξ</>}
+                      {params.network == "fuse" && <> FUSE</>}
                     </div>
                   </div>
                 </div>
@@ -154,6 +169,12 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                         <div className="btn bg-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
                           <BaseIcon width={10} height={10} fill="#3C3C3C" />
                           <div className="pl-1">base</div>
+                        </div>
+                      )}
+                      {params.network == "fuse" && (
+                        <div className="btn bg-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                          <FuseIcon />
+                          <div className="pl-1">fuse</div>
                         </div>
                       )}
                     </td>

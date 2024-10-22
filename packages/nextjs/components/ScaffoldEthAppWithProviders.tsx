@@ -39,6 +39,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   //const subgraphUriEthereumMainnet = "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1";
   //const subgraphUriBaseSepolia = "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1";
   //const subgraphUriBaseMainnet = "https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1";
+  // https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest
 
   const client = new ApolloClient({
     uri: undefined,

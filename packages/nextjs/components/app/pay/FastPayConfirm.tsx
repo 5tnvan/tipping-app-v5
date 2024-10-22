@@ -103,7 +103,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
     value: parseEther(tokenAmountWithFee.toString()),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
-      console.log("FastPayConfirm trasactionHash", txnReceipt);
+      console.log("FastPayConfirm trasactionHash", txnReceipt.transactionHash);
       handlePay(txnReceipt.transactionHash);
     },
   });
@@ -151,7 +151,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
               <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
             </div>
             <div className="flex justify-end">
-              <div>{`${tokenAmountWithFee.toFixed(2)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
+              <div>{`${tokenAmountWithFee.toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
             </div>
           </div>
         </>

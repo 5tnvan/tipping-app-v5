@@ -11,6 +11,7 @@ import { ProfilePayModal } from "~~/components/app/modal/ProfilePayModal";
 import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
 /**
@@ -31,12 +32,17 @@ const ProfileUsername: NextPage = () => {
    */
   const [network, setNetwork] = useState<string>(); //default network
   useEffect(() => {
-    if (incomingRes.ethereumData?.paymentChanges?.length > incomingRes.baseData?.paymentChanges?.length) {
+    if (
+      incomingRes.ethereumData?.paymentChanges?.length > incomingRes.baseData?.paymentChanges?.length &&
+      incomingRes.ethereumData?.paymentChanges?.length > incomingRes.fuseData?.paymentChanges?.length
+    ) {
       setNetwork("ethereum");
-    } else {
+    } else if (incomingRes.baseData?.paymentChanges?.length > incomingRes.fuseData?.paymentChanges?.length) {
       setNetwork("base");
+    } else {
+      setNetwork("fuse");
     }
-  }, [incomingRes.ethereumData, incomingRes.baseData]);
+  }, [incomingRes.ethereumData, incomingRes.baseData, incomingRes.fuseData]);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -117,8 +123,21 @@ const ProfileUsername: NextPage = () => {
         <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
           <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
             <div>
-              Payments ({(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) == undefined && 0}
-              {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length})
+              Payments (
+              {(network === "ethereum"
+                ? incomingRes.ethereumData
+                : network === "base"
+                ? incomingRes.baseData
+                : incomingRes.fuseData) == undefined && 0}
+              {
+                (network === "ethereum"
+                  ? incomingRes.ethereumData
+                  : network === "base"
+                  ? incomingRes.baseData
+                  : incomingRes.fuseData
+                )?.paymentChanges?.length
+              }
+              )
             </div>
             <details ref={dropdownRef} className="dropdown dropdown-end cursor-pointer">
               <summary className="flex text-neutral-600 hover:text-neutral-900">
@@ -150,13 +169,33 @@ const ProfileUsername: NextPage = () => {
                     Base
                   </div>
                 </li>
+                <li>
+                  <div
+                    className={`${network == "fuse" && "bg-neutral-100"}`}
+                    onClick={() => {
+                      setNetwork("fuse");
+                      closeDropdown();
+                    }}
+                  >
+                    <FuseIcon />
+                    Fuse
+                  </div>
+                </li>
               </ul>
             </details>
           </div>
           <div className="wildui-transaction-scroll-profile-view overflow-auto pr-6 pl-6 pb-10">
-            {((network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges?.length ===
-              0 ||
-              (network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData) === undefined) && (
+            {((network === "ethereum"
+              ? incomingRes.ethereumData
+              : network === "base"
+              ? incomingRes.baseData
+              : incomingRes.fuseData
+            )?.paymentChanges?.length === 0 ||
+              (network === "ethereum"
+                ? incomingRes.ethereumData
+                : network === "base"
+                ? incomingRes.baseData
+                : incomingRes.fuseData) === undefined) && (
               <div className="flex h-full justify-center items-center">
                 <div className="btn btn-neutral" onClick={openProfilePayModal}>
                   Make a first move 🥳
@@ -164,9 +203,15 @@ const ProfileUsername: NextPage = () => {
               </div>
             )}
             <Transactions
-              tx={network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData}
+              tx={
+                network === "ethereum"
+                  ? incomingRes.ethereumData
+                  : network === "base"
+                  ? incomingRes.baseData
+                  : incomingRes.fuseData
+              }
               hide="to"
-              network={network === "ethereum" ? "ethereum" : "base"}
+              network={network}
             />
           </div>
         </div>

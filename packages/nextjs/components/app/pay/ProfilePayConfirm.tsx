@@ -9,7 +9,9 @@ import { AuthContext, AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
+import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
@@ -23,11 +25,16 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   const { profile } = useContext(AuthUserContext);
   const { address: connectedAddress } = useAccount();
   const [payAmount, setPayAmount] = useState(0);
+  //const [dollarAmount, setDollarAmount] = useState(0);
+  const [tokenAmountWithFee, setTokenAmountWithFee] = useState(0);
+  const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   const [clickedButton, setClickedButton] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
   const [rainbowKit, setRainbowKit] = useState(false);
+  const ethPrice = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useFuseCurrencyPrice();
 
   /**
    * ACTION: Choose Amount
@@ -37,6 +44,22 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
     setClickedButton(num);
     setIsClicked(true);
   };
+
+  /**
+   * ACTION: Get network
+   **/
+  const [network, setNetwork] = useState("");
+  const { targetNetwork } = useTargetNetwork();
+
+  useEffect(() => {
+    if (targetNetwork.id == 84532 || targetNetwork.id == 8453) {
+      setNetwork("base");
+    } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
+      setNetwork("ethereum");
+    } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
+      setNetwork("fuse");
+    }
+  }, [targetNetwork]);
 
   /**
    * ACTION: Add Message
@@ -55,22 +78,20 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   /**
    * ACTION: Show Billing
    **/
-  //const [dollarAmount, setDollarAmount] = useState(0);
-  const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
-  //const [ethAmount, setEthAmount] = useState(0);
-  const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
-  const price = useGlobalState(state => state.nativeCurrencyPrice);
-
   useEffect(() => {
-    //!refactor: why price > 0
-    if (price > 0) {
-      //setDollarAmount(Number(payAmount));
-      setDollarAmountWithFee(payAmount + (payAmount * 3) / 100);
-      const ethAmount = convertUsdToEth(Number(payAmount), price);
-      //setEthAmount(ethAmount);
-      setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
+    const dollarAmount = Number(payAmount);
+    if (network == "ethereum" || network == "base") {
+      const ethAmount = convertUsdToEth(dollarAmount, ethPrice);
+      //setDollarAmount(dollarAmount);
+      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+      setTokenAmountWithFee(ethAmount + (ethAmount * 3) / 100);
+    } else if (network == "fuse") {
+      const fuseAmount = convertUsdToEth(dollarAmount, fusePrice);
+      //setDollarAmount(dollarAmount);
+      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+      setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
     }
-  }, [price, payAmount]);
+  }, [payAmount, network]);
 
   /**
    * ACTION: Pay and trigger parents to refresh
@@ -83,7 +104,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
     contractName: "WildpayEthContract",
     functionName: "setPayment",
     args: [receiver, message],
-    value: parseEther(ethAmountWithFee.toString()),
+    value: parseEther(tokenAmountWithFee.toString()),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.transactionHash);
@@ -97,19 +118,19 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       <div className="mt-3 flex justify-between">
         <span
           className={`btn ${clickedButton === 50 ? "btn-primary" : ""} grow`}
-          onClick={() => handleChooseAmount(50)}
+          onClick={() => handleChooseAmount(0.01)}
         >
           <span>{"$50"}</span>
         </span>
         <span
           className={`btn ${clickedButton === 100 ? "btn-primary" : ""} grow ml-2 mr-2`}
-          onClick={() => handleChooseAmount(100)}
+          onClick={() => handleChooseAmount(0.02)}
         >
           <span>{"$100"}</span>
         </span>
         <span
           className={`btn ${clickedButton === 150 ? "btn-primary" : ""} grow`}
-          onClick={() => handleChooseAmount(150)}
+          onClick={() => handleChooseAmount(0.03)}
         >
           <span>{"$150"}</span>
         </span>
@@ -140,7 +161,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
               <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
             </div>
             <div className="flex justify-end">
-              <div>{`${ethAmountWithFee} ETH`}</div>
+              <div>{`${tokenAmountWithFee.toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
             </div>
           </div>
           {/* CONFIRM BUTTON */}

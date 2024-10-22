@@ -20,6 +20,8 @@ export const ReceiptModal = ({ hash, isOpen, onClose }: Props) => {
       setNetwork("base");
     } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
       setNetwork("ethereum");
+    } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
+      setNetwork("fuse");
     }
   }, [targetNetwork]);
 
