@@ -10,7 +10,6 @@ import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { FuseIcon } from "~~/components/assets/FuseIcon";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
@@ -22,7 +21,7 @@ type Props = {
 
 const Transactions = ({ tx, hide, network }: Props) => {
   const price = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
   return (
     <>
       {tx?.paymentChanges?.map((paymentChange: any) => (

@@ -14,7 +14,6 @@ import { WithdrawModal } from "~~/components/app/modal/WithdrawModal";
 import { WithdrawReceipt } from "~~/components/app/modal/WithdrawReceipt";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomNetworkIcon } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/checknetwork";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
@@ -23,7 +22,7 @@ import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 const Settings: NextPage = () => {
   const router = useRouter();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
   const { address } = useAccount();
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);

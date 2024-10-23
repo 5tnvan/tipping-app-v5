@@ -18,7 +18,6 @@ import { Avatar } from "~~/components/app/authentication/Avatar";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { FuseIcon } from "~~/components/assets/FuseIcon";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -40,7 +39,7 @@ const HomePage: NextPage = () => {
   const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming
   const [network, setNetwork] = useState("ethereum"); //default network: eth
   const price = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /* COPY BUTTONS */
   const [copied1, setCopied1] = useState(false);

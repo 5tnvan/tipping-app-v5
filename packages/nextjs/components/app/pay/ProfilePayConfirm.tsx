@@ -9,7 +9,6 @@ import { AuthContext, AuthUserContext } from "~~/app/context";
 import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
@@ -34,7 +33,9 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   const [message, setMessage] = useState("n/a");
   const [rainbowKit, setRainbowKit] = useState(false);
   const ethPrice = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+
+  console.log("fusePrice", fusePrice);
 
   /**
    * ACTION: Choose Amount
@@ -79,19 +80,21 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
    * ACTION: Show Billing
    **/
   useEffect(() => {
-    const dollarAmount = Number(payAmount);
-    if (network == "ethereum" || network == "base") {
-      const ethAmount = convertUsdToEth(dollarAmount, ethPrice);
-      //setDollarAmount(dollarAmount);
-      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
-      setTokenAmountWithFee(ethAmount + (ethAmount * 3) / 100);
-    } else if (network == "fuse") {
-      const fuseAmount = convertUsdToEth(dollarAmount, fusePrice);
-      //setDollarAmount(dollarAmount);
-      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
-      setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
+    if (ethPrice > 0 || fusePrice > 0) {
+      const dollarAmount = Number(payAmount);
+      if (network == "ethereum" || network == "base") {
+        const ethAmount = convertUsdToEth(dollarAmount, ethPrice);
+        //setDollarAmount(dollarAmount);
+        setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+        setTokenAmountWithFee(ethAmount + (ethAmount * 3) / 100);
+      } else if (network == "fuse") {
+        const fuseAmount = convertUsdToEth(dollarAmount, fusePrice);
+        //setDollarAmount(dollarAmount);
+        setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+        setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
+      }
     }
-  }, [payAmount, network]);
+  }, [ethPrice, fusePrice, payAmount, network]);
 
   /**
    * ACTION: Pay and trigger parents to refresh
@@ -104,7 +107,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
     contractName: "WildpayEthContract",
     functionName: "setPayment",
     args: [receiver, message],
-    value: parseEther(tokenAmountWithFee.toString()),
+    value: tokenAmountWithFee && !isNaN(tokenAmountWithFee) ? parseEther(tokenAmountWithFee.toString()) : BigInt(0),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
       console.log("Transaction blockHash", txnReceipt.transactionHash);

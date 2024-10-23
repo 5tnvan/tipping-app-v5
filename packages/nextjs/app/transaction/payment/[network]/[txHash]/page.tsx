@@ -12,7 +12,6 @@ import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { Address } from "~~/components/scaffold-eth";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchPayment } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -28,7 +27,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [senderProfile, setSenderProfile] = useState<any | undefined>(undefined);
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /**
    * ACTION: Fetch transaction from graph

@@ -1,9 +1,12 @@
+import { ChainWithAttributes } from "./networks";
+
 /**
  * Fetch the Fuse token price using the Fuse Trade API with the fetch API.
  * @param targetNetwork - The network configuration (e.g., mainnet, testnet)
  * @returns {Promise<number>} - The price of the Fuse token in USD
  */
-export const fetchFusePriceFromAPI = async (): Promise<number> => {
+export const fetchPriceFromFuseAPI = async (targetNetwork: ChainWithAttributes): Promise<number> => {
+  console.log("targetNetwork", targetNetwork);
   try {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");

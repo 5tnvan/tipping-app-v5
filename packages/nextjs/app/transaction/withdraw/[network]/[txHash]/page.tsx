@@ -10,7 +10,6 @@ import { Spotlight } from "~~/components/app/ui/spotlight";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { Address } from "~~/components/scaffold-eth";
-import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
@@ -25,7 +24,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [dateUnix, setDateUnix] = useState<any>();
   const [walletProfile, setWalletProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
-  const fusePrice = useFuseCurrencyPrice();
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /**
    * ACTION: Fetch transaction from graph
