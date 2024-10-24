@@ -9,8 +9,8 @@ import Transactions from "~~/components/app/accounting/Transactions";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { CopyIcon } from "~~/components/assets/CopyIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
-import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 import { FuseIcon } from "~~/components/assets/FuseIcon";
+import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
 const ProfileView: NextPage = () => {
   /* CONSUME CONTEXT */
@@ -94,6 +94,10 @@ const ProfileView: NextPage = () => {
                   <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2">
                     <BaseIcon width={10} height={10} fill="#3C3C3C" />
                     <span className="pl-1">base</span>
+                  </div>
+                  <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 ml-1">
+                    <FuseIcon />
+                    <span className="pl-1">fuse</span>
                   </div>
                 </div>
                 <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>

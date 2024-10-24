@@ -18,7 +18,6 @@ export const useNativeCurrencyPrice = () => {
     (async () => {
       const price = await fetchPriceFromUniswap(targetNetwork);
       setNativeCurrencyPrice(price);
-      console.log("Fetched ETH price:", price); // Log the fetched price
     })();
   }, [targetNetwork]);
 
