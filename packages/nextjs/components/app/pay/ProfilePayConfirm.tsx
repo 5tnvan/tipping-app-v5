@@ -121,19 +121,19 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       <div className="mt-3 flex justify-between">
         <span
           className={`btn ${clickedButton === 50 ? "btn-primary" : ""} grow`}
-          onClick={() => handleChooseAmount(0.01)}
+          onClick={() => handleChooseAmount(50)}
         >
           <span>{"$50"}</span>
         </span>
         <span
           className={`btn ${clickedButton === 100 ? "btn-primary" : ""} grow ml-2 mr-2`}
-          onClick={() => handleChooseAmount(0.02)}
+          onClick={() => handleChooseAmount(100)}
         >
           <span>{"$100"}</span>
         </span>
         <span
           className={`btn ${clickedButton === 150 ? "btn-primary" : ""} grow`}
-          onClick={() => handleChooseAmount(0.03)}
+          onClick={() => handleChooseAmount(150)}
         >
           <span>{"$150"}</span>
         </span>
