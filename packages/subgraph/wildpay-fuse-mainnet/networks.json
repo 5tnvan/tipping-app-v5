@@ -1,0 +1,8 @@
+{
+  "fuse": {
+    "WildpayEthContract": {
+      "address": "0x3579B02193028357ACaFE8323d2F62155078033A",
+      "startBlock": 32377638
+    }
+  }
+}

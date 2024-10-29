@@ -1,0 +1,38 @@
+
+ýõdataSources:
+  - kind: ethereum/contract
+    mapping:
+      abis:
+        - file:
+            /: /ipfs/QmTJ9DT3s2q3xHBJy3cwX4i4aHTUgpxYwZywCdzSvNia2U
+          name: WildpayEthContract
+      apiVersion: 0.0.6
+      entities:
+        - PaymentChange
+        - SaveSwitchChange
+        - WithdrawChange
+      eventHandlers:
+        - event: >-
+            PaymentChange(indexed address,indexed
+            address,string,uint256,uint256)
+          handler: handlePaymentChange
+        - event: 'SaveSwitchChange(address,uint256)'
+          handler: handleSaveSwitchChange
+        - event: 'WithdrawChange(address,uint256)'
+          handler: handleWithdrawChange
+      file:
+        /: /ipfs/QmQTLyKMuz3Qbbe5adEGmo1u8A9M6vkLGFgi4ota4nv4sN
+      kind: ethereum/events
+      language: wasm/assemblyscript
+    name: WildpayEthContract
+    network: localhost
+    source:
+      abi: WildpayEthContract
+      address: '0xA4899D35897033b927acFCf422bc745916139776'
+description: WildPay
+repository: 'https://github.com/scaffold-eth/se-2/packages/subgraph/'
+schema:
+  file:
+    /: /ipfs/QmXEUjcfV1iXussbJkiLW4hED3RFKBt3y98mcfzj7YDrBr
+specVersion: 0.0.4
+õ

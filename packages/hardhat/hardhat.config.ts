@@ -20,6 +20,7 @@ const deployerPrivateKey =
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 // Wildpay BaseScan API Key
 const basescanApiKey = process.env.BASESCAN_API_KEY || "G8PSR86RXP4J6HYWRYR6KP9HWY8VN43MER";
+const fuseApiKey = process.env.FUSE_API_KEY || "";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -128,6 +129,14 @@ const config: HardhatUserConfig = {
       url: "https://sepolia.publicgoods.network",
       accounts: [deployerPrivateKey],
     },
+    fuse: {
+      url: "https://rpc.fuse.io/",
+      accounts: [deployerPrivateKey],
+    },
+    fuseTestnet: {
+      url: "https://rpc.fusespark.io",
+      accounts: [deployerPrivateKey],
+    },
   },
   // configuration for harhdat-verify plugin
   // etherscan: {
@@ -138,6 +147,8 @@ const config: HardhatUserConfig = {
     apiKey: {
       base: `${basescanApiKey}`,
       baseSepolia: `${basescanApiKey}`,
+      fuse: `${fuseApiKey}`,
+      fuseTestnet: `empty`,
     },
     customChains: [
       {
@@ -154,6 +165,22 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: `https://api-sepolia.basescan.org/api`,
           browserURL: "https://sepolia.basescan.org/",
+        },
+      },
+      {
+        network: "fuse",
+        chainId: 122,
+        urls: {
+          apiURL: `https://explorer.fuse.io/api`,
+          browserURL: "https://explorer.fuse.io/",
+        },
+      },
+      {
+        network: "fuseTestnet",
+        chainId: 123,
+        urls: {
+          apiURL: `https://explorer.fusespark.io/api`,
+          browserURL: "https://explorer.fusespark.io/",
         },
       },
     ],
