@@ -17,6 +17,7 @@ import Transactions from "~~/components/app/accounting/Transactions";
 import { Avatar } from "~~/components/app/authentication/Avatar";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { useGlobalState } from "~~/services/store/store";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
@@ -38,6 +39,7 @@ const HomePage: NextPage = () => {
   const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming
   const [network, setNetwork] = useState("ethereum"); //default network: eth
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /* COPY BUTTONS */
   const [copied1, setCopied1] = useState(false);
@@ -267,6 +269,16 @@ const HomePage: NextPage = () => {
                 <BaseIcon width={10} height={10} fill={`${network === "base" ? "#ffffff" : "#3C3C3C"}`} />
                 <span className="pl-1">base</span>
               </div>
+              {/* PAYMENTS NETWORKS TAB: FUSE */}
+              <div
+                className={`btn font-medium h-6 min-h-6 gap-0 px-2 ml-1 ${
+                  network === "fuse" && "bg-primary text-neutral hover:bg-blue-800 border-0"
+                }`}
+                onClick={() => setNetwork("fuse")}
+              >
+                <FuseIcon />
+                <span className="pl-1">fuse</span>
+              </div>
             </div>
           </div>
           {/* PAYMENTS TRANSACTIONS TAB */}
@@ -286,12 +298,14 @@ const HomePage: NextPage = () => {
                   {" $"}
                   {network == "ethereum" && convertEthToUsd(calculateSum(incomingRes?.ethereumData), price)}
                   {network == "base" && convertEthToUsd(calculateSum(incomingRes?.baseData), price)}
+                  {network == "fuse" && convertEthToUsd(calculateSum(incomingRes?.fuseData), fusePrice)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING LENGTH (NUM) */}
               <span className={`flex ml-2 text-base ${showTransactions == "incoming" && "font-semibold"}`}>
                 {network == "ethereum" && incomingRes?.ethereumData?.paymentChanges.length}
                 {network == "base" && incomingRes?.baseData?.paymentChanges.length}
+                {network == "fuse" && incomingRes?.fuseData?.paymentChanges.length}
               </span>
             </div>
             {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
@@ -309,12 +323,14 @@ const HomePage: NextPage = () => {
                   {" $"}
                   {network == "ethereum" && convertEthToUsd(calculateSum(outgoingRes?.ethereumData), price)}
                   {network == "base" && convertEthToUsd(calculateSum(outgoingRes?.baseData), price)}
+                  {network == "fuse" && convertEthToUsd(calculateSum(outgoingRes?.fuseData), fusePrice)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM LENGTH (NUM) */}
               <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>
                 {network == "ethereum" && outgoingRes?.ethereumData?.paymentChanges.length}
                 {network == "base" && outgoingRes?.baseData?.paymentChanges.length}
+                {network == "fuse" && outgoingRes?.fuseData?.paymentChanges.length}
               </span>
             </div>
           </div>
@@ -322,8 +338,12 @@ const HomePage: NextPage = () => {
           <div className="wildui-transaction-scroll-home overflow-auto pt-4 pl-6 pr-6 pb-8">
             {showTransactions === "incoming" && (
               <>
-                {(network === "ethereum" ? incomingRes.ethereumData : incomingRes.baseData)?.paymentChanges.length ===
-                  0 && (
+                {(network === "ethereum"
+                  ? incomingRes?.ethereumData
+                  : network === "base"
+                  ? incomingRes?.baseData
+                  : incomingRes?.fuseData
+                )?.paymentChanges.length === 0 && (
                   <div className="flex h-full justify-center items-center">
                     <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
                       {copied2 ? (
@@ -350,10 +370,15 @@ const HomePage: NextPage = () => {
                 )}
               </>
             )}
+
             {showTransactions === "outgoing" && (
               <>
-                {(network === "ethereum" ? outgoingRes?.ethereumData : outgoingRes?.baseData)?.paymentChanges.length ===
-                  0 && (
+                {(network === "ethereum"
+                  ? outgoingRes?.ethereumData
+                  : network === "base"
+                  ? outgoingRes?.baseData
+                  : outgoingRes?.fuseData
+                )?.paymentChanges.length === 0 && (
                   <div className="flex h-full justify-center items-center">
                     <ModalsContext.Consumer>
                       {({ openFastPayModal }) => (
@@ -373,18 +398,28 @@ const HomePage: NextPage = () => {
                 )}
               </>
             )}
+
             {showTransactions === "incoming" && (
               <Transactions
-                tx={network === "ethereum" ? incomingRes?.ethereumData : incomingRes?.baseData}
+                tx={
+                  (network === "ethereum" && incomingRes?.ethereumData) ||
+                  (network === "base" && incomingRes?.baseData) ||
+                  (network === "fuse" && incomingRes?.fuseData)
+                }
                 hide="to"
-                network={network === "ethereum" ? "ethereum" : "base"}
+                network={network}
               />
             )}
+
             {showTransactions === "outgoing" && (
               <Transactions
-                tx={network === "ethereum" ? outgoingRes?.ethereumData : outgoingRes?.baseData}
+                tx={
+                  (network === "ethereum" && outgoingRes?.ethereumData) ||
+                  (network === "base" && outgoingRes?.baseData) ||
+                  (network === "fuse" && outgoingRes?.fuseData)
+                }
                 hide="from"
-                network={network === "ethereum" ? "ethereum" : "base"}
+                network={network}
               />
             )}
           </div>

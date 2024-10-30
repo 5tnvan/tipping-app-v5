@@ -8,9 +8,9 @@ import { Spotlight } from "../ui/spotlight";
 import { formatEther } from "viem";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { useGlobalState } from "~~/services/store/store";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { useGlobalState } from "~~/services/store/store";
 
 type Props = {
   tx: any;

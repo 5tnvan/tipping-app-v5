@@ -1,5 +1,5 @@
 import Image from "next/image";
-import baseLogo from "../../public/Base_Symbol_Blue.svg";
+import baseLogo from "../../public/base/Base_Symbol_Blue.svg";
 
 /**
  * FaucetButton button which lets you grab eth.

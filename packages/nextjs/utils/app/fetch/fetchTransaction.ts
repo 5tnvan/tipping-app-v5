@@ -9,12 +9,17 @@ const apolloClientEthereum = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const SUBGRAPH_API_KEY = process.env.NEXT_PUBLIC_SUBGRAPH_API_KEY;
-
-//https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/ANu9ycvF7GU3K9Gt7ZkSRbXEt9wVr8vVEvH92p7MjX3P
+//https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1
 //https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1
 const apolloClientBase = new ApolloClient({
-  uri: `https://gateway.thegraph.com/api/${SUBGRAPH_API_KEY}/subgraphs/id/ANu9ycvF7GU3K9Gt7ZkSRbXEt9wVr8vVEvH92p7MjX3P`,
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1",
+  cache: new InMemoryCache(),
+});
+
+//https://api.studio.thegraph.com/query/68297/wildpay-fuse-mainnet/version/latest
+//https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest
+const apolloClientFuse = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-fuse-mainnet/version/latest",
   cache: new InMemoryCache(),
 });
 
@@ -55,7 +60,7 @@ export const useFetchPayment = (hash: any, network: any) => {
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
-    client: network == "ethereum" ? apolloClientEthereum : apolloClientBase,
+    client: network === "ethereum" ? apolloClientEthereum : network === "base" ? apolloClientBase : apolloClientFuse,
   });
 
   if (error) {
@@ -99,7 +104,7 @@ export const useFetchWithdraw = (hash: any, network: any) => {
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
-    client: network == "ethereum" ? apolloClientEthereum : apolloClientBase,
+    client: network === "ethereum" ? apolloClientEthereum : network === "base" ? apolloClientBase : apolloClientFuse,
   });
 
   if (error) {

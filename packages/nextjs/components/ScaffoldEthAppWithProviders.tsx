@@ -8,19 +8,33 @@ import { WagmiConfig } from "wagmi";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
+import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
-  const price = useNativeCurrencyPrice();
-  const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
+  // Get prices
+  const nativePrice = useNativeCurrencyPrice();
+  const fusePrice = useFuseCurrencyPrice();
 
+  // Get set functions for both native and fuse prices
+  const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
+  const setFuseCurrencyPrice = useGlobalState(state => state.setFuseCurrencyPrice);
+
+  // Update native currency price in global state when it changes
   useEffect(() => {
-    if (price > 0) {
-      setNativeCurrencyPrice(price);
+    if (nativePrice > 0) {
+      setNativeCurrencyPrice(nativePrice);
     }
-  }, [setNativeCurrencyPrice, price]);
+  }, [nativePrice, setNativeCurrencyPrice]);
+
+  // Update Fuse price in global state when it changes
+  useEffect(() => {
+    if (fusePrice > 0) {
+      setFuseCurrencyPrice(fusePrice);
+    }
+  }, [fusePrice, setFuseCurrencyPrice]);
 
   return <>{children}</>;
 };
@@ -38,7 +52,8 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   //const subgraphUriEthereumSepolia = "https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1";
   //const subgraphUriEthereumMainnet = "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1";
   //const subgraphUriBaseSepolia = "https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1";
-  //const subgraphUriBaseMainnet = "https://gateway.thegraph.com/api/9b4f705c4f06587241bad033a6e572d6/subgraphs/id/ANu9ycvF7GU3K9Gt7ZkSRbXEt9wVr8vVEvH92p7MjX3P";
+  //const subgraphUriBaseMainnet = "https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1";
+  // https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest
 
   const client = new ApolloClient({
     uri: undefined,

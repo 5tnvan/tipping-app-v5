@@ -9,6 +9,7 @@ import { ArrowDownLeftIcon } from "@heroicons/react/24/outline";
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
+import { FuseIcon } from "~~/components/assets/FuseIcon";
 import { useGlobalState } from "~~/services/store/store";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 
@@ -20,6 +21,7 @@ type Props = {
 
 const Transactions = ({ tx, hide, network }: Props) => {
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
   return (
     <>
       {tx?.paymentChanges?.map((paymentChange: any) => (
@@ -33,6 +35,11 @@ const Transactions = ({ tx, hide, network }: Props) => {
                   <AddressWithReveal address={paymentChange?.sender} />
                   {network == "ethereum" && <EthIcon width={16} height={14} fill="#3C3C3C" />}
                   {network == "base" && <BaseIcon width={18} height={10} fill="#3C3C3C" />}
+                  {network == "fuse" && (
+                    <div className="mr-1">
+                      <FuseIcon />
+                    </div>
+                  )}
                   <span className="mr-1 text-sm text-slate-800 font-medium">
                     <TimeAgoUnix timestamp={paymentChange?.blockTimestamp} />
                   </span>
@@ -44,6 +51,11 @@ const Transactions = ({ tx, hide, network }: Props) => {
                   <AddressWithReveal address={paymentChange?.receiver} />
                   {network == "ethereum" && <EthIcon width={14} height={14} fill="#3C3C3C" />}
                   {network == "base" && <BaseIcon width={18} height={10} fill="#3C3C3C" />}
+                  {network == "fuse" && (
+                    <div className="mr-1">
+                      <FuseIcon />
+                    </div>
+                  )}
                   <span className="mr-1 text-sm text-slate-800 font-medium">
                     <TimeAgoUnix timestamp={paymentChange?.blockTimestamp} />
                   </span>
@@ -54,10 +66,15 @@ const Transactions = ({ tx, hide, network }: Props) => {
             {/* right - usd/eth */}
             <div className="flex flex-col items-end">
               <div className="text-primary font-semibold">
-                ${convertEthToUsd(formatEther(paymentChange?.value), price)}
+                {network == "ethereum" && <>${convertEthToUsd(formatEther(paymentChange?.value), price)}</>}
+                {network == "base" && <>${convertEthToUsd(formatEther(paymentChange?.value), price)}</>}
+                {network == "fuse" && <>${convertEthToUsd(formatEther(paymentChange?.value), fusePrice)}</>}
               </div>
               <div className="flex items-center font-medium">
-                {Number(formatEther(paymentChange?.value)).toFixed(4)}Ξ
+                {Number(formatEther(paymentChange?.value)).toFixed(4)}
+                {network == "ethereum" && <>Ξ</>}
+                {network == "base" && <>Ξ</>}
+                {network == "fuse" && <> FUSE</>}
               </div>
             </div>
           </div>

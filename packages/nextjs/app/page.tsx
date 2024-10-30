@@ -11,7 +11,6 @@ import { Tabs } from "~~/components/app/ui/tabs";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
 import { TelegramIcon } from "~~/components/assets/TelegramIcon";
 import { TwitterIcon } from "~~/components/assets/TwitterIcon";
-import { YoutubeIcon } from "~~/components/assets/YoutubeIcon";
 
 /*
  * LANDING PAGE
@@ -25,7 +24,7 @@ const Home: NextPage = () => {
 
   const tabs = [
     {
-      title: "Social",
+      title: "Social Wallet",
       value: "Social",
       content: (
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
@@ -39,8 +38,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Share your profile</div>
-              <div className="text-secondary font-light text-md mb-2">Receive money from</div>
+              <div className="font-semibold text-primary text-3xl mb-1">1st Crypto Social Wallet</div>
+              <div className="text-secondary font-light text-md mb-2">Receive money instantly from</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
@@ -66,7 +65,7 @@ const Home: NextPage = () => {
                 Followers
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
-                Claim a handle
+                Claim a unique handle
               </Link>
             </div>
           </div>
@@ -74,7 +73,7 @@ const Home: NextPage = () => {
       ),
     },
     {
-      title: "Payment",
+      title: "Easy Payment",
       value: "Payment",
       content: (
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
@@ -87,8 +86,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Pay or get paid</div>
-              <div className="text-secondary font-light text-md mb-2">Transact and withdraw</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Pay or get paid now</div>
+              <div className="text-secondary font-light text-md mb-2">Just like that!</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
@@ -111,10 +110,10 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Fees borne by payer
+                Fees covered by the payer
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
-                Pay Now
+                Get paid
               </Link>
             </div>
           </div>
@@ -122,7 +121,7 @@ const Home: NextPage = () => {
       ),
     },
     {
-      title: "Proof",
+      title: "Get Verified",
       value: "Proof",
       content: (
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
@@ -135,15 +134,15 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Show your proof</div>
-              <div className="text-secondary font-light text-md mb-2">Track your gains</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Credibility matters</div>
+              <div className="text-secondary font-light text-md mb-2">Build trust</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Beautiful receipts
+                Proof-of-payment
               </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
@@ -151,7 +150,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Forever on blockchains
+                Verified social media
               </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
@@ -159,10 +158,10 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                History counter
+                Transparent accounting
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
-                See proofs
+                Get verified
               </Link>
             </div>
           </div>
@@ -176,11 +175,10 @@ const Home: NextPage = () => {
       <>
         <WavyBackground className="w-screen h-full flex flex-col pr-10 pl-10">
           {/* Navigation */}
-          {/* Navigation */}
           <div className="flex justify-between items-start mt-10">
             <div className="flex items-center">
-              <WildPayLogo color="white" width="30" height="30" />
-              <span className="ml-2 text-lg font-semibold text-white">wildpay</span>
+              <WildPayLogo color="white" width="50" height="50" />
+              <span className="ml-2 text-3xl font-semibold text-white">wildpay</span>
             </div>
             <Link
               href={launchAppLink}
@@ -196,8 +194,8 @@ const Home: NextPage = () => {
           {/* Content */}
           <div className="flex flex-col pt-36 pb-36 items-center justify-center grow">
             <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Dare to get paid?</h1>
-            <h2 className="text-base mt-4 text-white font-normal text-center mb-4">
-              Get paid 24/7, from anywhere in the world.
+            <h2 className="text-lg mt-4 text-white font-normal text-center mb-4">
+              Get paid <b className="text-blue-600">24/7</b>, from <b>anyone</b> and <b>anywhere</b> in the world.
             </h2>
             <Link href={launchAppLink} className="btn btn-primary">
               Launch dApp
@@ -210,8 +208,28 @@ const Home: NextPage = () => {
           <Tabs tabs={tabs} />
         </div>
 
-        {/* Whats next */}
+        {/* Ecosystem */}
         <div className="flex flex-col items-center">
+          <div className="text-3xl mb-10 text-white">{`Ecosystem`}</div>
+          <div className="flex flex-col flex-wrap md:flex-row justify-center items-center gap-20">
+            <a href="https://thegraph.com" target="_blank">
+              <Image src="/thegraph/TheGraph-Logo-Light.svg" alt="" width={240} height={240} />
+            </a>
+            <a href="https://base.org" target="_blank">
+              <Image src="/base/Base_Wordmark_White.svg" alt="" width={150} height={150} />
+            </a>
+            <a href="https://fuse.io" target="_blank">
+              <Image src="/fuse/fuse2.png" alt="" width={180} height={40} />
+            </a>
+            <a href="https://ethereum.org" target="_blank">
+              <Image src="/ethereum/ethereum-logo-landscape-purple.png" alt="" width={200} height={150} />
+            </a>
+          </div>
+          <div className="flex flex-col md:flex-row justify-center"></div>
+        </div>
+
+        {/* Whats next */}
+        <div className="flex flex-col items-center mt-20 ">
           <div className="text-3xl mb-10 text-white">{`What's next?`}</div>
           <div className="flex flex-col flex-wrap md:flex-row justify-center">
             <div className="mb-5 mr-5">
@@ -231,13 +249,13 @@ const Home: NextPage = () => {
                     </svg>
                   </div>
 
-                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">Base</h1>
+                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">Multi-chain</h1>
 
                   <p className="font-normal text-base text-slate-500 mb-4 relative z-50">
-                    Base is a secure, low-cost, Ethereum L2, a perfect network for transacting onchain.
+                    Perform fast and secure transactions on any blockchain.
                   </p>
 
-                  <div className="border px-4 py-1 rounded-lg border-gray-500 text-gray-300">Multi-chain</div>
+                  <div className="border px-4 py-1 rounded-lg border-gray-500 text-gray-300">EVM-compatible</div>
                   <Meteors number={20} />
                 </div>
               </div>
@@ -381,6 +399,7 @@ const Home: NextPage = () => {
           </div>
           <div className="flex flex-col md:flex-row justify-center"></div>
         </div>
+
         <footer className="footer items-center p-4 bg-primary mt-20 text-white">
           <aside className="items-center grid-flow-col">
             <WildPayLogo width="36" height="36" color="white" />
@@ -399,9 +418,9 @@ const Home: NextPage = () => {
             <Link href="https://t.me/wildpayapp">
               <TelegramIcon width={18} height={18} />
             </Link>
-            <Link href="https://www.youtube.com/@wildpay">
+            {/* <Link href="https://www.youtube.com/@wildpay">
               <YoutubeIcon width={18} height={18} />
-            </Link>
+            </Link> */}
           </nav>
         </footer>
       </>

@@ -56,6 +56,14 @@ export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.scrollSepolia.id]: {
     color: "#fbebd4",
   },
+  [chains.fuse.id]: {
+    color: "#1969ff",
+    nativeCurrencyTokenAddress: "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d",
+  },
+  [chains.fuseSparknet.id]: {
+    color: "#fbebd4",
+    nativeCurrencyTokenAddress: "0x970b9bb2c0444f5e81e9d0efb84c8ccdcdcaf84d",
+  },
 };
 
 /**

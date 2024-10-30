@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { Avatar } from "../authentication/Avatar";
 import { parseEther } from "viem";
@@ -9,6 +9,7 @@ import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
 import { convertUsdToEth } from "~~/utils/app/functions/convertUsdToEth";
 
@@ -21,12 +22,34 @@ type Props = {
 const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const { address: connectedAddress } = useAccount();
   const { profile } = useContext(AuthUserContext);
-  const [ethAmountWithFee, setEthAmountWithFee] = useState(0);
+  const [tokenAmountWithFee, setTokenAmountWithFee] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [dollarAmountWithFee, setDollarAmountWithFee] = useState(0);
   const [addMessage, setAddMessage] = useState(false);
   const [message, setMessage] = useState("n/a");
-  const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const ethPrice = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+
+  console.log("fusePrice", fusePrice);
+  console.log("ethPrice", ethPrice);
+
+  /**
+   * ACTION: Get network
+   **/
+  const [network, setNetwork] = useState("");
+  const { targetNetwork } = useTargetNetwork();
+
+  useEffect(() => {
+    if (targetNetwork.id == 84532 || targetNetwork.id == 8453) {
+      setNetwork("base");
+    } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
+      setNetwork("ethereum");
+    } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
+      setNetwork("fuse");
+    }
+  }, [targetNetwork]);
+
+  console.log("network", network);
 
   /**
    * ACTION: Add message
@@ -48,11 +71,17 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
    **/
   const handleInput = (e: any) => {
     const dollarAmount = Number(e.target.value);
-    const ethAmount = convertUsdToEth(dollarAmount, price);
-    setDollarAmount(dollarAmount);
-    setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
-    //setEthAmount(ethAmount);
-    setEthAmountWithFee(ethAmount + (ethAmount * 3) / 100);
+    if (network == "ethereum" || network == "base") {
+      const ethAmount = convertUsdToEth(dollarAmount, ethPrice);
+      setDollarAmount(dollarAmount);
+      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+      setTokenAmountWithFee(ethAmount + (ethAmount * 3) / 100);
+    } else if (network == "fuse") {
+      const fuseAmount = convertUsdToEth(dollarAmount, fusePrice);
+      setDollarAmount(dollarAmount);
+      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+      setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
+    }
   };
 
   /**
@@ -70,10 +99,10 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
     contractName: "WildpayEthContract",
     functionName: "setPayment",
     args: [receiver, message],
-    value: parseEther(ethAmountWithFee.toString()),
+    value: parseEther(tokenAmountWithFee.toString()),
     blockConfirmations: 1,
     onBlockConfirmation: txnReceipt => {
-      console.log("FastPayConfirm trasactionHash", txnReceipt);
+      console.log("FastPayConfirm trasactionHash", txnReceipt.transactionHash);
       handlePay(txnReceipt.transactionHash);
     },
   });
@@ -121,7 +150,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
               <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
             </div>
             <div className="flex justify-end">
-              <div>{`${ethAmountWithFee} ETH`}</div>
+              <div>{`${tokenAmountWithFee.toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
             </div>
           </div>
         </>

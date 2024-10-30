@@ -8,9 +8,10 @@ import { Address } from "~~/components/scaffold-eth/Address";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton";
 import { RainbowKitCustomSwitchNetworkButton } from "~~/components/scaffold-eth/RainbowKitCustomConnectButton/switchnetwork";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth/useScaffoldContractWrite";
+import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { useGlobalState } from "~~/services/store/store";
 import { useFetchBalance } from "~~/utils/app/fetch/fetchBalance";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
-import { useGlobalState } from "~~/services/store/store";
 
 type Props = {
   isOpen: any;
@@ -24,6 +25,9 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const [ethAmount, setEthAmount] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [confirm, setConfirm] = useState("btn-disabled");
+  const { targetNetwork } = useTargetNetwork();
+  const [network, setNetwork] = useState("");
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /* WITHDRAW BALANCE */
   const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
@@ -36,6 +40,16 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
       setWithdrawBalance(balanceRes);
     }
   }, [balanceRes, profile.wallet_id]);
+
+  useEffect(() => {
+    if (targetNetwork.id == 84532 || targetNetwork.id == 8453) {
+      setNetwork("base");
+    } else if (targetNetwork.id == 11155111 || targetNetwork.id == 1) {
+      setNetwork("ethereum");
+    } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
+      setNetwork("fuse");
+    }
+  }, [targetNetwork]);
 
   /**
    * ACTION: Handle Close
@@ -125,12 +139,14 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                 <div className="flex items-center">
                   <div className="flex items-center text-xl mr-2 font-medium">{Number(withdrawBalance)}Ξ</div>
                   <div className="text-xl text-neutral-700">
-                    (${convertEthToUsd(withdrawBalance, price).toFixed(2)})
+                    (${network == "ethereum" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
+                    {network == "base" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
+                    {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)})
                   </div>
                 </div>
                 {/* WITHDRAW AMOUNT */}
                 <div id="wildpay-withdraw" className="flex items-center pt-5 pb-3 text-5xl">
-                  <span className="text-3xl">Ξ</span>
+                  <span className="text-3xl">{`${network == "fuse" ? "" : "Ξ"}`}</span>
                   <div>
                     <input
                       type="number"
@@ -139,7 +155,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                       onChange={handleInput}
                     />
                   </div>
-                  <span className="text-3xl">ETH</span>
+                  <span className="text-3xl">{`${network == "fuse" ? "FUSE" : "ETH"}`}</span>
                 </div>
                 {dollarAmount > 0 && (
                   <>
@@ -199,7 +215,14 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
               <>
                 <div className="flex btn btn-neutral h-full items-center justify-between pt-2 pb-2 mt-2">
                   <div className="flex items-center">
-                    <Avatar profile={profile} width="8" ring={false} height={undefined} border={undefined} gradient={undefined} />
+                    <Avatar
+                      profile={profile}
+                      width="8"
+                      ring={false}
+                      height={undefined}
+                      border={undefined}
+                      gradient={undefined}
+                    />
                     <span className="ml-1 font-semibold">{profile.username}</span>
                   </div>
                   <div className="flex items-center">
