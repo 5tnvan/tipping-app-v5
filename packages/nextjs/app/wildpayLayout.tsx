@@ -12,7 +12,7 @@ import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
   title: "Wildpay App",
-  description: "Wildpay | Dare to get paid?",
+  description: "Wildpay | Social Wallet",
 });
 /**
  * WILDPAY APP LAYOUT

@@ -193,9 +193,10 @@ const Home: NextPage = () => {
 
           {/* Content */}
           <div className="flex flex-col pt-36 pb-36 items-center justify-center grow">
-            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Dare to get paid?</h1>
+            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Ready to connect?</h1>
             <h2 className="text-lg mt-4 text-white font-normal text-center mb-4">
-              Get paid <b className="text-blue-600">24/7</b>, from <b>anyone</b> and <b>anywhere</b> in the world.
+              Your <b className="font-bold">24/7</b> storefront. Accept payment from <b>anyone</b> and <b>anywhere</b>{" "}
+              in the world.
             </h2>
             <Link href={launchAppLink} className="btn btn-primary">
               Launch dApp
