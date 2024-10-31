@@ -29,6 +29,7 @@ const UserIntroLayoutPublic = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { username } = useParams();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   /* CONSUME CONTEXT */
   const { isAuthenticated } = useContext(AuthContext);
@@ -164,7 +165,7 @@ const UserIntroLayoutPublic = ({ children }: { children: React.ReactNode }) => {
                       {convertEthToUsd(
                         calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
                         price,
-                      )}
+                      ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)}
                       <div className="tooltip tooltip-top" data-tip="All time">
                         <button className="ml-1">
                           <QuestionMarkCircleIcon width={14} />

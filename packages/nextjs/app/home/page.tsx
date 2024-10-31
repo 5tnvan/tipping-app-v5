@@ -34,6 +34,9 @@ const HomePage: NextPage = () => {
   const { isLoadingFollows, followers, following } = useContext(AuthUserFollowsContext);
   const { incomingRes, outgoingRes } = useContext(AuthUserPaymentContext);
 
+  console.log("incomingRes", incomingRes);
+  console.log("outgoingRes", outgoingRes);
+
   /* TABS */
   const [showFollow, setShowFollow] = useState("following"); //default tab: following
   const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming

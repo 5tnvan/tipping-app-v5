@@ -24,6 +24,7 @@ export const metadata = getMetadata({
 const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
+  const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
 
   //CHECK /PATH/{PARAMS}
   const pathname = usePathname();
@@ -169,7 +170,7 @@ const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
                     {convertEthToUsd(
                       calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
                       price,
-                    )}
+                    ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)}
                   </div>
                   <div className="tooltip tooltip-top" data-tip="All time">
                     <button className="ml-1">
