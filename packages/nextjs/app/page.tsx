@@ -30,7 +30,7 @@ const Home: NextPage = () => {
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
           <div className="flex flex-col sm:flex-row">
             <Image
-              src="/profile-mock-xl-min.png"
+              src="/kinnect01.png"
               alt="dummy image"
               priority={true}
               width="1000"
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
           <div className="flex flex-col sm:flex-row">
             <Image
-              src="/pay-mock-xl.png"
+              src="/kinnect02.png"
               alt="dummy image"
               width="1000"
               height="1000"
@@ -127,7 +127,7 @@ const Home: NextPage = () => {
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
           <div className="flex flex-col sm:flex-row">
             <Image
-              src="/invoice-mock-xl-min.png"
+              src="/kinnect03.png"
               alt="dummy image"
               width="1000"
               height="1000"
