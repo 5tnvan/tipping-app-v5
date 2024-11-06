@@ -176,10 +176,10 @@ const Home: NextPage = () => {
         <WavyBackground className="w-screen h-full flex flex-col pr-10 pl-10">
           {/* Navigation */}
           <div className="flex justify-between items-start mt-10">
-            <div className="flex items-center">
+            <Link href="/" className="flex items-center">
               <KinnectLogo color="white" width="40" height="40" />
               <span className="ml-2 text-3xl font-semibold text-white">Kinnect</span>
-            </div>
+            </Link>
             <Link
               href={launchAppLink}
               className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
