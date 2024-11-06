@@ -14,16 +14,16 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "WildPay",
-    template: "%s | WildPay",
+    default: "Kinnect",
+    template: "%s | Kinnect",
   },
-  description: "Built with ♡",
+  description: "Social Wallet | Built with ♡",
   openGraph: {
     title: {
-      default: "WildPay",
-      template: "%s | WildPay",
+      default: "Kinnect",
+      template: "%s | Kinnect",
     },
-    description: "Built with ♡",
+    description: "Social Wallet | Built with ♡",
     images: [
       {
         url: imageUrl,
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [imageUrl],
     title: {
-      default: "WildPay",
-      template: "%s | WildPay",
+      default: "Kinnect",
+      template: "%s | Kinnect",
     },
-    description: "Built with ♡",
+    description: "Social Wallet | Built with ♡",
   },
   icons: {
     icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],

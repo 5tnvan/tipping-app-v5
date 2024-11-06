@@ -13,7 +13,7 @@ import {
 } from "./context";
 import { GlobeAsiaAustraliaIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { WildPayLogo } from "~~/components/app/WildpayLogo";
+import { KinnectLogo } from "~~/components/app/KinnectLogo";
 import { IsAuthMenu } from "~~/components/app/authentication/IsAuthMenu";
 import { CreateModal } from "~~/components/app/modal/CreateModal";
 import { FastPayModal } from "~~/components/app/modal/FastPayModal";
@@ -221,9 +221,9 @@ const AuthUserLayout = ({ children }: { children: React.ReactNode }) => {
                   onClick={openFastPayModal}
                 >
                   <div className="rounded-full btn w-12 md:w-14 h-12 md:h-14 border border-primary bg-white flex justify-evenly items-center p-0">
-                    <WildPayLogo width="36" height="36" color="blue" />
+                    <KinnectLogo width="36" height="36" color="blue" />
                   </div>
-                  <div className="hidden md:block font-semibold mt-1">Pay</div>
+                  <div className="hidden md:block font-semibold mt-1">Fund</div>
                 </button>
 
                 {/* WILDPAY MENU @DISCOVER */}

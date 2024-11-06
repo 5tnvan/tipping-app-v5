@@ -77,7 +77,7 @@ export const BioModal = ({ isOpen, onCta, onClose, data }: Props) => {
             </div>
             <TextGenerateEffect words={data.latestBio?.content} />
             <div className="btn btn-primary w-full mt-5" onClick={handleCta}>
-              {data.latestBio?.cta == 0 && "Pay now"}
+              {data.latestBio?.cta == 0 && "Fund Now"}
               {data.latestBio?.cta == 1 && !followed && "Follow me"}
               {data.latestBio?.cta == 1 && followed && (
                 <>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AuthContext } from "./context";
 import type { NextPage } from "next";
-import { WildPayLogo } from "~~/components/app/WildpayLogo";
+import { KinnectLogo } from "~~/components/app/KinnectLogo";
 import { Meteors } from "~~/components/app/ui/meteors";
 import { Tabs } from "~~/components/app/ui/tabs";
 import { WavyBackground } from "~~/components/app/ui/wavyBackground";
@@ -38,8 +38,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">1st Crypto Social Wallet</div>
-              <div className="text-secondary font-light text-md mb-2">Receive money instantly from</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Your Crypto Social Wallet</div>
+              <div className="text-secondary font-light text-md mb-2">Fund those who matter the most. </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
@@ -62,10 +62,10 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Followers
+                Following
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
-                Claim a unique handle
+                Claim your handle
               </Link>
             </div>
           </div>
@@ -86,7 +86,7 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Pay or get paid now</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Send or Receive Funds</div>
               <div className="text-secondary font-light text-md mb-2">Just like that!</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
@@ -102,7 +102,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Borderless
+                Securely
               </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
@@ -110,7 +110,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Fees covered by the payer
+                No Fees for Recipients
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
                 Get paid
@@ -134,8 +134,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Credibility matters</div>
-              <div className="text-secondary font-light text-md mb-2">Build trust</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Credibility Matters</div>
+              <div className="text-secondary font-light text-md mb-2">Build trust now.</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
@@ -177,8 +177,8 @@ const Home: NextPage = () => {
           {/* Navigation */}
           <div className="flex justify-between items-start mt-10">
             <div className="flex items-center">
-              <WildPayLogo color="white" width="50" height="50" />
-              <span className="ml-2 text-3xl font-semibold text-white">wildpay</span>
+              <KinnectLogo color="white" width="40" height="40" />
+              <span className="ml-2 text-3xl font-semibold text-white">Kinnect</span>
             </div>
             <Link
               href={launchAppLink}
@@ -193,11 +193,8 @@ const Home: NextPage = () => {
 
           {/* Content */}
           <div className="flex flex-col pt-36 pb-36 items-center justify-center grow">
-            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Ready to connect?</h1>
-            <h2 className="text-lg mt-4 text-white font-normal text-center mb-4">
-              Your <b className="font-bold">24/7</b> storefront. Accept payment from <b>anyone</b> and <b>anywhere</b>{" "}
-              in the world.
-            </h2>
+            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Follow, Fund, Friend.</h1>
+            <h2 className="text-lg mt-4 text-white font-normal text-center mb-4">Where every transaction connects.</h2>
             <Link href={launchAppLink} className="btn btn-primary">
               Launch dApp
             </Link>
@@ -343,7 +340,7 @@ const Home: NextPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-5 mr-5">
+            {/* <div className="mb-5 mr-5">
               <div className=" w-full relative max-w-xs">
                 <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
                 <div className="relative shadow-xl bg-neutral-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
@@ -369,8 +366,8 @@ const Home: NextPage = () => {
                   <div className="border px-4 py-1 rounded-lg  border-gray-500 text-gray-300">Web3 Identity</div>
                 </div>
               </div>
-            </div>
-            <div className="mb-5 mr-5">
+            </div> */}
+            {/* <div className="mb-5 mr-5">
               <div className=" w-full relative max-w-xs">
                 <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
                 <div className="relative shadow-xl bg-neutral-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
@@ -396,14 +393,14 @@ const Home: NextPage = () => {
                   <div className="border px-4 py-1 rounded-lg  border-gray-500 text-gray-300">Web3 Community</div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col md:flex-row justify-center"></div>
         </div>
 
         <footer className="footer items-center p-4 bg-primary mt-20 text-white">
           <aside className="items-center grid-flow-col">
-            <WildPayLogo width="36" height="36" color="white" />
+            <KinnectLogo width="36" height="36" color="white" />
             <p>
               Copyright ©{" "}
               <Link href="https://micalabs.org/" className="link">
@@ -413,7 +410,7 @@ const Home: NextPage = () => {
             </p>
           </aside>
           <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-            <Link href="https://x.com/wildpay">
+            <Link href="https://x.com/kinnectwallet">
               <TwitterIcon width={18} height={18} />
             </Link>
             <Link href="https://t.me/wildpayapp">

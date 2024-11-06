@@ -141,7 +141,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                         <span className="ml-2 font-semibold">@{profile.username}</span>
                       </div>
                       <TextGenerateEffect words={input} />
-                      <div className="btn btn-accent w-full mt-5">{ctaOption == 0 ? "Pay now" : "Follow Me"}</div>
+                      <div className="btn btn-accent w-full mt-5">{ctaOption == 0 ? "Fund Now" : "Follow Me"}</div>
                     </BackgroundGradient>
                     {error && <div className="mt-5 text-red-600">Your content is empty. Please try again.</div>}
                     <div className="btn btn-primary w-full mt-5" onClick={handlePost}>
@@ -175,7 +175,7 @@ export const CreateModal = ({ isOpen, onClose }: Props) => {
                       onChange={e => setCtaOption(parseInt(e.target.value))}
                     >
                       <option disabled>Call to action</option>
-                      <option value={0}>Pay now</option>
+                      <option value={0}>Fund Now</option>
                       <option value={1}>Follow me</option>
                     </select>
                   </label>

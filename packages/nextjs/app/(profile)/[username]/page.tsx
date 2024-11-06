@@ -98,7 +98,7 @@ const ProfileUsername: NextPage = () => {
       {/* PAY NOW */}
       <div className="mr-6 ml-6 z-10 relative">
         <button className="btn-primary btn w-full text-base" onClick={() => openProfilePayModal()}>
-          Pay Now
+          Fund Now
         </button>
       </div>
 
