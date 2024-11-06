@@ -44,7 +44,7 @@ const ProfileView: NextPage = () => {
   const [copied2, setCopied2] = useState(false);
 
   const handleCopyToClipboard = (number: any) => {
-    navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
+    navigator.clipboard.writeText("https://www.kinnectwallet.com/" + profile.username);
     if (number === 1) {
       setCopied1(true);
       setTimeout(() => {
@@ -115,7 +115,7 @@ const ProfileView: NextPage = () => {
                       </>
                     ) : (
                       <>
-                        <span className="mr-1">wildpay.app/{profile.username}</span>
+                        <span className="mr-1">kinnectwallet.com/{profile.username}</span>
                         <CopyIcon />
                       </>
                     )}

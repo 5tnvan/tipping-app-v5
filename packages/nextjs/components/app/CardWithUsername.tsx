@@ -13,7 +13,7 @@ export const CardWithUsername = ({ username }: Props) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText("https://www.wildpay.app/" + username);
+    navigator.clipboard.writeText("https://www.kinnectwallet.com/" + username);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -54,7 +54,7 @@ export const CardWithUsername = ({ username }: Props) => {
                 </>
               ) : (
                 <>
-                  <span className="mr-1">wildpay.app/{username}</span>
+                  <span className="mr-1">kinnectwallet.com/{username}</span>
                   <CopyIcon />
                 </>
               )}

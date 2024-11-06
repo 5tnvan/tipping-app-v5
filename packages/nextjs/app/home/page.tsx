@@ -48,7 +48,7 @@ const HomePage: NextPage = () => {
   const [copied1, setCopied1] = useState(false);
   const [copied2, setCopied2] = useState(false);
   const handleCopyToClipboard = (number: any) => {
-    navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
+    navigator.clipboard.writeText("https://www.kinnectwallet.com/" + profile.username);
     if (number == 1) {
       setCopied1(true);
       setTimeout(() => {

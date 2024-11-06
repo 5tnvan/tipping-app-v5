@@ -95,7 +95,7 @@ export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `https://www.wildpay.app/auth/callback?next=/home`,
+      redirectTo: `https://www.kinnectwallet.com/auth/callback?next=/home`,
     },
   });
 

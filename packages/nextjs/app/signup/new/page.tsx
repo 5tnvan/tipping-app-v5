@@ -34,7 +34,7 @@ export default function SignupNewPage() {
             </div>
             <div className=" text-6xl font-black custom-difference-blend">{cookie?.value}</div>
             <div className="absolute url flex btn btn-accent h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0">
-              <div className="">wildpay.app/{cookie?.value}</div>
+              <div className="">kinnectwallet.com/{cookie?.value}</div>
               <CopyIcon />
             </div>
           </div>

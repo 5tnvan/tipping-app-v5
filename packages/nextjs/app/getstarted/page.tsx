@@ -29,7 +29,7 @@ const GetStarted: NextPage = () => {
   const [copied1, setCopied1] = useState(false);
 
   const handleCopyToClipboard = (number: any) => {
-    navigator.clipboard.writeText("https://www.wildpay.app/" + username);
+    navigator.clipboard.writeText("https://www.kinnectwallet.com/" + username);
     if (number == 1) {
       setCopied1(true);
       setTimeout(() => {
@@ -147,7 +147,7 @@ const GetStarted: NextPage = () => {
               <Image alt="wildpay" src="/wildpay-logo.svg" width={20} height={20} className="mr-2" />
 
               <div id="wildpay-claim-domain" className="font-semibold tracking-wide">
-                wildpay.app /{" "}
+                kinnectwallet.com /{" "}
               </div>
               {/* GET STARTED USERNAME INPUT */}
               <input

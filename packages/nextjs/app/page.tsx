@@ -413,7 +413,7 @@ const Home: NextPage = () => {
             <Link href="https://x.com/kinnectwallet">
               <TwitterIcon width={18} height={18} />
             </Link>
-            <Link href="https://t.me/wildpayapp">
+            <Link href="https://t.me/kinnectwallet/1">
               <TelegramIcon width={18} height={18} />
             </Link>
             {/* <Link href="https://www.youtube.com/@wildpay">
