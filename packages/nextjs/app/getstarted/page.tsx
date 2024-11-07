@@ -50,7 +50,7 @@ const GetStarted: NextPage = () => {
         warningText = "";
         setSlash("");
       } else if (username.length < 3) {
-        warningText = "Type more";
+        warningText = "Type";
         badgeClass = "badge-warning";
         setSlash("/");
       } else {
@@ -144,10 +144,10 @@ const GetStarted: NextPage = () => {
           {/* GET STARTED CLAIM USERNAME */}
           <form id="wildpay-claim">
             <label className="input flex items-center mb-3">
-              <Image alt="wildpay" src="/wildpay-logo.svg" width={20} height={20} className="mr-2" />
+              <Image alt="wildpay" src="/kinnect.svg" width={20} height={20} className="mr-1" />
 
               <div id="wildpay-claim-domain" className="font-semibold tracking-wide">
-                kinnectwallet.com /{" "}
+                kinnectwallet.com/{" "}
               </div>
               {/* GET STARTED USERNAME INPUT */}
               <input
