@@ -121,7 +121,7 @@ const Home: NextPage = () => {
       ),
     },
     {
-      title: "Get Verified",
+      title: "Verified",
       value: "Proof",
       content: (
         <div className="w-full h-fit sm:h-full overflow-hidden rounded-2xl p-10 relative bg-accent bg-gradient-to-r from-cyan-600 via-lime-500 ">
