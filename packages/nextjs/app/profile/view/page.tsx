@@ -198,7 +198,7 @@ const ProfileView: NextPage = () => {
                 : incomingRes.fuseData) == undefined && (
                 <div className="flex h-full justify-center items-center">
                   <Link href="/settings" className="btn btn-neutral">
-                    Verify your wallet to get paid 🥳
+                    Verify your wallet to get funded 🥳
                   </Link>
                 </div>
               )}
@@ -220,7 +220,7 @@ const ProfileView: NextPage = () => {
                         </span>
                       </>
                     ) : (
-                      "Share your profile and get paid 🥳"
+                      "Share your profile and get funded 🥳"
                     )}
                   </div>
                 </div>

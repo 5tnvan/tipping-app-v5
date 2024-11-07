@@ -38,8 +38,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Your Crypto Social Wallet</div>
-              <div className="text-secondary font-light text-md mb-2">Fund those who matter the most. </div>
+              <div className="font-semibold text-primary text-3xl mb-1">A Wallet For Kins</div>
+              <div className="text-secondary font-light text-md mb-2">Empower those who matter the most. </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
                 No Fees for Recipients
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
-                Get paid
+                Get funded
               </Link>
             </div>
           </div>
@@ -134,8 +134,8 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">Credibility Matters</div>
-              <div className="text-secondary font-light text-md mb-2">Build trust now.</div>
+              <div className="font-semibold text-primary text-3xl mb-1">Trust Built In</div>
+              <div className="text-secondary font-light text-md mb-2">Reliable, Verified, Transparent</div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
                   type="checkbox"

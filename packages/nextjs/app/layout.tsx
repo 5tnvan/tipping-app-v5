@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: "Social Wallet | Built with ♡",
   },
   icons: {
-    icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],
+    icon: [{ url: "/faviconkinnect.png", sizes: "32x32", type: "image/png" }],
   },
 };
 

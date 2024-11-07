@@ -73,7 +73,7 @@ const GetStarted: NextPage = () => {
         <div id="wildpay-get-started" className="z-10 flex flex-col grow justify-center pr-6 pl-6 pb-16">
           {/* GET STARTED HERO */}
           <div className="font-light mb-3 flex justify-between">
-            <div className="custom-text-blue font-semibold text-3xl">Ready to kinnect?</div>
+            <div className="custom-text-blue font-semibold text-3xl">Ready to connect?</div>
             {/* GET STARTED ETH ANIMATION */}
             <div className="flex justify-center">
               <span className="pt-1">
@@ -128,7 +128,7 @@ const GetStarted: NextPage = () => {
                       ) : (
                         <>
                           <span className="mr-1">
-                            kinnect.wallet{slash}
+                            kinnectwallet.com{slash}
                             {username}
                           </span>
                           <CopyIcon />
