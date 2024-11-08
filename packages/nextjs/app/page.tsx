@@ -38,7 +38,7 @@ const Home: NextPage = () => {
               className="object-cover object-left-top w-[40%] -bottom-10 inset-x-0 rounded-xl"
             />
             <div className="mt-10 sm:mt-20 sm:ml-10 h-fit">
-              <div className="font-semibold text-primary text-3xl mb-1">A Wallet For Kins</div>
+              <div className="font-semibold text-primary text-3xl mb-1">A Wallet For Kin</div>
               <div className="text-secondary font-light text-md mb-2">Empower those who matter the most. </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
