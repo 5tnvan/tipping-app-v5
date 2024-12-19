@@ -193,7 +193,7 @@ const Home: NextPage = () => {
 
           {/* Content */}
           <div className="flex flex-col pt-36 pb-36 items-center justify-center grow">
-            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">Follow, Fund, Friend.</h1>
+            <h1 className="text-4xl md:text-4xl lg:text-6xl text-white font-bold text-center">A Wallet For Kin</h1>
             <h2 className="text-lg mt-4 text-white font-normal text-center mb-4">Where every transaction connects.</h2>
             <Link href={launchAppLink} className="btn btn-primary">
               Launch dApp
