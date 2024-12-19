@@ -1,0 +1,348 @@
+{
+  "address": "0x3579B02193028357ACaFE8323d2F62155078033A",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Paused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newMessage",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "PaymentChange",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "SaveSwitchChange",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Unpaused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "wallet",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "WithdrawChange",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "amountsReceived",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "feePercentage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "paused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "saveSwitch",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_percentage",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFeePercentage",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_message",
+          "type": "string"
+        }
+      ],
+      "name": "setPayment",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "unpause",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0xd82bbf84ab10a566fd501f914c1f6404a9538c7b9a7323e09eb8f6766521297d",
+  "receipt": {
+    "to": null,
+    "from": "0x3990677113d7fd2339F85dD4b312E392b595C19f",
+    "contractAddress": "0x3579B02193028357ACaFE8323d2F62155078033A",
+    "transactionIndex": 0,
+    "gasUsed": "746720",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe9aac8f65bc137c8ff816b229ac6266dcf05bc93387d083bbd3d98c050e234f1",
+    "transactionHash": "0xd82bbf84ab10a566fd501f914c1f6404a9538c7b9a7323e09eb8f6766521297d",
+    "logs": [],
+    "blockNumber": 1172923,
+    "cumulativeGasUsed": "746720",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x3990677113d7fd2339F85dD4b312E392b595C19f"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "05e142907dea38aea5f76ff5cb212a43",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"newMessage\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"PaymentChange\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"wallet\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"SaveSwitchChange\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"wallet\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"WithdrawChange\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"amountsReceived\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"feePercentage\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"saveSwitch\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_percentage\",\"type\":\"uint256\"}],\"name\":\"setFeePercentage\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_message\",\"type\":\"string\"}],\"name\":\"setPayment\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"paused()\":{\"details\":\"Returns true if the contract is paused, and false otherwise.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/WildpayEthContract.sol\":\"WildpayEthContract\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/security/Pausable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.7.0) (security/Pausable.sol)\\n\\npragma solidity ^0.8.0;\\n\\nimport \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which allows children to implement an emergency stop\\n * mechanism that can be triggered by an authorized account.\\n *\\n * This module is used through inheritance. It will make available the\\n * modifiers `whenNotPaused` and `whenPaused`, which can be applied to\\n * the functions of your contract. Note that they will not be pausable by\\n * simply including this module, only once the modifiers are put in place.\\n */\\nabstract contract Pausable is Context {\\n    /**\\n     * @dev Emitted when the pause is triggered by `account`.\\n     */\\n    event Paused(address account);\\n\\n    /**\\n     * @dev Emitted when the pause is lifted by `account`.\\n     */\\n    event Unpaused(address account);\\n\\n    bool private _paused;\\n\\n    /**\\n     * @dev Initializes the contract in unpaused state.\\n     */\\n    constructor() {\\n        _paused = false;\\n    }\\n\\n    /**\\n     * @dev Modifier to make a function callable only when the contract is not paused.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must not be paused.\\n     */\\n    modifier whenNotPaused() {\\n        _requireNotPaused();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Modifier to make a function callable only when the contract is paused.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must be paused.\\n     */\\n    modifier whenPaused() {\\n        _requirePaused();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns true if the contract is paused, and false otherwise.\\n     */\\n    function paused() public view virtual returns (bool) {\\n        return _paused;\\n    }\\n\\n    /**\\n     * @dev Throws if the contract is paused.\\n     */\\n    function _requireNotPaused() internal view virtual {\\n        require(!paused(), \\\"Pausable: paused\\\");\\n    }\\n\\n    /**\\n     * @dev Throws if the contract is not paused.\\n     */\\n    function _requirePaused() internal view virtual {\\n        require(paused(), \\\"Pausable: not paused\\\");\\n    }\\n\\n    /**\\n     * @dev Triggers stopped state.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must not be paused.\\n     */\\n    function _pause() internal virtual whenNotPaused {\\n        _paused = true;\\n        emit Paused(_msgSender());\\n    }\\n\\n    /**\\n     * @dev Returns to normal state.\\n     *\\n     * Requirements:\\n     *\\n     * - The contract must be paused.\\n     */\\n    function _unpause() internal virtual whenPaused {\\n        _paused = false;\\n        emit Unpaused(_msgSender());\\n    }\\n}\\n\",\"keccak256\":\"0x0849d93b16c9940beb286a7864ed02724b248b93e0d80ef6355af5ef15c64773\",\"license\":\"MIT\"},\"@openzeppelin/contracts/security/ReentrancyGuard.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.0) (security/ReentrancyGuard.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Contract module that helps prevent reentrant calls to a function.\\n *\\n * Inheriting from `ReentrancyGuard` will make the {nonReentrant} modifier\\n * available, which can be applied to functions to make sure there are no nested\\n * (reentrant) calls to them.\\n *\\n * Note that because there is a single `nonReentrant` guard, functions marked as\\n * `nonReentrant` may not call one another. This can be worked around by making\\n * those functions `private`, and then adding `external` `nonReentrant` entry\\n * points to them.\\n *\\n * TIP: If you would like to learn more about reentrancy and alternative ways\\n * to protect against it, check out our blog post\\n * https://blog.openzeppelin.com/reentrancy-after-istanbul/[Reentrancy After Istanbul].\\n */\\nabstract contract ReentrancyGuard {\\n    // Booleans are more expensive than uint256 or any type that takes up a full\\n    // word because each write operation emits an extra SLOAD to first read the\\n    // slot's contents, replace the bits taken up by the boolean, and then write\\n    // back. This is the compiler's defense against contract upgrades and\\n    // pointer aliasing, and it cannot be disabled.\\n\\n    // The values being non-zero value makes deployment a bit more expensive,\\n    // but in exchange the refund on every call to nonReentrant will be lower in\\n    // amount. Since refunds are capped to a percentage of the total\\n    // transaction's gas, it is best to keep them low in cases like this one, to\\n    // increase the likelihood of the full refund coming into effect.\\n    uint256 private constant _NOT_ENTERED = 1;\\n    uint256 private constant _ENTERED = 2;\\n\\n    uint256 private _status;\\n\\n    constructor() {\\n        _status = _NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Prevents a contract from calling itself, directly or indirectly.\\n     * Calling a `nonReentrant` function from another `nonReentrant`\\n     * function is not supported. It is possible to prevent this from happening\\n     * by making the `nonReentrant` function external, and making it call a\\n     * `private` function that does the actual work.\\n     */\\n    modifier nonReentrant() {\\n        _nonReentrantBefore();\\n        _;\\n        _nonReentrantAfter();\\n    }\\n\\n    function _nonReentrantBefore() private {\\n        // On the first call to nonReentrant, _status will be _NOT_ENTERED\\n        require(_status != _ENTERED, \\\"ReentrancyGuard: reentrant call\\\");\\n\\n        // Any calls to nonReentrant after this point will fail\\n        _status = _ENTERED;\\n    }\\n\\n    function _nonReentrantAfter() private {\\n        // By storing the original value once again, a refund is triggered (see\\n        // https://eips.ethereum.org/EIPS/eip-2200)\\n        _status = _NOT_ENTERED;\\n    }\\n\\n    /**\\n     * @dev Returns true if the reentrancy guard is currently set to \\\"entered\\\", which indicates there is a\\n     * `nonReentrant` function in the call stack.\\n     */\\n    function _reentrancyGuardEntered() internal view returns (bool) {\\n        return _status == _ENTERED;\\n    }\\n}\\n\",\"keccak256\":\"0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.4) (utils/Context.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0xa92e4fa126feb6907daa0513ddd816b2eb91f30a808de54f63c17d0e162c3439\",\"license\":\"MIT\"},\"contracts/WildpayEthContract.sol\":{\"content\":\"//SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\nimport \\\"@openzeppelin/contracts/security/Pausable.sol\\\";\\nimport \\\"@openzeppelin/contracts/security/ReentrancyGuard.sol\\\";\\n\\ncontract WildpayEthContract is Pausable, ReentrancyGuard {\\n\\taddress public immutable owner;\\n    uint256 public feePercentage = 3;\\n    mapping(address => uint256) public amountsReceived;\\n\\t\\n\\tevent PaymentChange( address indexed sender, address indexed receiver, string newMessage, uint256 value, uint256 fee);\\n\\tevent WithdrawChange(address wallet, uint256 value);\\n\\tevent SaveSwitchChange(address wallet, uint256 value);\\n\\n\\tconstructor(address _owner) { owner = _owner; }\\n\\n\\tmodifier isOwner() {\\n\\t\\trequire(msg.sender == owner, \\\"Not the Owner\\\");\\n\\t\\t_;\\n\\t}\\n\\n    function pause() public isOwner { _pause(); }\\n    function unpause() public isOwner { _unpause(); }\\n\\n    function setFeePercentage(uint256 _percentage) external isOwner {\\n        feePercentage = _percentage;\\n    }\\n\\n\\tfunction setPayment(address _receiver, string memory _message) external payable whenNotPaused nonReentrant {\\n        require(msg.value > 0, \\\"Payment value must be higher than 0\\\");\\n        require(_receiver != address(0), \\\"Receiver address cannot be zero\\\");\\n        uint256 fee = (msg.value * feePercentage) / 100;\\n        uint256 amountAfterFee = msg.value - fee;\\n        amountsReceived[_receiver] += amountAfterFee;\\n        payable(owner).transfer(fee);\\n        emit PaymentChange(msg.sender, _receiver, _message, amountAfterFee, fee);\\n    }\\n\\n\\tfunction withdraw(uint256 _amount) external whenNotPaused nonReentrant {\\n\\t\\trequire(_amount > 0, \\\"Withdrawal amount must be greater than 0\\\");\\n\\t\\trequire(amountsReceived[msg.sender] >= _amount, \\\"Insufficient balance for withdrawal\\\");\\n\\t\\tamountsReceived[msg.sender] -= _amount;\\n        payable(msg.sender).transfer(_amount);\\n\\t\\temit WithdrawChange(msg.sender, _amount);\\n\\t}\\n\\n\\tfunction saveSwitch(uint256 _amount) external isOwner {\\n\\t\\trequire(address(this).balance >= _amount, \\\"Insufficient balance for rescue\\\");\\n\\t\\t(bool success, ) = owner.call{ value: _amount }(\\\"\\\");\\n\\t\\trequire(success, \\\"Failed to send Ether to owner\\\");\\n\\t\\temit SaveSwitchChange(msg.sender, _amount);\\n\\t}\\n\\n\\treceive() external payable {}\\n}\\n\",\"keccak256\":\"0x7cb5cedba069ef8449ed77b8cae9676e1267b465484dac1e60151e2fb0f715e6\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a0604052600360025534801561001557600080fd5b50604051610c79380380610c7983398101604081905261003491610053565b6000805460ff19169055600180556001600160a01b0316608052610083565b60006020828403121561006557600080fd5b81516001600160a01b038116811461007c57600080fd5b9392505050565b608051610bb16100c86000396000818161012701528181610388015281816103da0152818161042a015281816105970152818161064a01526106db0152610bb16000f3fe6080604052600436106100955760003560e01c8063a001ecdd11610059578063a001ecdd14610161578063ae06c1b714610185578063bbff8b8d146101a5578063c34f27e4146101b8578063eb1db04a146101d857600080fd5b80632e1a7d4d146100a15780633f4ba83a146100c35780635c975abb146100d85780638456cb59146101005780638da5cb5b1461011557600080fd5b3661009c57005b600080fd5b3480156100ad57600080fd5b506100c16100bc36600461094e565b610205565b005b3480156100cf57600080fd5b506100c161037d565b3480156100e457600080fd5b5060005460ff1660405190151581526020015b60405180910390f35b34801561010c57600080fd5b506100c16103cf565b34801561012157600080fd5b506101497f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100f7565b34801561016d57600080fd5b5061017760025481565b6040519081526020016100f7565b34801561019157600080fd5b506100c16101a036600461094e565b61041f565b6100c16101b3366004610999565b61046c565b3480156101c457600080fd5b506100c16101d336600461094e565b61063f565b3480156101e457600080fd5b506101776101f3366004610a5b565b60036020526000908152604090205481565b61020d6107d7565b61021561081d565b6000811161027b5760405162461bcd60e51b815260206004820152602860248201527f5769746864726177616c20616d6f756e74206d75737420626520677265617465604482015267072207468616e20360c41b60648201526084015b60405180910390fd5b336000908152600360205260409020548111156102e65760405162461bcd60e51b815260206004820152602360248201527f496e73756666696369656e742062616c616e636520666f7220776974686472616044820152621dd85b60ea1b6064820152608401610272565b3360009081526003602052604081208054839290610305908490610a93565b9091555050604051339082156108fc029083906000818181858888f19350505050158015610337573d6000803e3d6000fd5b5060408051338152602081018390527fee9aa86234b5bd20863f8b5079d5250d4dd7ff556d3503d6775f63449196cf93910160405180910390a161037a60018055565b50565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146103c55760405162461bcd60e51b815260040161027290610aac565b6103cd610876565b565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146104175760405162461bcd60e51b815260040161027290610aac565b6103cd6108c8565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146104675760405162461bcd60e51b815260040161027290610aac565b600255565b6104746107d7565b61047c61081d565b600034116104d85760405162461bcd60e51b815260206004820152602360248201527f5061796d656e742076616c7565206d757374206265206869676865722074686160448201526206e20360ec1b6064820152608401610272565b6001600160a01b03821661052e5760405162461bcd60e51b815260206004820152601f60248201527f526563656976657220616464726573732063616e6e6f74206265207a65726f006044820152606401610272565b60006064600254346105409190610ad3565b61054a9190610aea565b905060006105588234610a93565b6001600160a01b038516600090815260036020526040812080549293508392909190610585908490610b0c565b90915550506040516001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169083156108fc029084906000818181858888f193505050501580156105e0573d6000803e3d6000fd5b50836001600160a01b0316336001600160a01b03167f2d1ee7a32d3dd08ceee6bdaa62ccbef9d45a3aed57436c5353a830e51078d15085848660405161062893929190610b1f565b60405180910390a3505061063b60018055565b5050565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146106875760405162461bcd60e51b815260040161027290610aac565b804710156106d75760405162461bcd60e51b815260206004820152601f60248201527f496e73756666696369656e742062616c616e636520666f7220726573637565006044820152606401610272565b60007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168260405160006040518083038185875af1925050503d8060008114610744576040519150601f19603f3d011682016040523d82523d6000602084013e610749565b606091505b505090508061079a5760405162461bcd60e51b815260206004820152601d60248201527f4661696c656420746f2073656e6420457468657220746f206f776e65720000006044820152606401610272565b60408051338152602081018490527f4a34ca9c3d69dd1ec1510464659de5669ffb6c279742b69e4df9407decef8361910160405180910390a15050565b60005460ff16156103cd5760405162461bcd60e51b815260206004820152601060248201526f14185d5cd8589b194e881c185d5cd95960821b6044820152606401610272565b60026001540361086f5760405162461bcd60e51b815260206004820152601f60248201527f5265656e7472616e637947756172643a207265656e7472616e742063616c6c006044820152606401610272565b6002600155565b61087e610905565b6000805460ff191690557f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa335b6040516001600160a01b03909116815260200160405180910390a1565b6108d06107d7565b6000805460ff191660011790557f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a2586108ab3390565b60005460ff166103cd5760405162461bcd60e51b815260206004820152601460248201527314185d5cd8589b194e881b9bdd081c185d5cd95960621b6044820152606401610272565b60006020828403121561096057600080fd5b5035919050565b80356001600160a01b038116811461097e57600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600080604083850312156109ac57600080fd5b6109b583610967565b9150602083013567ffffffffffffffff808211156109d257600080fd5b818501915085601f8301126109e657600080fd5b8135818111156109f8576109f8610983565b604051601f8201601f19908116603f01168101908382118183101715610a2057610a20610983565b81604052828152886020848701011115610a3957600080fd5b8260208601602083013760006020848301015280955050505050509250929050565b600060208284031215610a6d57600080fd5b610a7682610967565b9392505050565b634e487b7160e01b600052601160045260246000fd5b81810381811115610aa657610aa6610a7d565b92915050565b6020808252600d908201526c2737ba103a34329027bbb732b960991b604082015260600190565b8082028115828204841417610aa657610aa6610a7d565b600082610b0757634e487b7160e01b600052601260045260246000fd5b500490565b80820180821115610aa657610aa6610a7d565b606081526000845180606084015260005b81811015610b4d5760208188018101516080868401015201610b30565b506000608082850101526080601f19601f83011684010191505083602083015282604083015294935050505056fea2646970667358221220dff9023a5e8e10e9285ebe71f2b8a8b5eb7bf42dbc14f025e3a603eb1027fbcf64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600436106100955760003560e01c8063a001ecdd11610059578063a001ecdd14610161578063ae06c1b714610185578063bbff8b8d146101a5578063c34f27e4146101b8578063eb1db04a146101d857600080fd5b80632e1a7d4d146100a15780633f4ba83a146100c35780635c975abb146100d85780638456cb59146101005780638da5cb5b1461011557600080fd5b3661009c57005b600080fd5b3480156100ad57600080fd5b506100c16100bc36600461094e565b610205565b005b3480156100cf57600080fd5b506100c161037d565b3480156100e457600080fd5b5060005460ff1660405190151581526020015b60405180910390f35b34801561010c57600080fd5b506100c16103cf565b34801561012157600080fd5b506101497f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100f7565b34801561016d57600080fd5b5061017760025481565b6040519081526020016100f7565b34801561019157600080fd5b506100c16101a036600461094e565b61041f565b6100c16101b3366004610999565b61046c565b3480156101c457600080fd5b506100c16101d336600461094e565b61063f565b3480156101e457600080fd5b506101776101f3366004610a5b565b60036020526000908152604090205481565b61020d6107d7565b61021561081d565b6000811161027b5760405162461bcd60e51b815260206004820152602860248201527f5769746864726177616c20616d6f756e74206d75737420626520677265617465604482015267072207468616e20360c41b60648201526084015b60405180910390fd5b336000908152600360205260409020548111156102e65760405162461bcd60e51b815260206004820152602360248201527f496e73756666696369656e742062616c616e636520666f7220776974686472616044820152621dd85b60ea1b6064820152608401610272565b3360009081526003602052604081208054839290610305908490610a93565b9091555050604051339082156108fc029083906000818181858888f19350505050158015610337573d6000803e3d6000fd5b5060408051338152602081018390527fee9aa86234b5bd20863f8b5079d5250d4dd7ff556d3503d6775f63449196cf93910160405180910390a161037a60018055565b50565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146103c55760405162461bcd60e51b815260040161027290610aac565b6103cd610876565b565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146104175760405162461bcd60e51b815260040161027290610aac565b6103cd6108c8565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146104675760405162461bcd60e51b815260040161027290610aac565b600255565b6104746107d7565b61047c61081d565b600034116104d85760405162461bcd60e51b815260206004820152602360248201527f5061796d656e742076616c7565206d757374206265206869676865722074686160448201526206e20360ec1b6064820152608401610272565b6001600160a01b03821661052e5760405162461bcd60e51b815260206004820152601f60248201527f526563656976657220616464726573732063616e6e6f74206265207a65726f006044820152606401610272565b60006064600254346105409190610ad3565b61054a9190610aea565b905060006105588234610a93565b6001600160a01b038516600090815260036020526040812080549293508392909190610585908490610b0c565b90915550506040516001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000169083156108fc029084906000818181858888f193505050501580156105e0573d6000803e3d6000fd5b50836001600160a01b0316336001600160a01b03167f2d1ee7a32d3dd08ceee6bdaa62ccbef9d45a3aed57436c5353a830e51078d15085848660405161062893929190610b1f565b60405180910390a3505061063b60018055565b5050565b336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146106875760405162461bcd60e51b815260040161027290610aac565b804710156106d75760405162461bcd60e51b815260206004820152601f60248201527f496e73756666696369656e742062616c616e636520666f7220726573637565006044820152606401610272565b60007f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168260405160006040518083038185875af1925050503d8060008114610744576040519150601f19603f3d011682016040523d82523d6000602084013e610749565b606091505b505090508061079a5760405162461bcd60e51b815260206004820152601d60248201527f4661696c656420746f2073656e6420457468657220746f206f776e65720000006044820152606401610272565b60408051338152602081018490527f4a34ca9c3d69dd1ec1510464659de5669ffb6c279742b69e4df9407decef8361910160405180910390a15050565b60005460ff16156103cd5760405162461bcd60e51b815260206004820152601060248201526f14185d5cd8589b194e881c185d5cd95960821b6044820152606401610272565b60026001540361086f5760405162461bcd60e51b815260206004820152601f60248201527f5265656e7472616e637947756172643a207265656e7472616e742063616c6c006044820152606401610272565b6002600155565b61087e610905565b6000805460ff191690557f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa335b6040516001600160a01b03909116815260200160405180910390a1565b6108d06107d7565b6000805460ff191660011790557f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a2586108ab3390565b60005460ff166103cd5760405162461bcd60e51b815260206004820152601460248201527314185d5cd8589b194e881b9bdd081c185d5cd95960621b6044820152606401610272565b60006020828403121561096057600080fd5b5035919050565b80356001600160a01b038116811461097e57600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600080604083850312156109ac57600080fd5b6109b583610967565b9150602083013567ffffffffffffffff808211156109d257600080fd5b818501915085601f8301126109e657600080fd5b8135818111156109f8576109f8610983565b604051601f8201601f19908116603f01168101908382118183101715610a2057610a20610983565b81604052828152886020848701011115610a3957600080fd5b8260208601602083013760006020848301015280955050505050509250929050565b600060208284031215610a6d57600080fd5b610a7682610967565b9392505050565b634e487b7160e01b600052601160045260246000fd5b81810381811115610aa657610aa6610a7d565b92915050565b6020808252600d908201526c2737ba103a34329027bbb732b960991b604082015260600190565b8082028115828204841417610aa657610aa6610a7d565b600082610b0757634e487b7160e01b600052601260045260246000fd5b500490565b80820180821115610aa657610aa6610a7d565b606081526000845180606084015260005b81811015610b4d5760208188018101516080868401015201610b30565b506000608082850101526080601f19601f83011684010191505083602083015282604083015294935050505056fea2646970667358221220dff9023a5e8e10e9285ebe71f2b8a8b5eb7bf42dbc14f025e3a603eb1027fbcf64736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "paused()": {
+        "details": "Returns true if the contract is paused, and false otherwise."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 17,
+        "contract": "contracts/WildpayEthContract.sol:WildpayEthContract",
+        "label": "_paused",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 118,
+        "contract": "contracts/WildpayEthContract.sol:WildpayEthContract",
+        "label": "_status",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 215,
+        "contract": "contracts/WildpayEthContract.sol:WildpayEthContract",
+        "label": "feePercentage",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 219,
+        "contract": "contracts/WildpayEthContract.sol:WildpayEthContract",
+        "label": "amountsReceived",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_address,t_uint256)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
