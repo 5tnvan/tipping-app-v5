@@ -22,6 +22,11 @@ const apolloClientFuse = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const apolloClientNeo = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-neo-testnet/version/latest",
+  cache: new InMemoryCache(),
+});
+
 /**
  * FETCH: useFetchPayment()
  * DB: subpgraph
@@ -51,6 +56,14 @@ export const useFetchPayment = (hash: any, network: any) => {
     `;
 
   const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
+  const client =
+    network === "ethereum"
+      ? apolloClientEthereum
+      : network === "base"
+      ? apolloClientBase
+      : network === "fuse"
+      ? apolloClientFuse
+      : apolloClientNeo;
   const {
     data: paymentData,
     loading,
@@ -59,7 +72,7 @@ export const useFetchPayment = (hash: any, network: any) => {
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
-    client: network === "ethereum" ? apolloClientEthereum : network === "base" ? apolloClientBase : apolloClientFuse,
+    client: client,
   });
 
   if (error) {
@@ -95,6 +108,14 @@ export const useFetchWithdraw = (hash: any, network: any) => {
     `;
 
   const PAYMENTS_GQL = gql(PAYMENTS_GRAPHQL);
+  const client =
+    network === "ethereum"
+      ? apolloClientEthereum
+      : network === "base"
+      ? apolloClientBase
+      : network === "fuse"
+      ? apolloClientFuse
+      : apolloClientNeo;
   const {
     data: withdrawData,
     loading,
@@ -103,7 +124,7 @@ export const useFetchWithdraw = (hash: any, network: any) => {
   } = useQuery(PAYMENTS_GQL, {
     variables: { hash },
     fetchPolicy: "network-only",
-    client: network === "ethereum" ? apolloClientEthereum : network === "base" ? apolloClientBase : apolloClientFuse,
+    client: client,
   });
 
   if (error) {

@@ -20,18 +20,23 @@ const ProfileView: NextPage = () => {
 
   /*
    * NETWORK DROPDOWN
-   * show on default whichever network has more transactions
+   * Show the network with the most transactions by default.
    */
-  const [network, setNetwork] = useState<string>("ethereum"); // default to ethereum
+  const [network, setNetwork] = useState<string>("ethereum"); // Default to Ethereum
   useEffect(() => {
-    if (incomingRes.ethereumData?.paymentChanges?.length > incomingRes.baseData?.paymentChanges?.length) {
-      setNetwork("ethereum");
-    } else if (incomingRes.baseData?.paymentChanges?.length > incomingRes.fuseData?.paymentChanges?.length) {
-      setNetwork("base");
-    } else {
-      setNetwork("fuse");
-    }
-  }, [incomingRes.ethereumData, incomingRes.baseData, incomingRes.fuseData]);
+    const networkData = [
+      { key: "ethereum", data: incomingRes.ethereumData },
+      { key: "base", data: incomingRes.baseData },
+      { key: "fuse", data: incomingRes.fuseData },
+      { key: "neo", data: incomingRes.neoData }, // Include Neo data
+    ];
+
+    const highestNetwork = networkData.reduce((prev, curr) =>
+      (curr.data?.paymentChanges?.length || 0) > (prev.data?.paymentChanges?.length || 0) ? curr : prev,
+    );
+
+    setNetwork(highestNetwork.key);
+  }, [incomingRes.ethereumData, incomingRes.baseData, incomingRes.fuseData, incomingRes.neoData]);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {
@@ -81,52 +86,51 @@ const ProfileView: NextPage = () => {
           </Link>
         </div>
         <div id="profile-view-content" className="flex flex-col profile z-10 items-center">
-          {/* Scroll Snap */}
-          <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
-            <div className="scr">
-              {/* Card 3 */}
-              <div className="scr-item custom-bg-image-01 flex items-center relative shadow-xl">
-                <div className="absolute network flex">
-                  <div className="btn hover:bg-fuchsia-500 font-medium h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
-                    <EthIcon width={14} height={14} fill="#3C3C3C" />
-                    ethereum
+          {/* Payments Table */}
+          <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
+            {/* Scroll Snap */}
+            <div className="w-full pl-6 pr-6 pb-3 pt-3 flex justify-center">
+              <div className="scr">
+                {/* Card 3 */}
+                <div className="scr-item custom-bg-image-01 flex items-center relative shadow-xl">
+                  <div className="absolute network flex">
+                    <div className="btn hover:bg-fuchsia-500 font-medium h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
+                      <EthIcon width={14} height={14} fill="#3C3C3C" />
+                      ethereum
+                    </div>
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2">
+                      <BaseIcon width={10} height={10} fill="#3C3C3C" />
+                      <span className="pl-1">base</span>
+                    </div>
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 ml-1">
+                      <FuseIcon />
+                      <span className="pl-1">fuse</span>
+                    </div>
                   </div>
-                  <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2">
-                    <BaseIcon width={10} height={10} fill="#3C3C3C" />
-                    <span className="pl-1">base</span>
-                  </div>
-                  <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 ml-1">
-                    <FuseIcon />
-                    <span className="pl-1">fuse</span>
-                  </div>
-                </div>
-                <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
-                <div
-                  className="absolute btn btn-accent px-3 url h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0"
-                  onClick={() => handleCopyToClipboard(1)}
-                >
-                  <div className="flex items-center">
-                    {copied1 ? (
-                      <>
-                        <span className="mr-1">Copied</span>
-                        <span className="text-secondary">
-                          <CheckCircleIcon width={14} />
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="mr-1">wildpay.app/{profile.username}</span>
-                        <CopyIcon />
-                      </>
-                    )}
+                  <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>
+                  <div
+                    className="absolute btn btn-accent px-3 url h-8 min-h-8 bg-gradient-to-r from-cyan-600 via-lime-500 border-0"
+                    onClick={() => handleCopyToClipboard(1)}
+                  >
+                    <div className="flex items-center">
+                      {copied1 ? (
+                        <>
+                          <span className="mr-1">Copied</span>
+                          <span className="text-secondary">
+                            <CheckCircleIcon width={14} />
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="mr-1">wildpay.app/{profile.username}</span>
+                          <CopyIcon />
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Payments Table */}
-          <div className="latest w-full rounded-t-2xl bg-slate-100 pt-6 drop-shadow-sm">
             <div className="flex justify-between font-semibold pb-2 pr-6 pl-6">
               <div>
                 Payments (
@@ -134,13 +138,17 @@ const ProfileView: NextPage = () => {
                   ? incomingRes.ethereumData
                   : network === "base"
                   ? incomingRes.baseData
-                  : incomingRes.fuseData) == undefined && 0}
+                  : network === "fuse"
+                  ? incomingRes.fuseData
+                  : incomingRes.neoData) == undefined && 0}
                 {
                   (network === "ethereum"
                     ? incomingRes.ethereumData
                     : network === "base"
                     ? incomingRes.baseData
-                    : incomingRes.fuseData
+                    : network === "fuse"
+                    ? incomingRes.fuseData
+                    : incomingRes.neoData
                   )?.paymentChanges?.length
                 }
                 )
@@ -187,6 +195,17 @@ const ProfileView: NextPage = () => {
                       Fuse
                     </div>
                   </li>
+                  <li>
+                    <div
+                      className={`${network == "neo" && "bg-neutral-200"}`}
+                      onClick={() => {
+                        setNetwork("neo");
+                        closeDropdown();
+                      }}
+                    >
+                      Neo
+                    </div>
+                  </li>
                 </ul>
               </details>
             </div>
@@ -195,7 +214,9 @@ const ProfileView: NextPage = () => {
                 ? incomingRes.ethereumData
                 : network === "base"
                 ? incomingRes.baseData
-                : incomingRes.fuseData) == undefined && (
+                : network === "fuse"
+                ? incomingRes.fuseData
+                : incomingRes.neoData) == undefined && (
                 <div className="flex h-full justify-center items-center">
                   <Link href="/settings" className="btn btn-neutral">
                     Verify your wallet to get paid 🥳
@@ -206,7 +227,9 @@ const ProfileView: NextPage = () => {
                 ? incomingRes.ethereumData
                 : network === "base"
                 ? incomingRes.baseData
-                : incomingRes.fuseData
+                : network === "fuse"
+                ? incomingRes.fuseData
+                : incomingRes.neoData
               )?.paymentChanges?.length == 0 && (
                 <div className="flex h-full justify-center items-center">
                   <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
@@ -231,7 +254,9 @@ const ProfileView: NextPage = () => {
                     ? incomingRes.ethereumData
                     : network === "base"
                     ? incomingRes.baseData
-                    : incomingRes.fuseData
+                    : network === "fuse"
+                    ? incomingRes.fuseData
+                    : incomingRes.neoData
                 }
                 hide="to"
                 network={network}

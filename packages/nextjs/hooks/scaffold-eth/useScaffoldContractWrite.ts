@@ -37,6 +37,8 @@ export const useScaffoldContractWrite = <
   const [isMining, setIsMining] = useState(false);
   const { targetNetwork } = useTargetNetwork();
 
+  console.log("deployedContractData", deployedContractData);
+
   const wagmiContractWrite = useContractWrite({
     chainId: targetNetwork.id,
     address: deployedContractData?.address,

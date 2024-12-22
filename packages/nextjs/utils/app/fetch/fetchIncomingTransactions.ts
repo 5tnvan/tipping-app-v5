@@ -22,6 +22,11 @@ const apolloClientFuse = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const apolloClientNeo = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-neo-testnet/version/latest",
+  cache: new InMemoryCache(),
+});
+
 /**
  * FETCH: fetchIncomingTransactions()
  * DB: subpgraph
@@ -70,5 +75,12 @@ export const useIncomingTransactions = (receiverAddress: any) => {
     client: apolloClientFuse,
   });
 
-  return { ethereumData, baseData, fuseData };
+  const { data: neoData } = useQuery(gql(PAYMENTS_GRAPHQL), {
+    variables: { receiverAddress },
+    pollInterval: 10000,
+    fetchPolicy: "network-only",
+    client: apolloClientNeo,
+  });
+
+  return { ethereumData, baseData, fuseData, neoData };
 };

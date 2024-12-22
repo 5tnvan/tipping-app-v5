@@ -29,9 +29,11 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const [message, setMessage] = useState("n/a");
   const ethPrice = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   console.log("fusePrice", fusePrice);
   console.log("ethPrice", ethPrice);
+  console.log("neoPrice", neoPrice);
 
   /**
    * ACTION: Get network
@@ -46,6 +48,8 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
       setNetwork("ethereum");
     } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
       setNetwork("fuse");
+    } else if (targetNetwork.id == 47763 || targetNetwork.id == 12227332) {
+      setNetwork("neo");
     }
   }, [targetNetwork]);
 
@@ -81,6 +85,11 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
       setDollarAmount(dollarAmount);
       setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
       setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
+    } else if (network == "neo") {
+      const neoAmount = convertUsdToEth(dollarAmount, neoPrice);
+      setDollarAmount(dollarAmount);
+      setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+      setTokenAmountWithFee(neoAmount + (neoAmount * 3) / 100);
     }
   };
 
@@ -91,6 +100,12 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
     console.log("FastPayConfirm: trigger FastPayModal");
     onSuccess(hash);
   };
+
+  const prePay = () => {
+    console.log("tokenAmountWithFee", tokenAmountWithFee);
+    console.log("parseEther", parseEther(tokenAmountWithFee.toString()));
+    pay();
+  }
 
   /**
    * ACTION: Pay
@@ -150,7 +165,15 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
               <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
             </div>
             <div className="flex justify-end">
-              <div>{`${tokenAmountWithFee.toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
+              <div>
+                {`${tokenAmountWithFee.toFixed(4)} ${
+                  network === "fuse"
+                    ? "FUSE"
+                    : network === "neo"
+                    ? "GAS" // Check for Neo network and display "GAS"
+                    : "ETH"
+                }`}
+              </div>
             </div>
           </div>
         </>
@@ -238,7 +261,7 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
               className={`${
                 dollarAmount === 0 && "btn-disabled"
               } btn btn-accent bg-gradient-to-r from-cyan-600 via-lime-500 border-0 text-black w-full mt-3`}
-              onClick={() => pay()}
+              onClick={() => prePay()}
             >
               Confirm
               {isMining && <span className="loading loading-ring loading-md"></span>}

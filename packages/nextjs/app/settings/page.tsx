@@ -23,6 +23,7 @@ const Settings: NextPage = () => {
   const router = useRouter();
   const price = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
   const { address } = useAccount();
   const { isAuthenticated, user } = useContext(AuthContext);
   const { profile } = useContext(AuthUserContext);
@@ -48,6 +49,8 @@ const Settings: NextPage = () => {
       setNetwork("ethereum");
     } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
       setNetwork("fuse");
+    } else if (targetNetwork.id == 47763 || targetNetwork.id == 12227332) {
+      setNetwork("neo");
     }
   }, [targetNetwork]);
 
@@ -250,7 +253,8 @@ const Settings: NextPage = () => {
                     <span className="">
                       (${network == "ethereum" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
                       {network == "base" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
-                      {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)})
+                      {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)}
+                      {network == "neo" && convertEthToUsd(withdrawBalance, neoPrice).toFixed(2)})
                     </span>
                   </>
                 )}

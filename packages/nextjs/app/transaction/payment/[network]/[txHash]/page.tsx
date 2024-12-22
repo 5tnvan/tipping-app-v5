@@ -28,6 +28,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [receiverProfile, setReceiverProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   /**
    * ACTION: Fetch transaction from graph
@@ -129,12 +130,16 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                       {params.network == "fuse" && (
                         <>${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), fusePrice).toFixed(2)}</>
                       )}
+                      {params.network == "neo" && (
+                        <>${convertEthToUsd(formatEther(paymentData.paymentChanges[0].value), neoPrice).toFixed(2)}</>
+                      )}
                     </div>
                     <div className="flex text-xl items-center">
                       {Number(formatEther(paymentData.paymentChanges[0].value)).toFixed(4)}
                       {params.network == "eth" && <> Ξ</>}
                       {params.network == "base" && <> Ξ</>}
                       {params.network == "fuse" && <> FUSE</>}
+                      {params.network == "neo" && <> GAS</>}
                     </div>
                   </div>
                 </div>
@@ -176,6 +181,11 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                           <div className="pl-1">fuse</div>
                         </div>
                       )}
+                      {params.network == "neo" && (
+                        <div className="btn bg-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                          <div className="pl-1">neo</div>
+                        </div>
+                      )}
                     </td>
                   </tr>
                   {/* row 1 */}
@@ -202,7 +212,13 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   {/* row 3 */}
                   <tr className="hover">
                     <th>Value</th>
-                    <td>{Number(formatEther(paymentData?.paymentChanges[0].value)).toFixed(4)} ETH</td>
+                    <td>
+                      {Number(formatEther(paymentData?.paymentChanges[0].value)).toFixed(4)}{" "}
+                      {params.network == "eth" && <> Ξ</>}
+                      {params.network == "base" && <> Ξ</>}
+                      {params.network == "fuse" && <> FUSE</>}
+                      {params.network == "neo" && <> GAS</>}
+                    </td>
                   </tr>
                   <tr className="hover">
                     <th>Datetime</th>

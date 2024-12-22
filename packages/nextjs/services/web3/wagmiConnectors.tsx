@@ -1,3 +1,4 @@
+import { neoTestnet } from "../viem/neoTestnet";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   braveWallet,
@@ -11,6 +12,7 @@ import {
 import * as chains from "viem/chains";
 import { configureChains } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 import scaffoldConfig from "~~/scaffold.config";
 import { burnerWalletConfig } from "~~/services/web3/wagmi-burner/burnerWalletConfig";
@@ -24,6 +26,8 @@ const enabledChains = targetNetworks.find(network => network.id === 1)
   ? targetNetworks
   : [...targetNetworks, chains.mainnet];
 
+console.log("enabledChains", enabledChains);
+
 /**
  * Chains for the app
  */
@@ -34,6 +38,12 @@ export const appChains = configureChains(
       apiKey: scaffoldConfig.alchemyApiKey,
     }),
     publicProvider(),
+    jsonRpcProvider({
+      rpc: chain =>
+        chain.id === neoTestnet.id
+          ? { http: neoTestnet.rpcUrls.default.http[0] } // Extract the first URL
+          : null,
+    }),
   ],
   {
     // We might not need this checkout https://github.com/scaffold-eth/scaffold-eth-2/pull/45#discussion_r1024496359, will test and remove this before merging
