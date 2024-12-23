@@ -137,6 +137,18 @@ const config: HardhatUserConfig = {
       url: "https://rpc.fusespark.io",
       accounts: [deployerPrivateKey],
     },
+    neo: {
+      url: "https://mainnet-1.rpc.banelabs.org",
+      accounts: [deployerPrivateKey],
+      gasPrice: 40e9,
+      gas: 50e6,
+    },
+    neoTestnet: {
+      url: "https://neoxt4seed1.ngd.network/",
+      accounts: [deployerPrivateKey],
+      gasPrice: 40e9,
+      gas: 50e6,
+    },
   },
   // configuration for harhdat-verify plugin
   // etherscan: {
@@ -149,6 +161,8 @@ const config: HardhatUserConfig = {
       baseSepolia: `${basescanApiKey}`,
       fuse: `${fuseApiKey}`,
       fuseTestnet: `empty`,
+      neo: `empty`,
+      neoTestnet: `empty`,
     },
     customChains: [
       {
@@ -181,6 +195,22 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: `https://explorer.fusespark.io/api`,
           browserURL: "https://explorer.fusespark.io/",
+        },
+      },
+      {
+        network: "neo",
+        chainId: 47763,
+        urls: {
+          apiURL: `https://xexplorer.neo.org/api`,
+          browserURL: "https://xexplorer.neo.org",
+        },
+      },
+      {
+        network: "neoTestnet",
+        chainId: 12227332,
+        urls: {
+          apiURL: `https://xt4scan.ngd.network/api`,
+          browserURL: "https://xt4scan.ngd.network/",
         },
       },
     ],
