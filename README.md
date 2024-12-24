@@ -1,9 +1,7 @@
 # Kinnect Wallet
 
 <h4 align="center">
-  <a href="https://github.com/5tnvan/tipping-app-v5/">Github</a> |
-  Production: <a href="https://www.wildpay.app">www.kinnectwallet.com</a> |
-  Testnet: <a href="https://www.wildpay.app">Testnet App</a> |
+  Production: <a href="https://www.kinnectwallet.com">www.kinnectwallet.com</a>
 </h4>
 
 >A first social payment dApp, enabling anyone to easily onboard into the cryptocurrency ecosystem. Create a profile, verify a wallet, and you are ready to receive payments from friends, family, and followers. Let kick-ass Web3 content creation tools help you go viral and be discovered along the way.
@@ -14,7 +12,7 @@
 - ✅ **Withdraw at anytime**
 
 🧪 On a social layer, it enables a user to:
-- ✅ **Claim a unique handle** [Example](https://wildpay.app/micalabs)
+- ✅ **Claim a unique handle** [Example](https://kinnectwallet.com/spark)
 - ✅ **Level-up as a Web3 Creator**
 - ✅ **Create Wild Bios, Wild NFTs & Wildfires**
 - ✅ **Be discovered via viral algorithms**
