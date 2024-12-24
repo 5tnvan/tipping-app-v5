@@ -20,14 +20,15 @@ type Props = {
 
 export const WithdrawModal = ({ isOpen, onClose }: Props) => {
   const { profile } = useContext(AuthUserContext);
-  const price = useGlobalState(state => state.nativeCurrencyPrice);
   const { address: connectedAddress } = useAccount();
   const [ethAmount, setEthAmount] = useState(0);
   const [dollarAmount, setDollarAmount] = useState(0);
   const [confirm, setConfirm] = useState("btn-disabled");
   const { targetNetwork } = useTargetNetwork();
   const [network, setNetwork] = useState("");
+  const price = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   /* WITHDRAW BALANCE */
   const [wallet, setWallet] = useState("0x93814dC4F774f719719CAFC9C9E7368cb343Bd0E"); //dummy initial wallet
@@ -48,8 +49,12 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
       setNetwork("ethereum");
     } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
       setNetwork("fuse");
+    } else if (targetNetwork.id == 47763 || targetNetwork.id == 12227332) {
+      setNetwork("neo");
     }
   }, [targetNetwork]);
+
+  console.log("network", network);
 
   /**
    * ACTION: Handle Close
@@ -62,10 +67,18 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
    * ACTION: Show billing
    **/
   const handleInput = (e: any) => {
-    const ethAmount = Number(e.target.value);
-    const dollarAmount = convertEthToUsd(ethAmount, price);
-    setEthAmount(ethAmount);
-    setDollarAmount(dollarAmount);
+    const input = Number(e.target.value);
+    if (network == "ethereum" || network == "base") {
+      const dollarAmount = convertEthToUsd(input, price);
+      setDollarAmount(dollarAmount);
+    } else if (network == "fuse") {
+      const fuseAmount = convertEthToUsd(input, fusePrice);
+      setDollarAmount(fuseAmount);
+    } else if (network == "neo") {
+      const neoAmount = convertEthToUsd(input, neoPrice);
+      setDollarAmount(neoAmount);
+    }
+    setEthAmount(input);
 
     if (e.target.value == 0 || e.target.value > withdrawBalance) {
       setConfirm("btn-disabled");
@@ -123,7 +136,7 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
             {profile.wallet_id && withdrawBalance == 0 && (
               <>
                 <div className="mb-2 flex items-align justify-center">
-                  Your balance is {withdrawBalance} ETH. Try again later.
+                  Your balance is {withdrawBalance}. Try again later.
                 </div>
                 <div className="btn btn-secondary w-full" onClick={handleClose}>
                   Go Back
@@ -137,16 +150,24 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                   <div className="font-semibold mr-1">Your balance</div>
                 </div>
                 <div className="flex items-center">
-                  <div className="flex items-center text-xl mr-2 font-medium">{Number(withdrawBalance)}Ξ</div>
+                  <div className="flex items-center text-xl mr-2 font-medium">
+                    {Number(withdrawBalance)}
+                    {` `}
+                    {network == "eth" && "ETH"}
+                    {network == "base" && "ETH"}
+                    {network == "fuse" && "FUSE"}
+                    {network == "neo" && "GAS"}
+                  </div>
                   <div className="text-xl text-neutral-700">
                     (${network == "ethereum" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
                     {network == "base" && convertEthToUsd(withdrawBalance, price).toFixed(2)}
-                    {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)})
+                    {network == "fuse" && convertEthToUsd(withdrawBalance, fusePrice).toFixed(2)}
+                    {network == "neo" && convertEthToUsd(withdrawBalance, neoPrice).toFixed(2)})
                   </div>
                 </div>
                 {/* WITHDRAW AMOUNT */}
                 <div id="wildpay-withdraw" className="flex items-center pt-5 pb-3 text-5xl">
-                  <span className="text-3xl">{`${network == "fuse" ? "" : "Ξ"}`}</span>
+                  <span className="text-3xl"></span>
                   <div>
                     <input
                       type="number"
@@ -155,7 +176,12 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                       onChange={handleInput}
                     />
                   </div>
-                  <span className="text-3xl">{`${network == "fuse" ? "FUSE" : "ETH"}`}</span>
+                  <span className="text-3xl">
+                    {network == "eth" && "ETH"}
+                    {network == "base" && "ETH"}
+                    {network == "fuse" && "FUSE"}
+                    {network == "neo" && "GAS"}
+                  </span>
                 </div>
                 {dollarAmount > 0 && (
                   <>
@@ -163,7 +189,14 @@ export const WithdrawModal = ({ isOpen, onClose }: Props) => {
                     <div className="mb-5">
                       <div className="flex justify-between border-t pt-3">
                         <div className="pb-1">Withdraw Amount</div>
-                        <div className="font-semibold">{`${ethAmount}`} ETH</div>
+                        <div className="font-semibold">
+                          {ethAmount}
+                          {` `}
+                          {network == "eth" && "ETH"}
+                          {network == "base" && "ETH"}
+                          {network == "fuse" && "FUSE"}
+                          {network == "neo" && "GAS"}
+                        </div>
                       </div>
                       <div className="flex justify-end font-semibold">
                         <div>{`$${dollarAmount}`}</div>

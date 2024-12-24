@@ -9,6 +9,7 @@ import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useFuseCurrencyPrice } from "~~/hooks/scaffold-eth/useFuseCurrencyPrice";
+import { useNeoCurrencyPrice } from "~~/hooks/scaffold-eth/useNeoCurrencyPrice";
 import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
@@ -17,24 +18,30 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   // Get prices
   const nativePrice = useNativeCurrencyPrice();
   const fusePrice = useFuseCurrencyPrice();
+  const neoPrice = useNeoCurrencyPrice();
 
   // Get set functions for both native and fuse prices
   const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
   const setFuseCurrencyPrice = useGlobalState(state => state.setFuseCurrencyPrice);
+  const setNeoCurrencyPrice = useGlobalState(state => state.setNeoCurrencyPrice);
 
-  // Update native currency price in global state when it changes
   useEffect(() => {
     if (nativePrice > 0) {
       setNativeCurrencyPrice(nativePrice);
     }
   }, [nativePrice, setNativeCurrencyPrice]);
 
-  // Update Fuse price in global state when it changes
   useEffect(() => {
     if (fusePrice > 0) {
       setFuseCurrencyPrice(fusePrice);
     }
   }, [fusePrice, setFuseCurrencyPrice]);
+
+  useEffect(() => {
+    if (neoPrice > 0) {
+      setNeoCurrencyPrice(neoPrice);
+    }
+  }, [neoPrice, setNeoCurrencyPrice]);
 
   return <>{children}</>;
 };

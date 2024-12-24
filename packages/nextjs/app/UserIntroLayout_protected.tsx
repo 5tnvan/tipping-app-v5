@@ -202,16 +202,19 @@ const UserIntroLayoutProtected = ({ children }: { children: React.ReactNode }) =
                   <div className="flex flex-col items-end">
                     <div className="flex items-center text-xl font-semibold custom-text-blue">
                       $
-                      {convertEthToUsd(
-                        calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
-                        price,
-                      ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)}
+                      {(
+                        convertEthToUsd(
+                          calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
+                          price,
+                        ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)
+                      ).toFixed(2)}
                       <div className="tooltip tooltip-top" data-tip="All time">
                         <button className="ml-1">
                           <QuestionMarkCircleIcon width={14} />
                         </button>
                       </div>
                     </div>
+
                     <div className="text-xl flex items-center">
                       {(calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData)).toFixed(4)}Ξ
                     </div>

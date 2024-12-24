@@ -124,7 +124,7 @@ export const FastPayModal = ({ isOpen, onClose, onSuccess }: Props) => {
                     {receiver.profile_bios.length == 0 && (
                       <Avatar profile={receiver} width={12} height={12} border={2} ring={14} gradient={"w-tropical"} />
                     )}
-                    <div className="font-semibold mt-2">@{receiver.username}</div>
+                    <div className="font-semibold mt-2">to @{receiver.username}</div>
                   </Link>
                 </>
               )}

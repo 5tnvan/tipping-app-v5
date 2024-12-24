@@ -18,6 +18,9 @@ type GlobalState = {
   fuseCurrencyPrice: number;
   setFuseCurrencyPrice: (newFuseCurrencyPriceState: number) => void;
 
+  neoCurrencyPrice: number;  // Added state for neoCurrencyPrice
+  setNeoCurrencyPrice: (newNeoCurrencyPriceState: number) => void;  // Added setter for neoCurrencyPrice
+
   targetNetwork: ChainWithAttributes;
   setTargetNetwork: (newTargetNetwork: ChainWithAttributes) => void;
 };
@@ -28,6 +31,9 @@ export const useGlobalState = create<GlobalState>(set => ({
 
   fuseCurrencyPrice: 0,
   setFuseCurrencyPrice: (newValue: number): void => set(() => ({ fuseCurrencyPrice: newValue })),
+
+  neoCurrencyPrice: 0,  // Initialize neoCurrencyPrice
+  setNeoCurrencyPrice: (newValue: number): void => set(() => ({ neoCurrencyPrice: newValue })),  // Set neoCurrencyPrice
 
   targetNetwork: scaffoldConfig.targetNetworks[0],
   setTargetNetwork: (newTargetNetwork: ChainWithAttributes) => set(() => ({ targetNetwork: newTargetNetwork })),

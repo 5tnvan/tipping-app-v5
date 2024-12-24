@@ -14,6 +14,7 @@ import { useGlobalState } from "~~/services/store/store";
 import { useFetchWithdraw } from "~~/utils/app/fetch/fetchTransaction";
 import { fetchPublicProfileFromWalletId } from "~~/utils/app/fetch/fetchUser";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
+import { NeoIcon } from "~~/components/assets/NeoIcon";
 
 type PageProps = {
   params: { network?: string; txHash?: Hash };
@@ -25,6 +26,7 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
   const [walletProfile, setWalletProfile] = useState<any | undefined>(undefined);
   const price = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   /**
    * ACTION: Fetch transaction from graph
@@ -89,10 +91,14 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                         convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), price).toFixed(2)}
                       {params.network == "fuse" &&
                         convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), fusePrice).toFixed(2)}
+                      {params.network == "neo" &&
+                        convertEthToUsd(formatEther(withdrawData.withdrawChanges[0].value), neoPrice).toFixed(2)}
                     </div>
                     <div className="flex text-xl items-center">
                       {Number(formatEther(withdrawData.withdrawChanges[0].value)).toFixed(4)}
-                      {`${params.network == "fuse" ? " FUSE" : " ETH"}`}
+                      {params.network == "eth" && " ETH"}
+                      {params.network == "fuse" && " FUSE"}
+                      {params.network == "neo" && " GAS"}
                     </div>
                   </div>
                 </div>
@@ -134,6 +140,12 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                           <div className="pl-1">fuse</div>
                         </div>
                       )}
+                      {params.network == "neo" && (
+                        <div className="btn bg-accent font-medium h-6 min-h-6 gap-0 px-2 mr-1">
+                          <NeoIcon />
+                          <div className="pl-1">neo</div>
+                        </div>
+                      )}
                     </td>
                   </tr>
                   {/* row 1 */}
@@ -153,7 +165,11 @@ const TransactionPage: NextPage<PageProps> = ({ params }: PageProps) => {
                   {/* row 3 */}
                   <tr className="hover">
                     <th>Value</th>
-                    <td>{Number(formatEther(withdrawData?.withdrawChanges[0].value)).toFixed(4)} ETH</td>
+                    <td>{Number(formatEther(withdrawData?.withdrawChanges[0].value)).toFixed(4)}
+                      {params.network == "eth" && " ETH"}
+                      {params.network == "fuse" && " FUSE"}
+                      {params.network == "neo" && " GAS"}
+                    </td>
                   </tr>
                   <tr className="hover">
                     <th>Datetime</th>

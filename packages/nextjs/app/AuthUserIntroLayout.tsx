@@ -165,13 +165,13 @@ const AuthUserIntroLayout = ({ children }: { children: React.ReactNode }) => {
             {isAuthenticated == "yes" && !isSettings && (
               <div className="flex flex-col items-end">
                 <div className="flex items-center text-xl font-semibold custom-text-blue">
-                  <div>
-                    $
-                    {convertEthToUsd(
+                  $
+                  {(
+                    convertEthToUsd(
                       calculateSum(incomingRes.ethereumData) + calculateSum(incomingRes.baseData),
                       price,
-                    ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)}
-                  </div>
+                    ) + convertEthToUsd(calculateSum(incomingRes.fuseData), fusePrice)
+                  ).toFixed(2)}
                   <div className="tooltip tooltip-top" data-tip="All time">
                     <button className="ml-1">
                       <QuestionMarkCircleIcon width={14} />

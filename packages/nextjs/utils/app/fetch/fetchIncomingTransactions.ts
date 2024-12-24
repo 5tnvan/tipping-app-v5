@@ -2,24 +2,23 @@ import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
 
 // Define your Apollo Client instances for each endpoint
 
-//https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1
-//https://api.studio.thegraph.com/query/68297/wildpay-sepolia-v4/0.0.1
 const apolloClientEthereum = new ApolloClient({
   uri: "https://api.studio.thegraph.com/query/68297/wildpay-eth-mainnet/0.0.1",
   cache: new InMemoryCache(),
 });
 
-//https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1
-//https://api.studio.thegraph.com/query/68297/wildpay-base-sepolia/0.0.1
 const apolloClientBase = new ApolloClient({
   uri: "https://api.studio.thegraph.com/query/68297/wildpay-base-mainnet/0.0.1",
   cache: new InMemoryCache(),
 });
 
-//https://api.studio.thegraph.com/query/68297/wildpay-fuse-mainnet/version/latest
-//https://api.studio.thegraph.com/query/68297/wildpay-fuse-testnet/version/latest
 const apolloClientFuse = new ApolloClient({
   uri: "https://api.studio.thegraph.com/query/68297/wildpay-fuse-mainnet/version/latest",
+  cache: new InMemoryCache(),
+});
+
+const apolloClientNeo = new ApolloClient({
+  uri: "https://api.studio.thegraph.com/query/68297/wildpay-neo-mainnet/version/latest",
   cache: new InMemoryCache(),
 });
 
@@ -71,5 +70,12 @@ export const useIncomingTransactions = (receiverAddress: any) => {
     client: apolloClientFuse,
   });
 
-  return { ethereumData, baseData, fuseData };
+  const { data: neoData } = useQuery(gql(PAYMENTS_GRAPHQL), {
+    variables: { receiverAddress },
+    pollInterval: 10000,
+    fetchPolicy: "network-only",
+    client: apolloClientNeo,
+  });
+
+  return { ethereumData, baseData, fuseData, neoData };
 };

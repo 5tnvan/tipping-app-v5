@@ -22,6 +22,7 @@ import { useGlobalState } from "~~/services/store/store";
 import { calculateSum } from "~~/utils/app/functions/calculateSum";
 import { convertEthToUsd } from "~~/utils/app/functions/convertEthToUsd";
 import { findLatestBio } from "~~/utils/app/functions/findLatestBio";
+import { NeoIcon } from "~~/components/assets/NeoIcon";
 
 /*
  * HOME PAGE
@@ -34,21 +35,19 @@ const HomePage: NextPage = () => {
   const { isLoadingFollows, followers, following } = useContext(AuthUserFollowsContext);
   const { incomingRes, outgoingRes } = useContext(AuthUserPaymentContext);
 
-  console.log("incomingRes", incomingRes);
-  console.log("outgoingRes", outgoingRes);
-
   /* TABS */
   const [showFollow, setShowFollow] = useState("following"); //default tab: following
   const [showTransactions, setShowTransactions] = useState("incoming"); //default tab: incoming
   const [network, setNetwork] = useState("ethereum"); //default network: eth
   const price = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   /* COPY BUTTONS */
   const [copied1, setCopied1] = useState(false);
   const [copied2, setCopied2] = useState(false);
   const handleCopyToClipboard = (number: any) => {
-    navigator.clipboard.writeText("https://www.kinnectwallet.com/" + profile.username);
+    navigator.clipboard.writeText("https://www.wildpay.app/" + profile.username);
     if (number == 1) {
       setCopied1(true);
       setTimeout(() => {
@@ -282,6 +281,16 @@ const HomePage: NextPage = () => {
                 <FuseIcon />
                 <span className="pl-1">fuse</span>
               </div>
+              {/* PAYMENTS NETWORKS TAB: NEO */}
+              <div
+                className={`btn font-medium h-6 min-h-6 gap-0 px-2 ml-1 ${
+                  network === "neo" && "bg-primary text-neutral hover:bg-blue-800 border-0"
+                }`}
+                onClick={() => setNetwork("neo")}
+              >
+                <NeoIcon />
+                <span className="text-sm">neo</span>
+              </div>
             </div>
           </div>
           {/* PAYMENTS TRANSACTIONS TAB */}
@@ -302,6 +311,7 @@ const HomePage: NextPage = () => {
                   {network == "ethereum" && convertEthToUsd(calculateSum(incomingRes?.ethereumData), price)}
                   {network == "base" && convertEthToUsd(calculateSum(incomingRes?.baseData), price)}
                   {network == "fuse" && convertEthToUsd(calculateSum(incomingRes?.fuseData), fusePrice)}
+                  {network == "neo" && convertEthToUsd(calculateSum(incomingRes?.neoData), neoPrice)}
                 </span>
               </div>
               {/* PAYMENTS TRANSACTIONS TAB : INCOMING LENGTH (NUM) */}
@@ -309,8 +319,10 @@ const HomePage: NextPage = () => {
                 {network == "ethereum" && incomingRes?.ethereumData?.paymentChanges.length}
                 {network == "base" && incomingRes?.baseData?.paymentChanges.length}
                 {network == "fuse" && incomingRes?.fuseData?.paymentChanges.length}
+                {network == "neo" && incomingRes?.neoData?.paymentChanges.length}
               </span>
             </div>
+
             {/* PAYMENTS TRANSACTIONS TAB : OUTGOING */}
             <div
               role="tab"
@@ -327,13 +339,15 @@ const HomePage: NextPage = () => {
                   {network == "ethereum" && convertEthToUsd(calculateSum(outgoingRes?.ethereumData), price)}
                   {network == "base" && convertEthToUsd(calculateSum(outgoingRes?.baseData), price)}
                   {network == "fuse" && convertEthToUsd(calculateSum(outgoingRes?.fuseData), fusePrice)}
+                  {network == "neo" && convertEthToUsd(calculateSum(outgoingRes?.neoData), neoPrice)}
                 </span>
               </div>
-              {/* PAYMENTS TRANSACTIONS TAB : OUTGOING SUM LENGTH (NUM) */}
+              {/* PAYMENTS TRANSACTIONS TAB : OUTGOING LENGTH (NUM) */}
               <span className={`flex ml-2 text-base ${showTransactions == "outgoing" && "font-semibold"}`}>
                 {network == "ethereum" && outgoingRes?.ethereumData?.paymentChanges.length}
                 {network == "base" && outgoingRes?.baseData?.paymentChanges.length}
                 {network == "fuse" && outgoingRes?.fuseData?.paymentChanges.length}
+                {network == "neo" && outgoingRes?.neoData?.paymentChanges.length}
               </span>
             </div>
           </div>
@@ -345,7 +359,9 @@ const HomePage: NextPage = () => {
                   ? incomingRes?.ethereumData
                   : network === "base"
                   ? incomingRes?.baseData
-                  : incomingRes?.fuseData
+                  : network === "fuse"
+                  ? incomingRes?.fuseData
+                  : incomingRes?.neoData
                 )?.paymentChanges.length === 0 && (
                   <div className="flex h-full justify-center items-center">
                     <div className="btn btn-neutral" onClick={() => handleCopyToClipboard(2)}>
@@ -359,7 +375,7 @@ const HomePage: NextPage = () => {
                           </span>
                         </>
                       ) : (
-                        "Share your profile and get funded 🥳"
+                        "Share your profile and get paid 🥳"
                       )}
                     </div>
                   </div>
@@ -367,7 +383,7 @@ const HomePage: NextPage = () => {
                 {!profile.wallet_id && (
                   <div className="flex h-full justify-center items-center">
                     <Link href="/settings" className="btn btn-neutral">
-                      Verify your wallet to get funded 🥳
+                      Verify your wallet to get paid 🥳
                     </Link>
                   </div>
                 )}
@@ -380,7 +396,9 @@ const HomePage: NextPage = () => {
                   ? outgoingRes?.ethereumData
                   : network === "base"
                   ? outgoingRes?.baseData
-                  : outgoingRes?.fuseData
+                  : network === "fuse"
+                  ? outgoingRes?.fuseData
+                  : outgoingRes?.neoData
                 )?.paymentChanges.length === 0 && (
                   <div className="flex h-full justify-center items-center">
                     <ModalsContext.Consumer>
@@ -407,7 +425,8 @@ const HomePage: NextPage = () => {
                 tx={
                   (network === "ethereum" && incomingRes?.ethereumData) ||
                   (network === "base" && incomingRes?.baseData) ||
-                  (network === "fuse" && incomingRes?.fuseData)
+                  (network === "fuse" && incomingRes?.fuseData) ||
+                  (network === "neo" && incomingRes?.neoData)
                 }
                 hide="to"
                 network={network}
@@ -419,7 +438,8 @@ const HomePage: NextPage = () => {
                 tx={
                   (network === "ethereum" && outgoingRes?.ethereumData) ||
                   (network === "base" && outgoingRes?.baseData) ||
-                  (network === "fuse" && outgoingRes?.fuseData)
+                  (network === "fuse" && outgoingRes?.fuseData) ||
+                  (network === "neo" && outgoingRes?.neoData)
                 }
                 hide="from"
                 network={network}
