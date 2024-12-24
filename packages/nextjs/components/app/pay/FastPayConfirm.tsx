@@ -31,10 +31,6 @@ const FastPayConfirm = ({ receiver, onSuccess, onClose }: Props) => {
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
   const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
-  console.log("fusePrice", fusePrice);
-  console.log("ethPrice", ethPrice);
-  console.log("neoPrice", neoPrice);
-
   /**
    * ACTION: Get network
    **/

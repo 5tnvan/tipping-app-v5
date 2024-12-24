@@ -99,13 +99,17 @@ const ProfileView: NextPage = () => {
                       <EthIcon width={14} height={14} fill="#3C3C3C" />
                       ethereum
                     </div>
-                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2">
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
                       <BaseIcon width={10} height={10} fill="#3C3C3C" />
                       <span className="pl-1">base</span>
                     </div>
-                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 ml-1">
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
                       <FuseIcon />
                       <span className="pl-1">fuse</span>
+                    </div>
+                    <div className="btn hover:bg-fuchsia-500 font-medium flex h-6 min-h-6 gap-0 bg-fuchsia-400 px-2 mr-1">
+                      <NeoIcon />
+                      <span className="pl-1">neo</span>
                     </div>
                   </div>
                   <div className=" text-6xl font-black custom-difference-blend">{profile.username}</div>

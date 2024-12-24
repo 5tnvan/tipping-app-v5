@@ -12,8 +12,8 @@ import { ReceiptModal } from "~~/components/app/modal/ReceiptModal";
 import { BaseIcon } from "~~/components/assets/BaseIcon";
 import { EthIcon } from "~~/components/assets/EthIcon";
 import { FuseIcon } from "~~/components/assets/FuseIcon";
-import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 import { NeoIcon } from "~~/components/assets/NeoIcon";
+import { useOutsideClick } from "~~/hooks/scaffold-eth/useOutsideClick";
 
 /**
  * ROUTE: /[username]
@@ -31,23 +31,21 @@ const ProfileUsername: NextPage = () => {
    * NETWORK DROPDOWN
    * show on default whichever network has more transactions
    */
-  const [network, setNetwork] = useState<string>(); //default network
+  const [network, setNetwork] = useState<string>("ethereum"); // Default to Ethereum
   useEffect(() => {
-    const ethLen = incomingRes.ethereumData?.paymentChanges?.length || 0;
-    const baseLen = incomingRes.baseData?.paymentChanges?.length || 0;
-    const fuseLen = incomingRes.fuseData?.paymentChanges?.length || 0;
-    const neoLen = incomingRes.neoData?.paymentChanges?.length || 0;
+    const networkData = [
+      { key: "ethereum", data: incomingRes.ethereumData },
+      { key: "base", data: incomingRes.baseData },
+      { key: "fuse", data: incomingRes.fuseData },
+      { key: "neo", data: incomingRes.neoData }, // Include Neo data
+    ];
 
-    if (ethLen > baseLen && ethLen > fuseLen && ethLen > neoLen) {
-      setNetwork("ethereum");
-    } else if (baseLen > fuseLen && baseLen > neoLen) {
-      setNetwork("base");
-    } else if (fuseLen > neoLen) {
-      setNetwork("fuse");
-    } else {
-      setNetwork("neo");
-    }
-  }, [incomingRes]);
+    const highestNetwork = networkData.reduce((prev, curr) =>
+      (curr.data?.paymentChanges?.length || 0) > (prev.data?.paymentChanges?.length || 0) ? curr : prev,
+    );
+
+    setNetwork(highestNetwork.key);
+  }, [incomingRes.ethereumData, incomingRes.baseData, incomingRes.fuseData, incomingRes.neoData]);
 
   const dropdownRef = useRef<HTMLDetailsElement>(null);
   const closeDropdown = () => {

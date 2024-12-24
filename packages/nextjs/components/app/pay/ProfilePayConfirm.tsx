@@ -34,8 +34,7 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
   const [rainbowKit, setRainbowKit] = useState(false);
   const ethPrice = useGlobalState(state => state.nativeCurrencyPrice);
   const fusePrice = useGlobalState(state => state.fuseCurrencyPrice);
-
-  console.log("fusePrice", fusePrice);
+  const neoPrice = useGlobalState(state => state.neoCurrencyPrice);
 
   /**
    * ACTION: Choose Amount
@@ -59,6 +58,8 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       setNetwork("ethereum");
     } else if (targetNetwork.id == 122 || targetNetwork.id == 123) {
       setNetwork("fuse");
+    } else if (targetNetwork.id == 47763 || targetNetwork.id == 12227332) {
+      setNetwork("neo");
     }
   }, [targetNetwork]);
 
@@ -84,17 +85,19 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
       const dollarAmount = Number(payAmount);
       if (network == "ethereum" || network == "base") {
         const ethAmount = convertUsdToEth(dollarAmount, ethPrice);
-        //setDollarAmount(dollarAmount);
         setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
         setTokenAmountWithFee(ethAmount + (ethAmount * 3) / 100);
       } else if (network == "fuse") {
         const fuseAmount = convertUsdToEth(dollarAmount, fusePrice);
-        //setDollarAmount(dollarAmount);
         setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
         setTokenAmountWithFee(fuseAmount + (fuseAmount * 3) / 100);
+      } else if (network == "neo") {
+        const neoAmount = convertUsdToEth(dollarAmount, neoPrice);
+        setDollarAmountWithFee(dollarAmount + (dollarAmount * 3) / 100);
+        setTokenAmountWithFee(neoAmount + (neoAmount * 3) / 100);
       }
     }
-  }, [ethPrice, fusePrice, payAmount, network]);
+  }, [ethPrice, fusePrice, neoPrice, payAmount, network]);
 
   /**
    * ACTION: Pay and trigger parents to refresh
@@ -164,7 +167,9 @@ const ProfilePayConfirm = ({ receiver, onSuccess }: Props) => {
               <div className="font-semibold">{`$${dollarAmountWithFee}`}</div>
             </div>
             <div className="flex justify-end">
-              <div>{`${tokenAmountWithFee.toFixed(4)} ${network == "fuse" ? "FUSE" : "ETH"}`}</div>
+              <div>{`${tokenAmountWithFee.toFixed(4)} ${
+                network === "fuse" ? "FUSE" : network === "neo" ? "GAS" : "ETH"
+              }`}</div>
             </div>
           </div>
           {/* CONFIRM BUTTON */}
