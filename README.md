@@ -1,15 +1,8 @@
-# Wildpay App
-Dare to get paid?
-
-<p align="center">
-    <a href="https://ibb.co/nc9cJZQ">
-        <img src="https://i.ibb.co/2txt4mc/Nm3-NZk-Nmniop34-Qm-large.png" alt="Nm3-NZk-Nmniop34-Qm-large" border="0">
-    </a>
-</p>
+# Kinnect Wallet
 
 <h4 align="center">
   <a href="https://github.com/5tnvan/tipping-app-v5/">Github</a> |
-  Production: <a href="https://www.wildpay.app">www.wildpay.app</a> |
+  Production: <a href="https://www.wildpay.app">www.kinnectwallet.com</a> |
   Testnet: <a href="https://www.wildpay.app">Testnet App</a> |
 </h4>
 
