@@ -62,7 +62,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Following
+                Kins
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
                 Claim your handle
@@ -150,7 +150,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Verified social media
+                Verified badge
               </div>
               <div className="text-secondary font-semibold flex items-center mb-1">
                 <input
@@ -158,7 +158,7 @@ const Home: NextPage = () => {
                   defaultChecked
                   className="checkbox checkbox-primary checkbox-xs mr-1 font-semibold"
                 />
-                Transparent accounting
+                Instant withdrawal
               </div>
               <Link href="/getstarted" className="btn bg-gradient-to-r from-cyan-600 via-lime-500 mt-2 w-full border-0">
                 Get verified
