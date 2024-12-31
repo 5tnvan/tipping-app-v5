@@ -43,6 +43,8 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
   const isSettings = pathname.includes("/settings");
   const isLevels = pathname === "/levels";
   const isNotification = pathname === "/notifications";
+  const isPrivacy = pathname === "/privacy";
+  const isTerms = pathname === "/terms";
 
   useEffect(() => {
     if (isAuthenticated === "no" && (isHome || isProfile || isSettings || isLevels || isNotification)) {
@@ -105,6 +107,8 @@ const NotAuthUserLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       )}
+
+      {(isPrivacy || isTerms) && <div className="flex flex-col max-h-screen overflow-scroll">{children}</div>}
     </>
   );
 };

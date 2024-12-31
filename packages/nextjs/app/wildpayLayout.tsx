@@ -12,7 +12,7 @@ import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
   title: "Kinnect Wallet",
-  description: "Kinnect | Social Wallet",
+  description: "Kinnect | Wallet For Kin",
 });
 /**
  * WILDPAY APP LAYOUT

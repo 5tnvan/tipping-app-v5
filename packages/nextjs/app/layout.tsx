@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     default: "Kinnect",
     template: "%s | Kinnect",
   },
-  description: "Social Wallet | Built with ♡",
+  description: "Wallet For Kin | Built with ♡",
   openGraph: {
     title: {
       default: "Kinnect",
       template: "%s | Kinnect",
     },
-    description: "Social Wallet | Built with ♡",
+    description: "Wallet For Kin | Built with ♡",
     images: [
       {
         url: imageUrl,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
       default: "Kinnect",
       template: "%s | Kinnect",
     },
-    description: "Social Wallet | Built with ♡",
+    description: "Wallet For Kin | Built with ♡",
   },
   icons: {
     icon: [{ url: "/faviconkinnect.png", sizes: "32x32", type: "image/png" }],
